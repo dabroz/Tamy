@@ -1,0 +1,38 @@
+/// @file   core/Log.h
+/// @brief  logging utility
+#pragma once
+
+#include "core/dostream.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct Log
+{
+   static Log     s_theInstance;
+
+   dostream       m_outputStream;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Basic logging macro - outputs the specified message to the system log.
+ */
+void LOG( const char* msg, ... );
+
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Logs a message to the system log providing the specified condition is met.
+ */
+void CONDITIONAL_LOG( bool condition, const char* msg, ... );
+
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Logs a warning to the system log.
+ */
+void WARNING( const char* msg, ... );
+
+///////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{dbc65d84-0676-4a67-94aa-3b929dac94c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shapes">
+      <UniqueIdentifier>{c1e0d466-f00d-406b-bf6c-82ae1e5098bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{c47e7dba-9f9d-4f95-8213-ddbd4d1ee259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Bodies">
+      <UniqueIdentifier>{2868f07e-764c-4f59-8a2c-90fc5f752240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Characters">
+      <UniqueIdentifier>{befff0ea-f58a-4a78-abad-53363e455be7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Material">
+      <UniqueIdentifier>{52dfcf18-0de8-4ec8-bcdc-786a23e802b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Utils">
+      <UniqueIdentifier>{52ed2bb3-0d5f-4b75-8f24-6b5e0249e999}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-Physics.h" />
+    <ClInclude Include="..\..\Include\core-Physics\PXErrorCallback.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PXMemoryAllocator.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\Defines.h" />
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsWorld.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PxMathConverter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PSSphere.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PSBox.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PSCapsule.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PSPlane.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PSTriangleMesh.h">
+      <Filter>Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsRigidBody.h">
+      <Filter>World\Bodies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsShape.h">
+      <Filter>World\Bodies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsCharacterController.h">
+      <Filter>World\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsMaterial.h">
+      <Filter>World\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PhysicsObject.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Physics\PCCHitsCallbacksInterface.h">
+      <Filter>World\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\core-Physics\TypesRegistry.cpp" />
+    <ClCompile Include="PXErrorCallback.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PXMemoryAllocator.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsWorld.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="PxMathConverter.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PSSphere.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PSBox.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PSPlane.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PSTriangleMesh.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PSCapsule.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsRigidBody.cpp">
+      <Filter>World\Bodies</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsShape.cpp">
+      <Filter>World\Bodies</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsCharacterController.cpp">
+      <Filter>World\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsMaterial.cpp">
+      <Filter>World\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsObject.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="PCCHitsCallbacksInterface.cpp">
+      <Filter>World\Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\ext-RenderingPipeline\LookupTextures.cpp" />
+    <ClCompile Include="..\..\Include\ext-RenderingPipeline\TypesRegistry.cpp" />
+    <ClCompile Include="AmbientOcclusionPass.cpp" />
+    <ClCompile Include="CustomComponentsView.cpp" />
+    <ClCompile Include="DeferredRenderingMechanism.cpp" />
+    <ClCompile Include="DirectionalLightRenderer.cpp" />
+    <ClCompile Include="LightsRenderer.cpp" />
+    <ClCompile Include="MNCookTorrance.cpp" />
+    <ClCompile Include="MNPhongBlinn.cpp" />
+    <ClCompile Include="PointLightRenderer.cpp" />
+    <ClCompile Include="ScreenspaceReflectionsRenderer.cpp" />
+    <ClCompile Include="SpotLightRenderer.cpp" />
+    <ClCompile Include="TexturesBlender.cpp" />
+    <ClCompile Include="GeometryStorage.cpp" />
+    <ClCompile Include="GeometryView.cpp" />
+    <ClCompile Include="LightsView.cpp" />
+    <ClCompile Include="MNBoneMatrices.cpp" />
+    <ClCompile Include="MNEntityPtr.cpp" />
+    <ClCompile Include="RPDataProxies.cpp" />
+    <ClCompile Include="LocationRenderSettings.cpp" />
+    <ClCompile Include="SceneRenderer.cpp" />
+    <ClCompile Include="SkyboxRenderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\AmbientOcclusionPass.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\CustomComponentsView.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\DeferredRendererGBufferDesc.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\DeferredRenderingMechanism.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\DirectionalLightRenderer.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LightsRenderer.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LookupTextures.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNCookTorrance.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNPhongBlinn.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\PointLightRenderer.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\ScreenspaceReflectionsRenderer.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\SpotLightRenderer.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\TexturesBlender.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\GeometryStorage.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\GeometryView.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LightsView.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNBoneMatrices.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNEntityPtr.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\RPDataProxies.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LocationRenderSettings.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\SceneRenderer.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\SkyboxRenderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core-AI\core-AI.vcxproj">
+      <Project>{bb9178b4-c215-4ab8-831a-89a717c6b5ee}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-MVC\core-MVC.vcxproj">
+      <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-Renderer\core-Renderer.vcxproj">
+      <Project>{dbcd9f77-4064-4db9-ac18-516ed35b24ce}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\ambientOcclusion.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\blendTexturesByAlpha.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\blendTexturesByColor.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\blur.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\directionalLight.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\directionalLightNoShadow.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\gbufferUtils.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\lightingModel.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\pointLightNoShadow.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\pointLightWithShadow.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\screenspaceReflections.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\shadowMapShader.glsl" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\singleColorShader.glsl" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\spotLightNoShadow.code" />
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\spotLightWithShadow.code" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{57E5E09F-3694-4F4B-A450-7A288031238F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>extRenderingPipeline</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

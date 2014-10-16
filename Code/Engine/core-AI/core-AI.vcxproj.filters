@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="AnimationSystem">
+      <UniqueIdentifier>{2a3fcde2-6455-4ca1-a21b-dcce20fbbc65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AnimationSystem\SkeletalAnimation">
+      <UniqueIdentifier>{c102bf50-154b-444c-82f1-c42b69eaf742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AnimationSystem\AnimationResources">
+      <UniqueIdentifier>{f6091b5b-72b9-4ee8-a1fb-878c2e2b1445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AnimationSystem\AnimationBuilder">
+      <UniqueIdentifier>{e6cee3d1-8c14-4994-9dd0-cf7145e23574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AnimationSystem\Core">
+      <UniqueIdentifier>{d510d5c4-e2e1-4bd6-b0c7-f77d14a59e5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AnimationSystem\EntityAnimation">
+      <UniqueIdentifier>{2523d42e-69e2-43ec-a5be-bcd1bfb41eb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree">
+      <UniqueIdentifier>{57e68bc4-d479-46ac-ade9-60a11aed052d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Resource">
+      <UniqueIdentifier>{dfd984b6-9892-4e6f-91e0-3e19d89ec6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes">
+      <UniqueIdentifier>{36391aad-a295-41af-9d8f-d63d0cbd83c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\StateMachine">
+      <UniqueIdentifier>{71a5e0ff-4be4-4c16-a67d-9894ae9ceba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\PoseGenerators">
+      <UniqueIdentifier>{2e2e4d26-c13d-4c04-bae4-337acdf3601b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Runtime">
+      <UniqueIdentifier>{afba2e33-5a2d-42fb-b7d8-c552991ca5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{21027812-a735-4254-bc43-dc3b3395bd29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AnimationSystem\Utils">
+      <UniqueIdentifier>{4ec0ce32-411b-4d2d-a731-c69b3e4da006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\TransitionsEffects">
+      <UniqueIdentifier>{a690b70d-9027-4b60-a0d0-2c4dca272110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\TransitionsEffects\BlendEffect">
+      <UniqueIdentifier>{e412e2f4-38d1-4ec6-ac77-1210c870c829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\Selector">
+      <UniqueIdentifier>{0ef4546c-a431-4975-8861-792a9491d3a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\StateMachine\EventTrigger">
+      <UniqueIdentifier>{741f29dc-72ea-4348-ab26-58a28cf6b57a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\StateMachine\VariableTrigger">
+      <UniqueIdentifier>{acd33467-d3a6-422b-b841-420926fbca54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\Selector\VariableSwitch">
+      <UniqueIdentifier>{8bfbf201-07ee-425c-808c-4ddbdd07cc62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Synchronization">
+      <UniqueIdentifier>{2c2eba05-b08c-42ac-8d65-6bee4e9578e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlendTree\Nodes\Blenders">
+      <UniqueIdentifier>{ec345b13-8a14-44b9-80e2-9c7082a1edcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees">
+      <UniqueIdentifier>{9bf44471-918a-461c-8a2c-a91294f7f537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees\Resource">
+      <UniqueIdentifier>{fd1cbd57-d8eb-45ad-b460-3b098f50d2a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees\Composites">
+      <UniqueIdentifier>{8eacf358-9d41-4050-bc20-fb72b7036862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees\Decorators">
+      <UniqueIdentifier>{cb4df646-49a2-4447-9d1d-862b8a47f74e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees\Runtime">
+      <UniqueIdentifier>{e410e893-31df-4081-9880-7d2042ec180a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSM">
+      <UniqueIdentifier>{986d3c5a-9d10-4131-8b1b-b54f9acdbd47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees\Conditions">
+      <UniqueIdentifier>{2aa1d7ab-0180-4133-b657-767f9cbddd64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviorTrees\Actions">
+      <UniqueIdentifier>{3a926569-f8e4-4350-9347-5dba49e3f03b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-AI.h" />
+    <ClInclude Include="..\..\Include\core-AI\FSMState.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\FSMController.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeComposite.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeNode.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeDecorator.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeSequence.h">
+      <Filter>BehaviorTrees\Composites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeRepeater.h">
+      <Filter>BehaviorTrees\Decorators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehaviorTree.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehaviorTreeRunner.h">
+      <Filter>BehaviorTrees\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeAction.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehaviorTreeListener.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeParallel.h">
+      <Filter>BehaviorTrees\Composites</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\Skeleton.h">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\SkeletonAnimationPlayer.h">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\AnimationTimeline.h">
+      <Filter>AnimationSystem\AnimationBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BoneSRTAnimation.h">
+      <Filter>AnimationSystem\AnimationBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\AnimationPlayer.h">
+      <Filter>AnimationSystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\AnimationWorld.h">
+      <Filter>AnimationSystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\SnapshotAnimation.h">
+      <Filter>AnimationSystem\AnimationResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\EntityAnimationPlayer.h">
+      <Filter>AnimationSystem\EntityAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\SkeletonComponent.h">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTree.h">
+      <Filter>BlendTree\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeListener.h">
+      <Filter>BlendTree\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeNode.h">
+      <Filter>BlendTree\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeStateMachine.h">
+      <Filter>BlendTree\Nodes\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeComposite.h">
+      <Filter>BlendTree\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimation.h">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreePlayer.h">
+      <Filter>BlendTree\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeStateTransition.h">
+      <Filter>BlendTree\Nodes\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeTransitionEffect.h">
+      <Filter>BlendTree\TransitionsEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeEvent.h">
+      <Filter>BlendTree\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\AISystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BTTTEvent.h">
+      <Filter>BlendTree\Nodes\StateMachine\EventTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\PoseBlendingUtils.h">
+      <Filter>AnimationSystem\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BTTEBlend.h">
+      <Filter>BlendTree\TransitionsEffects\BlendEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeVariable.h">
+      <Filter>BlendTree\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BTTTVariable.h">
+      <Filter>BlendTree\Nodes\StateMachine\VariableTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSelector.h">
+      <Filter>BlendTree\Nodes\Selector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSelectorSwitch.h">
+      <Filter>BlendTree\Nodes\Selector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeTransitionTrigger.h">
+      <Filter>BlendTree\Nodes\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BTSSVariable.h">
+      <Filter>BlendTree\Nodes\Selector\VariableSwitch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimationListener.h">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimationEvent.h">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSyncPoint.h">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreePlayerListener.h">
+      <Filter>BlendTree\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimationTrack.h">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSyncProfile.h">
+      <Filter>BlendTree\Synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeBlender1D.h">
+      <Filter>BlendTree\Nodes\Blenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeVariable.h">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeCondition.h">
+      <Filter>BehaviorTrees\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeSetBool.h">
+      <Filter>BehaviorTrees\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeBoolCondition.h">
+      <Filter>BehaviorTrees\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\BehTreeSelector.h">
+      <Filter>BehaviorTrees\Composites</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\core-AI\TypesRegistry.cpp" />
+    <ClCompile Include="BehTreeNode.cpp">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeComposite.cpp">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeDecorator.cpp">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeSequence.cpp">
+      <Filter>BehaviorTrees\Composites</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeRepeater.cpp">
+      <Filter>BehaviorTrees\Decorators</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree.cpp">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTreeRunner.cpp">
+      <Filter>BehaviorTrees\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeAction.cpp">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeParallel.cpp">
+      <Filter>BehaviorTrees\Composites</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonAnimationPlayer.cpp">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneSRTAnimation.cpp">
+      <Filter>AnimationSystem\AnimationBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationPlayer.cpp">
+      <Filter>AnimationSystem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationWorld.cpp">
+      <Filter>AnimationSystem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SnapshotAnimation.cpp">
+      <Filter>AnimationSystem\AnimationResources</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityAnimationPlayer.cpp">
+      <Filter>AnimationSystem\EntityAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonComponent.cpp">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTree.cpp">
+      <Filter>BlendTree\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeNode.cpp">
+      <Filter>BlendTree\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeStateMachine.cpp">
+      <Filter>BlendTree\Nodes\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeComposite.cpp">
+      <Filter>BlendTree\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeAnimation.cpp">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreePlayer.cpp">
+      <Filter>BlendTree\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeStateTransition.cpp">
+      <Filter>BlendTree\Nodes\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeTransitionEffect.cpp">
+      <Filter>BlendTree\TransitionsEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeEvent.cpp">
+      <Filter>BlendTree\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="AISystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="BTTTEvent.cpp">
+      <Filter>BlendTree\Nodes\StateMachine\EventTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="PoseBlendingUtils.cpp">
+      <Filter>AnimationSystem\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BTTEBlend.cpp">
+      <Filter>BlendTree\TransitionsEffects\BlendEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeVariable.cpp">
+      <Filter>BlendTree\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\core-AI\BTTTVariable.cpp">
+      <Filter>BlendTree\Nodes\StateMachine\VariableTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeSelector.cpp">
+      <Filter>BlendTree\Nodes\Selector</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeSelectorSwitch.cpp">
+      <Filter>BlendTree\Nodes\Selector</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeTransitionTrigger.cpp">
+      <Filter>BlendTree\Nodes\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BTSSVariable.cpp">
+      <Filter>BlendTree\Nodes\Selector\VariableSwitch</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeAnimationEvent.cpp">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeSyncPoint.cpp">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeAnimationTrack.cpp">
+      <Filter>BlendTree\Nodes\PoseGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeSyncProfile.cpp">
+      <Filter>BlendTree\Synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendTreeBlender1D.cpp">
+      <Filter>BlendTree\Nodes\Blenders</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeVariable.cpp">
+      <Filter>BehaviorTrees\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeCondition.cpp">
+      <Filter>BehaviorTrees\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeSetBool.cpp">
+      <Filter>BehaviorTrees\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeBoolCondition.cpp">
+      <Filter>BehaviorTrees\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="BehTreeSelector.cpp">
+      <Filter>BehaviorTrees\Composites</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\core-AI\FSMController.inl">
+      <Filter>FSM</Filter>
+    </None>
+    <None Include="..\..\Include\core-AI\FSMState.inl">
+      <Filter>FSM</Filter>
+    </None>
+    <None Include="..\..\Include\core-AI\AnimationTimeline.inl">
+      <Filter>AnimationSystem\AnimationBuilder</Filter>
+    </None>
+    <None Include="..\..\Include\core-AI\BlendTreeVariable.inl">
+      <Filter>BlendTree\Resource</Filter>
+    </None>
+    <None Include="..\..\Include\core-AI\BlendTree.inl">
+      <Filter>BlendTree\Resource</Filter>
+    </None>
+  </ItemGroup>
+</Project>

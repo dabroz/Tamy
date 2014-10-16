@@ -1,0 +1,18 @@
+/// @file   gl-Renderer/GLShaderResourcesStorage.h
+/// @brief  storage for shader implementations
+#pragma once
+
+#include "core-Renderer\RenderResourceStorage.h"
+#include "core-Renderer\Shader.h"
+#include "gl-Renderer\GLRShader.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+class GLRenderer;
+
+///////////////////////////////////////////////////////////////////////////////
+
+typedef RenderResourceStorage< GLRenderer, Shader, GLRShader* > ShadersStorage;
+
+///////////////////////////////////////////////////////////////////////////////

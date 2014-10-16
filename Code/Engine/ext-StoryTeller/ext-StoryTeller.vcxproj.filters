@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ext-StoryTeller.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryItem.h">
+      <Filter>StoryObjects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\Story.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryActor.h">
+      <Filter>StoryObjects\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryListener.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryNode.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryChapter.h">
+      <Filter>Chapters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryPlayer.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryAction.h">
+      <Filter>Chapters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryActionSockets.h">
+      <Filter>Chapters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryCondition.h">
+      <Filter>Chapters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryNodeInstance.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SCWaitForAMoment.h">
+      <Filter>Actions\Core\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryBehTreeContext.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAMoveTo.h">
+      <Filter>BehTreeNodes\TransformMovement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTATransformVec.h">
+      <Filter>BehTreeNodes\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAInputToVelocity.h">
+      <Filter>BehTreeNodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAInputToWorldPos.h">
+      <Filter>BehTreeNodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAThirdPersonCamera.h">
+      <Filter>BehTreeNodes\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTATopDownCameraController.h">
+      <Filter>BehTreeNodes\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SCActorInTrigger.h">
+      <Filter>Actions\Core\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SITrigger.h">
+      <Filter>StoryObjects\Items\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SASpawnActor.h">
+      <Filter>Actions\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SASpawnItem.h">
+      <Filter>Actions\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SAActivateChapter.h">
+      <Filter>Actions\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SACondition.h">
+      <Filter>Actions\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SAPause.h">
+      <Filter>Actions\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryChapterStart.h">
+      <Filter>Actions\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryLevelAnnotation.h">
+      <Filter>StoryObjects\Locations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SAGetRandomAnnotation.h">
+      <Filter>Actions\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAGetActorInfo.h">
+      <Filter>BehTreeNodes\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAArrive.h">
+      <Filter>BehTreeNodes\SteeringBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAMoveWithVelocity.h">
+      <Filter>BehTreeNodes\PhysicalMovement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAPursue.h">
+      <Filter>BehTreeNodes\SteeringBehaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAClosestActorInDirection.h">
+      <Filter>BehTreeNodes\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTASlideTo.h">
+      <Filter>BehTreeNodes\PhysicalMovement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAInputCondition.h">
+      <Filter>BehTreeNodes\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAPhysicsToAnimation.h">
+      <Filter>BehTreeNodes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAMoveOnAnimation.h">
+      <Filter>BehTreeNodes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAAnimationToPhysics.h">
+      <Filter>BehTreeNodes\Animation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\ext-StoryTeller\TypesRegistry.cpp" />
+    <ClCompile Include="StoryItem.cpp">
+      <Filter>StoryObjects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Story.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryActor.cpp">
+      <Filter>StoryObjects\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryNode.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryChapter.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryPlayer.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryAction.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryActionSockets.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryCondition.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryNodeInstance.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="SCWaitForAMoment.cpp">
+      <Filter>Actions\Core\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryBehTreeContext.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAMoveTo.cpp">
+      <Filter>BehTreeNodes\TransformMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="BTATopDownCameraController.cpp">
+      <Filter>BehTreeNodes\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAThirdPersonCamera.cpp">
+      <Filter>BehTreeNodes\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAInputToWorldPos.cpp">
+      <Filter>BehTreeNodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAInputToVelocity.cpp">
+      <Filter>BehTreeNodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="BTATransformVec.cpp">
+      <Filter>BehTreeNodes\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SCActorInTrigger.cpp">
+      <Filter>Actions\Core\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="SITrigger.cpp">
+      <Filter>StoryObjects\Items\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="SASpawnActor.cpp">
+      <Filter>Actions\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="SASpawnItem.cpp">
+      <Filter>Actions\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="SAActivateChapter.cpp">
+      <Filter>Actions\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SACondition.cpp">
+      <Filter>Actions\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SAPause.cpp">
+      <Filter>Actions\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryChapterStart.cpp">
+      <Filter>Actions\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryLevelAnnotation.cpp">
+      <Filter>StoryObjects\Locations</Filter>
+    </ClCompile>
+    <ClCompile Include="SAGetRandomAnnotation.cpp">
+      <Filter>Actions\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAGetActorInfo.cpp">
+      <Filter>BehTreeNodes\World</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAMoveWithVelocity.cpp">
+      <Filter>BehTreeNodes\PhysicalMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAArrive.cpp">
+      <Filter>BehTreeNodes\SteeringBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAPursue.cpp">
+      <Filter>BehTreeNodes\SteeringBehaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAClosestActorInDirection.cpp">
+      <Filter>BehTreeNodes\World</Filter>
+    </ClCompile>
+    <ClCompile Include="BTASlideTo.cpp">
+      <Filter>BehTreeNodes\PhysicalMovement</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAInputCondition.cpp">
+      <Filter>BehTreeNodes\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAPhysicsToAnimation.cpp">
+      <Filter>BehTreeNodes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAMoveOnAnimation.cpp">
+      <Filter>BehTreeNodes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="BTAAnimationToPhysics.cpp">
+      <Filter>BehTreeNodes\Animation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Runtime">
+      <UniqueIdentifier>{43ae08f5-d663-4563-8390-0e78d5f9bf8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{6ad70651-b596-4796-8582-7940c0e7ff07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chapters">
+      <UniqueIdentifier>{2d87e009-5527-439f-b6ec-f4c67b75845b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes">
+      <UniqueIdentifier>{e77ff4b6-653d-4f6b-9d65-34cbb6d8e72d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\Math">
+      <UniqueIdentifier>{5353eb36-ac7c-4c72-8d16-ffff257d2aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\Camera">
+      <UniqueIdentifier>{a1b163dd-f5f4-4d4d-9072-614fd9393cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\Input">
+      <UniqueIdentifier>{e81f1cb7-40b8-46f4-aa77-6dfdb14aa093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{43e7da26-9e1f-4d3c-89c1-79f644be515c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions\Actors">
+      <UniqueIdentifier>{dee94167-30b4-4612-899f-1bcc7fe4bb53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions\Items">
+      <UniqueIdentifier>{bc4351cc-4469-4501-a35b-fbf24e098986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions\Core">
+      <UniqueIdentifier>{026f6248-3422-4a74-b919-f304fbaaa5f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions\Core\Conditions">
+      <UniqueIdentifier>{e6298b69-7e5e-4c9f-827e-68c149009ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions\LevelBuilding">
+      <UniqueIdentifier>{4bf361aa-e260-45de-9262-1746eb46b3a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions\Level">
+      <UniqueIdentifier>{ed160e67-d081-473c-84e3-462d63813c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoryObjects">
+      <UniqueIdentifier>{98db7963-169b-43f5-9bc2-fdc590c7c00f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoryObjects\Locations">
+      <UniqueIdentifier>{b7d3da49-8d3d-4645-8676-a1a29608ea91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoryObjects\Items">
+      <UniqueIdentifier>{20c25f45-a0e1-432b-a0ab-b8a9949711f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoryObjects\Items\Trigger">
+      <UniqueIdentifier>{0ef31619-2b34-4875-9d53-21bb34d96348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StoryObjects\Actors">
+      <UniqueIdentifier>{18b21fd7-1425-4fee-bac4-ddb136f1da4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\World">
+      <UniqueIdentifier>{1be9df0d-b49b-406f-b406-6beaf5ef4243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\SteeringBehaviors">
+      <UniqueIdentifier>{2a0de152-59dc-4f87-8909-486e383056dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\PhysicalMovement">
+      <UniqueIdentifier>{844b6dc4-46fe-46dd-b2e6-f62ae44068cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\TransformMovement">
+      <UniqueIdentifier>{f27ad8ca-96a6-4e56-afad-9e4c35d185aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\Conditions">
+      <UniqueIdentifier>{68864c18-5738-435d-97cc-f274f9f350a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehTreeNodes\Animation">
+      <UniqueIdentifier>{e05a4e73-f6b4-481f-a29e-7a6d24ef74b2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

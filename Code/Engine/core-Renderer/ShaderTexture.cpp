@@ -1,0 +1,20 @@
+#include "core-Renderer/ShaderTexture.h"
+
+///////////////////////////////////////////////////////////////////////////////
+
+BEGIN_ENUM( TextureUsage );
+   ENUM_VAL( TU_COLOR );
+   ENUM_VAL( TU_NORMAL_MAP );
+   ENUM_VAL( TU_LUMINANCE );
+   ENUM_VAL( TU_HDR );
+   ENUM_VAL( TU_FLOAT );
+   ENUM_VAL( TU_SHADOW_MAP );
+END_ENUM();
+
+///////////////////////////////////////////////////////////////////////////////
+
+BEGIN_OBJECT( ShaderTexture );
+   PARENT( ReflectionObject );
+END_OBJECT();
+
+///////////////////////////////////////////////////////////////////////////////

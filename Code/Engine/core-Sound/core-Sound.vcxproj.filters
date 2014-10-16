@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{c3e42a37-954d-4f84-a2a4-65a632405ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundFiles">
+      <UniqueIdentifier>{16b94ef1-1f16-4bd1-8a0d-aebf2b757475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundScene">
+      <UniqueIdentifier>{96f6b428-b3bb-4039-a4e1-f41a60aeef0a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-Sound\Sound.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\SoundChannel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\SoundDevice.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\OggFile.h">
+      <Filter>SoundFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\WavFile.h">
+      <Filter>SoundFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\Sound3D.h">
+      <Filter>SoundScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\SoundListener.h">
+      <Filter>SoundScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\SoundRenderer.h">
+      <Filter>SoundScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound\SoundSceneManager.h">
+      <Filter>SoundScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Sound.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SoundChannel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="OggFile.cpp">
+      <Filter>SoundFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="WavFile.cpp">
+      <Filter>SoundFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound3D.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundListener.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundRenderer.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSceneManager.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

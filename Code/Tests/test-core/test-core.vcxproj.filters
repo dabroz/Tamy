@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Delegates">
+      <UniqueIdentifier>{b7e7f186-78a0-4fda-969d-3cda30c88ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures">
+      <UniqueIdentifier>{2c26918c-da0f-45f0-8b9d-e878f48ed409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{bee178f3-67a5-4fa5-b941-f2b0869bbd55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpatialStorage">
+      <UniqueIdentifier>{438e9081-ecc3-4327-bc1c-4c8e43d18e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filesystem">
+      <UniqueIdentifier>{5e54b2a0-d0cd-439a-9b99-96dcfcef2111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{543eeab2-a737-4bbe-a03a-4d36b3bf4ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI">
+      <UniqueIdentifier>{a308b446-82c1-4c48-b089-998814d6d34f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{61efc0af-e938-44a6-a312-6fbedcda6e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{6c1f357d-c9f7-432a-a954-2b37904de158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading">
+      <UniqueIdentifier>{d7ce4595-3645-4121-99f0-b93d7320acaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shapes">
+      <UniqueIdentifier>{bd7943d2-e658-4d19-a794-b62da93bd655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{3d081dff-8477-40c2-a44d-fa29ddc803c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DelegatesTests.cpp">
+      <Filter>Delegates</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingVolumesTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneIntersectionTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="RayDistancesTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleSplittingTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstSizeArrayTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericFactoryTests.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixInterpolatorTests.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="BSPNodeTreeTests.cpp">
+      <Filter>SpatialStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemTests.cpp">
+      <Filter>Filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphDijkstraTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphTopologicalSortTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgorithmTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphBuilderTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializationTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionPropertiesTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionEnumTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcesManagerTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataExchangeTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="QuaternionTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="EulerAnglesTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixUtilsTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionObjectTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemSectionTests.cpp">
+      <Filter>Filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfilerTests.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="ListTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="AABoundingBoxTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="RefPtrTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="FastFloatTests.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManagementTests.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="CallstackTracerTests.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchingTests.cpp">
+      <Filter>RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadsTests.cpp">
+      <Filter>Multithreading</Filter>
+    </ClCompile>
+    <ClCompile Include="TasksSchedulerTests.cpp">
+      <Filter>Multithreading</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeControllerTests.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="DequeueTests.cpp">
+      <Filter>DataStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="RoundBufferTest.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryPoolTests.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientServerRoundBufferTests.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedValueTests.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeDataTests.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="CylinderTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxTests.cpp">
+      <Filter>Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonsMergingTests.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="StringParserTests.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemSnapshotTests.cpp">
+      <Filter>Filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcesDependenciesTreeTests.cpp">
+      <Filter>Filesystem</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

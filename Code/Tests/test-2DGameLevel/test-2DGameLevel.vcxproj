@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0433F0B5-8153-4873-BB21-4BFDA4EF17C5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>test2DGameLevel</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\Build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\Build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;IMPORT_RTTI_REGISTRATIONS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\$(Configuration);$(DXSDK_DIR)\Lib\x86;$(SolutionDir)\Libs\External\CPPUNIT\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cppunitd.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;IMPORT_RTTI_REGISTRATIONS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\$(Configuration);$(DXSDK_DIR)\Lib\x86;$(SolutionDir)\Libs\External\CPPUNIT\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cppunit.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\core-AI\core-AI.vcxproj">
+      <Project>{bb9178b4-c215-4ab8-831a-89a717c6b5ee}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\core-AppFlow\core-AppFlow.vcxproj">
+      <Project>{add6ce30-dede-450f-8c75-532d65f3ac15}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\core-MVC\core-MVC.vcxproj">
+      <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\core-Physics\core-Physics.vcxproj">
+      <Project>{204fbca9-efd4-42c9-90f0-f19f4cbace29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\core-Renderer\core-Renderer.vcxproj">
+      <Project>{dbcd9f77-4064-4db9-ac18-516ed35b24ce}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\core-TestFramework\core-TestFramework.vcxproj">
+      <Project>{3620036c-624c-4563-a5f2-c325b388b13d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\ext-2DGameLevel\ext-2DGameLevel.vcxproj">
+      <Project>{5a2f6c07-fdb7-48c6-8429-63dea282a386}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\ext-StoryTeller\ext-StoryTeller.vcxproj">
+      <Project>{0a5ef6f5-e637-4c52-b7bb-db747bf74646}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\null-Renderer\null-Renderer.vcxproj">
+      <Project>{b8125434-1049-4001-84ff-4ddff564969d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BodyMovementTests.cpp" />
+    <ClCompile Include="CollisionDetectionTests.cpp" />
+    <ClCompile Include="CollisionResponseTests.cpp" />
+    <ClCompile Include="CollisionShapesTests.cpp" />
+    <ClCompile Include="GL2DLevelGeneratorTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TypesRegistryInitializer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

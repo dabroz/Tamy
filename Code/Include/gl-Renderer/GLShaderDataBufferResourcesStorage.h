@@ -1,0 +1,17 @@
+/// @file   gl-Renderer/GLShaderDataBufferResourcesStorage.h
+/// @brief  storage for shader data buffers
+#pragma once
+
+#include "core-Renderer\RenderResourceStorage.h"
+#include "core-Renderer\ShaderDataBuffer.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+class GLRenderer;
+
+///////////////////////////////////////////////////////////////////////////////
+
+typedef RenderResourceStorage< GLRenderer, ShaderDataBuffer, uint > ShaderDataBufferStorage;
+
+///////////////////////////////////////////////////////////////////////////////

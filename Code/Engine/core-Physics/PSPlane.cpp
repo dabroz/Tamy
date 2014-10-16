@@ -1,0 +1,30 @@
+#include "core-Physics\PSPlane.h"
+
+// physx
+#include "PxRigidActor.h"
+#include "PxMaterial.h"
+#include "PxShape.h"
+#include "geometry\PxPlaneGeometry.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+BEGIN_OBJECT( PSPlane );
+   PARENT( PhysicsShape );
+END_OBJECT();
+
+///////////////////////////////////////////////////////////////////////////////
+
+PSPlane::PSPlane()
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+physx::PxShape* PSPlane::instantiate( physx::PxRigidActor& actor, physx::PxMaterial& material ) const
+{
+   physx::PxShape* shape = actor.createShape( physx::PxPlaneGeometry(), material );
+   return shape;
+}
+
+///////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,13 @@
+#include "core/TypeRegistrationMacros.h"
+#include "core-MVC.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+REGISTER_ABSTRACT_TYPE( SceneNode );
+REGISTER_TYPE( Entity );
+REGISTER_ABSTRACT_TYPE( Component );
+REGISTER_TYPE( Model );
+REGISTER_TYPE( Prefab );
+
+///////////////////////////////////////////////////////////////////////////////

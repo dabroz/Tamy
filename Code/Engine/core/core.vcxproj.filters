@@ -1,0 +1,1254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{ff971eb1-7113-4629-8db2-520665ab4691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures">
+      <UniqueIdentifier>{961c3900-6c8a-4cf3-a142-24c99e99c9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Delegates">
+      <UniqueIdentifier>{34e11e46-e5bc-4f0d-bc77-db7d4b6b6738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Streams">
+      <UniqueIdentifier>{c0f4c77b-c1da-490e-8d0f-b289a6d9f379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{e1b7b45f-0df7-4034-abb0-bf9f02fbdc9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc\ObserverPattern">
+      <UniqueIdentifier>{db9241cd-4fae-435e-872d-d1f59656d797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc\AbstractFactoryPattern">
+      <UniqueIdentifier>{5f62bb7d-3841-4554-ba21-1a411a3be78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpatialStorage">
+      <UniqueIdentifier>{c950ea53-68c0-47f5-912e-057536bdce20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filesystem">
+      <UniqueIdentifier>{8ef7176a-a012-4a0d-8d42-18deef2f0baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{02e931f0-fe38-444e-9402-41963299770c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{e97b6a8d-3630-46e6-a0d6-f6ffad3f818b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\Graphs">
+      <UniqueIdentifier>{0fe037a9-ad64-41fb-9bee-c6e1721d61a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\DataPipeline">
+      <UniqueIdentifier>{0e3baadd-c362-43f6-9d63-4a4be0cf7ef5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Streams\Implementations">
+      <UniqueIdentifier>{247dd045-277e-4e66-9183-d8a8f4d7ed0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI">
+      <UniqueIdentifier>{aaa9972a-789b-44d9-aa74-17dabd4b8dca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Core">
+      <UniqueIdentifier>{9a38afcd-5017-4ce0-88e8-38408222e14a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Enum">
+      <UniqueIdentifier>{917a03b6-d0cc-4b0e-8b4d-883e567a8214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Properties">
+      <UniqueIdentifier>{24a98faf-4c75-4b49-9e33-7cce72bc1a49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\DependenciesMapper">
+      <UniqueIdentifier>{14968df2-5173-4559-bcdb-fe447c11c998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{98a4edde-bb95-45aa-819a-c83ac13ab9e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryManagement">
+      <UniqueIdentifier>{4f28b540-68e1-4a68-916b-a68bebf02395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\Collections">
+      <UniqueIdentifier>{b8f2cdd9-51b6-4889-8021-2bc3bf92e23d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Implementations">
+      <UniqueIdentifier>{ea5be6eb-8b4a-444a-bbe2-35fdd54b8677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Implementations\Simd">
+      <UniqueIdentifier>{f69ae934-21a7-4d4e-91c6-b2a2f6949e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Implementations\Fpu">
+      <UniqueIdentifier>{fe4e053b-2a0b-42c8-8239-6f6b4fc77484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\MathTypes">
+      <UniqueIdentifier>{3fb6f28e-456c-4821-bff0-0edb48ab68ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Utils">
+      <UniqueIdentifier>{2a554255-6391-43a2-92b4-f1bb159bd9a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Core">
+      <UniqueIdentifier>{a28cb97a-26c6-4fc8-a81a-1f441eb73ec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryManagement\MemoryPools">
+      <UniqueIdentifier>{a4cc08a6-1b6a-4368-b6c3-30b8b8dd6f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryManagement\Core">
+      <UniqueIdentifier>{073f0cb1-ab61-47cd-bc58-d353cace740c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Macros">
+      <UniqueIdentifier>{dd0364d9-4ad9-4364-a822-3fe46e57dc49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryManagement\Callstacks">
+      <UniqueIdentifier>{880b9b3a-4242-4dc1-989d-8af92a55f172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpatialStorage\BSPTree">
+      <UniqueIdentifier>{ccf8b482-9769-443c-93e9-76e8aff27fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpatialStorage\LinearStorage">
+      <UniqueIdentifier>{1709a73c-1ab5-417a-9d04-5f41bbf2f5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Properties\TreeView">
+      <UniqueIdentifier>{c0e836a6-47fd-4c23-abab-2a0a3dcb4a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\RefPtr">
+      <UniqueIdentifier>{ec44c914-d6af-4296-bf31-310f9ee911fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\DependenciesEditors">
+      <UniqueIdentifier>{a3891846-6b23-4f13-ad11-c207c483e99b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Serialization">
+      <UniqueIdentifier>{200bec9a-c891-4201-9175-996f5a2b967f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RTTI\Patching">
+      <UniqueIdentifier>{6f19b0ff-e178-4354-adc7-6c2f375034e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PatchFunctions">
+      <UniqueIdentifier>{4c85b3ed-37b5-4eaf-836a-30ad97ae4c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading">
+      <UniqueIdentifier>{6f5ecbdc-9dfb-4639-997b-1a9c1fe6c352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading\TasksScheduler">
+      <UniqueIdentifier>{d8fcca36-095f-4919-acac-4637a2f21973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading\Core">
+      <UniqueIdentifier>{dfecf894-3ec3-48b1-a1c6-b2371463c762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading\Synchronization">
+      <UniqueIdentifier>{d92c3758-1df8-4f17-9f09-e273082924d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filesystem\Core">
+      <UniqueIdentifier>{1e7a2702-5348-47e5-b88f-7206215759e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filesystem\Utils">
+      <UniqueIdentifier>{c2a6dc28-41d7-42b6-bca2-11e0c2852e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Serialization">
+      <UniqueIdentifier>{abe9554e-11bd-4ccb-aaa4-57cca8d8e03f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Core">
+      <UniqueIdentifier>{e1e95a30-5daa-4bde-a17d-8c75697d5bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TimeController">
+      <UniqueIdentifier>{55753e5a-e09d-4a19-93ea-2c9fc3430178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading\Utils">
+      <UniqueIdentifier>{94836ed4-5784-4fb8-8aff-c11b2b152e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Misc\Singleton">
+      <UniqueIdentifier>{fcce2910-b5b4-439e-b001-628897a93f2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading\EventsDispatcher">
+      <UniqueIdentifier>{21c0a6f6-10f8-4d1f-97ba-af10b6b81020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multithreading\LocklessCommandsQueue">
+      <UniqueIdentifier>{ea032802-ab8f-429b-bb56-39d039e57c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\LocalCollections">
+      <UniqueIdentifier>{d578db6a-a211-4c4c-9e05-0fa0a2afcc21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\CollectionUtils">
+      <UniqueIdentifier>{d0e21497-9777-4257-908c-21ec15885032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Shapes">
+      <UniqueIdentifier>{2b934638-24e9-439d-b5b2-762a5e807345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Shapes\Algorithms">
+      <UniqueIdentifier>{cb7efd48-d1b9-44ec-90c4-4a6196041857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{cc4c815a-38b3-4751-9ea5-441563bd055e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryManagement\ThreadSafeMemoryPools">
+      <UniqueIdentifier>{03b9e663-e694-495f-9860-77912d0544d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\Grid">
+      <UniqueIdentifier>{8bcd54a8-cf3f-4149-ac1a-b5635a300253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\BestResultsList">
+      <UniqueIdentifier>{69b93aa4-3f9f-465e-91a5-43c47325fd2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructures\Point">
+      <UniqueIdentifier>{362ed3f6-3a75-4219-9ef9-a1aa8df7d7c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filesystem\Scanners">
+      <UniqueIdentifier>{851a6800-3447-4f4c-a659-a2f7a45dbcdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Filesystem\FilesystemTracker">
+      <UniqueIdentifier>{479b73d6-42a2-4327-915b-531a9632f1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Utils">
+      <UniqueIdentifier>{d3ad9212-c19f-4fa9-9096-b08b56fca851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\DependenciesGraph">
+      <UniqueIdentifier>{519e247f-e493-4d48-ae8d-947b347009f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtils.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphBuilderSockets.cpp">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="InArrayStream.cpp">
+      <Filter>Streams\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="OutArrayStream.cpp">
+      <Filter>Streams\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionSaver.cpp">
+      <Filter>RTTI\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionLoader.cpp">
+      <Filter>RTTI\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="InStream.cpp">
+      <Filter>Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="OutStream.cpp">
+      <Filter>Streams</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionObject.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionType.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionTypeComponent.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionTypesRegistry.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionTypeID.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionProperty.cpp">
+      <Filter>RTTI\Properties</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionEnum.cpp">
+      <Filter>RTTI\Enum</Filter>
+    </ClCompile>
+    <ClCompile Include="InFileStream.cpp">
+      <Filter>Streams\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="OutFileStream.cpp">
+      <Filter>Streams\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\core\TypesRegistry.cpp" />
+    <ClCompile Include="Color.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionSerializationUtil.cpp">
+      <Filter>RTTI\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceDependenciesMapper.cpp">
+      <Filter>Resources\DependenciesMapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Profiler.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Assert.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="IDString.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RefPtr.cpp">
+      <Filter>RTTI\RefPtr</Filter>
+    </ClCompile>
+    <ClCompile Include="EulerAngles.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithms.cpp">
+      <Filter>Math\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixUtils.cpp">
+      <Filter>Math\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneUtils.cpp">
+      <Filter>Math\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorUtil.cpp">
+      <Filter>Math\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MathDataStorage.cpp">
+      <Filter>Math\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FastFloat.cpp">
+      <Filter>Math\MathTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="SimdUtils.cpp">
+      <Filter>Math\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalAllocationsTracer.cpp">
+      <Filter>MemoryManagement\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RuntimeData.cpp">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryUtils.cpp">
+      <Filter>MemoryManagement\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryRouter.cpp">
+      <Filter>MemoryManagement\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RoundBuffer.cpp">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="CallstackTracer.cpp">
+      <Filter>MemoryManagement\Callstacks</Filter>
+    </ClCompile>
+    <ClCompile Include="CallstackTree.cpp">
+      <Filter>MemoryManagement\Callstacks</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionPropertiesView.cpp">
+      <Filter>RTTI\Properties\TreeView</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionPropertyEditor.cpp">
+      <Filter>RTTI\Properties\TreeView</Filter>
+    </ClCompile>
+    <ClCompile Include="MissingDependenciesMapper.cpp">
+      <Filter>Resources\DependenciesEditors</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchesDB.cpp">
+      <Filter>RTTI\Patching</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchRecord.cpp">
+      <Filter>RTTI\Patching</Filter>
+    </ClCompile>
+    <ClCompile Include="InRawArrayStream.cpp">
+      <Filter>Streams\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="OutRawArrayStream.cpp">
+      <Filter>Streams\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="PatchesDBSerializer.cpp">
+      <Filter>RTTI\Patching</Filter>
+    </ClCompile>
+    <ClCompile Include="SerializedReflectionObject.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\core\PatchFunctions.cpp">
+      <Filter>PatchFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="MultithreadedTasksScheduler.cpp">
+      <Filter>Multithreading\TasksScheduler</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadSystem.cpp">
+      <Filter>Multithreading\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>Multithreading\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Mutex.cpp">
+      <Filter>Multithreading\Synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="Semaphore.cpp">
+      <Filter>Multithreading\Synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="CriticalSection.cpp">
+      <Filter>Multithreading\Synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="MultithreadedTask.cpp">
+      <Filter>Multithreading\TasksScheduler</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Filesystem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePath.cpp">
+      <Filter>Filesystem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Filesystem.cpp">
+      <Filter>Filesystem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemSection.cpp">
+      <Filter>Filesystem\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemUtils.cpp">
+      <Filter>Filesystem\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcesSerializationUtil.cpp">
+      <Filter>Resources\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalDependenciesLinker.cpp">
+      <Filter>Resources\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Resources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHandle.cpp">
+      <Filter>Resources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcesManager.cpp">
+      <Filter>Resources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeController.cpp">
+      <Filter>TimeController</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeControllerTrack.cpp">
+      <Filter>TimeController</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourcesDB.cpp">
+      <Filter>Resources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>Misc\Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="Runnable.cpp">
+      <Filter>Multithreading\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FragmentedMemoryPool.cpp">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinuousMemoryPool.cpp">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="EventsDispatcher.cpp">
+      <Filter>Multithreading\EventsDispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="DefautAllocator.cpp">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientServerRoundBuffer.cpp">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionObjectReferencesManager.cpp">
+      <Filter>RTTI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Ray.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleUtil.cpp">
+      <Filter>Math\Shapes\Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="AxisAlignedBox.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Cylinder.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonMesh2D.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshAdjacencyMap.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="ResOpLoad.cpp">
+      <Filter>Resources\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="StringParser.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="TSContinuousMemoryPool.cpp">
+      <Filter>MemoryManagement\ThreadSafeMemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="TSFragmentedMemoryPool.cpp">
+      <Filter>MemoryManagement\ThreadSafeMemoryPools</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>DataStructures\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchicalFilesDeleter.cpp">
+      <Filter>Filesystem\Scanners</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemSectionScanner.cpp">
+      <Filter>Filesystem\Scanners</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemSnapshot.cpp">
+      <Filter>Filesystem\FilesystemTracker</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemChangesTracker.cpp">
+      <Filter>Filesystem\FilesystemTracker</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemSnapshotScanner.cpp">
+      <Filter>Filesystem\FilesystemTracker</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceUtils.cpp">
+      <Filter>Resources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceDependenciesGraph.cpp">
+      <Filter>Resources\DependenciesGraph</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core\Timer.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Delegate.h">
+      <Filter>Delegates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\dostream.h">
+      <Filter>Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\HierarchyWriter.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\IntervalOperation.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\StringUtils.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\UniqueObject.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Observer.h">
+      <Filter>Misc\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Subject.h">
+      <Filter>Misc\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GenericFactory.h">
+      <Filter>Misc\AbstractFactoryPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\BSPNodeTree.h">
+      <Filter>SpatialStorage\BSPTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core.h" />
+    <ClInclude Include="..\..\Include\core\Graph.h">
+      <Filter>DataStructures\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphBuilder.h">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphBuilderNode.h">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphBuilderSockets.h">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\InStream.h">
+      <Filter>Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\OutStream.h">
+      <Filter>Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\InArrayStream.h">
+      <Filter>Streams\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\OutArrayStream.h">
+      <Filter>Streams\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionSaver.h">
+      <Filter>RTTI\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionLoader.h">
+      <Filter>RTTI\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionObjectsTracker.h">
+      <Filter>RTTI\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\types.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionObject.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionType.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionTypeComponent.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionTypesRegistry.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionTypeID.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionProperty.h">
+      <Filter>RTTI\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionEnum.h">
+      <Filter>RTTI\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\InFileStream.h">
+      <Filter>Streams\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\OutFileStream.h">
+      <Filter>Streams\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Color.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\math.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionSerializationMacros.h">
+      <Filter>RTTI\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionSerializationUtil.h">
+      <Filter>RTTI\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionObjectChangeListener.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourceDependenciesMapper.h">
+      <Filter>Resources\DependenciesMapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionDependenciesCallback.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Profiler.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Assert.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\IProgressObserver.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Log.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\IDString.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Array.h">
+      <Filter>DataStructures\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ConstSizeArray.h">
+      <Filter>DataStructures\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\List.h">
+      <Filter>DataStructures\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Stack.h">
+      <Filter>DataStructures\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\CollectionUtils.h">
+      <Filter>DataStructures\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphBuilderNodeUtils.h">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphBuilderTransaction.h">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\RefPtr.h">
+      <Filter>RTTI\RefPtr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FastFloat.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\EulerAngles.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Matrix.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Plane.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Vector.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Quaternion.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Transform.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TVector.h">
+      <Filter>Math\MathTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\VectorUtil.h">
+      <Filter>Math\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Algorithms.h">
+      <Filter>Math\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MatrixUtils.h">
+      <Filter>Math\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PlaneUtils.h">
+      <Filter>Math\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\EngineDefines.h" />
+    <ClInclude Include="..\..\Include\core\MathDataStorage.h">
+      <Filter>Math\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\SimdUtils.h">
+      <Filter>Math\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MatrixFpu.inl">
+      <Filter>Math\Implementations\Fpu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MathDefs.h">
+      <Filter>Math\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\RuntimeData.h">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MemoryUtils.h">
+      <Filter>MemoryManagement\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MemoryRouter.h">
+      <Filter>MemoryManagement\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MemoryAllocator.h">
+      <Filter>MemoryManagement\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\RoundBuffer.h">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TypeRegistrationMacros.h">
+      <Filter>RTTI\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionMacros.h">
+      <Filter>RTTI\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\CallstackTracer.h">
+      <Filter>MemoryManagement\Callstacks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\CallstackTree.h">
+      <Filter>MemoryManagement\Callstacks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\LinearStorage.h">
+      <Filter>SpatialStorage\LinearStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionPropertiesView.h">
+      <Filter>RTTI\Properties\TreeView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionPropertyEditor.h">
+      <Filter>RTTI\Properties\TreeView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MissingDependenciesMapper.h">
+      <Filter>Resources\DependenciesEditors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PatchesDB.h">
+      <Filter>RTTI\Patching</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PatchRecord.h">
+      <Filter>RTTI\Patching</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\InRawArrayStream.h">
+      <Filter>Streams\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\OutRawArrayStream.h">
+      <Filter>Streams\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PatchDataMigrationFunction.h">
+      <Filter>RTTI\Patching</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PatchesDBMacros.h">
+      <Filter>RTTI\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PatchesDBSerializer.h">
+      <Filter>RTTI\Patching</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\SerializedReflectionObject.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MultithreadedTask.h">
+      <Filter>Multithreading\TasksScheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MultithreadedTasksScheduler.h">
+      <Filter>Multithreading\TasksScheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ThreadSystem.h">
+      <Filter>Multithreading\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Thread.h">
+      <Filter>Multithreading\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Mutex.h">
+      <Filter>Multithreading\Synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Semaphore.h">
+      <Filter>Multithreading\Synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\CriticalSection.h">
+      <Filter>Multithreading\Synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\File.h">
+      <Filter>Filesystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilePath.h">
+      <Filter>Filesystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Filesystem.h">
+      <Filter>Filesystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemSection.h">
+      <Filter>Filesystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\StreamBuffer.h">
+      <Filter>Filesystem\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemUtils.h">
+      <Filter>Filesystem\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourcesSerializationUtil.h">
+      <Filter>Resources\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ExternalDependenciesLinker.h">
+      <Filter>Resources\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Resource.h">
+      <Filter>Resources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourceHandle.h">
+      <Filter>Resources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourcesManager.h">
+      <Filter>Resources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourceStorage.h">
+      <Filter>Resources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TimeController.h">
+      <Filter>TimeController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TimeControllerTrack.h">
+      <Filter>TimeController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TimeDependent.h">
+      <Filter>TimeController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TimeEvent.h">
+      <Filter>TimeController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourcesDB.h">
+      <Filter>Resources\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ThreadSafe.h">
+      <Filter>Multithreading\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Singleton.h">
+      <Filter>Misc\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Dequeue.h">
+      <Filter>DataStructures\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Runnable.h">
+      <Filter>Multithreading\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FragmentedMemoryPool.h">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ContinuousMemoryPool.h">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\EventsDispatcher.h">
+      <Filter>Multithreading\EventsDispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Event.h">
+      <Filter>Multithreading\EventsDispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\DefaultAllocator.h">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ClientServerRoundBuffer.h">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\SharedValue.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\LocklessCommand.h">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\LocklessCommandFence.h">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\LocklessCommandsQueue.h">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\SteppedLocklessCommandFence.h">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\SteppedLocklessCommandsQueue.h">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\UniqueIdGenerator.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphBuilderListener.h">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\LocalStack.h">
+      <Filter>DataStructures\LocalCollections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\LocalList.h">
+      <Filter>DataStructures\LocalCollections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ReflectionObjectReferencesManager.h">
+      <Filter>RTTI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ListUtils.h">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\RawArrayUtil.h">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ArrayUtils.h">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\CollectionComparators.h">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Ray.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\RaycastResult.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TriangleUtil.h">
+      <Filter>Math\Shapes\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Triangle.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Frustum.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Sphere.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\AxisAlignedBox.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Cylinder.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Box.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\IntersectionResult.h">
+      <Filter>Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\PolygonMesh2D.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\MeshAdjacencyMap.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResOpLoad.h">
+      <Filter>Resources\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\StringParser.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TSContinuousMemoryPool.h">
+      <Filter>MemoryManagement\ThreadSafeMemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\TSFragmentedMemoryPool.h">
+      <Filter>MemoryManagement\ThreadSafeMemoryPools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Grid.h">
+      <Filter>DataStructures\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GridUtils.h">
+      <Filter>DataStructures\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\GraphUtils.h">
+      <Filter>DataStructures\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\BestResultsList.h">
+      <Filter>DataStructures\BestResultsList</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\Point.h">
+      <Filter>DataStructures\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\HierarchicalFilesDeleter.h">
+      <Filter>Filesystem\Scanners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemScanner.h">
+      <Filter>Filesystem\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemSectionScanner.h">
+      <Filter>Filesystem\Scanners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemSnapshot.h">
+      <Filter>Filesystem\FilesystemTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemChangesTracker.h">
+      <Filter>Filesystem\FilesystemTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\FilesystemSnapshotScanner.h">
+      <Filter>Filesystem\FilesystemTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourceUtils.h">
+      <Filter>Resources\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core\ResourceDependenciesGraph.h">
+      <Filter>Resources\DependenciesGraph</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\core\GenericFactory.inl">
+      <Filter>Misc\AbstractFactoryPattern</Filter>
+    </None>
+    <None Include="..\..\Include\core\BSPNodeTree.inl">
+      <Filter>SpatialStorage\BSPTree</Filter>
+    </None>
+    <None Include="..\..\Include\core\Graph.inl">
+      <Filter>DataStructures\Graphs</Filter>
+    </None>
+    <None Include="..\..\Include\core\UniqueObject.inl">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="..\..\Include\core\GraphBuilderSockets.inl">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </None>
+    <None Include="..\..\Include\core\GraphBuilder.inl">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </None>
+    <None Include="..\..\Include\core\GraphBuilderNode.inl">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </None>
+    <None Include="..\..\Include\core\InStream.inl">
+      <Filter>Streams</Filter>
+    </None>
+    <None Include="..\..\Include\core\OutStream.inl">
+      <Filter>Streams</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionSaver.inl">
+      <Filter>RTTI\Serialization</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionLoader.inl">
+      <Filter>RTTI\Serialization</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionObject.inl">
+      <Filter>RTTI\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionType.inl">
+      <Filter>RTTI\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionTypeComponent.inl">
+      <Filter>RTTI\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionTypesRegistry.inl">
+      <Filter>RTTI\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionTypeID.inl">
+      <Filter>RTTI\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionProperty.inl">
+      <Filter>RTTI\Properties</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionEnum.inl">
+      <Filter>RTTI\Enum</Filter>
+    </None>
+    <None Include="..\..\Include\core\Array.inl">
+      <Filter>DataStructures\Collections</Filter>
+    </None>
+    <None Include="..\..\Include\core\ConstSizeArray.inl">
+      <Filter>DataStructures\Collections</Filter>
+    </None>
+    <None Include="..\..\Include\core\List.inl">
+      <Filter>DataStructures\Collections</Filter>
+    </None>
+    <None Include="..\..\Include\core\Stack.inl">
+      <Filter>DataStructures\Collections</Filter>
+    </None>
+    <None Include="..\..\Include\core\CollectionUtils.inl">
+      <Filter>DataStructures\Collections</Filter>
+    </None>
+    <None Include="..\..\Include\core\GraphBuilderNodeUtils.inl">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </None>
+    <None Include="..\..\Include\core\GraphBuilderTransaction.inl">
+      <Filter>DataStructures\DataPipeline</Filter>
+    </None>
+    <None Include="..\..\Include\core\RefPtr.inl">
+      <Filter>RTTI\RefPtr</Filter>
+    </None>
+    <None Include="..\..\Include\core\FastFloatSimd.inl">
+      <Filter>Math\Implementations\Simd</Filter>
+    </None>
+    <None Include="..\..\Include\core\FastFloatFpu.inl">
+      <Filter>Math\Implementations\Fpu</Filter>
+    </None>
+    <None Include="..\..\Include\core\VectorFpu.inl">
+      <Filter>Math\Implementations\Fpu</Filter>
+    </None>
+    <None Include="..\..\Include\core\TVector.inl">
+      <Filter>Math\MathTypes</Filter>
+    </None>
+    <None Include="..\..\Include\core\Algorithms.inl">
+      <Filter>Math\Utils</Filter>
+    </None>
+    <None Include="..\..\Include\core\VectorSimd.inl">
+      <Filter>Math\Implementations\Simd</Filter>
+    </None>
+    <None Include="..\..\Include\core\PlaneFpu.inl">
+      <Filter>Math\Implementations\Fpu</Filter>
+    </None>
+    <None Include="..\..\Include\core\PlaneSimd.inl">
+      <Filter>Math\Implementations\Simd</Filter>
+    </None>
+    <None Include="..\..\Include\core\EulerAnglesFpu.inl">
+      <Filter>Math\Implementations\Fpu</Filter>
+    </None>
+    <None Include="..\..\Include\core\EulerAnglesSimd.inl">
+      <Filter>Math\Implementations\Simd</Filter>
+    </None>
+    <None Include="..\..\Include\core\QuaternionFpu.inl">
+      <Filter>Math\Implementations\Fpu</Filter>
+    </None>
+    <None Include="..\..\Include\core\QuaternionSimd.inl">
+      <Filter>Math\Implementations\Simd</Filter>
+    </None>
+    <None Include="..\..\Include\core\SimdUtils.inl">
+      <Filter>Math\Utils</Filter>
+    </None>
+    <None Include="..\..\Include\core\MatrixSimd.inl">
+      <Filter>Math\Implementations\Simd</Filter>
+    </None>
+    <None Include="..\..\Include\core\RuntimeData.inl">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </None>
+    <None Include="..\..\Include\core\MemoryRouter.inl">
+      <Filter>MemoryManagement\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\RoundBuffer.inl">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </None>
+    <None Include="..\..\Include\core\LinearStorage.inl">
+      <Filter>SpatialStorage\LinearStorage</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionPropertiesView.inl">
+      <Filter>RTTI\Properties\TreeView</Filter>
+    </None>
+    <None Include="..\..\Include\core\ReflectionPropertyEditor.inl">
+      <Filter>RTTI\Properties\TreeView</Filter>
+    </None>
+    <None Include="..\..\Include\core\PatchRecord.inl">
+      <Filter>RTTI\Patching</Filter>
+    </None>
+    <None Include="..\..\Include\core\SerializedReflectionObject.inl">
+      <Filter>RTTI\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\StreamBuffer.inl">
+      <Filter>Filesystem\Utils</Filter>
+    </None>
+    <None Include="..\..\Include\core\ResourceStorage.inl">
+      <Filter>Resources\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ResourceHandle.inl">
+      <Filter>Resources\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ResourcesManager.inl">
+      <Filter>Resources\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\ThreadSafe.inl">
+      <Filter>Multithreading\Utils</Filter>
+    </None>
+    <None Include="..\..\Include\core\Singleton.inl">
+      <Filter>Misc\Singleton</Filter>
+    </None>
+    <None Include="..\..\Include\core\Dequeue.inl">
+      <Filter>DataStructures\Collections</Filter>
+    </None>
+    <None Include="..\..\Include\core\ClientServerRoundBuffer.inl">
+      <Filter>MemoryManagement\MemoryPools</Filter>
+    </None>
+    <None Include="..\..\Include\core\SharedValue.inl">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="..\..\Include\core\SteppedLocklessCommandsQueue.inl">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </None>
+    <None Include="..\..\Include\core\LocklessCommandFence.inl">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </None>
+    <None Include="..\..\Include\core\LocklessCommandsQueue.inl">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </None>
+    <None Include="..\..\Include\core\SteppedLocklessCommandFence.inl">
+      <Filter>Multithreading\LocklessCommandsQueue</Filter>
+    </None>
+    <None Include="..\..\Include\core\UniqueIdGenerator.inl">
+      <Filter>Misc</Filter>
+    </None>
+    <None Include="..\..\Include\core\Profiler.inl">
+      <Filter>Timer</Filter>
+    </None>
+    <None Include="..\..\Include\core\LocalStack.inl">
+      <Filter>DataStructures\LocalCollections</Filter>
+    </None>
+    <None Include="..\..\Include\core\LocalList.inl">
+      <Filter>DataStructures\LocalCollections</Filter>
+    </None>
+    <None Include="..\..\Include\core\RawArrayUtil.inl">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </None>
+    <None Include="..\..\Include\core\ListUtils.inl">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </None>
+    <None Include="..\..\Include\core\ArrayUtils.inl">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </None>
+    <None Include="..\..\Include\core\CollectionComparators.inl">
+      <Filter>DataStructures\CollectionUtils</Filter>
+    </None>
+    <None Include="..\..\Include\core\MemoryUtils.inl">
+      <Filter>MemoryManagement\Core</Filter>
+    </None>
+    <None Include="..\..\Include\core\Grid.inl">
+      <Filter>DataStructures\Grid</Filter>
+    </None>
+    <None Include="..\..\Include\core\GridUtils.inl">
+      <Filter>DataStructures\Grid</Filter>
+    </None>
+    <None Include="..\..\Include\core\GraphUtils.inl">
+      <Filter>DataStructures\Graphs</Filter>
+    </None>
+    <None Include="..\..\Include\core\BestResultsList.inl">
+      <Filter>DataStructures\BestResultsList</Filter>
+    </None>
+    <None Include="..\..\Include\core\Point.inl">
+      <Filter>DataStructures\Point</Filter>
+    </None>
+  </ItemGroup>
+</Project>

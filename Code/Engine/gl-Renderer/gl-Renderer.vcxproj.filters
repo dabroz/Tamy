@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{d72e7aa5-dc99-44a7-ae8d-6916631e0e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ErrorChecking">
+      <UniqueIdentifier>{99bab302-8d32-46e4-a83b-978c506a6628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderCommands">
+      <UniqueIdentifier>{627ecb7e-7131-429b-b43d-c291f3f916bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderResourceStorages">
+      <UniqueIdentifier>{aa546b29-09e7-4a20-8ee5-c8473ad04b06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderCompiler">
+      <UniqueIdentifier>{92426b2b-eec4-413a-9680-27e0d95f2361}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\gl-Renderer.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRenderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRErrorCheck.h">
+      <Filter>ErrorChecking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRShader.h">
+      <Filter>RenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRShaderResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRDefinitions.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRTriangleMeshResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRTriangleMesh.h">
+      <Filter>RenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRShaderCompilerTool.h">
+      <Filter>ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRTextureResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRFullscreenQuad.h">
+      <Filter>RenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRCubeTextureResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLShaderDataBufferResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRProceduralTextureResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRProceduralGeometryRenderer.h">
+      <Filter>RenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRRenderTarget2D.h">
+      <Filter>RenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRRenderTargetResourcesStorage.h">
+      <Filter>RenderResourceStorages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRRenderTargetCube.h">
+      <Filter>RenderCommands</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GLRenderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRErrorCheck.cpp">
+      <Filter>ErrorChecking</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRBasicRenderCommands.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRFont.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRFullscreenQuad.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRQEntitySelection.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRQRenderTargetContents.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRQWorldPosition.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRTriangleMesh.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRViewport.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRInternalRenderCommands.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRShader.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRShaderResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRDefinitions.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRTriangleMeshResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRShaderCompiler.cpp">
+      <Filter>ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRShaderCompilerTool.cpp">
+      <Filter>ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRTextureResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRenderStateRenderCommands.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRCubeTextureResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLShaderDataBufferResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRProceduralTextureResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRProceduralGeometryRenderer.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRenderTarget2D.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRenderTargetResourcesStorage.cpp">
+      <Filter>RenderResourceStorages</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRRenderTargetCube.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

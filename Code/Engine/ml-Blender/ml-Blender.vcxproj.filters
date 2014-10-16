@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="BlenderSceneExporter.cpp">
+      <Filter>SceneExport</Filter>
+    </ClCompile>
+    <ClCompile Include="PythonInterface.cpp" />
+    <ClCompile Include="TamyScene.cpp">
+      <Filter>SceneExport</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseExportStructs.cpp">
+      <Filter>SceneExport</Filter>
+    </ClCompile>
+    <ClCompile Include="TamyAnimation.cpp">
+      <Filter>SceneExport</Filter>
+    </ClCompile>
+    <ClCompile Include="BlenderMaterialBuilder.cpp">
+      <Filter>MaterialBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="BlenderMaterialNodesLayout.cpp">
+      <Filter>MaterialBuilder</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ml-Blender\BlenderSceneExporter.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\TamyMaterial.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\DllDefines.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\PythonInterface.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\TamyScene.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\TamyMesh.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\BaseExportStructs.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\TamyAnimation.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\BlenderMaterialBuilder.h">
+      <Filter>MaterialBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\BlenderMaterialNodesLayout.h">
+      <Filter>MaterialBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ml-Blender\TamyExportSettings.h">
+      <Filter>SceneExport</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="SceneExport">
+      <UniqueIdentifier>{bc3b5723-282f-4f7a-a30c-6edc5e39f79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Python">
+      <UniqueIdentifier>{b15be2ff-51f6-45c9-baa9-a055cfc08a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialBuilder">
+      <UniqueIdentifier>{3b386875-b1e8-4fcf-be85-34a34d4f623f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\ml-Blender\__init__.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\export_tamy.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\tamy_entities.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\tamy_material.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\tamy_mesh.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\tamy_misc.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\tamy_scene.py">
+      <Filter>Python</Filter>
+    </None>
+    <None Include="..\..\Include\ml-Blender\tamy_animation.py">
+      <Filter>Python</Filter>
+    </None>
+  </ItemGroup>
+</Project>

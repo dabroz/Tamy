@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{c7bf63fc-ad79-458e-b80c-f2dd02b63583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{cedef858-3a84-4baf-9666-a5040b6f4ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundScene">
+      <UniqueIdentifier>{61512ba1-63b9-4410-a3f8-74a49e41e0d8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SoundChannelTests.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundDeviceTests.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundRendererTests.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSceneTests.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sound3DMock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundChannelMock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundDeviceMock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundListenerMock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundMock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

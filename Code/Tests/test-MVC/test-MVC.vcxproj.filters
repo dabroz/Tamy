@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{7a89846e-6fda-40d6-97be-f314d6524bb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hierarchy">
+      <UniqueIdentifier>{b1180e23-5c9d-4132-b104-d33c0f44f8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{df94a147-3b83-4a57-b709-9684bb8e91e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ModelTests.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityTests.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NodesHierarchyTests.cpp">
+      <Filter>Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatingGlobalMatricesTests.cpp">
+      <Filter>Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabTests.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TypesRegistryInitializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

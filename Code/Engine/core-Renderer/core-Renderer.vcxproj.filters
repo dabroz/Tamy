@@ -1,0 +1,674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{81a310df-1a84-43cb-ad7c-0164a55459ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{6d2e42ba-ea7e-47dc-bcb6-99e005776d93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{5bd9a96f-320d-4930-8c4a-2ed358c34b07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\Resources">
+      <UniqueIdentifier>{90bfe15a-4fe7-44de-b30d-25aa634289b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\Core">
+      <UniqueIdentifier>{56299d89-a619-4ae9-9206-55cd8d42df67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Resources">
+      <UniqueIdentifier>{334e02c4-4c10-4596-a912-36ec0b7ff55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Camera">
+      <UniqueIdentifier>{35ccab52-69f9-4ecf-b59b-c4d5b5ad5a9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{ec716647-fce2-4f1a-a57b-7417ca64819e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{5a93e70c-6c1d-4bda-9166-812a8da9be22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\BasicRenderCommands">
+      <UniqueIdentifier>{aea930df-4d3d-446a-ba5f-54682bcb5f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\Utilities">
+      <UniqueIdentifier>{cdd5c643-836c-48aa-bacc-4dc66cdc9322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lighting\Utils">
+      <UniqueIdentifier>{b7f451fa-9fbd-44a8-9a6a-9753033f62c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OverlayRenderer">
+      <UniqueIdentifier>{b356757b-adc7-4be2-a1ed-247c79d751d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OverlayRenderer\Elements">
+      <UniqueIdentifier>{e788649b-7b14-4322-8f63-2ae1d57c10bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph">
+      <UniqueIdentifier>{bfbc0eb3-edbe-4ae2-8c6d-4b404b3548e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph\Nodes">
+      <UniqueIdentifier>{01a3a4f1-9e01-4da8-85f4-d33414f68935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Queries">
+      <UniqueIdentifier>{3945dfbc-df64-4694-842f-257903cf8480}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\Implementations">
+      <UniqueIdentifier>{ef16875f-4c74-4a38-9f87-4568354f62b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\RenderingMechanism">
+      <UniqueIdentifier>{a6abd53a-62c2-4054-b864-08157c028a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph\Nodes\Input">
+      <UniqueIdentifier>{a0209311-6ff5-4129-9eed-596bcd30a7e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph\Nodes\Vector">
+      <UniqueIdentifier>{37a46129-700a-4c8a-9364-3e3da50ad058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph\Nodes\Color">
+      <UniqueIdentifier>{a96326ba-a059-4d91-9d92-f16d83a15dcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{e5bf4a6c-1b6e-42db-af12-5589d7e297bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\ShaderBuilder">
+      <UniqueIdentifier>{c4818c0c-039d-4140-9b03-51d68cdc1145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\Resource">
+      <UniqueIdentifier>{1566afdb-2fe7-48c4-af84-105ca62bcc69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderableSurfaces">
+      <UniqueIdentifier>{a5194200-09f1-4f16-b33e-a649addf10fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShaderRenderCommand">
+      <UniqueIdentifier>{770a2909-ab11-4ef6-a54c-974e7496fcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShaderCompiler">
+      <UniqueIdentifier>{a8533512-26b5-45b6-af11-e62b8e23d0c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Resource">
+      <UniqueIdentifier>{97ab2b52-49f1-41a6-979c-39c1f563d693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph\Nodes\Routine">
+      <UniqueIdentifier>{70bd2d15-563e-4282-9cad-4c9b39fc3f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Context">
+      <UniqueIdentifier>{fad1a0c0-b759-4015-9cea-90e72aabea22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\Runtime">
+      <UniqueIdentifier>{f446a617-128e-4ab8-aa1b-c3da1f2b37de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\RenderingState">
+      <UniqueIdentifier>{94875f84-07d3-4c00-979f-b1b3a9a5fa85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Materials\MaterialRendererGraph\Nodes\Skinning">
+      <UniqueIdentifier>{8bc6d1d9-0925-4b09-a938-6db33981f767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderableSurfaces\Texture">
+      <UniqueIdentifier>{f190acc7-b07f-4681-9279-a6c410a686ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderableSurfaces\CubeTexture">
+      <UniqueIdentifier>{f4e44c12-4220-4b61-85df-40aecbf35def}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShaderDataBuffers">
+      <UniqueIdentifier>{5e08cb16-a0aa-4e7f-8008-fdb547f046a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lighting\Components">
+      <UniqueIdentifier>{80a4f5cf-6fca-4f71-bbde-7cf6bea3472f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderableSurfaces\ProceduralTexture">
+      <UniqueIdentifier>{33a2f52e-a166-4e1a-b5a3-03fcb929769f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\ProceduralGeometry">
+      <UniqueIdentifier>{7a3cc01d-ee49-4d36-b5dc-ef8fa55d84e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderableSurfaces\RenderTarget">
+      <UniqueIdentifier>{880cff77-150f-496a-9c72-fc3755a36b0c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>OverlayRenderer\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="TextField.cpp">
+      <Filter>OverlayRenderer\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleMesh.cpp">
+      <Filter>Geometry\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryResource.cpp">
+      <Filter>Geometry\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="LitVertex.cpp">
+      <Filter>Geometry\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticGeometry.cpp">
+      <Filter>Geometry\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="FullscreenQuad.cpp">
+      <Filter>Geometry\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResource.cpp">
+      <Filter>Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialNode.cpp">
+      <Filter>Materials\MaterialRendererGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialSockets.cpp">
+      <Filter>Materials\MaterialRendererGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\core-Renderer\TypesRegistry.cpp" />
+    <ClCompile Include="ShaderTexture.cpp">
+      <Filter>RenderableSurfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Lighting\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Lighting\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCompiler.cpp">
+      <Filter>Shaders\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderConstantDesc.cpp">
+      <Filter>Shaders\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUtils.cpp">
+      <Filter>Geometry\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="CascadedShadowsUtils.cpp">
+      <Filter>Lighting\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderUtils.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="InternalRenderCommands.cpp">
+      <Filter>Core\BasicRenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelColorQuery.cpp">
+      <Filter>RenderableSurfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="RQEntitySelection.cpp">
+      <Filter>Queries</Filter>
+    </ClCompile>
+    <ClCompile Include="RQWorldPosition.cpp">
+      <Filter>Queries</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererImplementation.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryComponent.cpp">
+      <Filter>Geometry\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RQRenderTargetContents.cpp">
+      <Filter>Queries</Filter>
+    </ClCompile>
+    <ClCompile Include="MNBool.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNCamera.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNFloat.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTexture.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTimer.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNVec4.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialShaderBuilder.cpp">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialFunction.cpp">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="MNColor.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNMixRGBs.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderState.cpp">
+      <Filter>Materials\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTree.cpp">
+      <Filter>Materials\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="MNOutputStruct.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Routine</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTransformVector.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTransform.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTransformNormal.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Materials\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Shaders\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProfile.cpp">
+      <Filter>Shaders\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureSamplerSettings.cpp">
+      <Filter>Shaders\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialProfile.cpp">
+      <Filter>Materials\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MNInputStruct.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Routine</Filter>
+    </ClCompile>
+    <ClCompile Include="MNNormalTangentToView.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialCodeNode.cpp">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialDataStruct.cpp">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialEntryStruct.cpp">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderStateCommand.cpp">
+      <Filter>Core\RenderingState</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderStateRenderCommands.cpp">
+      <Filter>Core\RenderingState</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderStateChangeTracker.cpp">
+      <Filter>Core\RenderingState</Filter>
+    </ClCompile>
+    <ClCompile Include="MNColorToNormal.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="MNSplitColor.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticGeometryTree.cpp">
+      <Filter>Geometry\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialDataProxies.cpp">
+      <Filter>Materials\MaterialRendererGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTransformSkinVector.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="MNTransformSkinNormal.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderParam.cpp">
+      <Filter>Shaders\ShaderRenderCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderRenderCommand.cpp">
+      <Filter>Shaders\ShaderRenderCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererUtils.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MNCubeTexture.cpp">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>RenderableSurfaces\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableTexture.cpp">
+      <Filter>RenderableSurfaces\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeTexture.cpp">
+      <Filter>RenderableSurfaces\CubeTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableCubeTexture.cpp">
+      <Filter>RenderableSurfaces\CubeTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderDataBuffer.cpp">
+      <Filter>Shaders\ShaderDataBuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialConstantsBlock.cpp">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="ProceduralTexture.cpp">
+      <Filter>RenderableSurfaces\ProceduralTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Lighting\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ProceduralGeometryRenderer.cpp">
+      <Filter>Geometry\ProceduralGeometry</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetCube.cpp">
+      <Filter>RenderableSurfaces\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget2D.cpp">
+      <Filter>RenderableSurfaces\RenderTarget</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\core-Renderer\Renderer.inl">
+      <Filter>Core</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\TriangleMesh.inl">
+      <Filter>Geometry\Resources</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\RenderResourceStorage.inl">
+      <Filter>Core\Resources</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\MaterialShaderBuilder.inl">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\MaterialFunction.inl">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\MNOutputStruct.inl">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Routine</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\MNInputStruct.inl">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Routine</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\MaterialCodeNode.inl">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\MaterialProfile.inl">
+      <Filter>Materials\Resource</Filter>
+    </None>
+    <None Include="..\..\Include\core-Renderer\ShaderDataBuffer.inl">
+      <Filter>Shaders\ShaderDataBuffers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-Renderer\Renderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Font.h">
+      <Filter>OverlayRenderer\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\TextField.h">
+      <Filter>OverlayRenderer\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\TriangleMesh.h">
+      <Filter>Geometry\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\GeometryResource.h">
+      <Filter>Geometry\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Face.h">
+      <Filter>Geometry\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\LitVertex.h">
+      <Filter>Geometry\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\StaticGeometry.h">
+      <Filter>Geometry\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\FullscreenQuad.h">
+      <Filter>Geometry\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderResourceStorage.h">
+      <Filter>Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderResource.h">
+      <Filter>Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Defines.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Camera.h">
+      <Filter>Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderCompiler.h">
+      <Filter>Shaders\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialNode.h">
+      <Filter>Materials\MaterialRendererGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialSockets.h">
+      <Filter>Materials\MaterialRendererGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderTexture.h">
+      <Filter>RenderableSurfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\BasicRenderCommands.h">
+      <Filter>Core\BasicRenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Light.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\DirectionalLight.h">
+      <Filter>Lighting\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\PointLight.h">
+      <Filter>Lighting\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Viewport.h">
+      <Filter>Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderRenderCommand.h">
+      <Filter>Shaders\ShaderRenderCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderParam.h">
+      <Filter>Shaders\ShaderRenderCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderConstantDesc.h">
+      <Filter>Shaders\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MeshUtils.h">
+      <Filter>Geometry\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\CascadedShadowsUtils.h">
+      <Filter>Lighting\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderUtils.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\InternalRenderCommands.h">
+      <Filter>Core\BasicRenderCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderCommand.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\PixelColorQuery.h">
+      <Filter>RenderableSurfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RQEntitySelection.h">
+      <Filter>Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RendererSelectionListener.h">
+      <Filter>Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RQWorldPosition.h">
+      <Filter>Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RendererQuery.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RendererImplementation.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\GeometryComponent.h">
+      <Filter>Geometry\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderingMechanism.h">
+      <Filter>Core\RenderingMechanism</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RQRenderTargetContents.h">
+      <Filter>Queries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNFloat.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNBool.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNCamera.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNVec4.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTexture.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTimer.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialShaderBuilder.h">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialFunction.h">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNColor.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNMixRGBs.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderState.h">
+      <Filter>Materials\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderTree.h">
+      <Filter>Materials\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNOutputStruct.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformVector.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransform.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformNormal.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Material.h">
+      <Filter>Materials\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\TextureSamplerSettings.h">
+      <Filter>Shaders\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Shader.h">
+      <Filter>Shaders\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderProfile.h">
+      <Filter>Shaders\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialProfile.h">
+      <Filter>Materials\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNInputStruct.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderingContext.h">
+      <Filter>Core\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNNormalTangentToView.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialCodeNode.h">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialDataStruct.h">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialEntryStruct.h">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderingParams.h">
+      <Filter>Core\RenderingState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateCommand.h">
+      <Filter>Core\RenderingState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateFlags.h">
+      <Filter>Core\RenderingState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateRenderCommands.h">
+      <Filter>Core\RenderingState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateChangeTracker.h">
+      <Filter>Core\RenderingState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNColorToNormal.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNSplitColor.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\StaticGeometryTree.h">
+      <Filter>Geometry\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialDataProxies.h">
+      <Filter>Materials\MaterialRendererGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformSkinVector.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformSkinNormal.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RendererUtils.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MNCubeTexture.h">
+      <Filter>Materials\MaterialRendererGraph\Nodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\Texture.h">
+      <Filter>RenderableSurfaces\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderableTexture.h">
+      <Filter>RenderableSurfaces\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\CubeTexture.h">
+      <Filter>RenderableSurfaces\CubeTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderableCubeTexture.h">
+      <Filter>RenderableSurfaces\CubeTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderDataBuffer.h">
+      <Filter>Shaders\ShaderDataBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialConstantsBlock.h">
+      <Filter>Materials\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ProceduralTexture.h">
+      <Filter>RenderableSurfaces\ProceduralTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\SpotLight.h">
+      <Filter>Lighting\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\ProceduralGeometryRenderer.h">
+      <Filter>Geometry\ProceduralGeometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderTargetCube.h">
+      <Filter>RenderableSurfaces\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-Renderer\RenderTarget2D.h">
+      <Filter>RenderableSurfaces\RenderTarget</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

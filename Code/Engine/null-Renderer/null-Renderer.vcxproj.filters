@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="RenderCommands">
+      <UniqueIdentifier>{d84f4ba1-0252-49a2-9cc3-fdffcfee33b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{41c583cf-9e4c-454d-852f-a450cf2ed097}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NullFont.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullFullscreenQuad.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullTriangleMesh.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullRenderTarget.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullShaderCompiler.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NullBasicRenderCommands.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullViewport.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullInternalRenderCommands.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullRQEntitySelection.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullRQWorldPosition.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullRQRenderTargetContents.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullShader.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullRenderStateRenderCommands.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="NullProceduralGeometryRenderer.cpp">
+      <Filter>RenderCommands</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

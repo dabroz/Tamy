@@ -1,0 +1,27 @@
+#include "ext-StoryTeller\StoryLevelAnnotation.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+BEGIN_OBJECT( StoryLevelAnnotation );
+   PARENT( Component );
+   PROPERTY_EDIT( "Spawn point", bool, m_spawnPoint );
+END_OBJECT();
+
+///////////////////////////////////////////////////////////////////////////////
+
+StoryLevelAnnotation::StoryLevelAnnotation( const char* name )
+   : Component( name )
+   , m_spawnPoint( false )
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+StoryLevelAnnotation::StoryLevelAnnotation( const StoryLevelAnnotation& rhs )
+   : Component( rhs )
+   , m_spawnPoint( rhs.m_spawnPoint )
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////

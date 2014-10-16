@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0A5EF6F5-E637-4C52-B7BB-DB747BF74646}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>extStoryTeller</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core-AI\core-AI.vcxproj">
+      <Project>{bb9178b4-c215-4ab8-831a-89a717c6b5ee}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-AppFlow\core-AppFlow.vcxproj">
+      <Project>{add6ce30-dede-450f-8c75-532d65f3ac15}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-MVC\core-MVC.vcxproj">
+      <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-Physics\core-Physics.vcxproj">
+      <Project>{204fbca9-efd4-42c9-90f0-f19f4cbace29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ext-StoryTeller.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAAnimationToPhysics.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAArrive.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAClosestActorInDirection.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAGetActorInfo.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAInputCondition.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAInputToVelocity.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAInputToWorldPos.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAMoveOnAnimation.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAMoveTo.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAMoveWithVelocity.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAPhysicsToAnimation.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAPursue.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTASlideTo.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTAThirdPersonCamera.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTATopDownCameraController.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\BTATransformVec.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SAActivateChapter.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SACondition.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SAGetRandomAnnotation.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SAPause.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SASpawnActor.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SASpawnItem.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SCActorInTrigger.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SCWaitForAMoment.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\SITrigger.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryLevelAnnotation.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\Story.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryAction.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryActionSockets.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryActor.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryBehTreeContext.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryChapter.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryChapterStart.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryCondition.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryItem.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryListener.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryNode.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryNodeInstance.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\StoryPlayer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\ext-StoryTeller\TypesRegistry.cpp" />
+    <ClCompile Include="BTAAnimationToPhysics.cpp" />
+    <ClCompile Include="BTAArrive.cpp" />
+    <ClCompile Include="BTAClosestActorInDirection.cpp" />
+    <ClCompile Include="BTAGetActorInfo.cpp" />
+    <ClCompile Include="BTAInputCondition.cpp" />
+    <ClCompile Include="BTAInputToVelocity.cpp" />
+    <ClCompile Include="BTAInputToWorldPos.cpp" />
+    <ClCompile Include="BTAMoveOnAnimation.cpp" />
+    <ClCompile Include="BTAMoveTo.cpp" />
+    <ClCompile Include="BTAMoveWithVelocity.cpp" />
+    <ClCompile Include="BTAPhysicsToAnimation.cpp" />
+    <ClCompile Include="BTAPursue.cpp" />
+    <ClCompile Include="BTASlideTo.cpp" />
+    <ClCompile Include="BTAThirdPersonCamera.cpp" />
+    <ClCompile Include="BTATopDownCameraController.cpp" />
+    <ClCompile Include="BTATransformVec.cpp" />
+    <ClCompile Include="SAActivateChapter.cpp" />
+    <ClCompile Include="SACondition.cpp" />
+    <ClCompile Include="SAGetRandomAnnotation.cpp" />
+    <ClCompile Include="SAPause.cpp" />
+    <ClCompile Include="SASpawnActor.cpp" />
+    <ClCompile Include="SASpawnItem.cpp" />
+    <ClCompile Include="SCActorInTrigger.cpp" />
+    <ClCompile Include="SCWaitForAMoment.cpp" />
+    <ClCompile Include="SITrigger.cpp" />
+    <ClCompile Include="StoryLevelAnnotation.cpp" />
+    <ClCompile Include="Story.cpp" />
+    <ClCompile Include="StoryAction.cpp" />
+    <ClCompile Include="StoryActionSockets.cpp" />
+    <ClCompile Include="StoryActor.cpp" />
+    <ClCompile Include="StoryBehTreeContext.cpp" />
+    <ClCompile Include="StoryChapter.cpp" />
+    <ClCompile Include="StoryChapterStart.cpp" />
+    <ClCompile Include="StoryCondition.cpp" />
+    <ClCompile Include="StoryItem.cpp" />
+    <ClCompile Include="StoryNode.cpp" />
+    <ClCompile Include="StoryNodeInstance.cpp" />
+    <ClCompile Include="StoryPlayer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

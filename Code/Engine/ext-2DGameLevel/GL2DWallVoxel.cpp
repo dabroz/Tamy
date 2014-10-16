@@ -1,0 +1,13 @@
+#include "ext-2DGameLevel\GL2DWallVoxel.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+static const char g_dict [] = { ' ', '.', 'x' };
+
+void toString( const GL2DWallVoxel& voxel, std::string& outStr )
+{
+   outStr += g_dict[voxel.m_tileId];
+}
+
+///////////////////////////////////////////////////////////////////////////////

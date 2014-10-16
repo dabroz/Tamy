@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Blackboard">
+      <UniqueIdentifier>{e536510a-67cc-470d-8e01-0d4c9ef95964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserInputController">
+      <UniqueIdentifier>{829d1df1-ab82-4baa-8863-6e5382196981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowingSystem">
+      <UniqueIdentifier>{861caf92-5dc8-4e0c-9427-55bef743ccdd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\core-AppFlow\TypesRegistry.cpp" />
+    <ClCompile Include="GameConfig.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-AppFlow\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AppFlow\ApplicationManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AppFlow\ExecutionContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AppFlow\ApplicationData.h">
+      <Filter>Blackboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AppFlow\UserInputController.h">
+      <Filter>UserInputController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AppFlow\WindowBuilder.h">
+      <Filter>WindowingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\core-AppFlow.h" />
+    <ClInclude Include="..\..\Include\core-AppFlow\GameConfig.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\ext-RenderingPipeline\TypesRegistry.cpp" />
+    <ClCompile Include="MNEntityPtr.cpp">
+      <Filter>MaterialNodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MNBoneMatrices.cpp">
+      <Filter>MaterialNodes\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryView.cpp">
+      <Filter>Collectors</Filter>
+    </ClCompile>
+    <ClCompile Include="LightsView.cpp">
+      <Filter>Collectors</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryStorage.cpp">
+      <Filter>Collectors</Filter>
+    </ClCompile>
+    <ClCompile Include="RPDataProxies.cpp">
+      <Filter>Collectors</Filter>
+    </ClCompile>
+    <ClCompile Include="LocationRenderSettings.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomComponentsView.cpp">
+      <Filter>Collectors</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneRenderer.cpp">
+      <Filter>ObjectRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxRenderer.cpp">
+      <Filter>ObjectRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturesBlender.cpp">
+      <Filter>Postprocess</Filter>
+    </ClCompile>
+    <ClCompile Include="MNCookTorrance.cpp">
+      <Filter>MaterialNodes\SurfaceShading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\ext-RenderingPipeline\LookupTextures.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MNPhongBlinn.cpp">
+      <Filter>MaterialNodes\SurfaceShading</Filter>
+    </ClCompile>
+    <ClCompile Include="LightsRenderer.cpp">
+      <Filter>ObjectRenderers</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderingMechanism.cpp">
+      <Filter>DeferredRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLightRenderer.cpp">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightRenderer.cpp">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLightRenderer.cpp">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientOcclusionPass.cpp">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenspaceReflectionsRenderer.cpp">
+      <Filter>Postprocess</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Collectors">
+      <UniqueIdentifier>{a1facfb1-9359-4ecd-8346-8a7b004b14ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{f9421f6a-4daf-460e-a360-94cbf9591d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialNodes">
+      <UniqueIdentifier>{2ee16dad-bc78-440c-b9fc-59f3912df027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialNodes\Input">
+      <UniqueIdentifier>{cd3ee042-f012-42c8-87eb-2a5b88256e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectRenderers">
+      <UniqueIdentifier>{ab8d6518-9628-4168-9b46-d609137f0871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Postprocess">
+      <UniqueIdentifier>{cfcbccbd-77e8-4519-9163-1e36ebbaf1c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{05c230f5-7a24-4826-8f88-fb483dc10cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialNodes\SurfaceShading">
+      <UniqueIdentifier>{935f218f-6e66-4d6e-8ee5-277475cf374d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{82a3a525-48ee-4403-8608-c9d348004774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\RenderingPipeline">
+      <UniqueIdentifier>{141bb403-3c72-408f-be46-eb54887d42eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DeferredRenderer">
+      <UniqueIdentifier>{31eeba62-8d3b-47ee-9d39-defea5ed42a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectRenderers\Lights">
+      <UniqueIdentifier>{61067a23-0ecd-4a3b-be5d-924648d51913}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline.h" />
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNEntityPtr.h">
+      <Filter>MaterialNodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNBoneMatrices.h">
+      <Filter>MaterialNodes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LightsView.h">
+      <Filter>Collectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\GeometryView.h">
+      <Filter>Collectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\GeometryStorage.h">
+      <Filter>Collectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\RPDataProxies.h">
+      <Filter>Collectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LocationRenderSettings.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\CustomComponentsView.h">
+      <Filter>Collectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\SkyboxRenderer.h">
+      <Filter>ObjectRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\SceneRenderer.h">
+      <Filter>ObjectRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\TexturesBlender.h">
+      <Filter>Postprocess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNCookTorrance.h">
+      <Filter>MaterialNodes\SurfaceShading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LookupTextures.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\MNPhongBlinn.h">
+      <Filter>MaterialNodes\SurfaceShading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\LightsRenderer.h">
+      <Filter>ObjectRenderers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\DeferredRenderingMechanism.h">
+      <Filter>DeferredRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\DeferredRendererGBufferDesc.h">
+      <Filter>DeferredRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\DirectionalLightRenderer.h">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\PointLightRenderer.h">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\SpotLightRenderer.h">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\AmbientOcclusionPass.h">
+      <Filter>ObjectRenderers\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-RenderingPipeline\ScreenspaceReflectionsRenderer.h">
+      <Filter>Postprocess</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\ambientOcclusion.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\singleColorShader.glsl">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\blendTexturesByAlpha.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\blendTexturesByColor.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\blur.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\directionalLight.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\shadowMapShader.glsl">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\directionalLightNoShadow.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\lightingModel.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\pointLightNoShadow.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\screenspaceReflections.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\pointLightWithShadow.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\spotLightNoShadow.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\spotLightWithShadow.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+    <None Include="..\..\..\Assets\Renderer\Shaders\RenderingPipeline\gbufferUtils.code">
+      <Filter>Shaders\RenderingPipeline</Filter>
+    </None>
+  </ItemGroup>
+</Project>

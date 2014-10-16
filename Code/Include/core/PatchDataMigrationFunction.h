@@ -1,0 +1,17 @@
+/// @file   core/PatchDataMigrationFunction.h
+/// @brief  declaration of a custom function used to migrate data between patched types
+#pragma once
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+class SerializedReflectionObject;
+
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Patch data migration function signature.
+ */
+typedef void (*PatchDataMigrationFunc)( SerializedReflectionObject& migratedObject );
+
+///////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB9178B4-C215-4AB8-831A-89A717C6B5EE}</ProjectGuid>
+    <RootNamespace>coreAI</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-AI\AISystem.h" />
+    <ClInclude Include="..\..\Include\core-AI\AnimationPlayer.h" />
+    <ClInclude Include="..\..\Include\core-AI\AnimationWorld.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehaviorTree.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehaviorTreeListener.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehaviorTreeRunner.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeBoolCondition.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeCondition.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeSelector.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeSetBool.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeVariable.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeAction.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeComposite.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeDecorator.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeNode.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeParallel.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeRepeater.h" />
+    <ClInclude Include="..\..\Include\core-AI\BehTreeSequence.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTree.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimation.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimationEvent.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimationListener.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeAnimationTrack.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeBlender1D.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeComposite.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeEvent.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeListener.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeNode.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreePlayer.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreePlayerListener.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSelector.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSelectorSwitch.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeStateMachine.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeStateTransition.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSyncPoint.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeSyncProfile.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeTransitionEffect.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeTransitionTrigger.h" />
+    <ClInclude Include="..\..\Include\core-AI\BlendTreeVariable.h" />
+    <ClInclude Include="..\..\Include\core-AI\BTSSVariable.h" />
+    <ClInclude Include="..\..\Include\core-AI\BTTEBlend.h" />
+    <ClInclude Include="..\..\Include\core-AI\BTTTEvent.h" />
+    <ClInclude Include="..\..\Include\core-AI\BTTTVariable.h" />
+    <ClInclude Include="..\..\Include\core-AI\PoseBlendingUtils.h" />
+    <ClInclude Include="..\..\Include\core-AI\Skeleton.h" />
+    <ClInclude Include="..\..\Include\core-AI\AnimationTimeline.h" />
+    <ClInclude Include="..\..\Include\core-AI\BoneSRTAnimation.h" />
+    <ClInclude Include="..\..\Include\core-AI\FSMState.h" />
+    <ClInclude Include="..\..\Include\core-AI\FSMController.h" />
+    <ClInclude Include="..\..\Include\core-AI\SkeletonAnimationPlayer.h" />
+    <ClInclude Include="..\..\Include\core-AI\SkeletonComponent.h" />
+    <ClInclude Include="..\..\Include\core-AI\SnapshotAnimation.h" />
+    <ClInclude Include="..\..\Include\core-AI\EntityAnimationPlayer.h" />
+    <ClInclude Include="..\..\Include\core-AI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\core-AI\BTTTVariable.cpp" />
+    <ClCompile Include="..\..\Include\core-AI\TypesRegistry.cpp" />
+    <ClCompile Include="AISystem.cpp" />
+    <ClCompile Include="AnimationPlayer.cpp" />
+    <ClCompile Include="AnimationWorld.cpp" />
+    <ClCompile Include="BehaviorTree.cpp" />
+    <ClCompile Include="BehaviorTreeRunner.cpp" />
+    <ClCompile Include="BehTreeBoolCondition.cpp" />
+    <ClCompile Include="BehTreeCondition.cpp" />
+    <ClCompile Include="BehTreeSelector.cpp" />
+    <ClCompile Include="BehTreeSetBool.cpp" />
+    <ClCompile Include="BehTreeVariable.cpp" />
+    <ClCompile Include="BehTreeAction.cpp" />
+    <ClCompile Include="BehTreeComposite.cpp" />
+    <ClCompile Include="BehTreeDecorator.cpp" />
+    <ClCompile Include="BehTreeNode.cpp" />
+    <ClCompile Include="BehTreeParallel.cpp" />
+    <ClCompile Include="BehTreeRepeater.cpp" />
+    <ClCompile Include="BehTreeSequence.cpp" />
+    <ClCompile Include="BlendTree.cpp" />
+    <ClCompile Include="BlendTreeAnimation.cpp" />
+    <ClCompile Include="BlendTreeAnimationEvent.cpp" />
+    <ClCompile Include="BlendTreeAnimationTrack.cpp" />
+    <ClCompile Include="BlendTreeBlender1D.cpp" />
+    <ClCompile Include="BlendTreeComposite.cpp" />
+    <ClCompile Include="BlendTreeEvent.cpp" />
+    <ClCompile Include="BlendTreeNode.cpp" />
+    <ClCompile Include="BlendTreePlayer.cpp" />
+    <ClCompile Include="BlendTreeSelector.cpp" />
+    <ClCompile Include="BlendTreeSelectorSwitch.cpp" />
+    <ClCompile Include="BlendTreeStateMachine.cpp" />
+    <ClCompile Include="BlendTreeStateTransition.cpp" />
+    <ClCompile Include="BlendTreeSyncPoint.cpp" />
+    <ClCompile Include="BlendTreeSyncProfile.cpp" />
+    <ClCompile Include="BlendTreeTransitionEffect.cpp" />
+    <ClCompile Include="BlendTreeTransitionTrigger.cpp" />
+    <ClCompile Include="BlendTreeVariable.cpp" />
+    <ClCompile Include="BTSSVariable.cpp" />
+    <ClCompile Include="BTTEBlend.cpp" />
+    <ClCompile Include="BTTTEvent.cpp" />
+    <ClCompile Include="EntityAnimationPlayer.cpp" />
+    <ClCompile Include="PoseBlendingUtils.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="BoneSRTAnimation.cpp" />
+    <ClCompile Include="SkeletonAnimationPlayer.cpp" />
+    <ClCompile Include="SkeletonComponent.cpp" />
+    <ClCompile Include="SnapshotAnimation.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\core-AI\AnimationTimeline.inl" />
+    <None Include="..\..\Include\core-AI\BlendTree.inl" />
+    <None Include="..\..\Include\core-AI\BlendTreeVariable.inl" />
+    <None Include="..\..\Include\core-AI\FSMController.inl" />
+    <None Include="..\..\Include\core-AI\FSMState.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

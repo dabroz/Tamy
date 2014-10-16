@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{bcbe981f-8806-433e-86dd-d35d87181053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{d132f724-ac29-4668-a6ac-b90412c6e585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{c66478e6-435f-4aaf-9359-4dac0b2aae27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CameraTests.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthEncodingTests.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexTangentsTests.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="FrustumTests.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTreeTests.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureSamplerSettingsTests.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

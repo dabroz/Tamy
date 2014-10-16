@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseExportStructs.cpp" />
+    <ClCompile Include="BlenderMaterialBuilder.cpp" />
+    <ClCompile Include="BlenderSceneExporter.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="BlenderMaterialNodesLayout.cpp" />
+    <ClCompile Include="PythonInterface.cpp" />
+    <ClCompile Include="TamyAnimation.cpp" />
+    <ClCompile Include="TamyScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ml-Blender\BaseExportStructs.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\BlenderMaterialBuilder.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\BlenderMaterialNodesLayout.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\BlenderSceneExporter.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\DllDefines.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\PythonInterface.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\TamyAnimation.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\TamyExportSettings.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\TamyMesh.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\TamyMaterial.h" />
+    <ClInclude Include="..\..\Include\ml-Blender\TamyScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core-AI\core-AI.vcxproj">
+      <Project>{bb9178b4-c215-4ab8-831a-89a717c6b5ee}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-MVC\core-MVC.vcxproj">
+      <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-Physics\core-Physics.vcxproj">
+      <Project>{204fbca9-efd4-42c9-90f0-f19f4cbace29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-Renderer\core-Renderer.vcxproj">
+      <Project>{dbcd9f77-4064-4db9-ac18-516ed35b24ce}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ext-2DGameLevel\ext-2DGameLevel.vcxproj">
+      <Project>{5a2f6c07-fdb7-48c6-8429-63dea282a386}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ext-RenderingPipeline\ext-RenderingPipeline.vcxproj">
+      <Project>{57e5e09f-3694-4f4b-a450-7a288031238f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\null-Renderer\null-Renderer.vcxproj">
+      <Project>{b8125434-1049-4001-84ff-4ddff564969d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\ml-Blender\export_tamy.py" />
+    <None Include="..\..\Include\ml-Blender\tamy_animation.py" />
+    <None Include="..\..\Include\ml-Blender\tamy_entities.py" />
+    <None Include="..\..\Include\ml-Blender\tamy_material.py" />
+    <None Include="..\..\Include\ml-Blender\tamy_mesh.py" />
+    <None Include="..\..\Include\ml-Blender\tamy_misc.py" />
+    <None Include="..\..\Include\ml-Blender\tamy_scene.py" />
+    <None Include="..\..\Include\ml-Blender\__init__.py" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{269AD9D8-247F-4F55-8438-C6DC4532A12F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>mlBlender</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>IMPORT_RTTI_REGISTRATIONS;WIN32;_DEBUG;_WINDOWS;_USRDLL;ML_BLENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\External\tinyxml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <CustomBuildStep>
+      <Command>mkdir "$(BLENDER_SCRIPTS)\addons\io_export_tamy\";
+copy $(OutDir)$(TargetName)$(TargetExt) "$(BLENDER_SCRIPTS)\addons\io_export_tamy\";
+copy $(SolutionDir)\Include\ml-Blender\*.py "$(BLENDER_SCRIPTS)\addons\io_export_tamy\";</Command>
+      <Message>Deploying export files</Message>
+      <Outputs>$(BLENDER_SCRIPTS)\addons\io_export_tamy\$(TargetName)$(TargetExt);%(Outputs)</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>IMPORT_RTTI_REGISTRATIONS;WIN32;NDEBUG;_WINDOWS;_USRDLL;ML_BLENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\External\tinyxml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <CustomBuildStep>
+      <Command>mkdir $(BLENDER_SCRIPTS)\addons\io_export_tamy\;
+copy $(OutDir)$(TargetName)$(TargetExt) $(BLENDER_SCRIPTS)\addons\io_export_tamy\;
+copy $(SolutionDir)\Include\ml-Blender\*.py $(BLENDER_SCRIPTS)\addons\io_export_tamy\;</Command>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{888513d3-4b68-4755-a8ce-93825a26769c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Uitls">
+      <UniqueIdentifier>{566b036f-31da-4c61-b270-3aa3bd6c461e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="StoryObjectsTests.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TypesRegistryInitializer.h">
+      <Filter>Uitls</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

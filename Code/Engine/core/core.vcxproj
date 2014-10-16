@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4F4CEC82-B5C6-4F0E-B69B-855FA55F4B80}</ProjectGuid>
+    <RootNamespace>core</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\core\PatchFunctions.cpp" />
+    <ClCompile Include="..\..\Include\core\TypesRegistry.cpp" />
+    <ClCompile Include="Algorithms.cpp" />
+    <ClCompile Include="Assert.cpp" />
+    <ClCompile Include="AxisAlignedBox.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="CallstackTracer.cpp" />
+    <ClCompile Include="CallstackTree.cpp" />
+    <ClCompile Include="ClientServerRoundBuffer.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="ContinuousMemoryPool.cpp" />
+    <ClCompile Include="CriticalSection.cpp" />
+    <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="DefautAllocator.cpp" />
+    <ClCompile Include="EventsDispatcher.cpp" />
+    <ClCompile Include="ExternalDependenciesLinker.cpp" />
+    <ClCompile Include="FastFloat.cpp" />
+    <ClCompile Include="FilePath.cpp" />
+    <ClCompile Include="FilesystemChangesTracker.cpp" />
+    <ClCompile Include="FilesystemSnapshot.cpp" />
+    <ClCompile Include="FilesystemSection.cpp" />
+    <ClCompile Include="FilesystemSectionScanner.cpp" />
+    <ClCompile Include="FilesystemSnapshotScanner.cpp" />
+    <ClCompile Include="FilesystemUtils.cpp" />
+    <ClCompile Include="FragmentedMemoryPool.cpp" />
+    <ClCompile Include="GlobalAllocationsTracer.cpp" />
+    <ClCompile Include="GraphBuilderSockets.cpp" />
+    <ClCompile Include="HierarchicalFilesDeleter.cpp" />
+    <ClCompile Include="IDString.cpp" />
+    <ClCompile Include="InArrayStream.cpp" />
+    <ClCompile Include="InRawArrayStream.cpp" />
+    <ClCompile Include="InStream.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MathDataStorage.cpp" />
+    <ClCompile Include="MatrixUtils.cpp" />
+    <ClCompile Include="MemoryRouter.cpp" />
+    <ClCompile Include="MemoryUtils.cpp" />
+    <ClCompile Include="MeshAdjacencyMap.cpp" />
+    <ClCompile Include="MissingDependenciesMapper.cpp" />
+    <ClCompile Include="MultithreadedTask.cpp" />
+    <ClCompile Include="MultithreadedTasksScheduler.cpp" />
+    <ClCompile Include="Mutex.cpp" />
+    <ClCompile Include="OutArrayStream.cpp" />
+    <ClCompile Include="OutFileStream.cpp" />
+    <ClCompile Include="OutRawArrayStream.cpp" />
+    <ClCompile Include="OutStream.cpp" />
+    <ClCompile Include="PatchesDB.cpp" />
+    <ClCompile Include="PatchesDBSerializer.cpp" />
+    <ClCompile Include="PatchRecord.cpp" />
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="PlaneUtils.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="PolygonMesh2D.cpp" />
+    <ClCompile Include="Profiler.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="ReflectionObjectReferencesManager.cpp" />
+    <ClCompile Include="RefPtr.cpp" />
+    <ClCompile Include="ResourceDependenciesGraph.cpp" />
+    <ClCompile Include="ResourceUtils.cpp" />
+    <ClCompile Include="ResourceDependenciesMapper.cpp" />
+    <ClCompile Include="ReflectionEnum.cpp" />
+    <ClCompile Include="ReflectionLoader.cpp" />
+    <ClCompile Include="ReflectionObject.cpp" />
+    <ClCompile Include="ReflectionPropertiesView.cpp" />
+    <ClCompile Include="ReflectionProperty.cpp" />
+    <ClCompile Include="ReflectionPropertyEditor.cpp" />
+    <ClCompile Include="ReflectionSaver.cpp" />
+    <ClCompile Include="ReflectionSerializationUtil.cpp" />
+    <ClCompile Include="ReflectionType.cpp" />
+    <ClCompile Include="ReflectionTypeComponent.cpp" />
+    <ClCompile Include="ReflectionTypeID.cpp" />
+    <ClCompile Include="ReflectionTypesRegistry.cpp" />
+    <ClCompile Include="ResourceHandle.cpp" />
+    <ClCompile Include="ResOpLoad.cpp" />
+    <ClCompile Include="ResourcesDB.cpp" />
+    <ClCompile Include="ResourcesSerializationUtil.cpp" />
+    <ClCompile Include="RoundBuffer.cpp" />
+    <ClCompile Include="Runnable.cpp" />
+    <ClCompile Include="RuntimeData.cpp" />
+    <ClCompile Include="Semaphore.cpp" />
+    <ClCompile Include="SerializedReflectionObject.cpp" />
+    <ClCompile Include="SimdUtils.cpp" />
+    <ClCompile Include="Singleton.cpp" />
+    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="StringParser.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="ThreadSystem.cpp" />
+    <ClCompile Include="TimeController.cpp" />
+    <ClCompile Include="TimeControllerTrack.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="Frustum.cpp" />
+    <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="Filesystem.cpp" />
+    <ClCompile Include="InFileStream.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourcesManager.cpp" />
+    <ClCompile Include="EulerAngles.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="TriangleUtil.cpp" />
+    <ClCompile Include="TSContinuousMemoryPool.cpp" />
+    <ClCompile Include="TSFragmentedMemoryPool.cpp" />
+    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VectorUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core\Algorithms.h" />
+    <ClInclude Include="..\..\Include\core\ArrayUtils.h" />
+    <ClInclude Include="..\..\Include\core\AxisAlignedBox.h" />
+    <ClInclude Include="..\..\Include\core\BestResultsList.h" />
+    <ClInclude Include="..\..\Include\core\Box.h" />
+    <ClInclude Include="..\..\Include\core\CallstackTracer.h" />
+    <ClInclude Include="..\..\Include\core\CallstackTree.h" />
+    <ClInclude Include="..\..\Include\core\ClientServerRoundBuffer.h" />
+    <ClInclude Include="..\..\Include\core\CollectionComparators.h" />
+    <ClInclude Include="..\..\Include\core\CollectionUtils.h" />
+    <ClInclude Include="..\..\Include\core\Color.h" />
+    <ClInclude Include="..\..\Include\core\Cylinder.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemChangesTracker.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemSnapshot.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemScanner.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemSectionScanner.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemSnapshotScanner.h" />
+    <ClInclude Include="..\..\Include\core\GraphBuilderListener.h" />
+    <ClInclude Include="..\..\Include\core\Grid.h" />
+    <ClInclude Include="..\..\Include\core\GridUtils.h" />
+    <ClInclude Include="..\..\Include\core\HierarchicalFilesDeleter.h" />
+    <ClInclude Include="..\..\Include\core\IntersectionResult.h" />
+    <ClInclude Include="..\..\Include\core\LocalList.h" />
+    <ClInclude Include="..\..\Include\core\LocalStack.h" />
+    <ClInclude Include="..\..\Include\core\LocklessCommandFence.h" />
+    <ClInclude Include="..\..\Include\core\ContinuousMemoryPool.h" />
+    <ClInclude Include="..\..\Include\core\CriticalSection.h" />
+    <ClInclude Include="..\..\Include\core\DefaultAllocator.h" />
+    <ClInclude Include="..\..\Include\core\Dequeue.h" />
+    <ClInclude Include="..\..\Include\core\EngineDefines.h" />
+    <ClInclude Include="..\..\Include\core\Event.h" />
+    <ClInclude Include="..\..\Include\core\EventsDispatcher.h" />
+    <ClInclude Include="..\..\Include\core\ExternalDependenciesLinker.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemSection.h" />
+    <ClInclude Include="..\..\Include\core\FilesystemUtils.h" />
+    <ClInclude Include="..\..\Include\core\FragmentedMemoryPool.h" />
+    <ClInclude Include="..\..\Include\core\GraphBuilderNodeUtils.h" />
+    <ClInclude Include="..\..\Include\core\GraphBuilderTransaction.h" />
+    <ClInclude Include="..\..\Include\core\IDString.h" />
+    <ClInclude Include="..\..\Include\core\InRawArrayStream.h" />
+    <ClInclude Include="..\..\Include\core\List.h" />
+    <ClInclude Include="..\..\Include\core\ListUtils.h" />
+    <ClInclude Include="..\..\Include\core\LocklessCommand.h" />
+    <ClInclude Include="..\..\Include\core\LocklessCommandsQueue.h" />
+    <ClInclude Include="..\..\Include\core\Log.h" />
+    <ClInclude Include="..\..\Include\core\MatrixFpu.inl" />
+    <ClInclude Include="..\..\Include\core\MemoryAllocator.h" />
+    <ClInclude Include="..\..\Include\core\MemoryRouter.h" />
+    <ClInclude Include="..\..\Include\core\MemoryUtils.h" />
+    <ClInclude Include="..\..\Include\core\MeshAdjacencyMap.h" />
+    <ClInclude Include="..\..\Include\core\MissingDependenciesMapper.h" />
+    <ClInclude Include="..\..\Include\core\MultithreadedTask.h" />
+    <ClInclude Include="..\..\Include\core\MultithreadedTasksScheduler.h" />
+    <ClInclude Include="..\..\Include\core\Mutex.h" />
+    <ClInclude Include="..\..\Include\core\OutRawArrayStream.h" />
+    <ClInclude Include="..\..\Include\core\PatchDataMigrationFunction.h" />
+    <ClInclude Include="..\..\Include\core\PatchesDB.h" />
+    <ClInclude Include="..\..\Include\core\PatchesDBMacros.h" />
+    <ClInclude Include="..\..\Include\core\PatchesDBSerializer.h" />
+    <ClInclude Include="..\..\Include\core\PatchRecord.h" />
+    <ClInclude Include="..\..\Include\core\PlaneUtils.h" />
+    <ClInclude Include="..\..\Include\core\PolygonMesh2D.h" />
+    <ClInclude Include="..\..\Include\core\Profiler.h" />
+    <ClInclude Include="..\..\Include\core\MathDataStorage.h" />
+    <ClInclude Include="..\..\Include\core\RawArrayUtil.h" />
+    <ClInclude Include="..\..\Include\core\RaycastResult.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionDependenciesCallback.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionObjectReferencesManager.h" />
+    <ClInclude Include="..\..\Include\core\RefPtr.h" />
+    <ClInclude Include="..\..\Include\core\ResourceDependenciesGraph.h" />
+    <ClInclude Include="..\..\Include\core\ResourceUtils.h" />
+    <ClInclude Include="..\..\Include\core\ResourceDependenciesMapper.h" />
+    <ClInclude Include="..\..\Include\core\FilePath.h" />
+    <ClInclude Include="..\..\Include\core\GraphBuilder.h" />
+    <ClInclude Include="..\..\Include\core\GraphBuilderNode.h" />
+    <ClInclude Include="..\..\Include\core\GraphBuilderSockets.h" />
+    <ClInclude Include="..\..\Include\core\InArrayStream.h" />
+    <ClInclude Include="..\..\Include\core\InStream.h" />
+    <ClInclude Include="..\..\Include\core\IProgressObserver.h" />
+    <ClInclude Include="..\..\Include\core\math.h" />
+    <ClInclude Include="..\..\Include\core\MathDefs.h" />
+    <ClInclude Include="..\..\Include\core\OutArrayStream.h" />
+    <ClInclude Include="..\..\Include\core\OutFileStream.h" />
+    <ClInclude Include="..\..\Include\core\OutStream.h" />
+    <ClInclude Include="..\..\Include\core\Plane.h" />
+    <ClInclude Include="..\..\Include\core\Quaternion.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionEnum.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionLoader.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionMacros.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionObject.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionObjectChangeListener.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionObjectsTracker.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionPropertiesView.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionProperty.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionPropertyEditor.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionSaver.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionSerializationMacros.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionSerializationUtil.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionType.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionTypeComponent.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionTypeID.h" />
+    <ClInclude Include="..\..\Include\core\ReflectionTypesRegistry.h" />
+    <ClInclude Include="..\..\Include\core\ResourceHandle.h" />
+    <ClInclude Include="..\..\Include\core\ResOpLoad.h" />
+    <ClInclude Include="..\..\Include\core\ResourcesDB.h" />
+    <ClInclude Include="..\..\Include\core\ResourcesSerializationUtil.h" />
+    <ClInclude Include="..\..\Include\core\RoundBuffer.h" />
+    <ClInclude Include="..\..\Include\core\Runnable.h" />
+    <ClInclude Include="..\..\Include\core\RuntimeData.h" />
+    <ClInclude Include="..\..\Include\core\FastFloat.h" />
+    <ClInclude Include="..\..\Include\core\Semaphore.h" />
+    <ClInclude Include="..\..\Include\core\SerializedReflectionObject.h" />
+    <ClInclude Include="..\..\Include\core\SharedValue.h" />
+    <ClInclude Include="..\..\Include\core\SimdUtils.h" />
+    <ClInclude Include="..\..\Include\core\Singleton.h" />
+    <ClInclude Include="..\..\Include\core\Sphere.h" />
+    <ClInclude Include="..\..\Include\core\SteppedLocklessCommandFence.h" />
+    <ClInclude Include="..\..\Include\core\SteppedLocklessCommandsQueue.h" />
+    <ClInclude Include="..\..\Include\core\StringParser.h" />
+    <ClInclude Include="..\..\Include\core\Thread.h" />
+    <ClInclude Include="..\..\Include\core\ThreadSafe.h" />
+    <ClInclude Include="..\..\Include\core\ThreadSystem.h" />
+    <ClInclude Include="..\..\Include\core\TimeController.h" />
+    <ClInclude Include="..\..\Include\core\TimeControllerTrack.h" />
+    <ClInclude Include="..\..\Include\core\TimeDependent.h" />
+    <ClInclude Include="..\..\Include\core\TimeEvent.h" />
+    <ClInclude Include="..\..\Include\core\Timer.h" />
+    <ClInclude Include="..\..\Include\core\Array.h" />
+    <ClInclude Include="..\..\Include\core\ConstSizeArray.h" />
+    <ClInclude Include="..\..\Include\core\Graph.h" />
+    <ClInclude Include="..\..\Include\core\Point.h" />
+    <ClInclude Include="..\..\Include\core\Stack.h" />
+    <ClInclude Include="..\..\Include\core\Delegate.h" />
+    <ClInclude Include="..\..\Include\core\dostream.h" />
+    <ClInclude Include="..\..\Include\core\Assert.h" />
+    <ClInclude Include="..\..\Include\core\HierarchyWriter.h" />
+    <ClInclude Include="..\..\Include\core\IntervalOperation.h" />
+    <ClInclude Include="..\..\Include\core\MatrixUtils.h" />
+    <ClInclude Include="..\..\Include\core\StringUtils.h" />
+    <ClInclude Include="..\..\Include\core\Transform.h" />
+    <ClInclude Include="..\..\Include\core\TriangleUtil.h" />
+    <ClInclude Include="..\..\Include\core\TSContinuousMemoryPool.h" />
+    <ClInclude Include="..\..\Include\core\TSFragmentedMemoryPool.h" />
+    <ClInclude Include="..\..\Include\core\TVector.h" />
+    <ClInclude Include="..\..\Include\core\TypeRegistrationMacros.h" />
+    <ClInclude Include="..\..\Include\core\types.h" />
+    <ClInclude Include="..\..\Include\core\UniqueIdGenerator.h" />
+    <ClInclude Include="..\..\Include\core\UniqueObject.h" />
+    <ClInclude Include="..\..\Include\core\Observer.h" />
+    <ClInclude Include="..\..\Include\core\Subject.h" />
+    <ClInclude Include="..\..\Include\core\GraphUtils.h" />
+    <ClInclude Include="..\..\Include\core\GenericFactory.h" />
+    <ClInclude Include="..\..\Include\core\BSPNodeTree.h" />
+    <ClInclude Include="..\..\Include\core\LinearStorage.h" />
+    <ClInclude Include="..\..\Include\core\Frustum.h" />
+    <ClInclude Include="..\..\Include\core\Ray.h" />
+    <ClInclude Include="..\..\Include\core\Triangle.h" />
+    <ClInclude Include="..\..\Include\core\File.h" />
+    <ClInclude Include="..\..\Include\core\Filesystem.h" />
+    <ClInclude Include="..\..\Include\core\StreamBuffer.h" />
+    <ClInclude Include="..\..\Include\core\InFileStream.h" />
+    <ClInclude Include="..\..\Include\core\Resource.h" />
+    <ClInclude Include="..\..\Include\core\ResourcesManager.h" />
+    <ClInclude Include="..\..\Include\core\ResourceStorage.h" />
+    <ClInclude Include="..\..\Include\core\EulerAngles.h" />
+    <ClInclude Include="..\..\Include\core\Matrix.h" />
+    <ClInclude Include="..\..\Include\core\Vector.h" />
+    <ClInclude Include="..\..\Include\core.h" />
+    <ClInclude Include="..\..\Include\core\VectorUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\core\Algorithms.inl" />
+    <None Include="..\..\Include\core\Array.inl" />
+    <None Include="..\..\Include\core\ArrayUtils.inl" />
+    <None Include="..\..\Include\core\BestResultsList.inl" />
+    <None Include="..\..\Include\core\ClientServerRoundBuffer.inl" />
+    <None Include="..\..\Include\core\CollectionComparators.inl" />
+    <None Include="..\..\Include\core\CollectionUtils.inl" />
+    <None Include="..\..\Include\core\ConstSizeArray.inl" />
+    <None Include="..\..\Include\core\Dequeue.inl" />
+    <None Include="..\..\Include\core\EulerAnglesFpu.inl" />
+    <None Include="..\..\Include\core\EulerAnglesSimd.inl" />
+    <None Include="..\..\Include\core\FastFloatFpu.inl" />
+    <None Include="..\..\Include\core\FastFloatSimd.inl" />
+    <None Include="..\..\Include\core\Graph.inl" />
+    <None Include="..\..\Include\core\GraphUtils.inl" />
+    <None Include="..\..\Include\core\GenericFactory.inl" />
+    <None Include="..\..\Include\core\GraphBuilder.inl" />
+    <None Include="..\..\Include\core\GraphBuilderNode.inl" />
+    <None Include="..\..\Include\core\GraphBuilderNodeUtils.inl" />
+    <None Include="..\..\Include\core\GraphBuilderSockets.inl" />
+    <None Include="..\..\Include\core\GraphBuilderTransaction.inl" />
+    <None Include="..\..\Include\core\Grid.inl" />
+    <None Include="..\..\Include\core\GridUtils.inl" />
+    <None Include="..\..\Include\core\InStream.inl" />
+    <None Include="..\..\Include\core\List.inl" />
+    <None Include="..\..\Include\core\ListUtils.inl" />
+    <None Include="..\..\Include\core\LocalList.inl" />
+    <None Include="..\..\Include\core\LocalStack.inl" />
+    <None Include="..\..\Include\core\LocklessCommandFence.inl" />
+    <None Include="..\..\Include\core\LocklessCommandsQueue.inl" />
+    <None Include="..\..\Include\core\MatrixSimd.inl" />
+    <None Include="..\..\Include\core\MemoryRouter.inl" />
+    <None Include="..\..\Include\core\MemoryUtils.inl" />
+    <None Include="..\..\Include\core\OutStream.inl" />
+    <None Include="..\..\Include\core\PatchRecord.inl" />
+    <None Include="..\..\Include\core\PlaneFpu.inl" />
+    <None Include="..\..\Include\core\PlaneSimd.inl" />
+    <None Include="..\..\Include\core\Point.inl" />
+    <None Include="..\..\Include\core\Profiler.inl" />
+    <None Include="..\..\Include\core\QuaternionFpu.inl" />
+    <None Include="..\..\Include\core\QuaternionSimd.inl" />
+    <None Include="..\..\Include\core\RawArrayUtil.inl" />
+    <None Include="..\..\Include\core\ReflectionEnum.inl" />
+    <None Include="..\..\Include\core\ReflectionLoader.inl" />
+    <None Include="..\..\Include\core\ReflectionObject.inl" />
+    <None Include="..\..\Include\core\ReflectionPropertiesView.inl" />
+    <None Include="..\..\Include\core\ReflectionProperty.inl" />
+    <None Include="..\..\Include\core\ReflectionPropertyEditor.inl" />
+    <None Include="..\..\Include\core\ReflectionSaver.inl" />
+    <None Include="..\..\Include\core\ReflectionType.inl" />
+    <None Include="..\..\Include\core\ReflectionTypeComponent.inl" />
+    <None Include="..\..\Include\core\ReflectionTypeID.inl" />
+    <None Include="..\..\Include\core\ReflectionTypesRegistry.inl" />
+    <None Include="..\..\Include\core\RefPtr.inl" />
+    <None Include="..\..\Include\core\ResourceHandle.inl" />
+    <None Include="..\..\Include\core\RoundBuffer.inl" />
+    <None Include="..\..\Include\core\RuntimeData.inl" />
+    <None Include="..\..\Include\core\SerializedReflectionObject.inl" />
+    <None Include="..\..\Include\core\SharedValue.inl" />
+    <None Include="..\..\Include\core\SimdUtils.inl" />
+    <None Include="..\..\Include\core\Singleton.inl" />
+    <None Include="..\..\Include\core\Stack.inl" />
+    <None Include="..\..\Include\core\SteppedLocklessCommandFence.inl" />
+    <None Include="..\..\Include\core\SteppedLocklessCommandsQueue.inl" />
+    <None Include="..\..\Include\core\ThreadSafe.inl" />
+    <None Include="..\..\Include\core\BSPNodeTree.inl" />
+    <None Include="..\..\Include\core\LinearStorage.inl" />
+    <None Include="..\..\Include\core\StreamBuffer.inl" />
+    <None Include="..\..\Include\core\ResourcesManager.inl" />
+    <None Include="..\..\Include\core\ResourceStorage.inl" />
+    <None Include="..\..\Include\core\UniqueIdGenerator.inl" />
+    <None Include="..\..\Include\core\UniqueObject.inl" />
+    <None Include="..\..\Include\core\TVector.inl" />
+    <None Include="..\..\Include\core\VectorFpu.inl" />
+    <None Include="..\..\Include\core\VectorSimd.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

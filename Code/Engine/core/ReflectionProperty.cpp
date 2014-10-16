@@ -1,0 +1,70 @@
+#include "core.h"
+#include "core\ReflectionProperty.h"
+#include "core\ReflectionTypesRegistry.h"
+#include "core\ReflectionObject.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+ReflectionProperty::ReflectionProperty( ReflectionObject* hostObject )
+   : m_observer( hostObject )
+   , m_id( 0 )
+   , m_name( "" )
+   , m_label( "" )
+   , m_traits( ReflectionTypeComponent::RTC_None )
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void ReflectionProperty::notifyBeforeChange()
+{
+   if ( m_observer )
+   {
+      m_observer->notifyPrePropertyChange( *this );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void ReflectionProperty::notifyAfterChange()
+{
+   if ( m_observer )
+   {
+      m_observer->notifyPropertyChange( *this );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+ReflectionPropertyArray::ReflectionPropertyArray( ReflectionObject* hostObject )
+   : ReflectionProperty( hostObject )
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+ReflectionPropertValueChangeNotifier::ReflectionPropertValueChangeNotifier( ReflectionObject* owner, const char* variable )
+   : m_owner( owner )
+{
+   m_property = m_owner->getProperty( variable );
+   ASSERT( m_property );
+
+   m_owner->notifyPrePropertyChange( *m_property );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ReflectionPropertValueChangeNotifier::~ReflectionPropertValueChangeNotifier()
+{
+   m_owner->notifyPropertyChange( *m_property );
+
+   delete m_property;
+   m_property = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DBCD9F77-4064-4DB9-AC18-516ED35B24CE}</ProjectGuid>
+    <RootNamespace>coreRenderer</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <IgnoreSpecificDefaultLibraries>MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\core-Renderer\TypesRegistry.cpp" />
+    <ClCompile Include="CascadedShadowsUtils.cpp" />
+    <ClCompile Include="CubeTexture.cpp" />
+    <ClCompile Include="FullscreenQuad.cpp" />
+    <ClCompile Include="GeometryComponent.cpp" />
+    <ClCompile Include="InternalRenderCommands.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialCodeNode.cpp" />
+    <ClCompile Include="MaterialConstantsBlock.cpp" />
+    <ClCompile Include="MaterialDataProxies.cpp" />
+    <ClCompile Include="MaterialDataStruct.cpp" />
+    <ClCompile Include="MaterialFunction.cpp" />
+    <ClCompile Include="MaterialNode.cpp" />
+    <ClCompile Include="MaterialProfile.cpp" />
+    <ClCompile Include="MaterialEntryStruct.cpp" />
+    <ClCompile Include="MNColor.cpp" />
+    <ClCompile Include="MNColorToNormal.cpp" />
+    <ClCompile Include="MNCubeTexture.cpp" />
+    <ClCompile Include="MNInputStruct.cpp" />
+    <ClCompile Include="MaterialSockets.cpp" />
+    <ClCompile Include="MeshUtils.cpp" />
+    <ClCompile Include="MNBool.cpp" />
+    <ClCompile Include="MNCamera.cpp" />
+    <ClCompile Include="MNFloat.cpp" />
+    <ClCompile Include="MNMixRGBs.cpp" />
+    <ClCompile Include="MNNormalTangentToView.cpp" />
+    <ClCompile Include="MNOutputStruct.cpp" />
+    <ClCompile Include="MNTransformSkinNormal.cpp" />
+    <ClCompile Include="MNTransformSkinVector.cpp" />
+    <ClCompile Include="MNSplitColor.cpp" />
+    <ClCompile Include="MNTexture.cpp" />
+    <ClCompile Include="MNTimer.cpp" />
+    <ClCompile Include="MNTransform.cpp" />
+    <ClCompile Include="MNTransformVector.cpp" />
+    <ClCompile Include="MNVec4.cpp" />
+    <ClCompile Include="PixelColorQuery.cpp" />
+    <ClCompile Include="MaterialShaderBuilder.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="ProceduralGeometryRenderer.cpp" />
+    <ClCompile Include="ProceduralTexture.cpp" />
+    <ClCompile Include="RenderableCubeTexture.cpp" />
+    <ClCompile Include="RendererImplementation.cpp" />
+    <ClCompile Include="RendererUtils.cpp" />
+    <ClCompile Include="RenderResource.cpp" />
+    <ClCompile Include="RenderState.cpp" />
+    <ClCompile Include="RenderStateCommand.cpp" />
+    <ClCompile Include="RenderStateChangeTracker.cpp" />
+    <ClCompile Include="RenderStateRenderCommands.cpp" />
+    <ClCompile Include="RenderableTexture.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RenderTarget2D.cpp" />
+    <ClCompile Include="RenderTargetCube.cpp" />
+    <ClCompile Include="RenderTree.cpp" />
+    <ClCompile Include="RQEntitySelection.cpp" />
+    <ClCompile Include="RQRenderTargetContents.cpp" />
+    <ClCompile Include="RQWorldPosition.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderCompiler.cpp" />
+    <ClCompile Include="ShaderConstantDesc.cpp" />
+    <ClCompile Include="ShaderDataBuffer.cpp" />
+    <ClCompile Include="ShaderParam.cpp" />
+    <ClCompile Include="ShaderProfile.cpp" />
+    <ClCompile Include="ShaderRenderCommand.cpp" />
+    <ClCompile Include="ShaderTexture.cpp" />
+    <ClCompile Include="ShaderUtils.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="LitVertex.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="StaticGeometry.cpp" />
+    <ClCompile Include="StaticGeometryTree.cpp" />
+    <ClCompile Include="TextureSamplerSettings.cpp" />
+    <ClCompile Include="MNTransformNormal.cpp" />
+    <ClCompile Include="TriangleMesh.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="TextField.cpp" />
+    <ClCompile Include="GeometryResource.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\core-Renderer\MaterialCodeNode.inl" />
+    <None Include="..\..\Include\core-Renderer\MaterialFunction.inl" />
+    <None Include="..\..\Include\core-Renderer\MaterialProfile.inl" />
+    <None Include="..\..\Include\core-Renderer\MaterialShaderBuilder.inl" />
+    <None Include="..\..\Include\core-Renderer\MNInputStruct.inl" />
+    <None Include="..\..\Include\core-Renderer\MNOutputStruct.inl" />
+    <None Include="..\..\Include\core-Renderer\Renderer.inl" />
+    <None Include="..\..\Include\core-Renderer\RenderResourceStorage.inl" />
+    <None Include="..\..\Include\core-Renderer\ShaderDataBuffer.inl" />
+    <None Include="..\..\Include\core-Renderer\TriangleMesh.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\core-Renderer\BasicRenderCommands.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\CascadedShadowsUtils.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\CubeTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialConstantsBlock.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ProceduralGeometryRenderer.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ProceduralTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderTarget2D.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderTargetCube.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderDataBuffer.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Defines.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\FullscreenQuad.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\GeometryComponent.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\InternalRenderCommands.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Light.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Material.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialCodeNode.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialDataProxies.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialDataStruct.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialFunction.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialNode.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialProfile.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialSockets.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialEntryStruct.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MeshUtils.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNBool.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNCamera.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNColor.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNColorToNormal.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNCubeTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNFloat.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNInputStruct.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNMixRGBs.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNNormalTangentToView.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNOutputStruct.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformSkinNormal.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformSkinVector.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNSplitColor.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTimer.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransform.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformVector.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNVec4.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\PixelColorQuery.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MaterialShaderBuilder.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\PointLight.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderableCubeTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RendererQuery.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RendererSelectionListener.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RendererUtils.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderingContext.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateCommand.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateChangeTracker.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateFlags.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderStateRenderCommands.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderSystem.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RQEntitySelection.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderCommand.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RendererImplementation.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderResource.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderResourceStorage.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderState.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderableTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderTree.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RQRenderTargetContents.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RQWorldPosition.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Shader.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderCompiler.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderConstantDesc.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderParam.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderProfile.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderRenderCommand.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderTexture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\ShaderUtils.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Renderer.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderingMechanism.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Camera.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\DirectionalLight.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Face.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\LitVertex.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\SpotLight.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\StaticGeometry.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\RenderingParams.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\StaticGeometryTree.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\TextureSamplerSettings.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\MNTransformNormal.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\TriangleMesh.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Texture.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Font.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\TextField.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\GeometryResource.h" />
+    <ClInclude Include="..\..\Include\core-Renderer.h" />
+    <ClInclude Include="..\..\Include\core-Renderer\Viewport.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core-MVC\core-MVC.vcxproj">
+      <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

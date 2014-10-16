@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_GL|Win32">
+      <Configuration>Debug_GL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\gl-Renderer.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRCubeTextureResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRDefinitions.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRenderer.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRErrorCheck.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRFullscreenQuad.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRProceduralTextureResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRRenderTarget2D.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRRenderTargetCube.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRRenderTargetResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRShader.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRShaderCompilerTool.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRShaderResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRTextureResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRTriangleMesh.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRTriangleMeshResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLShaderDataBufferResourcesStorage.h" />
+    <ClInclude Include="..\..\Include\gl-Renderer\GLRProceduralGeometryRenderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core-Renderer\core-Renderer.vcxproj">
+      <Project>{dbcd9f77-4064-4db9-ac18-516ed35b24ce}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GLRBasicRenderCommands.cpp" />
+    <ClCompile Include="GLRCubeTextureResourcesStorage.cpp" />
+    <ClCompile Include="GLRDefinitions.cpp" />
+    <ClCompile Include="GLRenderer.cpp" />
+    <ClCompile Include="GLRErrorCheck.cpp" />
+    <ClCompile Include="GLRFont.cpp" />
+    <ClCompile Include="GLRFullscreenQuad.cpp" />
+    <ClCompile Include="GLRInternalRenderCommands.cpp" />
+    <ClCompile Include="GLRProceduralGeometryRenderer.cpp" />
+    <ClCompile Include="GLRProceduralTextureResourcesStorage.cpp" />
+    <ClCompile Include="GLRRenderStateRenderCommands.cpp" />
+    <ClCompile Include="GLRRenderTarget2D.cpp" />
+    <ClCompile Include="GLRRenderTargetCube.cpp" />
+    <ClCompile Include="GLRRenderTargetResourcesStorage.cpp" />
+    <ClCompile Include="GLRRQEntitySelection.cpp" />
+    <ClCompile Include="GLRRQRenderTargetContents.cpp" />
+    <ClCompile Include="GLRRQWorldPosition.cpp" />
+    <ClCompile Include="GLRShaderCompiler.cpp" />
+    <ClCompile Include="GLRShaderCompilerTool.cpp" />
+    <ClCompile Include="GLRTextureResourcesStorage.cpp" />
+    <ClCompile Include="GLRTriangleMesh.cpp" />
+    <ClCompile Include="GLRViewport.cpp" />
+    <ClCompile Include="GLRShader.cpp" />
+    <ClCompile Include="GLRShaderResourcesStorage.cpp" />
+    <ClCompile Include="GLRTriangleMeshResourcesStorage.cpp" />
+    <ClCompile Include="GLShaderDataBufferResourcesStorage.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{166FA6C4-FCCF-4A00-B54A-A162B86609EF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>glRenderer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_GL|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_GL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_GL|Win32'">
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\Libs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_GL|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(SolutionDir)\Libs\External\glew-1.10.0\include;$(SolutionDir)\Libs\External\SOIL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\External\glew-1.10.0\lib\Release\Win32;$(SolutionDir)\Libs\External\SOIL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;dSOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(SolutionDir)\Libs\External\glew-1.10.0\include;$(SolutionDir)\Libs\External\SOIL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\External\glew-1.10.0\lib\Release\Win32;$(SolutionDir)\Libs\External\SOIL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

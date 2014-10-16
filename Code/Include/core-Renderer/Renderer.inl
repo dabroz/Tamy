@@ -1,0 +1,8 @@
+#ifndef _RENDERER_H
+#error "This file can only be included from Renderer.h"
+#else
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+#endif // _RENDERER_H

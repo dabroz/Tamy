@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{cd894879-5bc4-4bc7-8fb5-262774fd826a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factories">
+      <UniqueIdentifier>{aedfdb15-4d6c-4725-a291-553692ad78f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoundScene">
+      <UniqueIdentifier>{2ea58919-9ca7-483b-8463-566769e314b3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OALSoundChannel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="OALSoundDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenALSoundSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundInitializer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="OALSoundEntitiesFactory.cpp">
+      <Filter>Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="OALSound3D.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+    <ClCompile Include="OALSoundListener.cpp">
+      <Filter>SoundScene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\oal-Sound\OALSoundChannel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\OALSoundDevice.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\OpenALSoundSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\SoundDeviceInfo.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\SoundInitializer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\OALSoundEntitiesFactory.h">
+      <Filter>Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\OALSound3D.h">
+      <Filter>SoundScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\oal-Sound\OALSoundListener.h">
+      <Filter>SoundScene</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
