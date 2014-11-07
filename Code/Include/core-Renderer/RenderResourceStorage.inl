@@ -103,13 +103,10 @@ void RenderResourceStorage< RENDERER, ENGINE_TYPE, RENDER_RESOURCE >::refreshRes
 
    uint resourceId = renderRes->getRenderResourceId();
    ASSERT_MSG( resourceId < m_resourceImplementation.size() && m_resourceImplementation[resourceId] != NULL, "No resource by this ID was registered" );
-
-   RENDER_RESOURCE oldResourceImpl = m_resourceImplementation[resourceId];
    ASSERT_MSG( m_engineResources[resourceId] == renderRes, "Memorized render resource doesn't match that owned by the queried engine resource" );
-   releaseResource( oldResourceImpl );
 
-   RENDER_RESOURCE newResourceImpl = createResource( engineRes );
-   m_resourceImplementation[resourceId] = newResourceImpl;
+   RENDER_RESOURCE& resourceImpl = m_resourceImplementation[resourceId];
+   refreshResource( engineRes, resourceImpl );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

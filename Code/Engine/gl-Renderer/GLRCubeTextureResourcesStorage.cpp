@@ -74,3 +74,12 @@ void RenderResourceStorage< GLRenderer, CubeTexture, uint >::releaseResource( ui
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, CubeTexture, uint >::refreshResource( const CubeTexture* obj, uint& textureID ) const
+{
+   releaseResource( textureID );
+   textureID = createResource( obj );
+}
+
+///////////////////////////////////////////////////////////////////////////////

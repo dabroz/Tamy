@@ -44,6 +44,11 @@ public:
     */
    void render();
 
+   /**
+    * Refreshes the resource to reflect the changes in the corresponding engine resource.
+    */
+   void refresh();
+
    // -------------------------------------------------------------------------
    // IRenderResourceStorage interface
    // -------------------------------------------------------------------------
@@ -53,6 +58,7 @@ public:
 
 private:
    void initialize();
+   void deinitialize();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

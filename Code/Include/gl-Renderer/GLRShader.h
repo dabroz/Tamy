@@ -54,8 +54,8 @@ public:
    ~GLRShader();
 
    /**
-   * Compiles the shader.
-   */
+    * Compiles the shader.
+    */
    void compile();
 
    /**

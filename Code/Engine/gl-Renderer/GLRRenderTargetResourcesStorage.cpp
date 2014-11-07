@@ -18,6 +18,14 @@ void RenderResourceStorage< GLRenderer, RenderTarget2D, GLRRenderTarget2D* >::re
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, RenderTarget2D, GLRRenderTarget2D* >::refreshResource( const RenderTarget2D* obj, GLRRenderTarget2D*& resource ) const
+{
+   resource->refresh();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -33,6 +41,14 @@ template<>
 void RenderResourceStorage< GLRenderer, RenderTargetCube, GLRRenderTargetCube* >::releaseResource( GLRRenderTargetCube* resource ) const
 {
    delete resource;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, RenderTargetCube, GLRRenderTargetCube* >::refreshResource( const RenderTargetCube* obj, GLRRenderTargetCube*& resource ) const
+{
+   resource->refresh();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

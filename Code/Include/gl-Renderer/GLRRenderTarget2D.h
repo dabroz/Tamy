@@ -34,6 +34,11 @@ public:
    ~GLRRenderTarget2D();
 
    /**
+    * Refreshes the resource to reflect the changes in the corresponding engine resource.
+    */
+   void refresh();
+
+   /**
     * Binds this render target to the active rendering device for drawing.
     */
    void bindForWrite();
@@ -70,6 +75,10 @@ public:
    const RenderTarget2D* getEngineResource() {
       return m_renderTarget;
    }
+
+private:
+   void initialize();
+   void deinitialize();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

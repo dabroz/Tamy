@@ -83,21 +83,38 @@ GLRRenderTarget2D::GLRRenderTarget2D( Renderer& renderer, const RenderTarget2D* 
 {
    m_renderTarget->addReference();
 
+   initialize();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+GLRRenderTarget2D::~GLRRenderTarget2D()
+{
+   deinitialize();
+
+   m_renderTarget->removeReference();
+   m_renderTarget = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRRenderTarget2D::initialize()
+{
    // generate and bind a frame buffer object
    glGenFramebuffers( 1, &m_frameBufferObject );
    glBindFramebuffer( GL_FRAMEBUFFER, m_frameBufferObject );
    GLR_HALT_ERRORS();
 
    // generate the off screen texture
-   const byte renderTexturesCount = renderTarget->getRenderTexturesCount();
+   const byte renderTexturesCount = m_renderTarget->getRenderTexturesCount();
    m_renderTexture.resize( renderTexturesCount, 0 );
    glGenTextures( renderTexturesCount, ( uint* ) m_renderTexture );
    glGenTextures( 1, &m_depthTexture );
 
    GLR_HALT_ERRORS();
 
-   const uint currentWidth = renderTarget->getWidth();
-   const uint currentHeight = renderTarget->getHeight();
+   const uint currentWidth = m_renderTarget->getWidth();
+   const uint currentHeight = m_renderTarget->getHeight();
 
    // initialize the color texture
    m_attachments.resize( renderTexturesCount, GL_COLOR_ATTACHMENT0 );
@@ -136,7 +153,7 @@ GLRRenderTarget2D::GLRRenderTarget2D( Renderer& renderer, const RenderTarget2D* 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-GLRRenderTarget2D::~GLRRenderTarget2D()
+void GLRRenderTarget2D::deinitialize()
 {
    const byte renderTexturesCount = m_renderTarget->getRenderTexturesCount();
 
@@ -144,8 +161,16 @@ GLRRenderTarget2D::~GLRRenderTarget2D()
    glDeleteTextures( 1, &m_depthTexture );
    glDeleteFramebuffers( 1, &m_frameBufferObject );
 
-   m_renderTarget->removeReference();
-   m_renderTarget = NULL;
+   m_depthTexture = -1;
+   m_frameBufferObject = -1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRRenderTarget2D::refresh()
+{
+   deinitialize();
+   initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

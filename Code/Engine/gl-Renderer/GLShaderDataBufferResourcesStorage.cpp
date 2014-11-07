@@ -29,3 +29,12 @@ void RenderResourceStorage< GLRenderer, ShaderDataBuffer, uint >::releaseResourc
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, ShaderDataBuffer, uint >::refreshResource( const ShaderDataBuffer* obj, uint& bufferId ) const
+{
+   releaseResource( bufferId );
+   bufferId = createResource( obj );
+}
+
+///////////////////////////////////////////////////////////////////////////////

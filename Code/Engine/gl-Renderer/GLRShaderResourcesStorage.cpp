@@ -22,3 +22,11 @@ void RenderResourceStorage< GLRenderer, Shader, GLRShader* >::releaseResource( G
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, Shader, GLRShader* >::refreshResource( const Shader* obj, GLRShader*& resource ) const
+{
+   resource->compile();
+}
+
+///////////////////////////////////////////////////////////////////////////////

@@ -39,25 +39,7 @@ GLRTriangleMesh::GLRTriangleMesh( GLRenderer& renderer, const TriangleMesh* mesh
 
 GLRTriangleMesh::~GLRTriangleMesh()
 {
-   if ( m_vboVertexWeights != ( uint ) -1 )
-   {
-      glDeleteBuffers( 1, &m_vboVertexWeights );
-   }
-
-   if ( m_vboVerticesID != ( uint ) -1 )
-   {
-      glDeleteBuffers( 1, &m_vboVerticesID );
-   }
-
-   if ( m_vboIndicesID != ( uint ) -1 )
-   {
-      glDeleteBuffers( 1, &m_vboIndicesID );
-   }
-
-   if ( m_vaoID != ( uint ) -1 )
-   {
-      glDeleteVertexArrays( 1, &m_vaoID );
-   }
+   deinitialize();
 
    m_mesh->removeReference();
    m_mesh = NULL;
@@ -139,6 +121,43 @@ void GLRTriangleMesh::initialize()
 
    // unbind the array object
    glBindVertexArray( 0 );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRTriangleMesh::deinitialize()
+{
+   if ( m_vboVertexWeights != ( uint ) -1 )
+   {
+      glDeleteBuffers( 1, &m_vboVertexWeights );
+      m_vboVertexWeights = -1;
+   }
+
+   if ( m_vboVerticesID != ( uint ) -1 )
+   {
+      glDeleteBuffers( 1, &m_vboVerticesID );
+      m_vboVerticesID = -1;
+   }
+
+   if ( m_vboIndicesID != ( uint ) -1 )
+   {
+      glDeleteBuffers( 1, &m_vboIndicesID );
+      m_vboIndicesID = -1;
+   }
+
+   if ( m_vaoID != ( uint ) -1 )
+   {
+      glDeleteVertexArrays( 1, &m_vaoID );
+      m_vaoID = -1;
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRTriangleMesh::refresh()
+{
+   deinitialize();
+   initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -106,6 +106,11 @@ private:
     * Releases the resource.
     */
    void releaseResource( RENDER_RESOURCE resource ) const;
+
+   /**
+    * Refreshes the resource after a change of the corresponding engine resource has been noticed.
+    */
+   void refreshResource( const ENGINE_TYPE* obj, RENDER_RESOURCE& resource ) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

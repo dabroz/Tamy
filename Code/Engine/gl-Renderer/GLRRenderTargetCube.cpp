@@ -51,7 +51,23 @@ GLRRenderTargetCube::GLRRenderTargetCube( Renderer& renderer, const RenderTarget
    , m_renderTarget( renderTarget )
 {
    m_renderTarget->addReference();
+   initialize();
+}
 
+///////////////////////////////////////////////////////////////////////////////
+
+GLRRenderTargetCube::~GLRRenderTargetCube()
+{
+   deinitialize();
+
+   m_renderTarget->removeReference();
+   m_renderTarget = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRRenderTargetCube::initialize()
+{
    // Create the FBO
    glGenFramebuffers( 1, &m_frameBufferObject );
    glBindFramebuffer( GL_FRAMEBUFFER, m_frameBufferObject );
@@ -79,7 +95,7 @@ GLRRenderTargetCube::GLRRenderTargetCube( Renderer& renderer, const RenderTarget
    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );
 
-   for ( byte i = 0; i < 6; i++ ) 
+   for ( byte i = 0; i < 6; i++ )
    {
       glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_R32F, edgeLength, edgeLength, 0, GL_RED, GL_FLOAT, NULL );
    }
@@ -98,14 +114,23 @@ GLRRenderTargetCube::GLRRenderTargetCube( Renderer& renderer, const RenderTarget
 
 ///////////////////////////////////////////////////////////////////////////////
 
-GLRRenderTargetCube::~GLRRenderTargetCube()
+void GLRRenderTargetCube::deinitialize()
 {
    glDeleteTextures( 1, &m_renderTexture );
    glDeleteTextures( 1, &m_depthTexture );
    glDeleteFramebuffers( 1, &m_frameBufferObject );
 
-   m_renderTarget->removeReference();
-   m_renderTarget = NULL;
+   m_renderTexture = -1;
+   m_depthTexture = -1;
+   m_frameBufferObject = -1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRRenderTargetCube::refresh()
+{
+   deinitialize();
+   initialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

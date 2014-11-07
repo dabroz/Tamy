@@ -70,3 +70,12 @@ void RenderResourceStorage< GLRenderer, ProceduralTexture, uint >::releaseResour
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, ProceduralTexture, uint >::refreshResource( const ProceduralTexture* obj, uint& textureID ) const
+{
+   releaseResource( textureID );
+   textureID = createResource( obj );
+}
+
+///////////////////////////////////////////////////////////////////////////////

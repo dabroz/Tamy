@@ -21,3 +21,11 @@ void RenderResourceStorage< GLRenderer, TriangleMesh, GLRTriangleMesh* >::releas
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+template<>
+void RenderResourceStorage< GLRenderer, TriangleMesh, GLRTriangleMesh* >::refreshResource( const TriangleMesh* obj, GLRTriangleMesh*& resource ) const
+{
+   resource->refresh();
+}
+
+///////////////////////////////////////////////////////////////////////////////

@@ -32,6 +32,11 @@ public:
    ~GLRRenderTargetCube();
 
    /**
+    * Refreshes the resource to reflect the changes in the corresponding engine resource.
+    */
+   void refresh();
+
+   /**
     * Binds this render target for clearing the color.
     */
    void bindForClear( byte sideIdx );
@@ -63,6 +68,10 @@ public:
    const RenderTargetCube* getEngineResource() {
       return m_renderTarget;
    }
+
+private:
+   void initialize();
+   void deinitialize();
 };
 
 ///////////////////////////////////////////////////////////////////////////////
