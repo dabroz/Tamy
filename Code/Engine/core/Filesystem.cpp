@@ -402,18 +402,14 @@ void Filesystem::pullStructure( FilesystemListener& listener, FilePath& root ) c
          entriesQueue.pushBack( *it );
       }
 
-      for ( Listeners::const_iterator it = m_listeners.begin(); !it.isEnd(); ++it )
+      if ( entry->m_isDir )
       {
-         FilesystemListener* listener = *it;
-         if ( entry->m_isDir )
-         {
-            // notify listeners   
-            listener->onDirAdded( entry->m_path );
-         }
-         else
-         {
-            listener->onFileAdded( entry->m_path );
-         }
+         // notify listeners   
+         listener.onDirAdded( entry->m_path );
+      }
+      else
+      {
+         listener.onFileAdded( entry->m_path );
       }
    }
 }

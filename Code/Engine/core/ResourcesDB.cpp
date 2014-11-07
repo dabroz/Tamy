@@ -254,28 +254,39 @@ void ResourcesDB::collectResourcesFromDir( const FilePath& dir, List< Resource* 
 
 void ResourcesDB::scan( const FilePath& rootDir, FilesystemScanner& scanner, bool recursive ) const
 {
+   Filesystem& fs = m_host.getFilesystem();
+
    const std::size_t rootDirNameLen = rootDir.getRelativePath().length();
    for ( ResourcesMap::const_iterator it = m_resources.begin(); it != m_resources.end(); ++it )
    {
-      std::size_t rootDirPos = it->first.getRelativePath().find( rootDir );
+      const FilePath& file = it->first;
+
+      std::size_t rootDirPos = file.getRelativePath().find( rootDir );
       if ( rootDirPos != 0 )
       {
          // we only want to consider files located in the root directory
          continue;
       }
 
+      // if the file exists in the filesystem, it has already been reported
+      // by the Filesystem::scan method that ran before this one, so skip it
+      if ( fs.doesExist( file ) )
+      {
+         continue;
+      }
+
       if ( recursive )
       {
          // it's a recursive search - add all files
-         scanner.onFile( it->first );
+         scanner.onFile( file );
       }
       else
       {
          // it's not a recursive search - add only the files in this directory
-         std::size_t subDirCharPos = it->first.getRelativePath().find_first_of( "/\\", rootDirNameLen );
+         std::size_t subDirCharPos = file.getRelativePath().find_first_of( "/\\", rootDirNameLen );
          if ( subDirCharPos == std::string::npos )
          {
-            scanner.onFile( it->first );
+            scanner.onFile( file );
          }
       }
    }
