@@ -11,7 +11,6 @@
 
 class FilePath;
 class Prefab;
-class GL2DRoomTheme;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -20,8 +19,7 @@ class GL2DVoxelPrefabsMap
    DECLARE_ALLOCATOR( GL2DVoxelPrefabsMap, AM_DEFAULT );
 
 private:
-   uint                          m_rootDirPathOffset;
-   Array< GL2DRoomTheme* >       m_themes;
+   Array< Prefab* >              m_prefabs;
 
 public:
    /**
@@ -32,28 +30,29 @@ public:
    GL2DVoxelPrefabsMap( const FilePath& prefabsRootDir );
    ~GL2DVoxelPrefabsMap();
    
-   // -------------------------------------------------------------------------
-   // Room types
-   // -------------------------------------------------------------------------
-
    /**
-    * Returns an existing theme.
+    * Adds a new prefab.
     *
-    * @param themeName
+    * @param prefab
     */
-   GL2DRoomTheme* findTheme( const std::string& themeName );
+   void addPrefab( Prefab* prefab );
 
    /**
-    * Adds a new theme.
-    *
-    * @param themeName
+    * Returns the number of stored prefabs.
     */
-   GL2DRoomTheme* addTheme( const std::string& themeName );
+   inline const uint getPrefabsCount() const
+   {
+      return m_prefabs.size();
+   }
 
    /**
-    * Returns a theme selected at random.
+    * Returns the specified prefab.
     */
-   GL2DRoomTheme* getRandomTheme() const;
+   inline const Prefab* getPrefab( uint idx ) const
+   {
+      return m_prefabs[idx];
+   }
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -56,9 +56,9 @@ TEST(GraphDijkstra, simpleGraph)
    GraphUtils< MockNode >::dijkstra( graph, searchParams, result );
    CPPUNIT_ASSERT_EQUAL((unsigned int)3, result.getEdgesCount());
 
-   CPPUNIT_ASSERT(result.getEdgeIdx(0, 1) != MockGraph::InvalidIndex);
-   CPPUNIT_ASSERT(result.getEdgeIdx(0, 2) != MockGraph::InvalidIndex);
-   CPPUNIT_ASSERT(result.getEdgeIdx(1, 3) != MockGraph::InvalidIndex);
+   CPPUNIT_ASSERT( result.areConnected(0, 1) );
+   CPPUNIT_ASSERT( result.areConnected( 0, 2 ) );
+   CPPUNIT_ASSERT( result.areConnected( 1, 3 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -90,8 +90,8 @@ TEST(GraphDijkstra, complex)
 
    CPPUNIT_ASSERT_EQUAL((unsigned int)2, result.getEdgesCount());
 
-   CPPUNIT_ASSERT(result.getEdgeIdx(0, 1) != MockGraph::InvalidIndex);
-   CPPUNIT_ASSERT(result.getEdgeIdx(1, 2) != MockGraph::InvalidIndex);
+   CPPUNIT_ASSERT( result.areConnected( 0, 1 ) );
+   CPPUNIT_ASSERT( result.areConnected( 1, 2 )  );
 
 }
 

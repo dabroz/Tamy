@@ -1,5 +1,4 @@
 #include "ext-2DGameLevel\GL2DVoxelizedItem.h"
-#include "ext-2DGameLevel\GL2DLevelVoxels.h"
 
 // rendering
 #include "core-Renderer\StaticGeometryTree.h"
@@ -10,7 +9,6 @@
 
 // utils
 #include "core\StringUtils.h"
-#include "ext-2DGameLevel\GL2DBounds.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////

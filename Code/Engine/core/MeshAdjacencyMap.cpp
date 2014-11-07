@@ -110,12 +110,12 @@ uint MeshAdjacencyMap::getTrianglesCount( ) const
 
 uint MeshAdjacencyMap::getAdjacentTriangles( uint triangleIdx, uint* outArrTriangleIndices ) const
 {
-   const TriangleGraph::EdgeIndices& edges = m_trianglesGraph.getEdges( triangleIdx );
+   const Array< GraphEdge* >& edges = m_trianglesGraph.getEdges( triangleIdx );
    
    const uint count = edges.size();
    for ( uint i = 0; i < count; ++i )
    {
-      outArrTriangleIndices[i] = m_trianglesGraph.getEdge( edges[i] );
+      outArrTriangleIndices[i] = edges[i]->m_endNodeIdx;
    }
 
    return count;

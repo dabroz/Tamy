@@ -26,7 +26,7 @@ BehTreeBoolCondition::~BehTreeBoolCondition()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int BehTreeBoolCondition::evaluate( BehaviorTreeRunner& runner ) const
+int BehTreeBoolCondition::evaluate( BehaviorTreeRunner& runner, const BehTreeSelector& hostSelector ) const
 {
    if ( m_variable )
    {

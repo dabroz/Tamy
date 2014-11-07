@@ -87,27 +87,7 @@ void export_geometry_component( TamyGeometry geometry )
 {
    BlenderSceneExporter& exporter = TSingleton< BlenderSceneExporter >::getInstance();
 
-   // check if the mesh name's annotated as 'collision geometry'
-   bool isCollisionGeometry = false;
-   {
-      std::string geometryName = geometry.name;
-      std::size_t annotationPos = geometryName.find( "{CollisionGeometry}" );
-      isCollisionGeometry = ( annotationPos != std::string::npos );
-   }
-
-   // create a correct component type
-   // NOTE: should there be more geometry-based components in the future, simply change this to an enum,
-   // and do all type parsing above, but keep that code confined to this method
-   Component* component = NULL;
-   if ( isCollisionGeometry )
-   {
-      component = exporter.createCollisionGeometry( geometry );
-   }
-   else
-   {
-      component = exporter.createGeometryComponent( geometry );
-   }
-
+   Component* component = exporter.createGeometryComponent( geometry );
    exporter.addChild( component, Matrix::IDENTITY, geometry.parentIdx );
 }
 

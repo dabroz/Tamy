@@ -101,7 +101,6 @@ private:
 
    QAction*                                           m_snapToGridAction;
    bool                                               m_snapToGridEnabled;
-   bool                                               m_snapOverrideEnabled;
    float                                              m_snapTranslationStep;
    float                                              m_snapRotationStep;
 
@@ -231,15 +230,6 @@ public:
     * Restores default gizmo snap step values.
     */
    void setDefaultSnapSteps();
-
-   /**
-    * Enables the snap override. If enabled, the snap will become permanently turned on,
-    * not responding to the snap commands from the toggle action.
-    *
-    * @param enable
-    */
-   void enableSnapOverride( bool enable );
-
 
    /**
    * The method translates the screen space coordinates

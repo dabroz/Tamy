@@ -13,6 +13,14 @@
 void RCSelectEntities::execute( Renderer& renderer )
 {
    GLRenderer* glRenderer = static_cast< GLRenderer* >( renderer.implementation() );
+   RCMarshallSelectionQueryResults* resultsComm = new ( glRenderer->mtComm() ) RCMarshallSelectionQueryResults( m_listener );
+
+   if ( !m_renderTarget )
+   {
+      // this command doesn't operate on the back buffer
+      return;
+   }
+
    GLRRenderTarget2D* glRenderTarget = glRenderer->getRenderTarget( m_renderTarget );
    if ( !glRenderTarget )
    {
@@ -39,8 +47,6 @@ void RCSelectEntities::execute( Renderer& renderer )
    glReadPixels( topLeftCorner.x, height- topLeftCorner.y, queryFrameWidth, queryFrameHeight, GL_BGRA, GL_UNSIGNED_BYTE, colorBuf );
 
    // scan the colors and translate them to pointers
-   RCMarshallSelectionQueryResults* resultsComm = new ( glRenderer->mtComm() ) RCMarshallSelectionQueryResults( m_listener );
-
    Color scannedColor;
    const uint pitch = queryFrameWidth * 4;
    for ( uint x = 0; x < queryFrameWidth; ++x )

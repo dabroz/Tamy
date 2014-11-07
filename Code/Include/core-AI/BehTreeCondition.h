@@ -8,6 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 class BehaviorTreeRunner;
+class BehTreeSelector;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -30,9 +31,10 @@ public:
     *   - no value ( no selection applicable ) should be returned with idx - 1
     *
     * @param   runner
+    * @param   hostSelector
     * @return  index the selector should use ( -1 means that no node should be selected ).
     */
-   virtual int evaluate( BehaviorTreeRunner& runner ) const {
+   virtual int evaluate( BehaviorTreeRunner& runner, const BehTreeSelector& hostSelector ) const {
       return -1;
    }
 };

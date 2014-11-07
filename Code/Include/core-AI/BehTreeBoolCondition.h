@@ -29,7 +29,7 @@ public:
    // -------------------------------------------------------------------------
    // BehTreeAction implementation
    // -------------------------------------------------------------------------
-   int evaluate( BehaviorTreeRunner& runner ) const;
+   int evaluate( BehaviorTreeRunner& runner, const BehTreeSelector& hostSelector ) const override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

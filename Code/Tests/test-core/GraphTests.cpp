@@ -42,8 +42,8 @@ TEST(Graph, addingNewElements)
     CPPUNIT_ASSERT_EQUAL((unsigned int)0, graph.getEdges(1).size());
 
     // getting edge by idx
-   int endNodeIdx = graph.getEdge(0);
-   CPPUNIT_ASSERT_EQUAL( 5, graph.getNode( endNodeIdx ) );
+   GraphEdge* edge = graph.getEdge(0, 1);
+   CPPUNIT_ASSERT_EQUAL( 5, graph.getNode( edge->m_endNodeIdx ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -59,21 +59,21 @@ TEST(Graph, removingEdges)
     graph.connect(1, 0);
     graph.connect(0, 2);
 
-    CPPUNIT_ASSERT_EQUAL( 0, graph.getEdgeIdx(0, 1));
-    CPPUNIT_ASSERT_EQUAL( 1, graph.getEdgeIdx(1, 0));
-    CPPUNIT_ASSERT_EQUAL( 2, graph.getEdgeIdx(0, 2));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(2, 0));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(1, 2));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(2, 1));
+    CPPUNIT_ASSERT( graph.areConnected( 0, 1 ) );
+    CPPUNIT_ASSERT( graph.areConnected( 1, 0 ) );
+    CPPUNIT_ASSERT( graph.areConnected( 0, 2 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 2, 0 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 1, 2 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 2, 1 ) );
 
     graph.disconnect(0);
 
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(0, 1));
-    CPPUNIT_ASSERT_EQUAL( 1, graph.getEdgeIdx(1, 0));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(0, 2));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(2, 0));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(1, 2));
-    CPPUNIT_ASSERT_EQUAL(-1, graph.getEdgeIdx(2, 1));
+    CPPUNIT_ASSERT( !graph.areConnected( 0, 1 ) );
+    CPPUNIT_ASSERT( graph.areConnected( 1, 0 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 0, 2 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 2, 0 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 1, 2 ) );
+    CPPUNIT_ASSERT( !graph.areConnected( 2, 1 ) );
 
 }
 

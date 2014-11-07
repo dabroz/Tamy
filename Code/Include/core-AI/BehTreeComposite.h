@@ -49,6 +49,13 @@ public:
     */
    void clear();
 
+   /**
+    * Returns an array of children nodes.
+    */
+   inline const Array< BehTreeNode* >& getChildren() const {
+      return m_nodes;
+   }
+
    // ----------------------------------------------------------------------
    // BehTreeNode implementation
    // ----------------------------------------------------------------------

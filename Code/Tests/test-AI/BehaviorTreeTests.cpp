@@ -83,7 +83,7 @@ namespace // anonymous
       // ----------------------------------------------------------------------
       // BehTreeCondition implementation
       // ----------------------------------------------------------------------
-      int evaluate( BehaviorTreeRunner& runner ) const
+      int evaluate( BehaviorTreeRunner& runner, const BehTreeSelector& hostSelector ) const override
       {
          return m_flag ? 0 : 1;
       }

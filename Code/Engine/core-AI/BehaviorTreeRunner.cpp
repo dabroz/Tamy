@@ -55,11 +55,11 @@ void BehaviorTreeRunner::restart()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeRunner::execute()
+bool BehaviorTreeRunner::execute()
 {
    if ( !m_root )
    {
-      return;
+      return false;
    }
 
    BehTreeNode::Result result = m_root->execute( *this );
@@ -69,6 +69,11 @@ void BehaviorTreeRunner::execute()
       m_root->deinitialize( *this );
 
       m_root = NULL;
+      return false;
+   }
+   else
+   {
+      return true;
    }
 }
 

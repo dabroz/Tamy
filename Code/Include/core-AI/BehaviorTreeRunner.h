@@ -52,8 +52,10 @@ public:
 
    /**
     * Executes the next stage of the tree.
+    *
+    * @returns 'true' if the tree is being executed, 'false' if the execution is complete
     */
-   void execute();
+   bool execute();
 
    /**
     * Restarts tree execution.

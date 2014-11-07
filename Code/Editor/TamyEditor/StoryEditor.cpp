@@ -7,7 +7,6 @@
 #include "ext-StoryTeller\StoryPlayer.h"
 #include "ext-StoryTeller\StoryChapter.h"
 #include "ext-StoryTeller\StoryNodeInstance.h"
-#include "ext-2DGameLevel\GL2DWorld.h"
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\QSplitter>
 #include <QtWidgets\QToolBar>

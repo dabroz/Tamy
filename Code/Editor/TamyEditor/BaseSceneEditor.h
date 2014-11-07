@@ -56,8 +56,6 @@ private:
 
    Prefab*                                   m_droppedPrefab;
 
-   GL2DProceduralLevel*                      m_activeProceduralLevel;
-
    // clipboard
    EntitiesClipboard*                        m_clipboard;
 
@@ -138,21 +136,9 @@ private:
    */
    bool getEntityPlacementPoint( Vector& outPos ) const;
 
-   /**
-    * Toggles the procedural edition mode on/off.
-    *
-    * @param component
-    */
-   void setProceduralEditionMode( GL2DProceduralLevel* component );
-
-   /**
-    * Updates snap step settings of the scene gizmo.
-    */
-   void updateGizmoSnapStep();
 
 public slots:
    void saveResource();
-   void buildCollisionGeometry();
    void nodeSelected( SceneNode* );
    void selectionCleaned();
    void onScenePlayed( bool isPlayed );

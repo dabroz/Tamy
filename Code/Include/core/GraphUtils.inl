@@ -52,12 +52,12 @@ void GraphUtils< NODE >::bfs( const typename Graph< NODE >& graph, int start, OP
 
       operation(graph.getNode(currNodeIdx));
 
-      const GRAPH::EdgeIndices& edges = graph.getEdges(currNodeIdx);
+      const Array< GraphEdge* >& edges = graph.getEdges(currNodeIdx);
       uint count = edges.size();
       for ( uint i = 0; i < count; ++i )
       {
-         int edgeIdx = edges[i];
-         nodesQueue.pushBack(graph.getEdge(edgeIdx));
+         const int endNodeIdx = edges[i]->m_endNodeIdx;
+         nodesQueue.pushBack( endNodeIdx );
       }
    }
 }
@@ -76,7 +76,7 @@ void GraphUtils< NODE >::dijkstra( const typename Graph< NODE >& inGraph, typena
    // helper types
    // -------------------------------------------------------------------------
    typedef typename Graph< NODE > GRAPH;
-   typedef typename GRAPH::EdgeIndices EdgesList;
+   typedef Array< GraphEdge* > EdgesList;
    typedef std::vector< int > NodesList;
 
    // reset statistics
@@ -115,8 +115,8 @@ void GraphUtils< NODE >::dijkstra( const typename Graph< NODE >& inGraph, typena
       uint count = adjacentEdges.size();
       for ( uint i = 0; i < count; ++i )
       {
-         const int edgeIdx = adjacentEdges[i];
-         const int adjacentNodeIdx = inGraph.getEdge( edgeIdx );
+         const GraphEdge* edge = adjacentEdges[i];
+         const int adjacentNodeIdx = edge->m_endNodeIdx;
 
          // if the node's already in the closed list - discard it
          if ( std::find( closedList.begin(), closedList.end(), adjacentNodeIdx ) != closedList.end() )
@@ -178,7 +178,7 @@ bool GraphUtils< NODE >::aStar( const typename Graph< NODE >& inGraph, typename 
    // helper types
    // -------------------------------------------------------------------------
    typedef typename Graph< NODE > GRAPH;
-   typedef typename GRAPH::EdgeIndices EdgesList;
+   typedef Array< GraphEdge* > EdgesList;
    typedef std::vector< int > NodesList;
 
    // reset statistics
@@ -224,8 +224,8 @@ bool GraphUtils< NODE >::aStar( const typename Graph< NODE >& inGraph, typename 
       const uint outgoingEdgesCount = adjacentEdges.size();
       for ( uint i = 0; i < outgoingEdgesCount; ++i )
       {
-         const int edgeIdx = adjacentEdges[i];
-         const int adjacentNodeIdx = inGraph.getEdge( edgeIdx );
+         const GraphEdge* edge = adjacentEdges[i];
+         const int adjacentNodeIdx = edge->m_endNodeIdx;
 
          // if the node's already in the closed list - discard it
          if ( std::find( closedList.begin(), closedList.end(), adjacentNodeIdx ) != closedList.end() )
@@ -281,7 +281,7 @@ void GraphUtils< NODE >::topologicalSort( Array< int >& outNodesArr, const typen
    // helper types
    // -------------------------------------------------------------------------
    typedef typename Graph< NODE > GRAPH;
-   typedef typename GRAPH::EdgeIndices EdgesList;
+   typedef typename Array< GraphEdge* > EdgesList;
    typedef Array< int > NodesList;
 
    // -------------------------------------------------------------------------
@@ -294,9 +294,7 @@ void GraphUtils< NODE >::topologicalSort( Array< int >& outNodesArr, const typen
    int nodesCount = ( int ) tempGraph.getNodesCount();
    for ( int i = 0; i < nodesCount; ++i )
    {
-      EdgesList incomingEdgeIndices;
-      tempGraph.getIncomingEdges( i, incomingEdgeIndices );
-      if ( incomingEdgeIndices.empty() )
+      if ( tempGraph.getIncomingEdgesCount( i ) == 0 )
       {
          nodesToAnalyze.pushBack( i );
       }
@@ -324,10 +322,8 @@ void GraphUtils< NODE >::topologicalSort( Array< int >& outNodesArr, const typen
       count = outEdgeIndices.size();
       for ( uint i = 0; i < count; ++i )
       {
-         int edgeIdx = outEdgeIndices[i];
-
-         int idx = tempGraph.getEdge( edgeIdx );
-         nextNodes.push_back( idx );
+         const GraphEdge* edge = outEdgeIndices[i];
+         nextNodes.push_back( edge->m_endNodeIdx );
       }
 
       // remove the edges from the graph
@@ -338,11 +334,8 @@ void GraphUtils< NODE >::topologicalSort( Array< int >& outNodesArr, const typen
       count = nextNodes.size();
       for ( uint i = 0; i < count; ++i )
       {
-         int nextNodeIdx = nextNodes[i];
-
-         EdgesList incomingEdgeIndices;
-         tempGraph.getIncomingEdges( nextNodeIdx, incomingEdgeIndices );
-         if ( incomingEdgeIndices.empty() )
+         const int nextNodeIdx = nextNodes[i];
+         if ( tempGraph.getIncomingEdgesCount( nextNodeIdx ) == 0 )
          {
             nodesToAnalyze.pushBack( nextNodeIdx );
          }

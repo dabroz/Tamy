@@ -7,10 +7,19 @@
     <Filter Include="Uitls">
       <UniqueIdentifier>{566b036f-31da-4c61-b270-3aa3bd6c461e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StoryPlanning">
+      <UniqueIdentifier>{9188e9e7-a1ee-4a63-b573-adff04e00118}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StoryObjectsTests.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="StoryPlanningTests.cpp">
+      <Filter>StoryPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="DescritionBuilderTests.cpp">
+      <Filter>StoryPlanning</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

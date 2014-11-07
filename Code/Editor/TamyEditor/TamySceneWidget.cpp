@@ -160,7 +160,6 @@ void TamySceneWidget::initialize()
    m_gizmo = NULL;
    m_gizmoScene = NULL;
    m_snapToGridEnabled = false;
-   m_snapOverrideEnabled = false;
    m_snapToGridAction = NULL;
    m_userInputController = NULL;
    m_inputPolicy = IP_RELATIVE_ON_DEMAND;
@@ -806,18 +805,9 @@ void TamySceneWidget::toggleSnapToGrid()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void TamySceneWidget::enableSnapOverride( bool enable )
-{
-   m_snapOverrideEnabled = enable;
-
-   updateSnapToGrid();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void TamySceneWidget::updateSnapToGrid()
 {
-   bool isEnabled = m_snapOverrideEnabled || m_snapToGridEnabled;
+   bool isEnabled = m_snapToGridEnabled;
 
    if ( isEnabled )
    {

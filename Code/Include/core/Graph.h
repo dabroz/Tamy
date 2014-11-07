@@ -9,8 +9,30 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+struct GraphEdge
+{
+   DECLARE_ALLOCATOR( GraphEdge, AM_ALIGNED_16 );
+
+   int     m_endNodeIdx;
+   void*   m_userData;
+
+   GraphEdge( int endNodeIdx )
+      : m_endNodeIdx( endNodeIdx )
+      , m_userData( NULL )
+   {
+   }
+
+   GraphEdge( const GraphEdge& rhs )
+      : m_endNodeIdx( rhs.m_endNodeIdx )
+      , m_userData( rhs.m_userData )
+   {
+   }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
 /**
- * This is a graph representation. It's a template that allows to use 
+ * This is a graph representation. It's a template that allows to use
  * different node and edge types.
  * The only constraint is that an EDGE type had the Graph::Index operator
  * defined that returns an index of the node the edge points to.
@@ -21,148 +43,169 @@ class Graph
    DECLARE_ALLOCATOR( Graph, AM_ALIGNED_16 );
 
 public:
-    enum {InvalidIndex = -1};
-
-    typedef typename Array<int> EdgeIndices;
+   enum {
+      InvalidIndex = -1
+   };
 
 private:
-    Array<NODE>                     m_nodes;  // a list of all nodes in the graph
-    Array<int>                    m_edges;  // a list of all edges in the graph
+   Array<NODE>                     m_nodes;  // a list of all nodes in the graph
 
-    EdgeIndices                     m_edgesMapping;
-    EdgeIndices                     m_freeEdgeMapings;
-
-    // a square array - each col  represents a node index.
-    // It's guaranteed to have as many columns as there are nodes in the system.
-    // Each row in such a column contains an information about an edge that
-    // exists from this node. An edge in return contains an information about
-    // the node index it connects to at the other end - this way we can go 
-    // from one node to another.
-    Array< EdgeIndices >         m_graphRepr;
+   // a square array - each col  represents a node index.
+   // It's guaranteed to have as many columns as there are nodes in the system.
+   // Each row in such a column contains an information about an edge that
+   // exists from this node. An edge in return contains an information about
+   // the node index it connects to at the other end - this way we can go 
+   // from one node to another.
+   Array< Array< GraphEdge* > >    m_graphRepr;
 
 public:
-    virtual ~Graph() {}
+   /**
+    * Constructor.
+    */
+   Graph();
 
-    /**
-     * Clears the graph.
-     */
-    void clear();
+   /**
+    * Copy constructor.
+    *
+    * @param rhs
+    */
+   Graph( const Graph& rhs );
+   virtual ~Graph();
 
-    /**
-     * Adds a new node to the graph.
-     *
-     * @param node      new node
-     * @return          index the node was assigned in the graph.
-     */
-    int addNode( const NODE& node );
+   /**
+    * Assignment operator.
+    *
+    * @param rhs
+    */
+   void operator=( const Graph& rhs );
 
-    /**
-     * Returns index of the specified node.
-     *
-     * @param node
-     */
-    int getNodeIdx( const NODE& node ) const;
+   /**
+    * Clears the graph.
+    */
+   void clear();
 
-    /**
-     * The method returns the number of nodes the graph has
-     *
-     * @return          number of nodes in the graph
-     */
-    unsigned int getNodesCount() const;
+   /**
+    * Adds a new node to the graph.
+    *
+    * @param node      new node
+    * @return          index the node was assigned in the graph.
+    */
+   int addNode( const NODE& node );
 
-    /**
-     * Connects two nodes together.
-     *
-     * @param startNodeIdx
-     * @param endNodeIdx 
-     * @return          index the edge was assigned in the graph.
-     */
-    int connect( int startNodeIdx, int endNodeIdx );
+   /**
+    * Returns index of the specified node.
+    *
+    * @param node
+    */
+   int getNodeIdx( const NODE& node ) const;
 
-    /**
-     * Checks if 2 nodes ( identified by the specified indices ) are connected.
-     *
-     * @param startNodeIdx
-     * @param endNodeIdx
-     */
-    bool areConnected( int startNodeIdx, int endNodeIdx ) const;
+   /**
+    * The method returns the number of nodes the graph has
+    *
+    * @return          number of nodes in the graph
+    */
+   unsigned int getNodesCount() const;
 
-    /**
-     * The method returns the number of edges the graph has
-     *
-     * @return          number of edges in the graph
-     */
-    uint getEdgesCount() const;
+   /**
+    * Connects two nodes together.
+    *
+    * @param startNodeIdx
+    * @param endNodeIdx
+    * @return          edge was assigned in the graph.
+    */
+   GraphEdge* connect( int startNodeIdx, int endNodeIdx );
 
-    /**
+   /**
+    * Checks if 2 nodes ( identified by the specified indices ) are connected.
+    *
+    * @param startNodeIdx
+    * @param endNodeIdx
+    */
+   bool areConnected( int startNodeIdx, int endNodeIdx ) const;
+
+   /**
+   * Returns a node  stored in the graph under the specified index.]
+   *
+   * @param idx       index of a node we want to retrieve
+   * @return          a node
+   */
+   NODE& getNode( int idx );
+
+   /**
     * Returns a node  stored in the graph under the specified index.]
+    * (const version)
     *
     * @param idx       index of a node we want to retrieve
     * @return          a node
     */
-    NODE& getNode( int idx );
+   const NODE& getNode( int idx ) const;
 
-    /**
-     * Returns a node  stored in the graph under the specified index.]
-     * (const version)
-     *
-     * @param idx       index of a node we want to retrieve
-     * @return          a node
-     */
-    const NODE& getNode( int idx ) const;
-
-    /**
-    * Returns an index of a triangle the specified edge leads to.
+   /**
+    * Looks for the specified node and returns its index.
     *
-    * @param edgeIdx       index of an edge we want to retrieve
-    * @return          an edge
+    * @param node
+    * @return index of the node
     */
-    int getEdge( int edgeIdx ) const;
+   int findNodeIdx( const NODE& node ) const;
 
-    /**
-     * Returns all edges exiting the node that's registered in the graph
-     * under the specified index.
-     *
-     * @param nodeIdx   index of a node
-     * @return          vector containing all edges exiting the specified node
-     */
-    EdgeIndices& getEdges( int nodeIdx );
-
-    /**
-     * Returns all edges exiting the node that's registered in the graph
-     * under the specified index.
-     *
-     * @param nodeIdx   index of a node
-     * @return          vector containing all edges exiting the specified node
-     */
-    const EdgeIndices& getEdges( int nodeIdx ) const;
-
-    /**
-     * Returns all edges entering the node that's registered in the graph
-     * under the specified index.
-     *
-     * @param nodeIdx   index of a node
-     * @param outEdges  vector containing all edges entering the specified node
-     */
-    void getIncomingEdges( int nodeIdx, typename Graph<NODE>::EdgeIndices& outEdges ) const;
-
-    /**
-     * Returns an index of an edge that connects two nodes
-     * indices of which we pass as params.
-     *
-     * @param startNodeIdx  start node index
-     * @param endNodeIdx    end node index
-     * @return              index of an edge or -1, if there's no edge
-     *                      connecting the two nodes
+   /**
+    * Returns all edges exiting the node that's registered in the graph
+    * under the specified index.
+    *
+    * @param nodeIdx   index of a node
+    * @return          vector containing all edges exiting the specified node
     */
-    int getEdgeIdx( int startNodeIdx, int endNodeIdx ) const;
+   Array< GraphEdge* >& getEdges( int nodeIdx );
 
-    /**
-     * Disconnects all edges exiting the specified node.
-     *
-     * @param nodeIdx       index of a node we want disconnected
-     */
-    void disconnect( int nodeIdx );
+   /**
+    * Returns all edges exiting the node that's registered in the graph
+    * under the specified index.
+    *
+    * @param nodeIdx   index of a node
+    * @return          vector containing all edges exiting the specified node
+    */
+   const Array< GraphEdge* >& getEdges( int nodeIdx ) const;
+
+   /**
+    * Returns a total number of edges in the graph.
+    */
+   uint getEdgesCount() const;
+
+   /**
+    * Returns indices of nodes that connect TO this node ( this node is the end point to connections
+    * that originate in the other nodes ).
+    *
+    * @param nodeIdx                  index of a node to check
+    * @param outConnectedNodeIndices
+    */
+   void traceIncomingEdges( int nodeIdx, Array<int>& outConnectedNodeIndices ) const;
+
+   /**
+    * Returns a number of edges that terminate in the specified node.
+    *
+    * @param nodeIdx
+    */
+   uint getIncomingEdgesCount( int nodeIdx ) const;
+
+   /**
+    * Returns an index of an edge that connects two nodes
+    * indices of which we pass as params.
+    *
+    * @param startNodeIdx  start node index
+    * @param endNodeIdx    end node index
+    * @return              graph edge
+    */
+   GraphEdge* getEdge( int startNodeIdx, int endNodeIdx ) const;
+
+   /**
+    * Disconnects all edges exiting the specified node.
+    *
+    * @param nodeIdx       index of a node we want disconnected
+    */
+   void disconnect( int nodeIdx );
+
+private:
+   void copyFrom( const Graph& rhs );
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -342,13 +342,11 @@ GeometryComponent* StaticGeometryNode::build( const FilePath& meshFilePath, Mate
    ResourcesManager& resMgr = TSingleton< ResourcesManager >::getInstance();
    TriangleMesh* assembledTriangleMesh = resMgr.create< TriangleMesh >( meshFilePath, false );
    assembledTriangleMesh->clear(); // clear the mesh in case it already contained something
-   assembledGeometryComp->setMesh( *assembledTriangleMesh );
 
    // set the material it will be using
    assembledGeometryComp->accessRenderState()->setMaterial( material );
 
-   // start merging the geometry together
-   
+   // start merging the geometry together 
    for ( List< Entry* >::iterator it = m_geometry.begin(); !it.isEnd(); ++it )
    {
       Entry* entry = *it;
@@ -356,6 +354,10 @@ GeometryComponent* StaticGeometryNode::build( const FilePath& meshFilePath, Mate
       TriangleMesh* chunkMesh = static_cast< TriangleMesh* >( entry->m_geometry->getMesh() );
       assembledTriangleMesh->merge( *chunkMesh, entry->m_transform );
    }
+
+   // Embed the mesh in the component. We need to do it after the mesh is assembled, so that
+   // the geometry bounds could be updated correctly
+   assembledGeometryComp->setMesh( *assembledTriangleMesh );
 
    return assembledGeometryComp;
 }

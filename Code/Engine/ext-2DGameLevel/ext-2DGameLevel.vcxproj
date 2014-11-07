@@ -83,65 +83,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\ext-2DGameLevel\TypesRegistry.cpp" />
-    <ClCompile Include="GL2DBounds.cpp" />
-    <ClCompile Include="GL2DBoxShape.cpp" />
-    <ClCompile Include="GL2DCircleShape.cpp" />
-    <ClCompile Include="GL2DCollisionAlgorithms.cpp" />
-    <ClCompile Include="GL2DCollisionBroadphase.cpp" />
-    <ClCompile Include="GL2DBody.cpp" />
-    <ClCompile Include="GL2DCollisionGeometry.cpp" />
-    <ClCompile Include="GL2DCollisionGeometryBuilder.cpp" />
-    <ClCompile Include="GL2DCollisionPointsCollector.cpp" />
-    <ClCompile Include="GL2DCorridor.cpp" />
     <ClCompile Include="GL2DLevelGenerator.cpp" />
-    <ClCompile Include="GL2DLevelGenUtils.cpp" />
-    <ClCompile Include="GL2DDirectedLineSegment.cpp" />
     <ClCompile Include="GL2DProceduralLevel.cpp" />
-    <ClCompile Include="GL2DLevelVoxels.cpp" />
-    <ClCompile Include="GL2DRoom.cpp" />
-    <ClCompile Include="GL2DRoomArea.cpp" />
-    <ClCompile Include="GL2DRoomLayout.cpp" />
-    <ClCompile Include="GL2DRoomTheme.cpp" />
-    <ClCompile Include="GL2DSystem.cpp" />
     <ClCompile Include="GL2DVoxelizedItem.cpp" />
     <ClCompile Include="GL2DVoxelPrefabsMap.cpp" />
-    <ClCompile Include="GL2DWallVoxel.cpp" />
-    <ClCompile Include="GL2DWorld.cpp" />
-    <ClCompile Include="GL2DCollisionResolver.cpp" />
-    <ClCompile Include="GL2DLineSegmentsShape.cpp" />
-    <ClCompile Include="GL2DShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\ext-2DGameLevel.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DBounds.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DBoxShape.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCircleShape.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionAlgorithms.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\Defines.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionBroadphase.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DBody.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionGeometry.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionGeometryBuilder.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionPointsCollector.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCorridor.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DDirectedLineSegment.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelGenerator.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelGenUtils.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelVoxels.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DListener.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DProceduralLevel.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoom.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoomArea.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoomLayout.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoomTheme.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DSystem.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelizedItem.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelPrefabsMap.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DWallVoxel.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DWorld.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionResolver.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLineSegmentsShape.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DShape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

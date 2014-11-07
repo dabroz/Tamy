@@ -162,13 +162,6 @@ public:
    Component* createSkeletonComponent( const TamySkeletonComponent& exportedSkeletonComponent );
 
    /**
-    * Creates a collision geometry component.
-    *
-    * @param exportedCollisionGeometry
-    */
-   Component* createCollisionGeometry( const TamyGeometry& exportedCollisionGeometry );
-
-   /**
     * Sets up global rendering data.
     *
     * @param worldSettings

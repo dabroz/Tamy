@@ -119,6 +119,24 @@
     <ClInclude Include="..\..\Include\ext-StoryTeller\BTAAnimationToPhysics.h">
       <Filter>BehTreeNodes\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\Evidence.h">
+      <Filter>ProceduralStoryGenerator\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\RandomFactory.h">
+      <Filter>ProceduralStoryGenerator\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\Investigator.h">
+      <Filter>ProceduralStoryGenerator\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\RenderedEvidence.h">
+      <Filter>ProceduralStoryGenerator\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\EvidenceHolder.h">
+      <Filter>ProceduralStoryGenerator\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-StoryTeller\EvidenceWorld.h">
+      <Filter>ProceduralStoryGenerator\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\ext-StoryTeller\TypesRegistry.cpp" />
@@ -236,6 +254,21 @@
     <ClCompile Include="BTAAnimationToPhysics.cpp">
       <Filter>BehTreeNodes\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Evidence.cpp">
+      <Filter>ProceduralStoryGenerator\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Investigator.cpp">
+      <Filter>ProceduralStoryGenerator\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderedEvidence.cpp">
+      <Filter>ProceduralStoryGenerator\World</Filter>
+    </ClCompile>
+    <ClCompile Include="EvidenceHolder.cpp">
+      <Filter>ProceduralStoryGenerator\World</Filter>
+    </ClCompile>
+    <ClCompile Include="EvidenceWorld.cpp">
+      <Filter>ProceduralStoryGenerator\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Runtime">
@@ -313,5 +346,19 @@
     <Filter Include="BehTreeNodes\Animation">
       <UniqueIdentifier>{e05a4e73-f6b4-481f-a29e-7a6d24ef74b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProceduralStoryGenerator">
+      <UniqueIdentifier>{0d75edc9-0631-4763-80a6-a5fb456a861c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProceduralStoryGenerator\Core">
+      <UniqueIdentifier>{fe88ab1b-9029-481c-ab44-24f0ba0e06bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProceduralStoryGenerator\World">
+      <UniqueIdentifier>{929b7523-e219-4e9d-b38d-b13cb5ec9b16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\ext-StoryTeller\RandomFactory.inl">
+      <Filter>ProceduralStoryGenerator\Core</Filter>
+    </None>
   </ItemGroup>
 </Project>

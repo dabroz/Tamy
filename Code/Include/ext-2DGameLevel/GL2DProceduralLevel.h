@@ -1,30 +1,16 @@
 /// @file   ext-2DGameLevel\GL2DProceduralLevel.h
-/// @brief  a description of how a procedural level should be generated
+/// @brief  a utility component that allows us to generate level geometry from the scene tree
 #pragma once
 
 #include "core-MVC\Component.h"
-#include "core\AxisAlignedBox.h"
-#include "core\List.h"
-#include "core\Array.h"
+#include "core\FilePath.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class Prefab;
-struct Point;
-
-typedef uint( *CostFunc )( const Point&, const Point& );
-
-///////////////////////////////////////////////////////////////////////////////
-
-enum CostFunctionEnum
-{
-   GL2D_StraightCorridors,
-   GL2D_BendyCorridors,
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
+/**
+ * A utility component that allows us to generate level geometry from the scene tree.
+ */
 class GL2DProceduralLevel : public Component
 {
    DECLARE_ALLOCATOR( GL2DProceduralLevel, AM_DEFAULT );
@@ -32,14 +18,9 @@ class GL2DProceduralLevel : public Component
 
 public:
    // static data
-   FilePath             m_geometryVoxelsDir;
-   FilePath             m_geometryDeploymentDir;
-   uint                 m_voxelsPerCell;
-   uint                 m_roomsCount;
-   uint                 m_maxSideCorridorsDepth;      // how many side rooms will get connected by a side corridor
-   uint                 m_maxExpandedChildrenCount;   // how many connections of every analyzed side room will be expanded
-
-   CostFunctionEnum     m_corridorType;
+   FilePath             m_geometryDir;
+   FilePath             m_backgroundPrefabsDir;
+   float                m_levelLenght;
 
 public:
    /**
@@ -56,10 +37,6 @@ public:
     */
    GL2DProceduralLevel( const GL2DProceduralLevel& rhs );
 
-   /**
-    * Returns the selected cost function.
-    */
-   CostFunc getCostFunction() const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

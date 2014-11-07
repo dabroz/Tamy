@@ -3,7 +3,6 @@
 #include "ext-StoryTeller\StoryNodeInstance.h"
 #include "ext-StoryTeller\StoryPlayer.h"
 #include "ext-StoryTeller\StoryActor.h"
-#include "ext-2DGameLevel\GL2DBody.h"
 #include "core-AI\BehaviorTreeRunner.h"
 #include "core-AI\BehTreeVariable.h"
 #include "core-MVC\EntityUtils.h"

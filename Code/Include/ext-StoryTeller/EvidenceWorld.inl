@@ -1,0 +1,16 @@
+#ifndef _EVIDENCE_WORLD_H
+#error "This file can only be included in EvidenceWorld.h"
+#else
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< class T >
+void EvidenceWorld::addType()
+{
+   m_creators.pushBack( new TCreator< T >() );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+#endif // _EVIDENCE_WORLD_H

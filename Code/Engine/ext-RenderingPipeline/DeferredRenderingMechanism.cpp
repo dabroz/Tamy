@@ -408,16 +408,25 @@ void DeferredRenderingMechanism::render( Renderer& renderer )
    Color globalAmbientLight( 0, 0, 0 );
    {
       LocationRenderSettings* locationSettings = m_customComponentsView->m_locationSettings;
-
-      m_skyboxRenderer->setTexture( locationSettings->getSkyboxTexture() );
-
-      AmbientOcclusionSettings& aoSettings = m_ambientOcclusionPass->accessSettings();
-      aoSettings.m_power = locationSettings->m_aoPower;
-      aoSettings.m_radius = locationSettings->m_aoRadius;
-
-      if ( m_customComponentsView->m_locationSettings )
+      if ( locationSettings )
       {
+         // location settings available
+         m_skyboxRenderer->setTexture( locationSettings->getSkyboxTexture() );
+
+         AmbientOcclusionSettings& aoSettings = m_ambientOcclusionPass->accessSettings();
+         aoSettings.m_power = locationSettings->m_aoPower;
+         aoSettings.m_radius = locationSettings->m_aoRadius;
+
          globalAmbientLight = locationSettings->getBaseAmbientLight();
+      }
+      else
+      {
+         // use the default location settings
+         m_skyboxRenderer->setTexture(NULL);
+
+         AmbientOcclusionSettings& aoSettings = m_ambientOcclusionPass->accessSettings();
+         aoSettings.m_power = 1.0f;
+         aoSettings.m_radius = 0.5f;;
       }
    }
 

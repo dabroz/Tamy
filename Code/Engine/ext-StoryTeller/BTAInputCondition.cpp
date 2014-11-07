@@ -25,7 +25,7 @@ BTAInputCondition::~BTAInputCondition()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int BTAInputCondition::evaluate( BehaviorTreeRunner& runner ) const
+int BTAInputCondition::evaluate( BehaviorTreeRunner& runner, const BehTreeSelector& hostSelector ) const
 {
    StoryBehTreeContext* context = ( StoryBehTreeContext* ) runner.getContext();
    UserInputController* inputCtrl = context->m_player.userInputController();

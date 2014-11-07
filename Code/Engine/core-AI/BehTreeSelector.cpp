@@ -87,7 +87,7 @@ BehTreeNode::Result BehTreeSelector::execute( BehaviorTreeRunner& runner ) const
    RuntimeDataBuffer& data = runner.data();
    const int activeIdx = data[m_activeIdx];
 
-   int selectedIdx = m_condition->evaluate( runner );
+   int selectedIdx = m_condition->evaluate( runner, *this );
    if ( selectedIdx >= m_nodes.size() )
    {
       // the user didn't connect a node to that index, so don't activate anything

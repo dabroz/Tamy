@@ -8,12 +8,76 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
+Graph<NODE>::Graph()
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
+Graph<NODE>::Graph( const Graph& rhs )
+{
+   copyFrom( rhs );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
+Graph<NODE>::~Graph()
+{
+   clear();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
+void Graph<NODE>::operator=( const Graph& rhs )
+{
+   clear();
+   copyFrom( rhs );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
+void Graph<NODE>::copyFrom( const Graph& rhs )
+{
+   m_nodes = rhs.m_nodes;
+
+   const uint nodesCount = rhs.m_graphRepr.size();
+   m_graphRepr.resize( nodesCount, Array< GraphEdge*>() );
+   for ( uint i = 0; i < nodesCount; ++i )
+   {
+      const Array< GraphEdge* >& rhsEdges = rhs.m_graphRepr[i];
+      Array< GraphEdge* >& lhsEdges = m_graphRepr[i];
+
+      const uint edgesCount = rhsEdges.size();
+      lhsEdges.resize( edgesCount, NULL );
+      for ( uint j = 0; j < edgesCount; ++j )
+      {
+         lhsEdges[j] = new GraphEdge( *rhsEdges[j] );
+      }
+   }
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
 void Graph<NODE>::clear( )
 {
+   const uint nodesCount = m_graphRepr.size();
+   for ( uint i = 0; i < nodesCount; ++i )
+   {
+      Array< GraphEdge* >& egdes = m_graphRepr[i];
+      const uint edgesCount = egdes.size();
+      for ( uint j = 0; j < edgesCount; ++j )
+      {
+         delete egdes[j];
+      }
+   }
+
    m_nodes.clear();
-   m_edges.clear( );
-   m_edgesMapping.clear( );
-   m_freeEdgeMapings.clear( );
    m_graphRepr.clear();
 }
 
@@ -24,7 +88,7 @@ int Graph<NODE>::addNode( const NODE& node )
 {
    int idx = m_nodes.size();
    m_nodes.push_back(node);
-   m_graphRepr.push_back(EdgeIndices());
+   m_graphRepr.push_back( Array< GraphEdge* >() );
 
    return idx;
 }
@@ -58,27 +122,12 @@ unsigned int Graph< NODE >::getNodesCount() const
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
-int Graph<NODE >::connect( int startNodeIdx, int endNodeIdx )
+GraphEdge* Graph<NODE >::connect( int startNodeIdx, int endNodeIdx )
 {
-   int idx = m_edges.size();
-   m_edges.push_back( endNodeIdx );
+   GraphEdge* edge = new GraphEdge( endNodeIdx );
+   m_graphRepr[startNodeIdx].push_back( edge );
 
-   int edgeIdx = InvalidIndex;
-   if ( m_freeEdgeMapings.empty() )
-   {
-      edgeIdx = m_edgesMapping.size();
-      m_edgesMapping.push_back( idx );
-   }
-   else
-   {
-      edgeIdx = m_freeEdgeMapings.back();
-      m_freeEdgeMapings.remove( m_freeEdgeMapings.size() - 1 );
-      m_edgesMapping[ edgeIdx ] = idx;
-   }
-
-   m_graphRepr[startNodeIdx].push_back( edgeIdx );
-
-   return idx;
+   return edge;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -86,11 +135,11 @@ int Graph<NODE >::connect( int startNodeIdx, int endNodeIdx )
 template < typename NODE >
 bool Graph<NODE >::areConnected( int startNodeIdx, int endNodeIdx ) const
 {
-   typename const Graph<NODE >::EdgeIndices& edgeIndices = m_graphRepr[startNodeIdx];
-   const uint count = edgeIndices.size();
+   const Array< GraphEdge* >& edges = m_graphRepr[startNodeIdx];
+   const uint count = edges.size();
    for ( uint i = 0; i < count; ++i )
    {
-      int endIdx = m_edges[edgeIndices[i]];
+      int endIdx = edges[i]->m_endNodeIdx;
 
       if ( endIdx == endNodeIdx )
       {
@@ -99,14 +148,6 @@ bool Graph<NODE >::areConnected( int startNodeIdx, int endNodeIdx ) const
    }
 
    return false;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-template < typename NODE >
-unsigned int Graph<NODE >::getEdgesCount() const
-{
-   return m_edgesMapping.size() - m_freeEdgeMapings.size();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -128,23 +169,25 @@ const NODE& Graph<NODE >::getNode( int idx ) const
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
-int Graph< NODE >::getEdge( int edgeIdx ) const
+int Graph< NODE >::findNodeIdx( const NODE& node ) const
 {
-   if ( m_edgesMapping[edgeIdx] != InvalidIndex )
+   const uint count = m_nodes.size();
+   for ( uint i = 0; i < count; ++i )
    {
-      return m_edges[m_edgesMapping[edgeIdx]];
+      if ( m_nodes[i] == node )
+      {
+         return i;
+      }
    }
-   else
-   {
-      ASSERT_MSG( false, "Trying to access a non-existing edge" );
-      return InvalidIndex;
-   }
+
+   // the node is not a part of this graph
+   return InvalidIndex;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
-typename Graph<NODE >::EdgeIndices& Graph<NODE >::getEdges( int nodeIdx )
+Array< GraphEdge* >& Graph<NODE >::getEdges( int nodeIdx )
 {
    return m_graphRepr[nodeIdx];
 }
@@ -152,7 +195,7 @@ typename Graph<NODE >::EdgeIndices& Graph<NODE >::getEdges( int nodeIdx )
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
-const typename Graph<NODE >::EdgeIndices& Graph<NODE >::getEdges( int nodeIdx ) const
+const Array< GraphEdge* >& Graph<NODE >::getEdges( int nodeIdx ) const
 {
    return m_graphRepr[nodeIdx];
 }
@@ -160,15 +203,51 @@ const typename Graph<NODE >::EdgeIndices& Graph<NODE >::getEdges( int nodeIdx ) 
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
-void Graph< NODE >::getIncomingEdges( int nodeIdx, typename Graph< NODE >::EdgeIndices& outEdges ) const
+uint Graph<NODE >::getEdgesCount() const
 {
-   uint count = m_edgesMapping.size();
-   for ( uint i = 0; i < count; ++i )
+   uint totalNumEdges = 0;
+
+   const uint nodesCount = m_graphRepr.size();
+   for ( uint i = 0; i < nodesCount; ++i )
    {
-      const int& edgeIdx = m_edgesMapping[i];
-      if ( edgeIdx != InvalidIndex && ( int ) ( m_edges[edgeIdx] ) == nodeIdx )
+      const Array< GraphEdge* >& egdes = m_graphRepr[i];
+      totalNumEdges += egdes.size();
+   }
+
+   return totalNumEdges;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
+uint Graph< NODE >::getIncomingEdgesCount( int endNodeIdx ) const
+{
+   uint incomingEdgesCount = 0;
+   const uint count = m_graphRepr.size();
+   for ( uint startNodeIdx = 0; startNodeIdx < count; ++startNodeIdx )
+   {
+      GraphEdge* edge = getEdge( startNodeIdx, endNodeIdx );
+      if ( edge != NULL )
       {
-         outEdges.push_back( i );
+         ++incomingEdgesCount;
+      }
+   }
+
+   return incomingEdgesCount;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template < typename NODE >
+void Graph< NODE >::traceIncomingEdges( int endNodeIdx, Array<int>& outConnectedNodeIndices ) const
+{
+   const uint count = m_graphRepr.size();
+   for ( uint startNodeIdx = 0; startNodeIdx < count; ++startNodeIdx )
+   {
+      GraphEdge* edge = getEdge( startNodeIdx, endNodeIdx );
+      if ( edge != NULL )
+      {
+         outConnectedNodeIndices.push_back( startNodeIdx );
       }
    }
 }
@@ -176,20 +255,20 @@ void Graph< NODE >::getIncomingEdges( int nodeIdx, typename Graph< NODE >::EdgeI
 ///////////////////////////////////////////////////////////////////////////////
 
 template < typename NODE >
-int Graph<NODE>::getEdgeIdx( int startNodeIdx, int endNodeIdx ) const
+GraphEdge* Graph<NODE>::getEdge( int startNodeIdx, int endNodeIdx ) const
 {
-   const EdgeIndices& edges = m_graphRepr[startNodeIdx];
-   uint count = edges.size();
+   const Array< GraphEdge* >& edges = m_graphRepr[startNodeIdx];
+   const uint count = edges.size();
    for ( uint i = 0; i < count; ++i )
    {
-      int edgeIdx = edges[i];
-      if ( ( int ) ( getEdge( edgeIdx ) ) == endNodeIdx )
+      GraphEdge* edge = edges[i];
+      if ( edge->m_endNodeIdx == endNodeIdx )
       {
-         return edgeIdx;
+         return edge;
       }
    }
 
-   return -1;
+   return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -197,17 +276,15 @@ int Graph<NODE>::getEdgeIdx( int startNodeIdx, int endNodeIdx ) const
 template < typename NODE >
 void Graph< NODE >::disconnect( int nodeIdx )
 {
-   EdgeIndices& edgeIndices = m_graphRepr[nodeIdx];
+   Array< GraphEdge* >& removedEdges = m_graphRepr[nodeIdx];
 
-   uint count = edgeIndices.size();
-   for ( uint i = 0; i < count; ++i )
+   const uint removedIndicesCount = removedEdges.size();
+   for ( uint i = 0; i < removedIndicesCount; ++i )
    {
-      int edgeIdx = edgeIndices[i];
-
-      m_edgesMapping[ edgeIdx ] = InvalidIndex;
-      m_freeEdgeMapings.push_back( edgeIdx );
+      delete removedEdges[i];
    }
-   m_graphRepr[nodeIdx].clear();
+
+   removedEdges.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

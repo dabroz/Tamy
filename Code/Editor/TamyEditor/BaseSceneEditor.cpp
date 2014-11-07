@@ -19,10 +19,6 @@
 #include "SceneTreeWidget.h"
 #include "Gizmo.h"
 
-// level tools
-#include "ext-2DGameLevel\GL2DCollisionGeometryBuilder.h"
-#include "ext-2DGameLevel\GL2DProceduralLevel.h"
-
 // mime
 #include "ResourceMimeData.h"
 
@@ -41,7 +37,6 @@ BaseSceneEditor::BaseSceneEditor( Resource& editedResource )
    , m_actionSave( NULL )
    , m_clipboard( NULL )
    , m_toolBar( NULL )
-   , m_activeProceduralLevel( NULL )
 {
    setFocusPolicy( Qt::StrongFocus );
 }
@@ -64,8 +59,6 @@ void BaseSceneEditor::initializeBase( Entity* root, Model* scene )
 
 void BaseSceneEditor::onInitialize()
 {
-   m_activeProceduralLevel = NULL;
-
    TamyEditor& mainEditor = TamyEditor::getInstance();
 
    // setup the main layout
@@ -140,15 +133,6 @@ void BaseSceneEditor::onInitialize()
          m_actionSave = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/saveFile.png" ) ), tr( "Save" ), m_toolBar );
          m_toolBar->addAction( m_actionSave );
          connect( m_actionSave, SIGNAL( triggered() ), this, SLOT( saveResource() ) );
-
-         m_toolBar->addSeparator();
-      }
-
-      // geometry processing
-      {
-         m_actionBuildGameLevelGeometry = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/buildLevelGeometry.png" ) ), tr( "Build collision geometry" ), m_toolBar );
-         m_toolBar->addAction( m_actionBuildGameLevelGeometry );
-         connect( m_actionBuildGameLevelGeometry, SIGNAL( triggered() ), this, SLOT( buildCollisionGeometry() ) );
 
          m_toolBar->addSeparator();
       }
@@ -407,108 +391,26 @@ bool BaseSceneEditor::getEntityPlacementPoint( Vector& outPos ) const
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BaseSceneEditor::buildCollisionGeometry()
-{
-   // collect selected entities and 
-   SelectionManager& selectionManager = m_sceneWidget->getSelectionMgr();
-
-   GL2DCollisionGeometryBuilder builder( m_root );
-   builder.initialize( selectionManager.getSelectedNodes() );
-   builder.process();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void BaseSceneEditor::onNodeAdded( SceneNode* node )
 {
-   if ( node->isA< GL2DProceduralLevel >() )
-   {
-      setProceduralEditionMode( static_cast< GL2DProceduralLevel* >( node ) );
-   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void BaseSceneEditor::onNodeRemoved( SceneNode* node )
 {
-   if ( node->isA< GL2DProceduralLevel >() )
-   {
-      // Check if there are any other procedural level entities. If that was the last one,
-      // switch the procedural edition mode off
-      List< GL2DProceduralLevel* > components;
-      EntityUtils::collectNodesByType< GL2DProceduralLevel >( m_root, components );
-
-      if ( !components.empty() )
-      {
-         setProceduralEditionMode( components.front() );
-      }
-      else
-      {
-         setProceduralEditionMode( NULL );
-      }
-   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void BaseSceneEditor::resetContents( Model& model )
 {
-   setProceduralEditionMode( false );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void BaseSceneEditor::setProceduralEditionMode( GL2DProceduralLevel* component )
-{
-   if ( m_activeProceduralLevel == component )
-   {
-      // nothing changes
-      return;
-   }
-
-   if ( m_activeProceduralLevel != NULL && component != NULL )
-   {
-      // we can only have one active procedural level component, and we already have it.
-      // This can change in the future of course, but for now the code assumes there's only
-      // one set of procedural level generation settings that affects all entities in the level.
-      return;
-   }
-   
-   m_activeProceduralLevel = component;
-   updateGizmoSnapStep();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void BaseSceneEditor::onSelectionChanged( SelectionManager* selectionMgr )
 {
-   updateGizmoSnapStep();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void BaseSceneEditor::updateGizmoSnapStep()
-{
-   bool applyProceduralSnap = false;
-
-   if ( m_activeProceduralLevel )
-   {
-      const float translationSnap = 1.0f;
-      const float angleSnap = 90.0f;
-      m_sceneWidget->setSnapSteps( translationSnap, angleSnap );
-
-      // override the snap - toggle it on all the time
-      m_sceneWidget->enableSnapOverride( true );
-      
-   }
-   else
-   {
-      // go back to the default snap step value
-      m_sceneWidget->setDefaultSnapSteps();
-
-      // override the snap - toggle it on all the time
-      m_sceneWidget->enableSnapOverride( false );
-   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,7 @@ Log Log::s_theInstance;
 
 void LOG( const char* msg, ... )
 {
-   char formattedStr[1024];
+   static char formattedStr[2048];
 
    va_list argptr;
    va_start( argptr, msg );
@@ -30,7 +30,7 @@ void CONDITIONAL_LOG( bool condition, const char* msg, ... )
       return;
    }
 
-   char formattedStr[1024];
+   static char formattedStr[2048];
 
    va_list argptr;
    va_start( argptr, msg );
@@ -44,7 +44,7 @@ void CONDITIONAL_LOG( bool condition, const char* msg, ... )
 
 void WARNING( const char* msg, ... )
 {
-   char formattedStr[1024];
+   static char formattedStr[2048];
 
    va_list argptr;
    va_start( argptr, msg );

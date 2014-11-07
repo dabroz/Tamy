@@ -116,6 +116,11 @@
     <ClInclude Include="..\..\Include\ext-StoryTeller\BTAThirdPersonCamera.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\BTATopDownCameraController.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\BTATransformVec.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\Evidence.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\EvidenceHolder.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\EvidenceWorld.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\RandomFactory.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\RenderedEvidence.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\SAActivateChapter.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\SACondition.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\SAGetRandomAnnotation.h" />
@@ -139,6 +144,7 @@
     <ClInclude Include="..\..\Include\ext-StoryTeller\StoryNode.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\StoryNodeInstance.h" />
     <ClInclude Include="..\..\Include\ext-StoryTeller\StoryPlayer.h" />
+    <ClInclude Include="..\..\Include\ext-StoryTeller\Investigator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\ext-StoryTeller\TypesRegistry.cpp" />
@@ -158,6 +164,11 @@
     <ClCompile Include="BTAThirdPersonCamera.cpp" />
     <ClCompile Include="BTATopDownCameraController.cpp" />
     <ClCompile Include="BTATransformVec.cpp" />
+    <ClCompile Include="Evidence.cpp" />
+    <ClCompile Include="EvidenceHolder.cpp" />
+    <ClCompile Include="EvidenceWorld.cpp" />
+    <ClCompile Include="Investigator.cpp" />
+    <ClCompile Include="RenderedEvidence.cpp" />
     <ClCompile Include="SAActivateChapter.cpp" />
     <ClCompile Include="SACondition.cpp" />
     <ClCompile Include="SAGetRandomAnnotation.cpp" />
@@ -180,6 +191,9 @@
     <ClCompile Include="StoryNode.cpp" />
     <ClCompile Include="StoryNodeInstance.cpp" />
     <ClCompile Include="StoryPlayer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\ext-StoryTeller\RandomFactory.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

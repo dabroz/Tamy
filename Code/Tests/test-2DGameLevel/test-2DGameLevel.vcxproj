@@ -118,10 +118,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BodyMovementTests.cpp" />
-    <ClCompile Include="CollisionDetectionTests.cpp" />
-    <ClCompile Include="CollisionResponseTests.cpp" />
-    <ClCompile Include="CollisionShapesTests.cpp" />
     <ClCompile Include="GL2DLevelGeneratorTest.cpp" />
   </ItemGroup>
   <ItemGroup>

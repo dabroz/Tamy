@@ -3,7 +3,6 @@
 #include "core-Renderer.h"
 #include "core-MVC.h"
 #include "core-AI.h"
-#include "ext-2DGameLevel\GL2DCollisionGeometry.h"
 #include "ext-RenderingPipeline\LocationRenderSettings.h"
 #include "ml-Blender\BlenderMaterialBuilder.h"
 
@@ -473,39 +472,6 @@ Component* BlenderSceneExporter::createSkeletonComponent( const TamySkeletonComp
    skeletonComponent->setSkeleton( skeleton );
 
    return skeletonComponent;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-Component* BlenderSceneExporter::createCollisionGeometry( const TamyGeometry& exportedCollisionGeometry )
-{
-   GL2DCollisionGeometry* collisionGeometryComponent = new GL2DCollisionGeometry( exportedCollisionGeometry.name );
-   
-   // create the mesh data
-   const TamyMesh& exportedMesh = exportedCollisionGeometry.mesh;
-   Array< Vector > vertices;
-   vertices.resizeWithoutInitializing( exportedMesh.verticesCount );
-   for ( int i = 0; i < exportedMesh.verticesCount; ++i )
-   {
-      const LitVertex& vtx = exportedMesh.verticesList[i];
-      vertices[i].load<4>( vtx.m_coords );
-   }
-
-   Array< GL2DCollisionTriangle > faces;
-   faces.resizeWithoutInitializing( exportedMesh.facesCount );
-   for ( int i = 0; i < exportedMesh.facesCount; ++i )
-   {
-      const Face& face = exportedMesh.facesList[i];
-      faces[i].set( face.idx[0], face.idx[1], face.idx[2] );
-   }
-
-   // As every component, also this one has no explicit notion of an offset - so the
-   // transform it was exported with gets applied to the geometry here and now.
-   Matrix localMtx;
-   exportedCollisionGeometry.localMatrix.applyTo( localMtx );
-   collisionGeometryComponent->setGeometry( vertices, faces, localMtx );
-
-   return collisionGeometryComponent;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

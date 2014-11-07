@@ -163,9 +163,9 @@ TEST( GraphBuilderInstantiation, simpleGraph )
    transaction.addNode( node[0] );
    transaction.addNode( node[1] );
    transaction.addNode( node[2] );
-   transaction.commit();
    transaction.connectNodes( node[0], "Output", node[1], "Input" );
    transaction.connectNodes( node[1], "Output", node[2], "Input" );
+   transaction.commit();
 
    Graph< GBMockNode* > graph;
    builder.buildGraph( graph );

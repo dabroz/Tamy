@@ -2,206 +2,44 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\Include\ext-2DGameLevel\TypesRegistry.cpp" />
-    <ClCompile Include="GL2DCollisionResolver.cpp">
-      <Filter>CollisionDetection</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCollisionPointsCollector.cpp">
-      <Filter>CollisionDetection</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCollisionBroadphase.cpp">
-      <Filter>CollisionDetection</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DWorld.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DSystem.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DBody.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCircleShape.cpp">
-      <Filter>Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DLineSegmentsShape.cpp">
-      <Filter>Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DShape.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DBoxShape.cpp">
-      <Filter>Shapes</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCollisionAlgorithms.cpp">
-      <Filter>Shapes\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DDirectedLineSegment.cpp">
-      <Filter>Shapes\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCollisionGeometry.cpp">
-      <Filter>CollisionGeometryBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCollisionGeometryBuilder.cpp">
-      <Filter>CollisionGeometryBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DRoom.cpp">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DBounds.cpp">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DCorridor.cpp">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClCompile>
     <ClCompile Include="GL2DProceduralLevel.cpp">
-      <Filter>ProceduralGeneration\Settings</Filter>
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="GL2DLevelGenerator.cpp">
-      <Filter>ProceduralGeneration</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DLevelGenUtils.cpp">
-      <Filter>ProceduralGeneration</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DLevelVoxels.cpp">
-      <Filter>ProceduralGeneration</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="GL2DVoxelPrefabsMap.cpp">
-      <Filter>ProceduralGeneration\VoxelsDictionary</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DRoomArea.cpp">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DRoomTheme.cpp">
-      <Filter>ProceduralGeneration\VoxelsDictionary</Filter>
+      <Filter>VoxelsDictionary</Filter>
     </ClCompile>
     <ClCompile Include="GL2DVoxelizedItem.cpp">
-      <Filter>ProceduralGeneration\VoxelsDictionary</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DWallVoxel.cpp">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClCompile>
-    <ClCompile Include="GL2DRoomLayout.cpp">
-      <Filter>ProceduralGeneration\Layouts</Filter>
+      <Filter>VoxelsDictionary</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\ext-2DGameLevel.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\Defines.h" />
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionResolver.h">
-      <Filter>CollisionDetection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionPointsCollector.h">
-      <Filter>CollisionDetection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionBroadphase.h">
-      <Filter>CollisionDetection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DWorld.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DSystem.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DListener.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DBody.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCircleShape.h">
-      <Filter>Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLineSegmentsShape.h">
-      <Filter>Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DShape.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DBoxShape.h">
-      <Filter>Shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DDirectedLineSegment.h">
-      <Filter>Shapes\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionAlgorithms.h">
-      <Filter>Shapes\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionGeometry.h">
-      <Filter>CollisionGeometryBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCollisionGeometryBuilder.h">
-      <Filter>CollisionGeometryBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoom.h">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DBounds.h">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DCorridor.h">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DProceduralLevel.h">
-      <Filter>ProceduralGeneration\Settings</Filter>
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelGenerator.h">
-      <Filter>ProceduralGeneration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelGenUtils.h">
-      <Filter>ProceduralGeneration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelVoxels.h">
-      <Filter>ProceduralGeneration</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelPrefabsMap.h">
-      <Filter>ProceduralGeneration\VoxelsDictionary</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoomArea.h">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoomTheme.h">
-      <Filter>ProceduralGeneration\VoxelsDictionary</Filter>
+      <Filter>VoxelsDictionary</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelizedItem.h">
-      <Filter>ProceduralGeneration\VoxelsDictionary</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DWallVoxel.h">
-      <Filter>ProceduralGeneration\Rooms</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DRoomLayout.h">
-      <Filter>ProceduralGeneration\Layouts</Filter>
+      <Filter>VoxelsDictionary</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Shapes">
-      <UniqueIdentifier>{76a4ef8b-f313-454d-8ff1-fc52629823ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
-      <UniqueIdentifier>{8857fe15-40df-4f60-84f8-d5c475139830}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CollisionDetection">
-      <UniqueIdentifier>{55d62401-6f57-4bd4-92ba-94bd7af3f714}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shapes\Utils">
-      <UniqueIdentifier>{cca2582b-ce88-4723-83c3-71e6a01d72df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ProceduralGeneration">
       <UniqueIdentifier>{f5e1ad32-3f7b-4eb0-a399-c1594d1f9478}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CollisionGeometryBuilder">
-      <UniqueIdentifier>{7c72bf11-bafb-4556-a5f4-7032c810719d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ProceduralGeneration\Settings">
+    <Filter Include="Components">
       <UniqueIdentifier>{997c2f7b-6df1-4410-aa58-673792675783}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ProceduralGeneration\Rooms">
-      <UniqueIdentifier>{1cca4f02-efd1-446a-a1ca-db9045b20f59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ProceduralGeneration\VoxelsDictionary">
+    <Filter Include="VoxelsDictionary">
       <UniqueIdentifier>{ff6e2e33-4ed4-48c0-b43f-39b4b7ebc07d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ProceduralGeneration\Layouts">
-      <UniqueIdentifier>{f91cc626-8d34-4ac7-996c-a0e19e26f0bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

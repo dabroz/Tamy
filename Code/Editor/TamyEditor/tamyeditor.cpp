@@ -4,7 +4,6 @@
 #include "core-MVC.h"
 #include "core-AI.h"
 #include "ext-StoryTeller.h"
-#include "ext-2DGameLevel\GL2DSystem.h"
 #include "ext-RenderingPipeline.h"
 #include "core-Physics\PhysicsSystem.h"
 #include "core-Physics\PhysicsMaterial.h"
@@ -256,11 +255,9 @@ void TamyEditor::updateMain()
       m_timeController->update( TIME_STEP );
 
       static AISystem& animSys = TSingleton< AISystem >::getInstance();
-      static GL2DSystem& gameLevel2DSys = TSingleton< GL2DSystem >::getInstance();
       static PhysicsSystem& physicsSys = TSingleton< PhysicsSystem >::getInstance();
       animSys.tick( TIME_STEP );
       physicsSys.tick( TIME_STEP );
-      gameLevel2DSys.tick( TIME_STEP );
 
       static TransformsManagementSystem& transformsMgr = TSingleton< TransformsManagementSystem >::getInstance();
       transformsMgr.tick();
