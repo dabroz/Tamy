@@ -124,7 +124,6 @@ void DirectionalLightRenderer::renderWithShadow( Renderer& renderer, const Direc
    new ( rtComm ) RCClearRenderTarget( m_shadowMap );
    new ( rtComm ) RCActivateRenderTarget( m_shadowMap );
    CHANGE_RENDER_STATE( renderer, RSSetBlending( false ) );
-   CHANGE_RENDER_STATE( renderer, RSSetDepthTest( false, false ) );
 
    DirectionalLightProperties& cascadeProperties = m_constantBuffer->accessData< DirectionalLightProperties >();
    AxisAlignedBox cascadeCameraVolume[SHADOW_CASCADES_COUNT];
@@ -165,6 +164,8 @@ void DirectionalLightRenderer::renderWithShadow( Renderer& renderer, const Direc
 
    // render the light
    CHANGE_RENDER_STATE( renderer, RSSetBlending( true, BLEND_ONE, BLEND_ONE ) );
+   CHANGE_RENDER_STATE( renderer, RSSetDepthTest( false, false ) );
+
    new ( rtComm ) RCResetViewport();
    renderCascade( renderer, gBuffer, light, lightCamera, outRenderTarget );
 
