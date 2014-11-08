@@ -205,6 +205,7 @@ bool FilesystemUtils::copyFile( const char* sourcePath, const char* destPath, bo
    }
 
    // we're copying a single file
+   DeleteFile( destPath );
    BOOL result = CopyFile( sourcePath, destPath, true );
    return result > 0;
 }
