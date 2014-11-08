@@ -140,30 +140,51 @@ void PrefabEditor::onPreSaveResource()
 
 void PrefabEditor::update( float timeElapsed )
 {
-   if ( m_lightLocked )
+   if ( !m_lightLocked )
    {
-      // update light's direction      
-      const Vector& entityPos = m_prefabbedEntity->getGlobalMtx().position();
-      const Vector& cameraPos = m_camera->getGlobalMtx().position();
-
-      Vector dirToObject, dirToCamera;
-      dirToObject.setSub( entityPos, cameraPos ); dirToObject.normalize();
-      dirToCamera.setSub( cameraPos, entityPos ); dirToCamera.normalize();
-
-      // front light
-      {
-         static Vector startFront( 10000.0f, 10000.0f, 10000.0f );
-         Vector end; end.setAdd( startFront, dirToCamera );
-         MatrixUtils::generateLookAtLH( startFront, end, Vector_OZ, m_frontLight->accessLocalMtx() );
-      }
-
-      // back light
-      {
-         static Vector startBack( -10000.0f, -10000.0f, -10000.0f );
-         Vector end; end.setAdd( startBack, dirToObject );
-         MatrixUtils::generateLookAtLH( startBack, end, Vector_OZ, m_backLight->accessLocalMtx() );
-      }
+      return;
    }
+
+   // we want the lights to be pitched 45 degrees with respect to the ground plane,
+   // and rotating about the up axis, aligning themselves to the global yaw angle between
+   // the camera and the prefabbed object
+
+   // calculate the global yaw angle between the prefab and the camera
+   const Vector& entityPos = m_prefabbedEntity->getGlobalMtx().position();
+   const Vector& cameraPos = m_camera->getGlobalMtx().position();
+
+   Vector dirToObjectXY;
+   dirToObjectXY.setSub( cameraPos, entityPos );
+   dirToObjectXY[2] = 0.0f; // project the vector onto the XY plane
+   if ( dirToObjectXY.lengthSq() < Float_1e_4 )
+   {
+      // the camera's too close to the object - don't change the position of the light
+      return;
+   }
+   
+   dirToObjectXY.normalize();
+   Quaternion yawQuat, invYawQuat;
+   yawQuat.setFromShortestRotation( Vector_OX, dirToObjectXY );
+   invYawQuat.setFromShortestRotation( Vector_NEG_OX, dirToObjectXY );
+
+   Quaternion pitchDown, pitchUp;
+   pitchDown.setAxisAngle( Vector_OY, FastFloat::fromFloat( DEG2RAD( 135.0f ) ) );
+   pitchUp.setAxisAngle( Vector_OY, FastFloat::fromFloat( DEG2RAD( 45.0f ) ) );
+   
+   Quaternion frontLightRot, backLightRot;
+   frontLightRot.setMul( pitchDown, yawQuat );
+   backLightRot.setMul( pitchUp, invYawQuat );
+
+   static Vector farAwayPos( 1000.0f, 1000.0f, 1000.0f );
+
+   // front light
+   Matrix& frontLightMtx = m_frontLight->accessLocalMtx();
+   frontLightMtx.setRotation( frontLightRot );
+   frontLightMtx.setPosition<3>( farAwayPos );
+
+   Matrix& backLightMtx = m_backLight->accessLocalMtx();
+   backLightMtx.setRotation( backLightRot );
+   backLightMtx.setPosition<3>( farAwayPos );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
