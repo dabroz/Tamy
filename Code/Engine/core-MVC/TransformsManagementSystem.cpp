@@ -1,6 +1,7 @@
 #include "core-MVC\TransformsManagementSystem.h"
 #include "core-MVC\Model.h"
 #include "core-MVC\Entity.h"
+#include "core-MVC\Transformable.h"
 #include "core\ListUtils.h"
 
 
@@ -22,12 +23,6 @@ TransformsManagementSystem::~TransformsManagementSystem()
    {
       Model* scene = *it;
       scene->removeReference();
-   }
-
-   for ( List< Entity* >::iterator it = m_entities.begin(); !it.isEnd(); ++it )
-   {
-      Entity* entity = *it;
-      entity->removeReference();
    }
 }
 
@@ -67,35 +62,33 @@ void TransformsManagementSystem::removeScene( Model* scene )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void TransformsManagementSystem::addEntity( Entity* entity )
+void TransformsManagementSystem::addTransformable( Transformable* obj )
 {
-   if ( !entity )
+   if ( !obj )
    {
       return;
    }
 
-   List< Entity* >::iterator it = ListUtils::find( m_entities, entity );
+   List< Transformable* >::iterator it = ListUtils::find( m_transformables, obj );
    if ( it.isEnd() )
    {
-      m_entities.pushBack( entity );
-      entity->addReference();
+      m_transformables.pushBack( obj );
    }
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void TransformsManagementSystem::removeEntity( Entity* entity )
+void TransformsManagementSystem::removeTransformable( Transformable* obj )
 {
-   if ( !entity )
+   if ( !obj )
    {
       return;
    }
 
-   List< Entity* >::iterator it = ListUtils::find( m_entities, entity );
+   List< Transformable* >::iterator it = ListUtils::find( m_transformables, obj );
    if ( !it.isEnd() )
    {
-      entity->removeReference();
       it.markForRemoval();
    }
 }
@@ -110,11 +103,12 @@ void TransformsManagementSystem::tick()
       scene->getRoot()->updateTransforms();
    }
 
-   for ( List< Entity* >::iterator it = m_entities.begin(); !it.isEnd(); ++it )
+   for ( List< Transformable* >::iterator it = m_transformables.begin(); !it.isEnd(); ++it )
    {
-      Entity* entity = *it;
-      entity->updateTransforms();
+      Transformable* transformable = *it;
+      transformable->updateTransforms();
    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -111,6 +111,7 @@
     <ClInclude Include="..\..\Include\core-MVC\Prefab.h" />
     <ClInclude Include="..\..\Include\core-MVC\PrefabListener.h" />
     <ClInclude Include="..\..\Include\core-MVC\SceneNode.h" />
+    <ClInclude Include="..\..\Include\core-MVC\Transformable.h" />
     <ClInclude Include="..\..\Include\core-MVC\TransformsManagementSystem.h" />
   </ItemGroup>
   <ItemGroup>

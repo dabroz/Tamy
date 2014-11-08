@@ -230,25 +230,25 @@ public:
    // -------------------------------------------------------------------------
    // SceneNode implementation
    // -------------------------------------------------------------------------
-   void onModelLoaded();
-   void collectChildren( Stack< SceneNode* >& outChildren ) const;
-   void collectChildren( Stack< const SceneNode* >& outChildren ) const;
-   void collectChildren( List< SceneNode* >& outChildren ) const;
-   void collectChildren( List< const SceneNode* >& outChildren ) const;
-   void updateTransforms();
-   void onAttachToModel( Model* model );
-   void onDetachFromModel( Model* model );
-   void pullStructure( ModelView* view );
-   void onAttached( Entity* parent );
-   void onDetached( Entity* parent );
-   inline const Matrix& getGlobalMtx() const;
+   void onModelLoaded() override;
+   void collectChildren( Stack< SceneNode* >& outChildren ) const override;
+   void collectChildren( Stack< const SceneNode* >& outChildren ) const override;
+   void collectChildren( List< SceneNode* >& outChildren ) const override;
+   void collectChildren( List< const SceneNode* >& outChildren ) const override;
+   void updateTransforms() override;
+   void onAttachToModel( Model* model ) override;
+   void onDetachFromModel( Model* model ) override;
+   void pullStructure( ModelView* view ) override;
+   void onAttached( Entity* parent ) override;
+   void onDetached( Entity* parent ) override;
+   inline const Matrix& getGlobalMtx() const override;
 
    // -------------------------------------------------------------------------
    // Object implementation
    // -------------------------------------------------------------------------
-   void onObjectPreSave();
-   void onPrePropertyChanged( ReflectionProperty& property );
-   void onPropertyChanged( ReflectionProperty& property );
+   void onObjectPreSave() override;
+   void onPrePropertyChanged( ReflectionProperty& property ) override;
+   void onPropertyChanged( ReflectionProperty& property ) override;
 
 protected:
    // -------------------------------------------------------------------------

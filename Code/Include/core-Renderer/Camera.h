@@ -3,7 +3,7 @@
 #pragma once
 
 #include "core\MemoryRouter.h"
-#include "core-MVC\Entity.h"
+#include "core-MVC\Transformable.h"
 #include "core\Frustum.h"
 #include "core\Matrix.h"
 
@@ -12,6 +12,7 @@
 
 struct Frustum;
 struct Ray;
+class Entity;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +20,7 @@ struct Ray;
  * A camera is a kind of Node that allows to set 
  * camera specific stuff and represents a camera that watches the scene
  */
-class Camera : public Entity
+class Camera : public Transformable
 {
    DECLARE_ALLOCATOR( Camera, AM_ALIGNED_16 );
 
@@ -40,6 +41,8 @@ private:
    float                m_nearPlaneWidth;
    float                m_nearPlaneHeight;
 
+   Matrix               m_localMtx;
+   Matrix               m_globalMtx;
    Matrix               m_mtxView;
    Matrix               m_mtx3DProjection;
 
@@ -185,10 +188,71 @@ public:
    void onViewportResized( uint width, uint height );
 
    // -------------------------------------------------------------------------
-   // Entity implementation
+   // Transforms management implementation
    // -------------------------------------------------------------------------
-   void updateTransforms();
+
+   /**
+   * This is the matrix that describes the node's position in relation
+   * to the position of its parent.
+   * It the node doesn't have a parent, this one will be equal
+   * to the global matrix
+   */
+   const Matrix& getLocalMtx() const {
+      return m_localMtx;
+   }
+
+   /**
+   * Assigns the node a new local matrix.
+   */
+   void setLocalMtx( const Matrix& localMtx );
+
+   /**
+   * The method allows to access the matrix of the node directly,
+   * skipping the setters.
+   * Manipulating the matrix in this way is sometimes necessary
+   * as various libs manipulate pointers to matrices.
+   * Not to worry - the global matrix will always remain in sync
+   */
+   Matrix& accessLocalMtx() {
+      return m_localMtx;
+   }
+
+   /**
+    * This is the matrix that describes the node's absolute world position
+    * (unlike the local matrix which describes the position relative to node's
+    * parent).
+    */
+   inline const Matrix& getGlobalMtx() const {
+      return m_globalMtx;
+   }
+
+   /*
+    * A group of accessors to the local coordinate system vectors
+    */
+   void setRightVec( const Vector& vec );
+   void setUpVec( const Vector& vec );
+   void setLookVec( const Vector& vec );
+   void setPosition( const Vector& vec );
+   void getRightVec( Vector& outRightVec ) const;
+   void getUpVec( Vector& outUpVec ) const;
+   void getLookVec( Vector& outLookVec ) const;
+   void getPosition( Vector& outPos ) const;
+
+   /*
+    * Returns the global coordinate system vectors.
+    *
+    * @param outRightVec
+    * @param outUpVec
+    * @param outLookVec
+    * @Param outPos
+    */
+   void getGlobalVectors( Vector& outRightVec, Vector& outUpVec, Vector& outLookVec, Vector& outPos ) const;
    
+   // -------------------------------------------------------------------------
+   // Transformable implementation
+   // -------------------------------------------------------------------------
+   void updateTransforms() override;
+
 private:
    void updateViewMtx();
    void updateProjectionMtx();

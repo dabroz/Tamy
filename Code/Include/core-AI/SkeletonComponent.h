@@ -73,10 +73,10 @@ public:
    // ----------------------------------------------------------------------
    // Entity implementation
    // ----------------------------------------------------------------------
-   void updateTransforms();
-   void onPrePropertyChanged( ReflectionProperty& property );
-   void onPropertyChanged( ReflectionProperty& property );
-   void onObjectLoaded();
+   void updateTransforms() override;
+   void onPrePropertyChanged( ReflectionProperty& property ) override;
+   void onPropertyChanged( ReflectionProperty& property ) override;
+   void onObjectLoaded() override;
 
 private:
    void initializeSkeletonInstance();

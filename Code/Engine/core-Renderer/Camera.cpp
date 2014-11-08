@@ -1,5 +1,5 @@
 #include "core-Renderer\Camera.h"
-#include "core-Renderer\Renderer.h"
+#include "core-MVC\Entity.h"
 #include "core\Frustum.h"
 #include "core\AxisAlignedBox.h"
 #include "core\Ray.h"
@@ -13,8 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 Camera::Camera( const char* name, ProjectionType projectionType )
-   : Entity( name )
-   , m_projectionType( projectionType )
+   : m_projectionType( projectionType )
    , m_fov( DEG2RAD( 60.0f ) )
    , m_aspectRatio( 1.3333f )
    , m_nearPlaneWidth( 1 )
@@ -53,7 +52,10 @@ void Camera::updateTransforms()
 {
    PROFILED();
 
-   Entity::updateTransforms();
+   // lock the new world transform ( the local transform may change many times during a single frame,
+   // but we want the rest of the code to be using the same value that was locked for the duration
+   // of the frame )
+   m_globalMtx = m_localMtx;
 
    updateViewMtx();
 
@@ -326,6 +328,76 @@ void Camera::lookAt( Entity& node, const FastFloat& distance, const Vector& upVe
    Matrix lookAtMtx;
    MatrixUtils::generateLookAtLH( newPosition, targetNodePos, upVec, lookAtMtx );
    setLocalMtx( lookAtMtx );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::setLocalMtx( const Matrix& localMtx )
+{
+   m_localMtx = localMtx;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::setRightVec( const Vector& vec )
+{
+   m_localMtx.setSideVec<3>( vec );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::setUpVec( const Vector& vec )
+{
+   m_localMtx.setUpVec<3>( vec );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::setLookVec( const Vector& vec )
+{
+   m_localMtx.setForwardVec<3>( vec );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::setPosition( const Vector& vec )
+{
+   m_localMtx.setPosition<3>( vec );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::getRightVec( Vector& outRightVec ) const
+{
+   outRightVec = m_localMtx.sideVec();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::getUpVec( Vector& outUpVec ) const
+{
+   outUpVec = m_localMtx.upVec();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::getLookVec( Vector& outLookVec ) const
+{
+   outLookVec = m_localMtx.forwardVec();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::getPosition( Vector& outPos ) const
+{
+   outPos = m_localMtx.position();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::getGlobalVectors( Vector& outRightVec, Vector& outUpVec, Vector& outLookVec, Vector& outPos ) const
+{
+   m_globalMtx.getVectors( outRightVec, outUpVec, outLookVec, outPos );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

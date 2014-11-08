@@ -85,6 +85,9 @@
     <ClInclude Include="..\..\Include\core-MVC\TransformsManagementSystem.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\core-MVC\Transformable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Include\core-MVC\Model.inl">

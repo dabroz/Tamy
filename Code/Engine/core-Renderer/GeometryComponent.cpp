@@ -3,6 +3,7 @@
 #include "core-Renderer\Camera.h"
 #include "core-Renderer\RenderState.h"
 #include "core-Renderer\Shader.h"
+#include "core-MVC\Entity.h"
 #include "core\ReflectionProperty.h"
 #include "core\ListUtils.h"
 #include "core\ArrayUtils.h"

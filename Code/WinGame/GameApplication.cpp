@@ -4,6 +4,7 @@
 #include "core-AppFlow.h"
 #include "win-AppFlow\WinWindowBuilder.h"
 #include "core-MVC\TransformsManagementSystem.h"
+#include "core-MVC\Model.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////

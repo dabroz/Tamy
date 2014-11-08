@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 class Model;
-class Entity;
+class Transformable;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -23,8 +23,8 @@ class TransformsManagementSystem
    DECLARE_ALLOCATOR( TransformsManagementSystem, AM_DEFAULT );
 
 private:
-   List< Model* >          m_scenes;
-   List< Entity* >         m_entities;
+   List< Model* >                m_scenes;
+   List< Transformable* >        m_transformables;
 
 public:
    /**
@@ -48,21 +48,21 @@ public:
    void removeScene( Model* scene );
 
    /**
-    * Adds an individual entity that's not a part of any scene,
+    * Adds an individual transformable object that's not a part of any scene,
     * yet we want its transform updated.
     *
     * A good example of such an entity would be a camera.
     *
-    * @param entity
+    * @param obj
     */
-   void addEntity( Entity* entity );
+   void addTransformable( Transformable* obj );
 
    /**
-    * Stops updating the specified individual entity, that was added using the 'addEntity' method.
+    * Stops updating the specified individual transformable object, that was added using the 'addTransformable' method.
     *
-    * @param entity
+    * @param obj
     */
-   void removeEntity( Entity* entity );
+   void removeTransformable( Transformable* obj );
 
    /**
     * Ticks the manager.

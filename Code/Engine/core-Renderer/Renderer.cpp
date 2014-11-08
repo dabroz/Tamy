@@ -69,7 +69,7 @@ Renderer::Renderer( RendererImplementation* implementation, uint viewportWidth, 
 
    // start updating the camera
    TransformsManagementSystem& tmSys = TSingleton< TransformsManagementSystem >::getInstance();
-   tmSys.addEntity( m_defaultCamera );
+   tmSys.addTransformable( m_defaultCamera );
 
    MatrixUtils::generateViewportMatrix( 0, 0, m_viewportWidth, m_viewportHeight, m_viewportMatrix );
 
@@ -114,7 +114,7 @@ Renderer::~Renderer()
    if ( !m_camerasStack.empty() )
    {
       TransformsManagementSystem& tmSys = TSingleton< TransformsManagementSystem >::getInstance();
-      tmSys.removeEntity( m_camerasStack.top() );
+      tmSys.removeTransformable( m_camerasStack.top() );
    }
 
    delete m_context;
@@ -135,7 +135,7 @@ Renderer::~Renderer()
    delete m_renderTreeMemPool;
    m_renderTreeMemPool = NULL;
 
-   m_defaultCamera->removeReference();
+   delete m_defaultCamera;
    m_defaultCamera = NULL;
 
    m_renderThreadCommandsQueue = NULL;
@@ -184,14 +184,14 @@ void Renderer::pushCamera( Camera& camera )
    // stop updating the previously active camera
    if ( !m_camerasStack.empty() )
    {
-      tmSys.removeEntity( m_camerasStack.top() );
+      tmSys.removeTransformable( m_camerasStack.top() );
    }
    
    // set the new camera as the currently active one
    m_camerasStack.push( &camera ); 
 
    // start updating the new camera
-   tmSys.addEntity( &camera );
+   tmSys.addTransformable( &camera );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,7 @@ void Renderer::popCamera()
 { 
    // stop updating the camera that's about to become inactive
    TransformsManagementSystem& tmSys = TSingleton< TransformsManagementSystem >::getInstance();
-   tmSys.removeEntity( m_camerasStack.top() );
+   tmSys.removeTransformable( m_camerasStack.top() );
 
    m_camerasStack.pop(); 
 
@@ -209,7 +209,7 @@ void Renderer::popCamera()
       m_camerasStack.push( m_defaultCamera ); 
    } 
    // start updating the newly active camera
-   tmSys.addEntity( m_camerasStack.top() );
+   tmSys.addTransformable( m_camerasStack.top() );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@
 #include "core\List.h"
 #include "core\Stack.h"
 #include "core\Matrix.h"
+#include "core-MVC\Transformable.h"
 #include <string>
 
 
@@ -21,7 +22,7 @@ class Entity;
 /**
  * A base class for the scene system.
  */
-class SceneNode : public ReflectionObject
+class SceneNode : public ReflectionObject, public Transformable
 {
    DECLARE_ALLOCATOR( SceneNode, AM_DEFAULT );
    DECLARE_CLASS()
@@ -107,13 +108,13 @@ public:
    SceneNode* clone() const;
 
    // -------------------------------------------------------------------------
+   // Transformable implementation
+   // -------------------------------------------------------------------------
+   virtual void updateTransforms() override {}
+
+   // -------------------------------------------------------------------------
    // Transforms management
    // -------------------------------------------------------------------------
-   /**
-    * Updates node transforms.
-    */
-   virtual void updateTransforms() {}
-
    /**
     * This is the matrix that describes the node's absolute world position
     * (unlike the local matrix which describes the position relative to node's
