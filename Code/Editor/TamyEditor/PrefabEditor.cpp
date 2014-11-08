@@ -3,6 +3,7 @@
 #include "core-MVC\Prefab.h"
 #include "core-Renderer\Renderer.h"
 #include "core-Renderer\DirectionalLight.h"
+#include "core-Renderer\CubeTexture.h"
 #include "ext-RenderingPipeline\LocationRenderSettings.h"
 #include "core\MatrixUtils.h"
 
@@ -79,7 +80,10 @@ void PrefabEditor::initializeScene()
       LocationRenderSettings* renderSettings = new LocationRenderSettings();
       {
          sceneRoot->addChild( renderSettings );
-         renderSettings->m_ambientLight = Color( 0.6f, 0.6f, 0.6f );
+         renderSettings->m_ambientLight = Color( 0.6f, 0.6f, 0.6f, 1.0f );
+
+         ResourcesManager& resMgr = TSingleton< ResourcesManager >::getInstance();
+         renderSettings->setSkybox( resMgr.create< CubeTexture >( FilePath( "/Renderer/Materials/SkyBox_1/skyBox_1.ctex" ) ) );
       }
    }
 }

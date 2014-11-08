@@ -53,7 +53,7 @@ LocationRenderSettings::~LocationRenderSettings()
 void LocationRenderSettings::onAttachToModel( Model* model )
 {
    Component::onAttachToModel( model );
-   initialize();
+   initializeRuntimeSkybox();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ void LocationRenderSettings::onDetachFromModel( Model* model )
 {
    Component::onDetachFromModel( model );
 
-   deinitialize();
+   deinitializeRuntimeSkybox();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ void LocationRenderSettings::onDetachFromModel( Model* model )
 void LocationRenderSettings::onPrePropertyChanged( ReflectionProperty& property )
 {
    Component::onPrePropertyChanged( property );
-   deinitialize();
+   deinitializeRuntimeSkybox();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,12 +78,12 @@ void LocationRenderSettings::onPrePropertyChanged( ReflectionProperty& property 
 void LocationRenderSettings::onPropertyChanged( ReflectionProperty& property )
 {
    Component::onPropertyChanged( property );
-   initialize();
+   initializeRuntimeSkybox();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void LocationRenderSettings::initialize()
+void LocationRenderSettings::initializeRuntimeSkybox()
 {
    if ( m_skybox )
    {
@@ -95,13 +95,21 @@ void LocationRenderSettings::initialize()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void LocationRenderSettings::deinitialize()
+void LocationRenderSettings::deinitializeRuntimeSkybox()
 {
    if ( m_skyboxTexture )
    {
       m_skyboxTexture->removeReference();
       m_skyboxTexture = NULL;
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void LocationRenderSettings::setSkybox( class CubeTexture* skybox )
+{
+   NOTIFY_PROPERTY_CHANGE( m_skybox );
+   m_skybox = skybox;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

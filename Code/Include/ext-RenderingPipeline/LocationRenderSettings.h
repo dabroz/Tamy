@@ -15,12 +15,15 @@ class LocationRenderSettings : public Component
 
 public:
    // static data
-   class CubeTexture*            m_skybox;
    Color                         m_ambientLight;
 
    // ambient occlusion
    float                         m_aoPower;
    float                         m_aoRadius;
+
+private:
+   // static data
+   class CubeTexture*            m_skybox;
 
 private:
    // runtime data
@@ -41,6 +44,13 @@ public:
     */
    LocationRenderSettings( const LocationRenderSettings& rhs );
    ~LocationRenderSettings();
+
+   /**
+    * Sets a new skybox texture.
+    *
+    * @param skybox
+    */
+   void setSkybox( class CubeTexture* skybox );
   
    // -------------------------------------------------------------------------
    // Runtime API
@@ -72,8 +82,8 @@ public:
    void onPropertyChanged( ReflectionProperty& property ) override;
 
 private:
-   void initialize();
-   void deinitialize();
+   void initializeRuntimeSkybox();
+   void deinitializeRuntimeSkybox();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

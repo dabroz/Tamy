@@ -37,6 +37,15 @@ public:
     * Returns the edited scene.
     */
    inline Model& getScene() const { return m_scene; }
+
+protected:
+   // -------------------------------------------------------------------------
+   // ResourceEditor implementation
+   // -------------------------------------------------------------------------
+   void onInitialize();
+
+private:
+   void createDefaultScene();
 };
 
 ///////////////////////////////////////////////////////////////////////////////
