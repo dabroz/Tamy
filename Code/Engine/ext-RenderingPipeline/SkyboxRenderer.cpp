@@ -9,6 +9,7 @@
 #include "core-Renderer\RenderStateChangeTracker.h"
 #include "core-Renderer\RenderStateCommand.h"
 #include "core-Renderer\RenderableCubeTexture.h"
+#include "ext-RenderingPipeline\DeferredRendererGBufferDesc.h"
 #include "core\Math.h"
 
 
@@ -22,7 +23,8 @@ TResourceHandle< TriangleMesh > SkyboxRenderer::m_skyboxMesh( FilePath( "/Render
 SkyboxRenderer::SkyboxRenderer()
    : m_renderTexture( NULL )
 {
-   m_samplerSettings.setUnified( TAM_CLAMP, TFM_LINEAR );
+   m_albedoSamplerSettings.setUnified( TAM_CLAMP, TFM_POINT );
+   m_cubeMapSamplerSettings.setUnified( TAM_CLAMP, TFM_LINEAR );
 
    m_constantsBuf = new ShaderDataBuffer( sizeof( Matrix ) );
 
@@ -49,7 +51,7 @@ void SkyboxRenderer::setTexture( RenderableCubeTexture* texture )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkyboxRenderer::render( class Renderer& renderer, class RenderTarget2D* outRenderTarget )
+void SkyboxRenderer::render( class Renderer& renderer, RenderTarget2D* gBuffer, class RenderTarget2D* outRenderTarget )
 {
    const Shader* shader = m_skyboxShader.get();
    TriangleMesh* mesh = m_skyboxMesh.get();
@@ -62,9 +64,10 @@ void SkyboxRenderer::render( class Renderer& renderer, class RenderTarget2D* out
    Vector cameraPos;
    camera.getPosition( cameraPos );
 
-   Matrix skyboxTransform;
+   Matrix skyboxTransform, skyboxScale;
    skyboxTransform.setRotation( m_skyboxRot );
    skyboxTransform.setPosition<3>( cameraPos );
+
 
    Matrix modelToView, modelToProj;
    modelToView.setMul( skyboxTransform, camera.getViewMtx() );
@@ -74,14 +77,15 @@ void SkyboxRenderer::render( class Renderer& renderer, class RenderTarget2D* out
 
    // render
    SAVE_RENDER_STATE( renderer );
-   CHANGE_RENDER_STATE( renderer, RSSetDepthTest( false, true ) );
+   CHANGE_RENDER_STATE( renderer, RSSetDepthTest( false, false ) );
 
    MemoryAllocator* rcComm = renderer.rtComm();
    new ( rcComm ) RCActivateRenderTarget( outRenderTarget );
 
    RCBindShader* bindPS = new ( rcComm ) RCBindShader( shader, renderer );
    bindPS->setDataBuf( "Constants", m_constantsBuf );
-   bindPS->setTexture( "g_Tex1", m_renderTexture, m_samplerSettings );
+   bindPS->setTexture( "g_Tex1", m_renderTexture, m_cubeMapSamplerSettings );
+   bindPS->setTexture( "g_Albedo", gBuffer, m_albedoSamplerSettings, GBuf_Albedo );
 
    mesh->render( renderer );
 

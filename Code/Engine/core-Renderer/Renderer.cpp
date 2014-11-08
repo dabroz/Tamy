@@ -221,6 +221,17 @@ void Renderer::render()
    // start rendering
    new ( m_renderThreadCommandsQueue ) RCRenderingBegin( m_viewportWidth, m_viewportHeight );
 
+   // execute the refresh commands
+   if ( !m_refreshCommands.empty() )
+   {
+      for ( List< RefreshCommand >::iterator it = m_refreshCommands.begin(); !it.isEnd(); ++it )
+      {
+         RefreshCommand& command = *it;
+         new ( m_renderThreadCommandsQueue ) RCRefreshResource( command.m_storage, command.m_resource );
+      }
+      m_refreshCommands.clear();
+   }
+
    // render the scene
    m_mechanism->render( *this );
 
@@ -304,6 +315,14 @@ void Renderer::popStateTracker()
    RenderStateChangeTracker* tracker = m_stateChangeTrackersStack->top();
    m_stateChangeTrackersStack->pop();
    delete tracker;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+// @MainThread
+void Renderer::scheduleRefreshCommand( IRenderResourceStorage* storage, RenderResource* resource )
+{
+   m_refreshCommands.pushBack( RefreshCommand( storage, resource ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

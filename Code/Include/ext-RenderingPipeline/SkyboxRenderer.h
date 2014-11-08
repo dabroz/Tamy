@@ -19,7 +19,8 @@ private:
    static TResourceHandle< class TriangleMesh >          m_skyboxMesh;
 
    class ShaderDataBuffer*                               m_constantsBuf;
-   TextureSamplerSettings                                m_samplerSettings;
+   TextureSamplerSettings                                m_albedoSamplerSettings;
+   TextureSamplerSettings                                m_cubeMapSamplerSettings;
    class RenderableCubeTexture*                          m_renderTexture;
 
    Quaternion                                            m_skyboxRot;
@@ -42,9 +43,10 @@ public:
     * Renders the skybox.
     *
     * @param renderer
+    * @param gBuffer
     * @param outRenderTarget
     */
-   void render( class Renderer& renderer, class RenderTarget2D* outRenderTarget );
+   void render( class Renderer& renderer, class RenderTarget2D* gBuffer, class RenderTarget2D* outRenderTarget );
 };
 
 ///////////////////////////////////////////////////////////////////////////////

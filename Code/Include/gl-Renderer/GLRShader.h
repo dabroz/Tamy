@@ -54,6 +54,11 @@ public:
    ~GLRShader();
 
    /**
+    * Releases loaded shaders.
+    */
+   void releaseShaders();
+
+   /**
     * Compiles the shader.
     */
    void compile();
@@ -82,10 +87,6 @@ public:
    void beginRendering();
 
 private:
-   /**
-    * Releases loaded shaders.
-    */
-   void releaseShaders();
 
    /**
     * Performs the late binding of attributes and uniform variables.

@@ -35,6 +35,8 @@ class RenderStateChangeTracker;
 class ContinuousMemoryPool;
 class TSContinuousMemoryPool;
 class FragmentedMemoryPool;
+class IRenderResourceStorage;
+class RenderResource;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -50,6 +52,19 @@ class FragmentedMemoryPool;
 class Renderer
 {
    DECLARE_ALLOCATOR( Renderer, AM_DEFAULT );
+
+private:
+   struct RefreshCommand
+   {
+      IRenderResourceStorage*       m_storage;
+      RenderResource*               m_resource;
+
+      RefreshCommand( IRenderResourceStorage* storage, RenderResource* resource )
+         : m_storage( storage )
+         , m_resource( resource )
+      {
+      }
+   };
 
 private:
    // this memory pool is dedicated exclusively to the RenderTree, thus the friendship declaration
@@ -85,6 +100,8 @@ private:
 
    // shared rendering context
    RenderingContext*                            m_context;
+
+   List< RefreshCommand >                       m_refreshCommands;
 
 public:
    /**
@@ -239,6 +256,12 @@ public:
     * Gives access to the render queries queue.
     */
    inline RoundBuffer* query() { return m_queriesQueue; }
+
+   /**
+    * Resource refreshes take place outside the rendering frame.
+    * That's why we need to schedule their execution to take place after the rendering frame starts.
+    */
+   void scheduleRefreshCommand( IRenderResourceStorage* storage, RenderResource* resource );
 
    // -------------------------------------------------------------------------
    // Render state changes

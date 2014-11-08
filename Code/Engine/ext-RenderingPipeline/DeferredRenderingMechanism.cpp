@@ -451,7 +451,7 @@ void DeferredRenderingMechanism::render( Renderer& renderer )
       {
          m_ambientOcclusionPass->render( renderer, m_gBuffer, globalAmbientLight, m_renderTargets[FRT_Scene] );
          m_lightsRenderer->render( renderer, m_gBuffer, m_renderTargets[FRT_Scene] );
-         m_skyboxRenderer->render( renderer, m_renderTargets[FRT_Scene] );
+         m_skyboxRenderer->render( renderer, m_gBuffer, m_renderTargets[FRT_Scene] );
          debugPass( renderer, m_renderTargets[FRT_Scene], m_renderTargets[FRT_Final] );
          selectionQueryPass( renderer, m_renderTargets[FRT_SelectionQuery] );
          break;
