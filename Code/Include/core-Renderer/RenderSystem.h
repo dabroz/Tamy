@@ -113,6 +113,7 @@ public:
 
 private:
    void processRendererRegistrations();
+   void renderSingleFrame( RendererEntry* entry );
 };
 
 ///////////////////////////////////////////////////////////////////////////////

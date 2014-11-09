@@ -14,53 +14,6 @@ class RendererInitializer;
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
- * Opens a rendering batch.
- */
-class RCRenderingBegin  : public RenderCommand
-{
-   DECLARE_ALLOCATOR( RCRenderingBegin, AM_DEFAULT );
-
-private:
-   uint     m_viewportWidth;
-   uint     m_viewportHeight;
-
-public:
-   /**
-    * Constructor.
-    *
-    * @param viewportWidth
-    * @param viewportHeight
-    */
-   RCRenderingBegin( uint viewportWidth, uint viewportHeight );
-
-   // -------------------------------------------------------------------------
-   // RenderCommand implementation
-   // -------------------------------------------------------------------------
-   void execute( Renderer& renderer );
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
-/**
- * Closes a rendering batch, flushing all contents to the screen.
- */
-class RCRenderingEnd : public RenderCommand
-{
-   DECLARE_ALLOCATOR( RCRenderingEnd, AM_DEFAULT );
-
-public:
-   // -------------------------------------------------------------------------
-   // RenderCommand implementation
-   // -------------------------------------------------------------------------
-   void execute( Renderer& renderer );
-
-private:
-   void endFrame( Renderer& renderer );
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
-/**
  * Initializes the rendering device.
  */
 class RCInitializeRenderer : public RenderCommand

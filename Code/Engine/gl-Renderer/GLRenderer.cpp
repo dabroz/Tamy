@@ -20,6 +20,7 @@
 
 GLRenderer::GLRenderer( HWND renderWindowHandle )
    : m_hwnd( renderWindowHandle )
+   , m_hrc( NULL )
    , m_currWidth( 0 )
    , m_currHeight( 0 )
 {
@@ -80,6 +81,44 @@ void GLRenderer::deinitialize( Renderer& renderer )
 
    // Release the device context from our window  
    ReleaseDC( m_hwnd, m_hdc );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRenderer::bindRenderingContext( Renderer& renderer )
+{
+   if ( m_hrc == NULL )
+   {
+      return;
+   }
+   // Bind the render context
+   wglMakeCurrent( m_hdc, m_hrc );
+
+   // resize the viewport if needed
+   const uint width = renderer.getViewportWidth();
+   const uint height = renderer.getViewportHeight();
+   resizeViewport( width, height );
+
+   // Set the viewport size to fill the window  
+   glViewport( 0, 0, width, height );
+
+   // Clear required buffers 
+   //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void GLRenderer::unbindRenderingContext( Renderer& renderer )
+{
+#ifndef _DEBUG
+   // Double buffering is disabled in the debug mode, because it was causing stalls.
+   // The explanation and an associated TODO is described in GLRenderer.cpp : 135
+   SwapBuffers( m_hdc );
+#endif
+
+   // unbind the rendering context
+   wglMakeCurrent( m_hdc, NULL );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

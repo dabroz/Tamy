@@ -82,6 +82,8 @@ public:
    // -------------------------------------------------------------------------
    void initialize( Renderer& renderer ) override;
    void deinitialize( Renderer& renderer ) override;
+   void bindRenderingContext( Renderer& renderer ) override;
+   void unbindRenderingContext( Renderer& renderer ) override;
 
    // -------------------------------------------------------------------------
    // Resources

@@ -82,7 +82,6 @@ void RenderResource::setDirty()
       IRenderResourceStorage* storage = *it;   
       Renderer& renderer = storage->getHostRenderer();
 
-      renderer.scheduleRefreshCommand( storage, this );
       new ( renderer.rtComm() ) RCRefreshResource( storage, this );
    }
 }

@@ -54,19 +54,6 @@ class Renderer
    DECLARE_ALLOCATOR( Renderer, AM_DEFAULT );
 
 private:
-   struct RefreshCommand
-   {
-      IRenderResourceStorage*       m_storage;
-      RenderResource*               m_resource;
-
-      RefreshCommand( IRenderResourceStorage* storage, RenderResource* resource )
-         : m_storage( storage )
-         , m_resource( resource )
-      {
-      }
-   };
-
-private:
    // this memory pool is dedicated exclusively to the RenderTree, thus the friendship declaration
    friend class RenderTree;
    ContinuousMemoryPool*                        m_renderTreeMemPool;
@@ -100,8 +87,6 @@ private:
 
    // shared rendering context
    RenderingContext*                            m_context;
-
-   List< RefreshCommand >                       m_refreshCommands;
 
 public:
    /**
@@ -185,12 +170,16 @@ public:
    /**
     * This method returns the width of currently set viewport
     */
-   uint getViewportWidth() const { return m_viewportWidth; }
+   inline  uint getViewportWidth() const {
+      return m_viewportWidth;
+   }
 
    /**
     * This method returns the height of currently set viewport
     */
-   uint getViewportHeight() const { return m_viewportHeight; }
+   inline uint getViewportHeight() const {
+      return m_viewportHeight;
+   }
 
    /**
     * Returns current viewport matrix.
@@ -256,12 +245,6 @@ public:
     * Gives access to the render queries queue.
     */
    inline RoundBuffer* query() { return m_queriesQueue; }
-
-   /**
-    * Resource refreshes take place outside the rendering frame.
-    * That's why we need to schedule their execution to take place after the rendering frame starts.
-    */
-   void scheduleRefreshCommand( IRenderResourceStorage* storage, RenderResource* resource );
 
    // -------------------------------------------------------------------------
    // Render state changes

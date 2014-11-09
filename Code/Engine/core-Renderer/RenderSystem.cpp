@@ -183,10 +183,11 @@ void RenderSystem::unregisterRenderer( Renderer* renderer )
    if ( removedEntry )
    {
       Renderer* removedRenderer = removedEntry->m_renderer;
+      RendererImplementation* implementation = removedRenderer->implementation();
 
       removedEntry->m_renderThreadCommandsQueue->flush();
-      removedEntry->m_renderThreadCommandsQueue->process( *removedRenderer );
-
+      renderSingleFrame( removedEntry );
+      
       removedEntry->m_mainThreadCommandsQueue->flush();
       removedEntry->m_mainThreadCommandsQueue->process( *removedRenderer );
 
@@ -255,10 +256,44 @@ void RenderSystem::run()
       for ( uint i = 0; i < count; ++i )
       {
          RendererEntry* entry = m_renderers[i];
-         entry->m_renderThreadCommandsQueue->process( *entry->m_renderer );
+         renderSingleFrame( entry );
       }
       m_renderingInProgress = false;
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void RenderSystem::renderSingleFrame( RendererEntry* entry )
+{
+   // this code represents a single rendering frame
+
+   Renderer& renderer = *entry->m_renderer;
+   RendererImplementation* implementation = renderer.implementation();
+
+   // First, we need to activate the rendering context, binding it to the rendering device.
+   //
+   // NOTE: I used to be binding/unbinding the device in a rendering command that was executed along with the other rendering commands.
+   // Rendering commands all require a context to be bound, so the obvious disadvantage of that approach was
+   // that if a command hasn't been injected during the processing frame of RenderingMechanism::render method ( which is when
+   // most of the commands were submitted ), but instead at another place during an execution frame ( like for instance during the
+   // logics update, when the user changed a parameter on a render resource, causing it to go dirty and submit a refresh command ),
+   // then those other commands were processed WITHOUT and active device context, and simply failed.
+   //
+   // Having it done this way absolves us of knowing WHEN is the correct time to submit a rendering command. Now any time is good,
+   // and all collected commands are guaranteed to be processed with a context bound to a rendering device
+   implementation->bindRenderingContext( renderer );
+
+   // Now we process all rendering commands gathered so far.
+   entry->m_renderThreadCommandsQueue->process( renderer );
+
+   // once we're done rendering, we deactivate the context - other RendererEntries will follow
+   // rendering their contents and we want to release the device for them
+   implementation->unbindRenderingContext( renderer );
+
+   // some commands could have been submitted back from the rendering thread - we want the main thread 
+   // to learn about them and process them
+   implementation->commitMainThreadCommands();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

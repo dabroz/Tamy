@@ -39,6 +39,20 @@ public:
     */
    virtual void deinitialize( Renderer& renderer ) {}
 
+   /**
+    * Activates the rendering context. Called before any of the rendering commands get executed.
+    *
+    * @param renderer      host renderer
+    */
+   virtual void bindRenderingContext( Renderer& renderer ) {}
+
+   /**
+    * Deactivates the rendering context. Called after all rendering commands for this rendering frame get executed.
+    *
+    * @param renderer      host renderer
+    */
+   virtual void unbindRenderingContext( Renderer& renderer ) {}
+
    // ----------------------------------------------------------------------------
    // Render commands queue
    // ----------------------------------------------------------------------------
