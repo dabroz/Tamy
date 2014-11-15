@@ -16,7 +16,6 @@
 // level voxelization
 #include "ext-2DGameLevel\GL2DLevelGenerator.h"
 #include "ext-2DGameLevel\GL2DProceduralLevel.h"
-#include "ext-2DGameLevel\GL2DVoxelPrefabsMap.h"
 
 
 
@@ -66,8 +65,7 @@ ProceduralLevelGenerator::~ProceduralLevelGenerator()
 
 void ProceduralLevelGenerator::generateScene()
 {
-   GL2DVoxelPrefabsMap backgroundMap( m_params->m_backgroundPrefabsDir );
-   GL2DLevelGenerator generator( m_params->m_geometryDir, backgroundMap );
+   GL2DLevelGenerator generator( m_params->m_backgroundPrefabsDir, m_params->m_geometryDir );
 
    Entity* proceduralGeometry = generator.generateLevel( m_params->m_levelLenght );
    if ( proceduralGeometry )

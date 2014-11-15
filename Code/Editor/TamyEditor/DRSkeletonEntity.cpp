@@ -94,6 +94,7 @@ void DRSkeletonEntity::updateDebugData( float timeElapsed )
       return;
    }
 
+   const Matrix& entityWorldMtx = this->getGlobalMtx();
 
    Vector boneDir;
    for ( uint boneIdx = 0; boneIdx < m_boneRepresentationsCount; ++boneIdx )
@@ -106,7 +107,10 @@ void DRSkeletonEntity::updateDebugData( float timeElapsed )
       Matrix boneRepModelMtx;
       boneRepModelMtx.setMul( scaleMtx, m_skeletonComponent.m_boneModelMtx[boneIdx] );
 
-      m_boneRepresentations[boneIdx]->setExtraTransform( boneRepModelMtx );
+      Matrix boneRepWorldMtx;
+      boneRepWorldMtx.setMul( boneRepModelMtx, entityWorldMtx );
+
+      m_boneRepresentations[boneIdx]->setExtraTransform( boneRepWorldMtx );
    }
 }
 

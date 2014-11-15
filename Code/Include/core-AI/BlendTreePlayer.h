@@ -193,8 +193,6 @@ protected:
    // -------------------------------------------------------------------------
    void onSiblingAttached( SceneNode* node ) override;
    void onSiblingDetached( SceneNode* node ) override;
-   void onAttached( Entity* parent ) override;
-   void onDetached( Entity* parent ) override;
    void onAttachToModel( Model* model ) override;
    void onDetachFromModel( Model* model ) override;
 

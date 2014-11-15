@@ -118,7 +118,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DescritionBuilderTests.cpp" />
+    <ClCompile Include="StoryHTCTests.cpp" />
     <ClCompile Include="StoryObjectsTests.cpp" />
     <ClCompile Include="StoryPlanningTests.cpp" />
   </ItemGroup>

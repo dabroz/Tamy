@@ -103,8 +103,9 @@ void BlendTreePlayer::onPrePropertyChanged( ReflectionProperty& property )
    {
       if ( m_blendTree )
       {
-         m_blendTree->detachListener( this );
-      
+         m_blendTree->detachBlendTreeListener( this );
+         m_blendTree->detachListener( *this );
+
          if ( m_runtimeData )
          {
             m_blendTree->deinitializeLayout( this );
@@ -123,7 +124,8 @@ void BlendTreePlayer::onPropertyChanged( ReflectionProperty& property )
    {
       if ( m_blendTree )
       {
-         m_blendTree->attachListener( this );
+         m_blendTree->attachBlendTreeListener( this );
+         m_blendTree->attachListener( *this );
 
          if ( m_runtimeData )
          {
@@ -162,7 +164,11 @@ void BlendTreePlayer::onObservedPropertyChanged( ReflectionProperty& property )
 
 void BlendTreePlayer::onObservedObjectDeleted( ReflectionObject* deletedObject )
 {
-   // nothing to do here
+   if ( deletedObject == m_blendTree )
+   {
+      NOTIFY_PROPERTY_CHANGE( m_blendTree );
+      m_blendTree = NULL;
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -210,12 +216,23 @@ void BlendTreePlayer::deinitializeBlendTreeRuntimeContext()
 
 void BlendTreePlayer::initializePosesSinkRuntimeContext()
 {
-   ASSERT( !m_skeleton );
-   if ( m_posesSink && m_posesSink->m_skeleton )
+   if ( !m_posesSink || !m_posesSink->m_skeleton )
    {
-      m_skeleton = m_posesSink->m_skeleton;
-      m_bonesCount = m_skeleton->getBoneCount();
+      return;
    }
+
+   if ( m_posesSink->m_skeleton == m_skeleton )
+   {
+      // this is to prevent double initialization when components are being attached to an entity.
+      // OnSiblingAttached will be called twice then - first, when the SkeletonComponent is attached,
+      // and it informs all other components ( including the player ) about its presence,
+      // and the second time - when the BlendTreePlayer component is attached, it will try recognizing
+      // what other components are already attached, calling onSiblingAdded for each one.
+      return;
+   }
+
+   m_skeleton = m_posesSink->m_skeleton;
+   m_bonesCount = m_skeleton->getBoneCount();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -254,15 +271,9 @@ void BlendTreePlayer::onSiblingAttached( SceneNode* node )
    if ( node->isA< SkeletonComponent >() )
    {
       m_posesSink = static_cast< SkeletonComponent* >( node );
+      m_posesSink->attachListener( *this );
 
-      // compare skeletons - we can only animate entities wearing the same skeleton the blend tree
-      // was created for
-      if ( m_blendTree && m_posesSink->m_skeleton == m_blendTree->m_skeleton )
-      {
-         m_posesSink->attachListener( *this );
-
-         initializePosesSinkRuntimeContext();
-      }
+      initializePosesSinkRuntimeContext();
    }
 }
 
@@ -283,32 +294,14 @@ void BlendTreePlayer::onSiblingDetached( SceneNode* node )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTreePlayer::onAttached( Entity* parent )
-{
-   AnimationPlayer::onAttached( parent );
-
-   if ( m_blendTree )
-   {
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void BlendTreePlayer::onDetached( Entity* parent ) 
-{
-
-   AnimationPlayer::onDetached( parent );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void BlendTreePlayer::onAttachToModel( Model* model )
 {
    AnimationPlayer::onAttachToModel( model );
 
    if ( m_blendTree )
    {
-      m_blendTree->attachListener( this );
+      m_blendTree->attachBlendTreeListener( this );
+      m_blendTree->attachListener( *this );
    }
 
    initializeEventsArray();
@@ -322,7 +315,8 @@ void BlendTreePlayer::onDetachFromModel( Model* model )
 
    if ( m_blendTree )
    {
-      m_blendTree->detachListener( this );
+      m_blendTree->detachBlendTreeListener( this );
+      m_blendTree->detachListener( *this );
    }
 }
 

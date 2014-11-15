@@ -1,5 +1,6 @@
 #include "ext-2DGameLevel\GL2DLevelGenerator.h"
 #include "ext-2DGameLevel\GL2DVoxelPrefabsMap.h"
+#include "ext-2DGameLevel\GL2DLSystem.h"
 
 // level rendering
 #include "core-MVC\Entity.h"
@@ -12,9 +13,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-GL2DLevelGenerator::GL2DLevelGenerator( const FilePath& geometryDeploymentDir, const GL2DVoxelPrefabsMap& prefabsMap )
-   : m_geometryDeploymentDir( geometryDeploymentDir )
-   , m_prefabsMap( prefabsMap )
+GL2DLevelGenerator::GL2DLevelGenerator( const FilePath& lSystemDir, const FilePath& geometryDeploymentDir )
+   : m_lSystemDir( lSystemDir )
+   , m_geometryDeploymentDir( geometryDeploymentDir )
 {
 }
 
@@ -30,22 +31,32 @@ Entity* GL2DLevelGenerator::generateLevel( float levelLength )
 {
    StaticGeometryTree staticGeometryBuilder( AxisAlignedBox( Vector( -1.5f * levelLength, -10.0f, -10.0f ), Vector( 1.5f * levelLength, 10.0f, 10.0f ) ) );
 
-   const uint prefabsCount = m_prefabsMap.getPrefabsCount();
-   if ( prefabsCount == 0 )
+
+   FilePath lSystemConfigXML = m_lSystemDir + FilePath( "LSystemDef.xml" );
+   GL2DLSystem lSystem;
+   if ( !lSystem.configureFromXML( lSystemConfigXML ) )
    {
-      WARNING( "No prefabs have been found" );
       return NULL;
    }
 
+   // run the generator
+   std::string levelDefinition;
+   lSystem.process( "a", 5, levelDefinition );
+
+   List< Prefab* > prefabsList;
+   lSystem.interpret( levelDefinition, m_lSystemDir, prefabsList );
+
    Matrix transform;
-   for ( float runningLength = 0.0f; runningLength < levelLength; runningLength += 2.0f )
+   float runningLength = 0.0f;
+   for ( List< Prefab* >::iterator it = prefabsList.begin(); !it.isEnd(); ++it )
    {
-      const uint prefabIdx = rand() % prefabsCount;
-      const Prefab* randomPrefab = m_prefabsMap.getPrefab( prefabIdx );
+      const Prefab* prefab = *it;
 
+      // calculate the object's transform
       transform.setTranslation( Vector( runningLength, 0.0f, 0.0f ) );
+      staticGeometryBuilder.add( prefab, transform );
 
-      staticGeometryBuilder.add( randomPrefab, transform );
+      runningLength += 2.0f;
    }
 
    Entity* proceduralGeometry = staticGeometryBuilder.build( m_geometryDeploymentDir, "ProceduralLevel" );

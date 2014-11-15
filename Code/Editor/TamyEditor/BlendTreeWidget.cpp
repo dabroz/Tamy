@@ -50,7 +50,7 @@ BlendTreeWidget::BlendTreeWidget( QWidget* parentWidget, BlendTree& blendTree )
 
    // attach self as a listener and pull initial tree structure
    m_blendTree.addReference();
-   m_blendTree.attachListener( this );
+   m_blendTree.attachBlendTreeListener( this );
    m_blendTree.pullStructure( this );
 
    // setup common actions
@@ -66,7 +66,7 @@ BlendTreeWidget::BlendTreeWidget( QWidget* parentWidget, BlendTree& blendTree )
 BlendTreeWidget::~BlendTreeWidget()
 {
    // stop listening to the tree
-   m_blendTree.detachListener( this );
+   m_blendTree.detachBlendTreeListener( this );
    m_blendTree.removeReference();
 
    delete m_itemsFactory;

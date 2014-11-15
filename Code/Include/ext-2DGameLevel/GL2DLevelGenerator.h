@@ -7,7 +7,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class GL2DVoxelPrefabsMap;
 class FilePath;
 class Entity;
 
@@ -18,17 +17,17 @@ class GL2DLevelGenerator
    DECLARE_ALLOCATOR( GL2DLevelGenerator, AM_DEFAULT );
 
 private:
+   const FilePath&                  m_lSystemDir;
    const FilePath&                  m_geometryDeploymentDir;
-   const GL2DVoxelPrefabsMap&       m_prefabsMap;
 
 public:
    /**
     * Constructor.
     *
-    * @param geometryDeploymentDir
+    * @param lSystemDir
     * @param prefabsMap
     */
-   GL2DLevelGenerator( const FilePath& geometryDeploymentDir, const GL2DVoxelPrefabsMap& prefabsMap );
+   GL2DLevelGenerator( const FilePath& lSystemDir, const FilePath& geometryDeploymentDir );
    ~GL2DLevelGenerator();
 
    /**

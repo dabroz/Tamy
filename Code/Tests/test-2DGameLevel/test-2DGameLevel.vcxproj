@@ -118,7 +118,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GL2DLevelGeneratorTest.cpp" />
+    <ClCompile Include="GL2DLSystemTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TypesRegistryInitializer.h" />

@@ -14,6 +14,9 @@
     <ClCompile Include="GL2DVoxelizedItem.cpp">
       <Filter>VoxelsDictionary</Filter>
     </ClCompile>
+    <ClCompile Include="GL2DLSystem.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\ext-2DGameLevel.h" />
@@ -29,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelizedItem.h">
       <Filter>VoxelsDictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLSystem.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

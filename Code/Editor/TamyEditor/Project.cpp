@@ -69,30 +69,17 @@ void Project::set( const FilesystemSection& section )
 {
    m_projectPaths = "";
 
-   bool engineDirStored = false;
-
    const std::vector< FilePath >& dirs = section.getSectionDirectories();
    uint count = dirs.size();
    for ( uint i = 0; i < count; ++i )
    {
-      m_projectPaths += dirs[i].c_str();
-      m_projectPaths += ";";
-
-      if ( dirs[i] == s_engineDir )
+      // just make sure not to add the outstanding, runtime dirs
+      if ( isRuntimeDir( dirs[i] ) )
       {
-         engineDirStored = true;
+         continue;
       }
-   }
 
-   // make sure the engine directory and the project directory always make it to project settings
-   if ( !engineDirStored )
-   {
-      m_projectPaths += s_engineDir;
-      m_projectPaths += ";";
-
-      FilePath projectDir;
-      getFilePath().extractDir( projectDir );
-      m_projectPaths += projectDir;
+      m_projectPaths += dirs[i].c_str();
       m_projectPaths += ";";
    }
 }
@@ -147,6 +134,15 @@ void Project::collectDirectories( std::vector< FilePath >& outProjectDirectories
    {
       outProjectDirectories.push_back( dirs[i] );
    }
+
+   // add the outstanding directories
+   {
+      outProjectDirectories.push_back( s_engineDir );
+
+      FilePath projectDir;
+      getFilePath().extractDir( projectDir );
+      outProjectDirectories.push_back( projectDir );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -159,6 +155,26 @@ void Project::ensureMainDirectoriesPresence()
    FilePath projectDir;
    getFilePath().extractDir( projectDir );
    m_fsSection->addDirectory( projectDir );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool Project::isRuntimeDir( const std::string& dir ) const
+{
+   if ( s_engineDir == dir )
+   {
+      return true;
+   }
+
+   FilePath projectDir;
+   getFilePath().extractDir( projectDir );
+
+   if ( projectDir == dir )
+   {
+      return true;
+   }
+
+   return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

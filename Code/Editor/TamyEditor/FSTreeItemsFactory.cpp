@@ -22,14 +22,14 @@ FSTreeItemsFactory::~FSTreeItemsFactory()
 
 unsigned int FSTreeItemsFactory::typesCount() const
 {
-   return m_resourcesFactory->typesCount() + 2;
+   return m_resourcesFactory->typesCount() + 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void FSTreeItemsFactory::getDesc( unsigned int idx, QString& outDesc, QString& outGroup, QIcon& outIcon ) const
 {
-   if ( idx < 2 )
+   if ( idx < 1 )
    {
       switch( idx )
       {
@@ -41,19 +41,11 @@ void FSTreeItemsFactory::getDesc( unsigned int idx, QString& outDesc, QString& o
 
             return;
          }
-
-         case FS_ITEM_PROJECT:
-         {
-            outDesc = "Project";
-            outGroup = "";
-            outIcon = QIcon( ":/TamyEditor/Resources/Icons/Engine/ProjectIcon.png" );
-            return;
-         }
       }
    }
    else
    {
-      idx -= 2;
+      idx -= 1;
       m_resourcesFactory->getDesc( idx, outDesc, outGroup, outIcon );
    }
 }
@@ -69,13 +61,13 @@ void FSTreeItemsFactory::getDesc( const SerializableReflectionType& type, QStrin
 
 const SerializableReflectionType* FSTreeItemsFactory::getClass( unsigned int idx ) const
 {
-   if ( idx < 2 )
+   if ( idx < 1 )
    {
       return NULL;
    }
    else
    {
-      return m_resourcesFactory->getClass( idx - 2 );
+      return m_resourcesFactory->getClass( idx - 1 );
    }
 }
 

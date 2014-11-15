@@ -9,13 +9,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GL2DLevelGeneratorTest.cpp">
-      <Filter>ProceduralGeneration</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="TypesRegistryInitializer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GL2DLSystemTest.cpp">
+      <Filter>ProceduralGeneration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

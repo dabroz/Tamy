@@ -59,7 +59,7 @@ Blender1DParamsEditor::~Blender1DParamsEditor()
 void Blender1DParamsEditor::initialize( BlendTreeEditor& mainEditor )
 {
    BlendTree& blendTree = mainEditor.getBlendTree();
-   blendTree.attachListener( this );
+   blendTree.attachBlendTreeListener( this );
 
    m_blenderNode.pullStructure( this );
 }
@@ -69,7 +69,7 @@ void Blender1DParamsEditor::initialize( BlendTreeEditor& mainEditor )
 void Blender1DParamsEditor::deinitialize( BlendTreeEditor& mainEditor )
 {
    BlendTree& blendTree = mainEditor.getBlendTree();
-   blendTree.detachListener( this );
+   blendTree.detachBlendTreeListener( this );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -288,7 +288,7 @@ void BlendTreeEditor::initScene()
       LocationRenderSettings* renderSettings = new LocationRenderSettings();
       {
          m_scene->addChild( renderSettings );
-         renderSettings->m_ambientLight = Color( 0.5f, 0.5f, 0.5f );
+         renderSettings->m_ambientLight = Color( 0.5f, 0.5f, 0.5f, 1.0f );
       }
    }
 
@@ -478,20 +478,6 @@ void BlendTreeEditor::update( float timeElapsed )
          static Vector cameraArmVertDisplacement( 0.0f, 0.0f, 3.0f );
          desiredCameraTransform.m_translation.add( cameraArmVertDisplacement );
       }
-   }
-
-   // update lights
-   {
-      const Matrix& camTransform = m_camera->getGlobalMtx();
-      const Vector& cameraFwd = camTransform.forwardVec();
-      const Vector& lookAtPos = camTransform.position();
-      Vector lightPos;
-      lightPos.setMulAdd( cameraFwd, FastFloat::fromFloat( -1000.0f ), lookAtPos );
-
-      Matrix lightTransform = camTransform;
-      lightTransform.setPosition< 3 >( lightPos );
-      
-      m_frontLight->setLocalMtx( lightTransform );
    }
 
    // update camera

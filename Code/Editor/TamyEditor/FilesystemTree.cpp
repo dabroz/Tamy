@@ -200,6 +200,11 @@ void FilesystemTree::onDirRenamed( const FilePath& oldPath, const FilePath& newP
 {
    removeDirectory( oldPath );
    addDirectory( newPath );
+
+   // unlike when adding a new directory, here we've just removed the entire subtree that was
+   // located under the directory - but the files are still there in the filesystem, so we need
+   // to rescan that part of the tree
+   refreshRecursive( newPath );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -256,7 +261,7 @@ void FilesystemTree::addDirectory( const FilePath& dir )
       else
       {
          // the node doesn't exist - create a new one
-         currNode = new FSDirNode( currNode, pathElements[i] + "/" );
+         currNode = new FSDirNode( currNode, pathElements[i] );
       }
    }
 }
@@ -296,12 +301,12 @@ void FilesystemTree::refreshRecursive( const std::string& rootDir )
    // attach self as a listener from the previous section
    if ( m_section )
    {
-      m_section->pullStructure( *this, m_rootDir->getRelativePath() );
+      m_section->pullStructure( *this, FilePath( rootDir ) );
    }
    else
    {
       Filesystem& fs = TSingleton< Filesystem >::getInstance();
-      fs.pullStructure( *this, m_rootDir->getRelativePath() );
+      fs.pullStructure( *this, FilePath( rootDir ) );
    }
 }
 
@@ -445,45 +450,32 @@ void FilesystemTree::addNode( unsigned int idx, const std::string& parentDir )
 
          break;
       }
-   
-      case FS_ITEM_PROJECT:
-      {
-         // learn the new file's name
-         bool ok = false;
-         QString newProjectName = QInputDialog::getText( this, "New project", "Project name:", QLineEdit::Normal, "", &ok );
-         if ( ok )
-         {
-            // create a project directory
-            ResourcesManager& resMgr = TSingleton< ResourcesManager >::getInstance();
-            const Filesystem& fs = resMgr.getFilesystem();
-
-            FilePath projectDir( parentDir + newProjectName.toStdString() );
-            fs.mkdir( projectDir );
-
-            // and place a new project resource there
-            std::string projectPath = projectDir.c_str();
-            projectPath += "/";
-            projectPath += newProjectName.toStdString() + "." + Project::getExtension();
-            resMgr.create< Project >( FilePath( projectPath ) );
-         }
-
-         break;
-      }
 
       default:
       {
          // create the specified resource
          const SerializableReflectionType* newResourceType = m_itemsFactory->getClass( idx );
          Resource* newResource = newResourceType->instantiate<Resource>();
-
          ResourcesManager& resMgr = TSingleton< ResourcesManager >::getInstance();
+         Filesystem& fs = resMgr.getFilesystem();
 
          FilePath resourcePath;
-         ResourceUtils::findAvailableDefaultName( resMgr.getFilesystem(), parentDir, newResource, resourcePath );
+         ResourceUtils::findAvailableDefaultName( fs, parentDir, newResource, resourcePath );
+
+         if ( newResourceType->isExactlyA( Project::getStaticRTTI() ) )
+         {
+            // if the new resource is a project, create a dedicated directory for it and put it in that directory
+            std::string newProjectName = resourcePath.extractNodeName();
+            newProjectName = newProjectName.substr( 0, newProjectName.length() - resourcePath.extractExtension().length() - 1 );
+            FilePath projectDir = parentDir + newProjectName;
+            fs.mkdir( projectDir );
+
+            // and place a new project resource there
+            resourcePath = projectDir + ( newProjectName + "." + Project::getExtension() );
+         }
          newResource->setFilePath( resourcePath );
          
          resMgr.addResource( newResource );
-
          newResource->saveResource();
 
          break;

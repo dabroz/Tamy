@@ -26,7 +26,7 @@ BlendTreeEditorBottomFrame::BlendTreeEditorBottomFrame( QWidget* parent, BlendTr
    layout->setMargin( 0 );
    setLayout( layout );
 
-   m_blendTree.attachListener( this );
+   m_blendTree.attachBlendTreeListener( this );
 
    m_editorsFactory = new GenericFactory< BlendTreeNode, BTBFEditor >();
    m_editorsFactory->associate< BlendTreeAnimation, AnimationEventsEditor >();
@@ -37,7 +37,7 @@ BlendTreeEditorBottomFrame::BlendTreeEditorBottomFrame( QWidget* parent, BlendTr
 
 BlendTreeEditorBottomFrame::~BlendTreeEditorBottomFrame()
 {
-   m_blendTree.detachListener( this );
+   m_blendTree.detachBlendTreeListener( this );
 
    int tabsCount = count();
    for( int i = tabsCount - 1; i >= 0; --i )

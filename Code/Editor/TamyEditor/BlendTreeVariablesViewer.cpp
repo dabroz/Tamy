@@ -32,7 +32,7 @@ BlendTreeVariablesViewer::BlendTreeVariablesViewer( QWidget* parentWidget, Blend
    initUI();
 
    // attach self as a listener to the tree and pull down its current state
-   m_blendTree.attachListener( this );
+   m_blendTree.attachBlendTreeListener( this );
    m_blendTree.pullStructure( this );
 }
 
@@ -40,7 +40,7 @@ BlendTreeVariablesViewer::BlendTreeVariablesViewer( QWidget* parentWidget, Blend
 
 BlendTreeVariablesViewer::~BlendTreeVariablesViewer()
 {
-   m_blendTree.detachListener( this );
+   m_blendTree.detachBlendTreeListener( this );
 
    delete m_editTimeDelegate;
    m_editTimeDelegate = NULL;

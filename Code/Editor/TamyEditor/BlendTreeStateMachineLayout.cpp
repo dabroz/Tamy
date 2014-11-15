@@ -34,7 +34,7 @@ BlendTreeStateMachineLayout::BlendTreeStateMachineLayout( BlendTreeStateMachine*
    setBackgroundBrush( bgImageBrush );
 
    BlendTree* tree = m_stateMachine->getBlendTree();
-   tree->attachListener( static_cast< BlendTreeListener* >( this ) );
+   tree->attachBlendTreeListener( this );
 
    m_itemDescriptionsFactory = new TypeDescFactory< BlendTreeNode >( "unknownBlendTreeIcon.png" );
 
@@ -47,7 +47,7 @@ BlendTreeStateMachineLayout::BlendTreeStateMachineLayout( BlendTreeStateMachine*
 BlendTreeStateMachineLayout::~BlendTreeStateMachineLayout()
 {
    BlendTree* tree = m_stateMachine->getBlendTree();
-   tree->detachListener( static_cast< BlendTreeListener* >( this ) );
+   tree->detachBlendTreeListener( this );
 
    m_stateItems.clear();
    m_transitionItems.clear();

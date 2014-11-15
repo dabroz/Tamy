@@ -18,7 +18,7 @@
     <ClCompile Include="StoryPlanningTests.cpp">
       <Filter>StoryPlanning</Filter>
     </ClCompile>
-    <ClCompile Include="DescritionBuilderTests.cpp">
+    <ClCompile Include="StoryHTCTests.cpp">
       <Filter>StoryPlanning</Filter>
     </ClCompile>
   </ItemGroup>

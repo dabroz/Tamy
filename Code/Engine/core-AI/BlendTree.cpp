@@ -65,7 +65,7 @@ BlendTree::~BlendTree()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTree::attachListener( BlendTreeListener* listener )
+void BlendTree::attachBlendTreeListener( BlendTreeListener* listener )
 {
    List< BlendTreeListener* >::iterator it = ListUtils::find( m_listeners, listener );
    if ( it.isEnd() )
@@ -76,7 +76,7 @@ void BlendTree::attachListener( BlendTreeListener* listener )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTree::detachListener( BlendTreeListener* listener )
+void BlendTree::detachBlendTreeListener( BlendTreeListener* listener )
 {
    List< BlendTreeListener* >::iterator it = ListUtils::find( m_listeners, listener );
    if ( !it.isEnd() )

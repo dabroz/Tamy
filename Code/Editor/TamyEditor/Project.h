@@ -97,6 +97,14 @@ private:
     * Adds a couple of absolutely necessary directories to the project.
     */
    void ensureMainDirectoriesPresence();
+
+   /**
+    * Checks if the specified directory is one of the runtime directories we don't
+    * serialize.
+    *
+    * @param dir
+    */
+   bool isRuntimeDir( const std::string& dir ) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

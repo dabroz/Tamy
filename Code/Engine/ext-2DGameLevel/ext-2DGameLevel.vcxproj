@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Include\ext-2DGameLevel\TypesRegistry.cpp" />
     <ClCompile Include="GL2DLevelGenerator.cpp" />
+    <ClCompile Include="GL2DLSystem.cpp" />
     <ClCompile Include="GL2DProceduralLevel.cpp" />
     <ClCompile Include="GL2DVoxelizedItem.cpp" />
     <ClCompile Include="GL2DVoxelPrefabsMap.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="..\..\Include\ext-2DGameLevel.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\Defines.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLevelGenerator.h" />
+    <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DLSystem.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DProceduralLevel.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelizedItem.h" />
     <ClInclude Include="..\..\Include\ext-2DGameLevel\GL2DVoxelPrefabsMap.h" />

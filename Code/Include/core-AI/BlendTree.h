@@ -114,14 +114,14 @@ public:
     *
     * @param listener
     */
-   void attachListener( BlendTreeListener* listener );
+   void attachBlendTreeListener( BlendTreeListener* listener );
 
    /**
     * Detaches a listener.
     *
     * @param listener
     */
-   void detachListener( BlendTreeListener* listener );
+   void detachBlendTreeListener( BlendTreeListener* listener );
 
    /**
     * Pulls the tree structure, feeding it to the listener.

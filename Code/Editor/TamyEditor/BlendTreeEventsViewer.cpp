@@ -27,7 +27,7 @@ BlendTreeEventsViewer::BlendTreeEventsViewer( QWidget* parentWidget, BlendTree& 
    initUI();
 
    // attach self as a listener to the tree and pull down its current state
-   m_blendTree.attachListener( this );
+   m_blendTree.attachBlendTreeListener( this );
    m_blendTree.pullStructure( this );
 }
 
@@ -35,7 +35,7 @@ BlendTreeEventsViewer::BlendTreeEventsViewer( QWidget* parentWidget, BlendTree& 
 
 BlendTreeEventsViewer::~BlendTreeEventsViewer()
 {
-   m_blendTree.detachListener( this );
+   m_blendTree.detachBlendTreeListener( this );
 
    delete m_editTimeDelegate;
    m_editTimeDelegate = NULL;

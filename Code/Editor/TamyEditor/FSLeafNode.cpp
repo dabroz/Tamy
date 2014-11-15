@@ -91,7 +91,7 @@ FilePath FSLeafNode::getRelativePath() const
    ASSERT_MSG ( parent(), "Leaf node has to have a parent" );
 
    std::string path = static_cast< FSTreeNode* >( parent() )->getRelativePath();
-   path += m_fsNodeName;
+   path += std::string( "/" ) + m_fsNodeName;
 
    return FilePath( path );
 }

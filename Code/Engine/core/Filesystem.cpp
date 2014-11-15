@@ -598,7 +598,7 @@ void Filesystem::broadcastFilesystemChanges( const FilesystemChanges& changes )
          for ( Listeners::iterator it = m_listeners.begin(); !it.isEnd(); ++it )
          {
             FilesystemListener* listener = *it;
-            listener->onFileRenamed( change.m_oldPath, change.m_newPath );
+            listener->onDirRenamed( change.m_oldPath, change.m_newPath );
          }
       }
       else
