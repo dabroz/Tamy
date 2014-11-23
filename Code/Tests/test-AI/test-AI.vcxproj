@@ -105,6 +105,7 @@
     <ClCompile Include="BoneSRTAnimationTests.cpp" />
     <ClCompile Include="FiniteStateMachineTests.cpp" />
     <ClCompile Include="PoseBlenderTests.cpp" />
+    <ClCompile Include="SkeletonMapperTests.cpp" />
     <ClCompile Include="SnapshotAnimationTests.cpp" />
   </ItemGroup>
   <ItemGroup>

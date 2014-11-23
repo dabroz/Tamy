@@ -115,6 +115,9 @@
     <ProjectReference Include="..\ext-2DGameLevel\ext-2DGameLevel.vcxproj">
       <Project>{5a2f6c07-fdb7-48c6-8429-63dea282a386}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\ext-ProceduralAnimation\ext-ProceduralAnimation.vcxproj">
+      <Project>{92b75cf2-4375-4018-8af0-97b3891bf64c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ext-StoryTeller\ext-StoryTeller.vcxproj">
       <Project>{0a5ef6f5-e637-4c52-b7bb-db747bf74646}</Project>
     </ProjectReference>

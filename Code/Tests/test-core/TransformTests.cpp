@@ -221,3 +221,11 @@ TEST( Transform, inversion )
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+TEST( Transform, advancedInversion )
+{
+   CPPUNIT_ASSERT( false );
+   // TODO: define some weird transform and use matrix calculations to verify that the Transform calculations are correct
+}
+
+///////////////////////////////////////////////////////////////////////////////

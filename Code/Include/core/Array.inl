@@ -397,7 +397,7 @@ const T& Array< T >::at(unsigned int idx) const
 ///////////////////////////////////////////////////////////////////////////////
 
 template< typename T >
-unsigned int Array< T >::find(const T& elem, unsigned int startPos = 0) const
+unsigned int Array< T >::find( const T& elem, unsigned int startPos = 0 ) const
 {
    if (startPos >= m_elementsCount)
    {
@@ -427,6 +427,22 @@ Array< T >::operator T*()
 
 template< typename T >
 Array< T >::operator const T*() const
+{
+   return m_arr;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+T* Array< T >::getRaw()
+{
+   return m_arr;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template< typename T >
+const T* Array< T >::getRaw() const
 {
    return m_arr;
 }

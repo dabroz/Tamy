@@ -3,6 +3,7 @@
 #include "core-MVC\ModelView.h"
 #include "core-MVC\Prefab.h"
 #include "core-MVC\EntityUtils.h"
+#include "core-MVC\EntityListener.h"
 #include "core\Sphere.h"
 #include "core\AxisAlignedBox.h"
 #include "core\Assert.h"
@@ -117,6 +118,13 @@ void Entity::clear()
          onChildDetached( child );
          child->onDetached( this );
 
+         // inform the listeners
+         for ( List< EntityListener* >::iterator it = m_listeners.begin(); !it.isEnd(); ++it )
+         {
+            EntityListener* listener = *it;
+            listener->onChildDetached( this, child );
+         }
+
          // decrease reference counter
          child->removeReference();
       }
@@ -134,7 +142,7 @@ void Entity::addChild( SceneNode* addedChild )
       return;
    }
 
-   // reparent the node
+   // re-parent the node
    if ( addedChild->isAttached() )
    {
       addedChild->addReference();
@@ -156,6 +164,13 @@ void Entity::addChild( SceneNode* addedChild )
          child->onSiblingAttached( addedChild );
 
          addedChild->onSiblingAttached( child );
+      }
+
+      // inform the listeners
+      for ( List< EntityListener* >::iterator it = m_listeners.begin(); !it.isEnd(); ++it )
+      {
+         EntityListener* listener = *it;
+         listener->onChildAttached( this, addedChild );
       }
    }
 
@@ -192,6 +207,17 @@ void Entity::removeChild( SceneNode* removedChild )
       {
          child->onSiblingDetached( removedChild );
          removedChild->onSiblingDetached( child );
+      }
+   }
+
+   // inform the listeners
+   if ( nodeRemoved )
+   {
+      // inform the listeners
+      for ( List< EntityListener* >::iterator it = m_listeners.begin(); !it.isEnd(); ++it )
+      {
+         EntityListener* listener = *it;
+         listener->onChildDetached( this, removedChild );
       }
    }
 
@@ -705,6 +731,39 @@ void Entity::buildBoundingVolume()
 
    delete m_globalVolume;
    m_globalVolume = new AxisAlignedBox(boundingBox );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Entity::attachEntityListener( EntityListener* listener )
+{
+   if ( listener )
+   {
+      ListUtils::pushBackUnique( m_listeners, listener );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Entity::detachEntityListener( EntityListener* listener )
+{
+   List< EntityListener* >::iterator it = ListUtils::find( m_listeners, listener );
+   if ( !it.isEnd() )
+   {
+      it.markForRemoval();
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Entity::pullStructure( EntityListener* listener )
+{
+   const uint childrenCount = m_children.size();
+   for ( uint i = 0; i < childrenCount; ++i )
+   {
+      SceneNode* child = m_children[i];
+      listener->onChildAttached( this, child );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

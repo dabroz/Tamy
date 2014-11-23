@@ -100,6 +100,7 @@ PhysicsSystem::PhysicsSystem( const SingletonConstruct& )
    }
 
    // initialize the debugger connection, if available
+#ifdef PVD_SUPPORT
    if ( m_physics->getPvdConnectionManager() )
    {
       // setup connection parameters
@@ -113,6 +114,7 @@ PhysicsSystem::PhysicsSystem( const SingletonConstruct& )
       // and now try to connect
       m_debuggerConnection = physx::PxVisualDebuggerExt::createConnection( m_physics->getPvdConnectionManager(), pvd_host_ip, port, timeout, connectionFlags );
    }
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -122,11 +124,13 @@ PhysicsSystem::~PhysicsSystem()
    m_worlds.clear();
 
    // destroy PhysX systems
+#ifdef PVD_SUPPORT
    if ( m_debuggerConnection )
    {
       m_debuggerConnection->release();
       m_debuggerConnection = NULL;
    }
+#endif
 
    if ( m_cookingInterface )
    {

@@ -12,6 +12,8 @@
 #include "PxShape.h"
 #include "PxMaterial.h"
 #include "PxPhysics.h"
+#include "PxScene.h"
+#include "PxSceneLock.h"
 #include "extensions\PxRigidBodyExt.h"
 
 // shapes
@@ -146,6 +148,9 @@ void PhysicsRigidBody::addToWorld( PhysicsWorld& world )
 
       // give the body a shape
       m_shape->instantiate( *m_body, *material );
+
+      world.assignCollisionGroup( m_body, Collision_Static );
+
    }
    else
    {
@@ -161,13 +166,18 @@ void PhysicsRigidBody::addToWorld( PhysicsWorld& world )
       // give the body a shape and update its inertia
       m_shape->instantiate( *m_body, *material );
       physx::PxRigidBodyExt::updateMassAndInertia( *m_dynamicBody, m_density );
+
+      world.assignCollisionGroup( m_body, Collision_Dynamic );
    }
 
    // set additional flags
    m_body->setActorFlag( physx::PxActorFlag::eDISABLE_GRAVITY, !m_obeyGravity );
 
    // add the actor to the world
-   world.m_scene->addActor( *m_body );
+   {
+      physx::PxSceneWriteLock scopedLock( *world.m_scene );
+      world.m_scene->addActor( *m_body );
+   }
 
    // cache the parent entity's transform
    m_cachedTransform = getGlobalMtx();
@@ -179,6 +189,8 @@ void PhysicsRigidBody::removeFromWorld( PhysicsWorld& world )
 {
    if ( m_body )
    {
+      physx::PxSceneWriteLock scopedLock( *world.m_scene );
+
       world.m_scene->removeActor( *m_body );
 
       m_body->release();
@@ -200,6 +212,8 @@ void PhysicsRigidBody::updateTransforms()
    if ( m_body )
    {
       Entity* parent = getParent();
+
+      physx::PxSceneReadLock scopedLock( *m_body->getScene() );
 
       Matrix globalMtx;
       PxMathConverter::convert( m_body->getGlobalPose(), globalMtx );

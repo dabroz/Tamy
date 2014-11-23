@@ -61,10 +61,10 @@ DirectionalLightRenderer::DirectionalLightRenderer( GeometryStorage* geometrySto
    cascadeProperties.m_cascadeOffset[3].v[0] = 0.5f; // cascade 3 offset
    cascadeProperties.m_cascadeOffset[3].v[1] = 0.5f;
    
-   cascadeProperties.m_cascadeDistance[0] = 16.0f;
-   cascadeProperties.m_cascadeDistance[1] = 64.0f;
-   cascadeProperties.m_cascadeDistance[2] = 128.0f;
-   cascadeProperties.m_cascadeDistance[3] = 256.0f;
+   cascadeProperties.m_cascadeDistance[0] = 8.0f;
+   cascadeProperties.m_cascadeDistance[1] = 32.0f;
+   cascadeProperties.m_cascadeDistance[2] = 64.0f;
+   cascadeProperties.m_cascadeDistance[3] = 128.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -14,8 +14,6 @@ class RuntimeDataBuffer;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// TODO: turn this into a component
-
 /**
  * Runtime behavior tree player.
  */

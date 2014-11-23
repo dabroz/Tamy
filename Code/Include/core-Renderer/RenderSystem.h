@@ -23,7 +23,7 @@ class TSContinuousMemoryPool;
  */
 class RenderSystem : public Runnable
 {
-   PRIORITY_SINGLETON( 12 );
+   PRIORITY_SINGLETON( 13 );
    DECLARE_ALLOCATOR( RenderSystem, AM_DEFAULT );
 
    struct RendererEntry

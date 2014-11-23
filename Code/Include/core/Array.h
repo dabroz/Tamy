@@ -242,6 +242,18 @@ public:
     */
    operator const T*() const;
 
+   /**
+    * Returns a pointer to the raw array of elements that can be used in C-style
+    * operations.
+    */
+   T* getRaw();
+
+   /**
+   * Returns a pointer to the raw array of elements that can be used in C-style
+   * operations ( const version ).
+   */
+   const T* getRaw() const;
+
 private:
    /**
     * Destroys a number of elements

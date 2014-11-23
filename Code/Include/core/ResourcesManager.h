@@ -38,7 +38,7 @@ struct SingletonConstruct;
  */
 class ResourcesManager : public FilesystemListener
 {
-   PRIORITY_SINGLETON( 8 );
+   PRIORITY_SINGLETON( 9 );
    DECLARE_ALLOCATOR( ResourcesManager, AM_DEFAULT );
 
 private:

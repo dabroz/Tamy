@@ -19,7 +19,7 @@ class Transformable;
  */
 class TransformsManagementSystem
 {
-   PRIORITY_SINGLETON( 11 );
+   PRIORITY_SINGLETON( 12 );
    DECLARE_ALLOCATOR( TransformsManagementSystem, AM_DEFAULT );
 
 private:

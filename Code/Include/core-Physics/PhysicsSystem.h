@@ -35,7 +35,7 @@ class PhysicsMaterial;
 
 class PhysicsSystem
 {
-   REGULAR_SINGLETON();
+   PRIORITY_SINGLETON( 8 );
    DECLARE_ALLOCATOR( PhysicsSystem, AM_DEFAULT );
 
 private:

@@ -10,6 +10,10 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+struct Transform;
+
+///////////////////////////////////////////////////////////////////////////////
+
 /**
  * A skeleton represents a hierarchy of nodes along with
  * a set of animations that operate on it
@@ -28,7 +32,7 @@ public:
    Array< FastFloat >            m_boneLengths;
 
    // runtime data
-   uint*                         m_bonesUpdateOrder;
+   Array< uint >                 m_bonesUpdateOrder;
 
 public:  
    /**
@@ -70,6 +74,20 @@ public:
     * @param name
     */
    int getBoneIndex( const char* name ) const;
+
+   /**
+    * Calculates the model pose for this skeleton ( will resize the matrix to make room for all the transforms ).
+    *
+    * @param outPose
+    */
+   void calculateModelPose( Array< Transform >& outPose ) const;
+
+   /**
+    * Calculates the model pose for this skeleton ( will resize the matrix to make room for all the transforms ).
+    *
+    * @param outPose
+    */
+   void calculateModelPose( Array< Matrix >& outPose ) const;
 
    // -------------------------------------------------------------------------
    // Resource implementation

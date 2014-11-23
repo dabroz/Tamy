@@ -253,6 +253,9 @@
     <ClInclude Include="..\..\Include\core-AI\BehTreeSelector.h">
       <Filter>BehaviorTrees\Composites</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\core-AI\SkeletonMapper.h">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\core-AI\TypesRegistry.cpp" />
@@ -393,6 +396,9 @@
     </ClCompile>
     <ClCompile Include="BehTreeSelector.cpp">
       <Filter>BehaviorTrees\Composites</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonMapper.cpp">
+      <Filter>AnimationSystem\SkeletalAnimation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

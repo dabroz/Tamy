@@ -89,8 +89,7 @@ void PxMathConverter::convert( const Matrix& boosterMtx, physx::PxTransform& out
    Transform boosterTrans;
    boosterTrans.set( boosterMtx );
 
-   convert( boosterTrans.m_translation, outPhysXTransform.p );
-   convert( boosterTrans.m_rotation, outPhysXTransform.q );
+   convert( boosterTrans, outPhysXTransform );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -98,10 +97,25 @@ void PxMathConverter::convert( const Matrix& boosterMtx, physx::PxTransform& out
 void PxMathConverter::convert( const physx::PxTransform& physXTransform, Matrix& outBoosterMtx )
 {
    Transform boosterTrans;
-   convert( physXTransform.p, boosterTrans.m_translation );
-   convert( physXTransform.q, boosterTrans.m_rotation );
+   convert( physXTransform, boosterTrans );
 
    boosterTrans.toMatrix( outBoosterMtx );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void PxMathConverter::convert( const Transform& boosterTransform, physx::PxTransform& outPhysXTransform )
+{
+   convert( boosterTransform.m_translation, outPhysXTransform.p );
+   convert( boosterTransform.m_rotation, outPhysXTransform.q );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void PxMathConverter::convert( const physx::PxTransform& physXTransform, Transform& outBoosterTransform )
+{
+   convert( physXTransform.p, outBoosterTransform.m_translation );
+   convert( physXTransform.q, outBoosterTransform.m_rotation );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

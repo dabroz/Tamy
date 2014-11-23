@@ -85,6 +85,17 @@ public:
     */
    template< typename T >
    static bool compareWithPrevious( typename const List< T >& oldList, typename const List< T >& newList, typename List< T >& outAddedElements, typename List< T >& outRemovedElements );
+
+   /**
+    * Adds an element to the specified list providing it's not already on the list.
+    *
+    * @param list
+    * @param element
+    *
+    * @return        'true' if the element was added, 'false' otherwise
+    */
+   template< typename T >
+   static bool pushBackUnique( typename List< T >& list, const T& element );
 };
 
 ///////////////////////////////////////////////////////////////////////////////

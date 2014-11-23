@@ -11,47 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\core-Physics.h" />
-    <ClInclude Include="..\..\Include\core-Physics\Defines.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PCCHitsCallbacksInterface.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsCharacterController.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsMaterial.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsObject.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsRigidBody.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsShape.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsSystem.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PhysicsWorld.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PSBox.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PSCapsule.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PSPlane.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PSSphere.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PSTriangleMesh.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PXErrorCallback.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PxMathConverter.h" />
-    <ClInclude Include="..\..\Include\core-Physics\PXMemoryAllocator.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\Include\core-Physics\TypesRegistry.cpp" />
-    <ClCompile Include="PCCHitsCallbacksInterface.cpp" />
-    <ClCompile Include="PhysicsCharacterController.cpp" />
-    <ClCompile Include="PhysicsMaterial.cpp" />
-    <ClCompile Include="PhysicsObject.cpp" />
-    <ClCompile Include="PhysicsRigidBody.cpp" />
-    <ClCompile Include="PhysicsShape.cpp" />
-    <ClCompile Include="PhysicsSystem.cpp" />
-    <ClCompile Include="PhysicsWorld.cpp" />
-    <ClCompile Include="PSBox.cpp" />
-    <ClCompile Include="PSCapsule.cpp" />
-    <ClCompile Include="PSPlane.cpp" />
-    <ClCompile Include="PSSphere.cpp" />
-    <ClCompile Include="PSTriangleMesh.cpp" />
-    <ClCompile Include="PXErrorCallback.cpp" />
-    <ClCompile Include="PxMathConverter.cpp" />
-    <ClCompile Include="PXMemoryAllocator.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\core-AI\core-AI.vcxproj">
+      <Project>{bb9178b4-c215-4ab8-831a-89a717c6b5ee}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\core-MVC\core-MVC.vcxproj">
       <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core-Physics\core-Physics.vcxproj">
+      <Project>{204fbca9-efd4-42c9-90f0-f19f4cbace29}</Project>
     </ProjectReference>
     <ProjectReference Include="..\core-Renderer\core-Renderer.vcxproj">
       <Project>{dbcd9f77-4064-4db9-ac18-516ed35b24ce}</Project>
@@ -60,24 +27,34 @@
       <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\ext-ProceduralAnimation.h" />
+    <ClInclude Include="..\..\Include\ext-ProceduralAnimation\BlendTreeRagdollAnimation.h" />
+    <ClInclude Include="..\..\Include\ext-ProceduralAnimation\RagdollComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\ext-ProceduralAnimation\TypesRegistry.cpp" />
+    <ClCompile Include="BlendTreeRagdollAnimation.cpp" />
+    <ClCompile Include="RagdollComponent.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{204FBCA9-EFD4-42C9-90F0-F19F4CBACE29}</ProjectGuid>
+    <ProjectGuid>{92B75CF2-4375-4018-8AF0-97B3891BF64C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>corePhysics</RootNamespace>
+    <RootNamespace>extProceduralAnimation</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -103,17 +80,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(PHYSX_HOME)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(PHYSX_HOME)\Include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\External\tinyxml;$(PHYSX_HOME)\Lib\vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxmld.lib;PhysX3DEBUG_x86.lib;PhysX3CharacterKinematicDEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PxTaskDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,8 +96,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(PHYSX_HOME)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include;$(PHYSX_HOME)\Include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,10 +105,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Libs\External\tinyxml;$(PHYSX_HOME)\Lib\vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;tinyxmld.lib;PhysX3_x86.lib;PhysX3CharacterKinematic_x86.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;PhysX3Extensions.lib;PhysXProfileSDK.lib;PhysXVisualDebuggerSDK.lib;PxTask.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

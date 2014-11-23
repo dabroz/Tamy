@@ -18,7 +18,7 @@ class AnimationWorld;
  */
 class AISystem
 {
-   PRIORITY_SINGLETON( 9 );
+   PRIORITY_SINGLETON( 10 );
    DECLARE_ALLOCATOR( AISystem, AM_DEFAULT );
 
 private:

@@ -2,7 +2,10 @@
 
 // physx
 #include "PxPhysics.h"
+#include "PxFiltering.h"
 #include "PxScene.h"
+#include "PxSceneLock.h"
+#include "PxRigidActor.h"
 #include "extensions\PxDefaultCpuDispatcher.h"
 #include "extensions\PxDefaultSimulationFilterShader.h"
 #include "pxtask\PxCudaContextManager.h"
@@ -11,6 +14,7 @@
 // physics
 #include "core-Physics\PhysicsObject.h"
 #include "core-Physics\PhysicsSystem.h"
+#include "core-Physics\Defines.h"
 
 // utils
 #include "core-Physics\PxMathConverter.h"
@@ -26,14 +30,50 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * A custom collision filtering shader
+ */
+static physx::PxFilterFlags CollisionFilterShader(
+   physx::PxFilterObjectAttributes attributes0, physx::PxFilterData filterData0,
+   physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
+   physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize )
+{
+   // let triggers through
+   if ( physx::PxFilterObjectIsTrigger( attributes0 ) || physx::PxFilterObjectIsTrigger( attributes1 ) )
+   {
+      pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT;
+      return physx::PxFilterFlag::eDEFAULT;
+   }
+   // generate contacts for all that were not filtered above
+   pairFlags = physx::PxPairFlag::eCONTACT_DEFAULT;
+
+   // if the two objects' collision layers overlap, make them collide
+   const uint collisionBetweenGroups = filterData0.word0 & filterData1.word0;
+   const bool systemAssignmentAllowsForCollision = filterData0.word1 == 0 || filterData1.word1 == 0 || ( ( filterData0.word1 & filterData1.word1 ) != filterData0.word1 );
+
+   if ( collisionBetweenGroups && systemAssignmentAllowsForCollision )
+   {
+      // these two should collide
+      return physx::PxFilterFlag::eDEFAULT;
+   }
+   
+   // filter the collision between the two bodies
+   return physx::PxFilterFlag::eKILL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 PhysicsWorld::PhysicsWorld( const Vector& gravity )
    : m_simulationEnabled( false )
+   , m_collisionGroups( Collision_Count )
+   , m_nextFreePhysicsSystemId( 1 )
 {
    PhysicsSystem& physicsSys = TSingleton< PhysicsSystem >::getInstance();
    physx::PxPhysics* physicsCore = physicsSys.getPhysXInterface();
 
    // initialize the PhysX scene
    physx::PxSceneDesc sceneDesc( physicsCore->getTolerancesScale() );
+   sceneDesc.flags = physx::PxSceneFlag::eREQUIRE_RW_LOCK;
    PxMathConverter::convert( gravity, sceneDesc.gravity );
 
    //customizeSceneDesc( sceneDesc );
@@ -47,10 +87,9 @@ PhysicsWorld::PhysicsWorld( const Vector& gravity )
       }
       sceneDesc.cpuDispatcher = m_cpuDispatcher;
    }
-   if ( !sceneDesc.filterShader )
-   {
-      sceneDesc.filterShader = &physx::PxDefaultSimulationFilterShader;
-   }
+
+   // assign our custom collision filtering shader
+   sceneDesc.filterShader = CollisionFilterShader;
 
    physx::PxCudaContextManager* cudaContextManager = physicsSys.getCudaContextManager();
    if ( !sceneDesc.gpuDispatcher && cudaContextManager )
@@ -65,6 +104,15 @@ PhysicsWorld::PhysicsWorld( const Vector& gravity )
       return;
    }
 
+   // setup debug visualization options
+#ifdef PVD_SUPPORT
+   {
+      physx::PxSceneWriteLock scopedLock( *m_scene );
+      m_scene->setVisualizationParameter( physx::PxVisualizationParameter::eJOINT_LOCAL_FRAMES, 1.0f );
+      m_scene->setVisualizationParameter( physx::PxVisualizationParameter::eJOINT_LIMITS, 1.0f );
+   }
+#endif
+
    m_characterControllersManager = PxCreateControllerManager( *m_scene );
    if ( !m_characterControllersManager )
    {
@@ -74,6 +122,9 @@ PhysicsWorld::PhysicsWorld( const Vector& gravity )
 
    // register self with the system
    physicsSys.addWorld( this );
+
+   // initialize collision groups
+   m_collisionGroups.resize( Collision_Count, CollisionGroup() );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -214,8 +265,11 @@ void PhysicsWorld::tick( float deltaTime )
    }
 
    // run the simulation
-   m_scene->simulate( deltaTime );
-   m_scene->fetchResults( true );
+   {
+      physx::PxSceneWriteLock scopedLock( *m_scene );
+      m_scene->simulate( deltaTime );
+      m_scene->fetchResults( true );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -247,6 +301,40 @@ void PhysicsWorld::enableSimulation( bool enable )
          object->removeFromWorld( *this );
       }
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void PhysicsWorld::assignCollisionGroup( physx::PxRigidActor* actor, PhysicsCollisionGroup collisionGroup, uint systemId )
+{
+   const CollisionGroup& group = m_collisionGroups[collisionGroup];
+
+   physx::PxFilterData filterData;
+   filterData.word0 = group.m_collisionMask;
+   filterData.word1 = systemId;
+
+   // assign the collision group  to the actor
+   const uint numShapes = actor->getNbShapes();
+   Array< physx::PxShape* > shapes( numShapes );
+   shapes.resize( numShapes, NULL );
+   actor->getShapes( shapes.getRaw(), numShapes );
+
+   for ( uint i = 0; i < numShapes; ++i )
+   {
+      physx::PxShape* shape = shapes[i];
+      shape->setSimulationFilterData( filterData );
+   }
+   
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+uint PhysicsWorld::allocatePhysicsSystemId()
+{
+   uint allocatedId = m_nextFreePhysicsSystemId;
+   ++m_nextFreePhysicsSystemId;
+
+   return allocatedId;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

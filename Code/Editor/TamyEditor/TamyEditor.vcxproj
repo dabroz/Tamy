@@ -4054,6 +4054,9 @@
     <ProjectReference Include="..\..\Engine\ext-2DGameLevel\ext-2DGameLevel.vcxproj">
       <Project>{5a2f6c07-fdb7-48c6-8429-63dea282a386}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Engine\ext-ProceduralAnimation\ext-ProceduralAnimation.vcxproj">
+      <Project>{92b75cf2-4375-4018-8af0-97b3891bf64c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engine\ext-RenderingPipeline\ext-RenderingPipeline.vcxproj">
       <Project>{57e5e09f-3694-4f4b-a450-7a288031238f}</Project>
     </ProjectReference>

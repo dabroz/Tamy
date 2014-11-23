@@ -61,7 +61,7 @@ struct VertexWeight
    VertexWeight()
    {
       m_weights.setUniform( 0.0f );
-      m_weights.setUniform( -1.0f );
+      m_indices.setUniform( -1.0f );
    }
    
    friend OutStream& operator<<( OutStream& stream, const VertexWeight& weight );

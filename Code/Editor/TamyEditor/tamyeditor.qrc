@@ -86,5 +86,6 @@
 		<file>Resources/Icons/Engine/PhysicsCharacterControllerIcon.png</file>
 		<file>Resources/Icons/Engine/GL2DBodyIcon.png</file>
 		<file>Resources/Icons/Engine/CubeTextureIcon.png</file>
+		<file>Resources/Icons/Engine/RagdollComponentIcon.png</file>
     </qresource>
 </RCC>

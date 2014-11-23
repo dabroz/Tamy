@@ -16,7 +16,6 @@ END_RESOURCE();
 
 Skeleton::Skeleton( const FilePath& resourceName )
    : Resource( resourceName )
-   , m_bonesUpdateOrder( NULL )
 {
 }
 
@@ -24,8 +23,7 @@ Skeleton::Skeleton( const FilePath& resourceName )
 
 Skeleton::~Skeleton()
 {
-   delete [] m_bonesUpdateOrder;
-   m_bonesUpdateOrder = NULL;
+   m_bonesUpdateOrder.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,8 +62,7 @@ void Skeleton::addBone( const char* boneName, const Matrix& localMtx, int parent
 
 void Skeleton::clear()
 {
-   delete [] m_bonesUpdateOrder;
-   m_bonesUpdateOrder = NULL;
+   m_bonesUpdateOrder.clear();
 
    m_boneNames.clear();
    m_boneLocalMatrices.clear();
@@ -86,8 +83,7 @@ void Skeleton::buildSkeleton()
 
 void Skeleton::sortBones()
 {
-   delete [] m_bonesUpdateOrder;
-   m_bonesUpdateOrder = NULL;
+   m_bonesUpdateOrder.clear();
 
    // Do a breadth-first search on the tree and linearize the list of bones
    // We assume that the skeleton's not ill defined and that there are no cycles in it.
@@ -100,9 +96,9 @@ void Skeleton::sortBones()
 
    LocalList< uint > bonesToCheck;
    uint bonesCount = m_boneNames.size();
-   BoneDef* bonesTree = NULL;
+   Array< BoneDef > bonesTree;
    {  
-      bonesTree = new BoneDef[bonesCount];
+      bonesTree.resize( bonesCount, BoneDef() );
 
       for ( uint oldBoneIdx = 0; oldBoneIdx < bonesCount; ++oldBoneIdx )
       {
@@ -120,7 +116,7 @@ void Skeleton::sortBones()
    }
 
    // now run the search and create a linear list of nodes - from the roots to the leaves
-   m_bonesUpdateOrder = new uint[bonesCount];
+   m_bonesUpdateOrder.resize( bonesCount, 0 );
    {
       uint newBoneIdx = 0;
 
@@ -139,18 +135,30 @@ void Skeleton::sortBones()
          }
       }
    }
-
-   // cleanup
-   delete [] bonesTree;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void Skeleton::calculateBindPose()
+void Skeleton::calculateModelPose( Array< Transform >& outPose ) const
 {
-   uint bonesCount = m_boneLocalMatrices.size();
+   const uint bonesCount = m_boneLocalMatrices.size();
+   outPose.resize( bonesCount, Transform::IDENTITY );
 
-   Matrix* boneModelMtx = new Matrix[bonesCount];
+   Array< Matrix > pose( bonesCount );
+   calculateModelPose( pose );
+
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      outPose[i].set( pose[i] );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::calculateModelPose( Array< Matrix >& outPose ) const
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+   outPose.resize( bonesCount, Matrix::IDENTITY );
 
    // calculate the model pose
    for ( uint i = 0; i < bonesCount; ++i )
@@ -158,19 +166,26 @@ void Skeleton::calculateBindPose()
       int orderedBoneIdx = m_bonesUpdateOrder[i];
 
       int parentBoneIdx = m_boneParentIndices[orderedBoneIdx];
-      const Matrix& parentModelMtx = parentBoneIdx < 0 ? Matrix::IDENTITY : boneModelMtx[ parentBoneIdx ];
+      const Matrix& parentModelMtx = parentBoneIdx < 0 ? Matrix::IDENTITY : outPose[parentBoneIdx];
 
-      Matrix& modelMtx = boneModelMtx[orderedBoneIdx];
+      Matrix& modelMtx = outPose[orderedBoneIdx];
       modelMtx.setMul( m_boneLocalMatrices[orderedBoneIdx], parentModelMtx );
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::calculateBindPose()
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+   Array< Matrix > boneModelMtx( bonesCount );
+   calculateModelPose( boneModelMtx );
 
    // calculate the inverse of the model pose
    for ( uint i = 0; i < bonesCount; ++i )
    {
       m_boneInvBindPoseMtx[i].setInverse( boneModelMtx[i] );
    }
-
-   delete [] boneModelMtx;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -37,6 +37,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 class Prefab;
+class EntityListener;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -82,6 +83,9 @@ public:
 
 private:
    Children                            m_serializedChildren;   // ( STATIC )  children serialized with the entity
+
+   /// entity listeners
+   List< EntityListener* >             m_listeners;
 
 public:
    /**
@@ -226,6 +230,31 @@ public:
     * Removes all attached children.
     */
    void clear();
+
+   // -------------------------------------------------------------------------
+   // Listeners management
+   // -------------------------------------------------------------------------
+
+   /**
+    * Attaches a new entity listener.
+    *
+    * @param listener
+    */
+   void attachEntityListener( EntityListener* listener );
+
+   /**
+    * Detaches an entity listener.
+    *
+    * @param listener
+    */
+   void detachEntityListener( EntityListener* listener );
+
+   /**
+    * Pulls the structure of the entity and forwards it to the listener.
+    *
+    * @param listener
+    */
+   void pullStructure( EntityListener* listener );
 
    // -------------------------------------------------------------------------
    // SceneNode implementation

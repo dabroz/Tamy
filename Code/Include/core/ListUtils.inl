@@ -152,4 +152,21 @@ bool ListUtils::compareWithPrevious( typename const List< T >& oldList, typename
 
 ///////////////////////////////////////////////////////////////////////////////
 
+template< typename T >
+bool ListUtils::pushBackUnique( typename List< T >& list, const T& element )
+{
+   List< T >::iterator it = find( list, element );
+   if ( it.isEnd() )
+   {
+      list.pushBack( element );
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 #endif // _LIST_UTILS_H

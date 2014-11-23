@@ -25,7 +25,7 @@
  */
 class TimeController
 {
-   PRIORITY_SINGLETON( 10 );
+   PRIORITY_SINGLETON( 11 );
    DECLARE_ALLOCATOR( TimeController, AM_DEFAULT );
 
 private:

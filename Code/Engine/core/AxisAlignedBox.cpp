@@ -35,6 +35,13 @@ AxisAlignedBox::AxisAlignedBox( const AxisAlignedBox& rhs )
 
 ///////////////////////////////////////////////////////////////////////////////
 
+bool AxisAlignedBox::isOk() const
+{
+   return min.isOk() && max.isOk();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void AxisAlignedBox::set( const Vector& _min, const Vector& _max )
 {
    min = _min;

@@ -20,6 +20,7 @@
 #include "core-AI\SkeletonComponent.h"
 #include "core-AI\SkeletonAnimationPlayer.h"
 #include "core-AI\Skeleton.h"
+#include "core-AI\SkeletonMapper.h"
 // ----------------------------------------------------------------------------
 // -->SpatialEntityAnimation
 // ----------------------------------------------------------------------------

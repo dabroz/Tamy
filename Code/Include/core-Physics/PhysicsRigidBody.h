@@ -267,8 +267,8 @@ public:
    // -------------------------------------------------------------------------
    // PhysicsObject implementation
    // -------------------------------------------------------------------------
-   void addToWorld( PhysicsWorld& world );
-   void removeFromWorld( PhysicsWorld& world );
+   void addToWorld( PhysicsWorld& world ) override;
+   void removeFromWorld( PhysicsWorld& world ) override;
 
    // -------------------------------------------------------------------------
    // Component implementation

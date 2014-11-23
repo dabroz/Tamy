@@ -16,6 +16,7 @@
 #include "ext-StoryTeller/TypesRegistry.cpp"
 #include "ext-RenderingPipeline/TypesRegistry.cpp"
 #include "ext-2DGameLevel/TypesRegistry.cpp"
+#include "ext-ProceduralAnimation/TypesRegistry.cpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -130,6 +130,7 @@
     <ClInclude Include="..\..\Include\core-AI\FSMController.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonAnimationPlayer.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonComponent.h" />
+    <ClInclude Include="..\..\Include\core-AI\SkeletonMapper.h" />
     <ClInclude Include="..\..\Include\core-AI\SnapshotAnimation.h" />
     <ClInclude Include="..\..\Include\core-AI\EntityAnimationPlayer.h" />
     <ClInclude Include="..\..\Include\core-AI.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="BoneSRTAnimation.cpp" />
     <ClCompile Include="SkeletonAnimationPlayer.cpp" />
     <ClCompile Include="SkeletonComponent.cpp" />
+    <ClCompile Include="SkeletonMapper.cpp" />
     <ClCompile Include="SnapshotAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +191,14 @@
     <None Include="..\..\Include\core-AI\BlendTreeVariable.inl" />
     <None Include="..\..\Include\core-AI\FSMController.inl" />
     <None Include="..\..\Include\core-AI\FSMState.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core-MVC\core-MVC.vcxproj">
+      <Project>{0b2b1dfd-5071-413a-bef9-5f8d265df56a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{4f4cec82-b5c6-4f0e-b69b-855fa55f4b80}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -46,6 +46,11 @@ ALIGN_16 struct AxisAlignedBox
    AxisAlignedBox( const AxisAlignedBox& rhs );
 
    /**
+    * Checks if the box's coordinates are valid.
+    */
+   bool isOk() const;
+
+   /**
     * Sets the corner values of the bounding box.
     *
     * @param min

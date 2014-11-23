@@ -104,6 +104,7 @@
     <ClInclude Include="..\..\Include\core-MVC\EntitiesGroup.h" />
     <ClInclude Include="..\..\Include\core-MVC\EntitiesGroupView.h" />
     <ClInclude Include="..\..\Include\core-MVC\Entity.h" />
+    <ClInclude Include="..\..\Include\core-MVC\EntityListener.h" />
     <ClInclude Include="..\..\Include\core-MVC\EntityUtils.h" />
     <ClInclude Include="..\..\Include\core-MVC\Model.h" />
     <ClInclude Include="..\..\Include\core-MVC\ModelView.h" />

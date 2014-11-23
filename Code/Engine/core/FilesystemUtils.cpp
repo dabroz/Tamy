@@ -196,6 +196,16 @@ void FilesystemUtils::mkdir( const char* path )
 
 bool FilesystemUtils::copyFile( const char* sourcePath, const char* destPath, bool createDir )
 {
+   // check if by any chance we're not trying to copy the same file
+   std::string normalizedSourcePath, normalizedDestPath;
+   FilesystemUtils::normalize( sourcePath, normalizedSourcePath );
+   FilesystemUtils::normalize( destPath, normalizedDestPath );
+   if ( normalizedSourcePath == normalizedDestPath )
+   {
+      // that's the same file - don't do a thing
+      return true;
+   }
+
    if ( createDir )
    {
       std::string normalizedDestPath;

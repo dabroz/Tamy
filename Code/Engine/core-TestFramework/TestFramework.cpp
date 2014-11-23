@@ -18,6 +18,7 @@
 #include "core-Physics/TypesRegistry.cpp"
 #include "ext-StoryTeller/TypesRegistry.cpp"
 #include "ext-2DGameLevel/TypesRegistry.cpp"
+#include "ext-ProceduralAnimation/TypesRegistry.cpp"
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -88,6 +88,9 @@
     <ClInclude Include="..\..\Include\core-MVC\Transformable.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\core-MVC\EntityListener.h">
+      <Filter>Nodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Include\core-MVC\Model.inl">
