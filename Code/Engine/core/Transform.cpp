@@ -135,7 +135,7 @@ void Transform::setMulInverse( const Transform& a, const Transform& b )
    // inlined setInverse
    Transform conjB;
    conjB.m_rotation.setConjugated( b.m_rotation );
-   conjB.m_translation = b.m_translation;
+   conjB.m_rotation.transform( b.m_translation, conjB.m_translation );
    conjB.m_translation.neg();
 
    // inlined setMul
@@ -150,7 +150,7 @@ void Transform::setMulInverse( const Transform& a, const Transform& b )
 void Transform::setInverse( const Transform& rhs )
 {
    m_rotation.setConjugated( rhs.m_rotation );
-   m_translation = rhs.m_translation;
+   m_rotation.transform( rhs.m_translation, m_translation );
    m_translation.neg();
 }
 
@@ -159,6 +159,10 @@ void Transform::setInverse( const Transform& rhs )
 void Transform::invert()
 {
    m_rotation.conjugate();
+
+   Vector invertedTranslation;
+   m_rotation.transform( m_translation, invertedTranslation );
+   m_translation = invertedTranslation;
    m_translation.neg();
 }
 

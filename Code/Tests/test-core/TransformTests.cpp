@@ -224,8 +224,69 @@ TEST( Transform, inversion )
 
 TEST( Transform, advancedInversion )
 {
-   CPPUNIT_ASSERT( false );
-   // TODO: define some weird transform and use matrix calculations to verify that the Transform calculations are correct
+   Transform transform1;
+   {
+      transform1.m_rotation.setAxisAngle( Quad_1000, FastFloat::fromFloat( DEG2RAD( 70.0f ) ) );
+      transform1.m_translation.set( 2, 5, -1 );
+   }
+
+   Transform transform2;
+   {
+      transform2.m_rotation.setAxisAngle( Quad_0100, FastFloat::fromFloat( DEG2RAD( -75.0f ) ) );
+      transform2.m_translation.set( -4, 2, 4 );
+   }
+
+   Matrix mtx1, mtx2;
+   transform1.toMatrix( mtx1 );
+   transform2.toMatrix( mtx2 );
+
+   // test 1
+   {
+      Transform invTransform1;
+      invTransform1.setInverse( transform1 );
+
+      Matrix invMtx1;
+      invMtx1.setInverse( mtx1 );
+
+      Matrix testMtx;
+      invTransform1.toMatrix( testMtx );
+      COMPARE_MTX( testMtx, invMtx1 );
+   }
+
+   // test 2
+   {
+      Transform invTransform1;
+      invTransform1.setInverse( transform1 );
+
+      Transform subTransform;
+      subTransform.setMul( transform2, invTransform1 );
+
+      Matrix invMtx1;
+      invMtx1.setInverse( mtx1 );
+
+      Matrix subMtx;
+      subMtx.setMul( mtx2, invMtx1 );
+
+      Matrix testMtx;
+      subTransform.toMatrix( testMtx );
+      COMPARE_MTX( testMtx, subMtx );
+   }
+
+   // test 3
+   {
+      Transform subTransform;
+      subTransform.setMulInverse( transform2, transform1 );
+
+      Matrix invMtx1;
+      invMtx1.setInverse( mtx1 );
+
+      Matrix subMtx;
+      subMtx.setMul( mtx2, invMtx1 );
+
+      Matrix testMtx;
+      subTransform.toMatrix( testMtx );
+      COMPARE_MTX( testMtx, subMtx );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
