@@ -40,13 +40,27 @@ public:
    /**
     * Generates an orthogonal projection matrix.
     *
-    * @param viewportWidth    if you want a viewport stretching from < -1, 1 > for instance, put 2 here ( it's the size, | -1 - 1 | == 2 )
-    * @param viewportHeight   if you want a viewport stretching from < -1, 1 > for instance, put 2 here ( it's the size, | -1 - 1 | == 2 )
+    * @param viewportWidth
+    * @param viewportHeight
     * @param nearZPlane
     * @param farZPlane
     * @param outProjMtx
     */
    static void generateOrthogonalProjection( float viewportWidth, float viewportHeight, float nearZPlane, float farZPlane, Matrix& outProjMtx );
+
+   /**
+    * Generates an orthogonal projection matrix that is offset from the view center.
+    * It will produce the same results as 'generateOrthogonalProjection', if ( right == -left ) && ( top == -bottom ).
+    *
+    * @param left
+    * @param right
+    * @param bottom
+    * @param top
+    * @param nearZPlane
+    * @param farZPlane
+    * @param outProjMtx
+    */
+   static void generateOrthogonalProjectionOffCenter( float left, float right, float bottom, float top, float nearZPlane, float farZPlane, Matrix& outProjMtx );
 
    /**
     * Generates a camera look-at matrix for a left-handed coordinate system.

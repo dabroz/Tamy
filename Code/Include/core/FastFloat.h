@@ -314,6 +314,55 @@ ALIGN_16 struct FastFloat
     */
    inline void neg();
 
+   /**
+    * Calculates the floor value of this float.
+    */
+   inline void floor();
+
+   /**
+    * Initializes this float with the floor value of the specified float.
+    *
+    * @param rhs
+    */
+   inline void setFloor( const FastFloat& rhs );
+
+   /**
+    * Rounds up the value of this float.
+    */
+   inline void round();
+
+   /**
+   * Initializes this float with the rounded up value of the specified float.
+   *
+   * @param rhs
+   */
+   inline void setRound( const FastFloat& rhs );
+
+   /**
+   * Returns the remainder resulting from the division of a specified number by another specified number, according
+   * to this equation:
+   * IEEERemainder = dividend - (divisor * Math.Round(dividend / divisor))
+   *
+   * @see http://msdn.microsoft.com/en-us/library/system.math.ieeeremainder%28v=vs.110%29.aspx
+   *
+   * @param dividend
+   * @param divisor
+   */
+   inline void setFloatRemainder( const FastFloat& dividend, const FastFloat& divisor );
+
+   /**
+   * Returns the remainder resulting from the division of a specified number by another specified number, according
+   * to this equation:
+   * IEEERemainder = dividend - (divisor * Math.Round(dividend / divisor))
+   *
+   * NOTE: this float becomes the dividend
+   *
+   * @see http://msdn.microsoft.com/en-us/library/system.math.ieeeremainder%28v=vs.110%29.aspx
+   *
+   * @param divisor
+   */
+   inline void floatRemainder( const FastFloat& divisor );
+
    // -------------------------------------------------------------------------
    // Trigonometry methods
    // -------------------------------------------------------------------------

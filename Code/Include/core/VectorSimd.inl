@@ -323,11 +323,76 @@ void Vector::floor()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void Vector::setFloor( const Vector& rhs )
+{
+   SimdUtils::floor( &rhs.m_quad, &m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::round()
+{
+   SimdUtils::round( &m_quad, &m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::setRound( const Vector& rhs )
+{
+   SimdUtils::round( &rhs.m_quad, &m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void Vector::setLerp( const Vector& a, const Vector& b, const FastFloat& t )
 {
    m_quad = _mm_sub_ps( b.m_quad, a.m_quad );
    m_quad = _mm_mul_ps( m_quad, t.m_val );
    m_quad = _mm_add_ps( m_quad, a.m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::setFloatRemainder( const Vector& dividend, const FastFloat& divisor )
+{
+   m_quad = _mm_div_ps( dividend.m_quad, divisor.m_val );
+   SimdUtils::round( &m_quad, &m_quad );
+   m_quad = _mm_mul_ps( divisor.m_val, m_quad );
+   m_quad = _mm_sub_ps( dividend.m_quad, m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::setFloatRemainder( const Vector& dividend, const Vector& divisor )
+{
+   m_quad = _mm_div_ps( dividend.m_quad, divisor.m_quad );
+   SimdUtils::round( &m_quad, &m_quad );
+   m_quad = _mm_mul_ps( divisor.m_quad, m_quad );
+   m_quad = _mm_sub_ps( dividend.m_quad, m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::floatRemainder( const FastFloat& divisor )
+{
+   __m128 dividend = m_quad;
+
+   m_quad = _mm_div_ps( dividend, divisor.m_val );
+   SimdUtils::round( &m_quad, &m_quad );
+   m_quad = _mm_mul_ps( divisor.m_val, m_quad );
+   m_quad = _mm_sub_ps( dividend, m_quad );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::floatRemainder( const Vector& divisor )
+{
+   __m128 dividend = m_quad;
+
+   m_quad = _mm_div_ps( dividend, divisor.m_quad );
+   SimdUtils::round( &m_quad, &m_quad );
+   m_quad = _mm_mul_ps( divisor.m_quad, m_quad );
+   m_quad = _mm_sub_ps( dividend, m_quad );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -416,7 +481,7 @@ void Vector::reflect( const Vector& reflectionNormal )
 void Vector::setSelect( const VectorComparison& comparisonResult, const Vector& trueVec, const Vector& falseVec )
 {
 #if SSE_VERSION >= 0x41
-   m_quad = _mm_blendv_ps( falseVec.m_quad, trueVec.m_quad, comparisonResult );
+   m_quad = _mm_blendv_ps( falseVec.m_quad, trueVec.m_quad, comparisonResult.m_mask );
 #else
    m_quad = _mm_or_ps( _mm_and_ps( comparisonResult.m_mask, trueVec.m_quad ), _mm_andnot_ps( comparisonResult.m_mask, falseVec.m_quad ) );
 #endif

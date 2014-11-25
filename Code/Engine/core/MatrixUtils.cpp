@@ -70,6 +70,23 @@ void MatrixUtils::generateOrthogonalProjection( float viewportWidth, float viewp
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void MatrixUtils::generateOrthogonalProjectionOffCenter( float left, float right, float bottom, float top, float nearZPlane, float farZPlane, Matrix& outProjMtx )
+{
+   outProjMtx.setIdentity();
+   outProjMtx( 0, 0 ) = 2.0f / ( right - left );
+   outProjMtx( 3, 0 ) = -( right + left ) / ( right - left );
+
+   outProjMtx( 1, 1 ) = 2.0f / ( top - bottom );
+   outProjMtx( 3, 1 ) = -( top + bottom ) / ( top - bottom );
+
+   outProjMtx( 2, 2 ) = 1.0f / ( farZPlane - nearZPlane );
+   outProjMtx( 3, 2 ) = -nearZPlane / ( farZPlane - nearZPlane );
+
+   outProjMtx( 3, 3 ) = 1.0f;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void MatrixUtils::generateLookAtLH( const Vector& cameraOriginPos, const Vector& lookAtPos, const Vector& upAxis, Matrix& outLookAtMtx )
 {
    Vector lookVec;

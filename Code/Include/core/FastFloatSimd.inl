@@ -408,4 +408,54 @@ void FastFloat::setAcos( const FastFloat& val )
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void FastFloat::floor()
+{
+   SimdUtils::floor( &m_val, &m_val );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void FastFloat::setFloor( const FastFloat& rhs )
+{
+   SimdUtils::floor( &rhs.m_val, &m_val );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void FastFloat::round()
+{
+   SimdUtils::round( &m_val, &m_val );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void FastFloat::setRound( const FastFloat& rhs )
+{
+   SimdUtils::round( &rhs.m_val, &m_val );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void FastFloat::setFloatRemainder( const FastFloat& dividend, const FastFloat& divisor )
+{
+   m_val = _mm_div_ps( dividend.m_val, divisor.m_val );
+   SimdUtils::round( &m_val, &m_val );
+   m_val = _mm_mul_ps( divisor.m_val, m_val );
+   m_val = _mm_sub_ps( dividend.m_val, m_val );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void FastFloat::floatRemainder( const FastFloat& divisor )
+{
+   __m128 dividend = m_val;
+
+   m_val = _mm_div_ps( dividend, divisor.m_val );
+   SimdUtils::round( &m_val, &m_val );
+   m_val = _mm_mul_ps( divisor.m_val, m_val );
+   m_val = _mm_sub_ps( dividend, m_val );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 #endif // _FAST_FLOAT_H

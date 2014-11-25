@@ -108,6 +108,14 @@ public:
     */
    static void floor( const __m128* quad, __m128* outQuad );
 
+   /**
+    * Rounds up the value of the specified SIMD number.
+    *
+    * @param quad
+    * @param outQuad
+    */
+   static void round( const __m128* quad, __m128* outQuad );
+
    // -------------------------------------------------------------------------
    // Conversion operations
    // -------------------------------------------------------------------------

@@ -444,6 +444,25 @@ ALIGN_16 struct Vector
    inline void floor();
 
    /**
+    * Initializes this vector with the floor value of each of the 'rhs' vector's components.
+    *
+    * @param rhs
+    */
+   inline void setFloor( const Vector& rhs );
+
+   /**
+    * Rounds up the value of each of the vector's components.
+    */
+   inline void round();
+
+   /**
+    * Initializes this vector with the rounded up value of each of the 'rhs' vector's components.
+    *
+    * @param rhs
+    */
+   inline void setRound( const Vector& rhs );
+
+   /**
     * Linearly interpolates a vector between values a and b ( from a to b )
     * at the distance t.
     *
@@ -454,6 +473,56 @@ ALIGN_16 struct Vector
     * @param t
     */
    inline void setLerp( const Vector& a, const Vector& b, const FastFloat& t );
+
+   /**
+    * Returns the remainder resulting from the division of a specified number by another specified number, according
+    * to this equation:
+    * IEEERemainder = dividend - (divisor * Math.Round(dividend / divisor))
+    *
+    * @see http://msdn.microsoft.com/en-us/library/system.math.ieeeremainder%28v=vs.110%29.aspx
+    *
+    * @param dividend
+    * @param divisor
+    */
+   inline void setFloatRemainder( const Vector& dividend, const FastFloat& divisor );
+
+   /**
+    * Returns the remainder resulting from the division of a specified number by another specified number, according
+    * to this equation:
+    * IEEERemainder = dividend - (divisor * Math.Round(dividend / divisor))
+    *
+    * @see http://msdn.microsoft.com/en-us/library/system.math.ieeeremainder%28v=vs.110%29.aspx
+    *
+    * @param dividend
+    * @param divisor
+    */
+   inline void setFloatRemainder( const Vector& dividend, const Vector& divisor );
+
+   /**
+    * Returns the remainder resulting from the division of a specified number by another specified number, according
+    * to this equation:
+    * IEEERemainder = dividend - (divisor * Math.Round(dividend / divisor))
+    *
+    * NOTE: this vector becomes the dividend
+    *
+    * @see http://msdn.microsoft.com/en-us/library/system.math.ieeeremainder%28v=vs.110%29.aspx
+    *
+    * @param divisor
+    */
+   inline void floatRemainder( const FastFloat& divisor );
+
+   /**
+    * Returns the remainder resulting from the division of a specified number by another specified number, according
+    * to this equation:
+    * IEEERemainder = dividend - (divisor * Math.Round(dividend / divisor))
+    *
+    * NOTE: this vector becomes the dividend
+    *
+    * @see http://msdn.microsoft.com/en-us/library/system.math.ieeeremainder%28v=vs.110%29.aspx
+    *
+     * @param divisor
+   */
+   inline void floatRemainder( const Vector& divisor );
 
    /**
     * Calculate a dot product with another vector ( taking only 3 coordinates into account ).

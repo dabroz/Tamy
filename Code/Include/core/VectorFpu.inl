@@ -362,11 +362,82 @@ void Vector::floor()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void Vector::setFloor( const Vector& rhs )
+{
+   m_quad.v[0] = floorf( rhs.m_quad.v[0] );
+   m_quad.v[1] = floorf( rhs.m_quad.v[1] );
+   m_quad.v[2] = floorf( rhs.m_quad.v[2] );
+   m_quad.v[3] = floorf( rhs.m_quad.v[3] );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::round()
+{
+   m_quad.v[0] = roundf( m_quad.v[0] );
+   m_quad.v[1] = roundf( m_quad.v[1] );
+   m_quad.v[2] = roundf( m_quad.v[2] );
+   m_quad.v[3] = roundf( m_quad.v[3] );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::setRound( const Vector& rhs )
+{
+   m_quad.v[0] = roundf( rhs.m_quad.v[0] );
+   m_quad.v[1] = roundf( rhs.m_quad.v[1] );
+   m_quad.v[2] = roundf( rhs.m_quad.v[2] );
+   m_quad.v[3] = roundf( rhs.m_quad.v[3] );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void Vector::setLerp( const Vector& a, const Vector& b, const FastFloat& t )
 {
    m_quad.v[0] = a.m_quad.v[0] + ( b.m_quad.v[0] - a.m_quad.v[0] ) * t.m_val;
    m_quad.v[1] = a.m_quad.v[1] + ( b.m_quad.v[1] - a.m_quad.v[1] ) * t.m_val;
    m_quad.v[2] = a.m_quad.v[2] + ( b.m_quad.v[2] - a.m_quad.v[2] ) * t.m_val;
+   m_quad.v[3] = a.m_quad.v[3] + ( b.m_quad.v[3] - a.m_quad.v[3] ) * t.m_val;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::setFloatRemainder( const Vector& dividend, const FastFloat& divisor )
+{
+   m_quad.v[0] = dividend.v[0] - ( divisor.m_val * roundf( dividend.v[0] / divisor.m_val ) );
+   m_quad.v[1] = dividend.v[1] - ( divisor.m_val * roundf( dividend.v[1] / divisor.m_val ) );
+   m_quad.v[2] = dividend.v[2] - ( divisor.m_val * roundf( dividend.v[2] / divisor.m_val ) );
+   m_quad.v[3] = dividend.v[3] - ( divisor.m_val * roundf( dividend.v[3] / divisor.m_val ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::setFloatRemainder( const Vector& dividend, const Vector& divisor )
+{
+   m_quad.v[0] = dividend.v[0] - ( divisor.v[0] * roundf( dividend.v[0] / divisor.v[0] ) );
+   m_quad.v[1] = dividend.v[1] - ( divisor.v[1] * roundf( dividend.v[1] / divisor.v[1] ) );
+   m_quad.v[2] = dividend.v[2] - ( divisor.v[2] * roundf( dividend.v[2] / divisor.v[2] ) );
+   m_quad.v[3] = dividend.v[3] - ( divisor.v[3] * roundf( dividend.v[3] / divisor.v[3] ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::floatRemainder( const FastFloat& divisor )
+{
+   m_quad.v[0] = m_quad.v[0] - ( divisor.m_val * roundf( m_quad.v[0] / divisor.m_val ) );
+   m_quad.v[1] = m_quad.v[1] - ( divisor.m_val * roundf( m_quad.v[1] / divisor.m_val ) );
+   m_quad.v[2] = m_quad.v[2] - ( divisor.m_val * roundf( m_quad.v[2] / divisor.m_val ) );
+   m_quad.v[3] = m_quad.v[3] - ( divisor.m_val * roundf( m_quad.v[3] / divisor.m_val ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Vector::floatRemainder( const Vector& divisor )
+{
+   m_quad.v[0] = m_quad.v[0] - ( divisor.v[0] * roundf( m_quad.v[0] / divisor.v[0] ) );
+   m_quad.v[1] = m_quad.v[1] - ( divisor.v[1] * roundf( m_quad.v[1] / divisor.v[1] ) );
+   m_quad.v[2] = m_quad.v[2] - ( divisor.v[2] * roundf( m_quad.v[2] / divisor.v[2] ) );
+   m_quad.v[3] = m_quad.v[3] - ( divisor.v[3] * roundf( m_quad.v[3] / divisor.v[3] ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

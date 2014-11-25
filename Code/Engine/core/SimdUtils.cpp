@@ -1,5 +1,5 @@
-#include "core/SimdUtils.h"
-#include "core/types.h"
+#include "core\SimdUtils.h"
+#include "core\types.h"
 
 #ifdef _USE_SIMD
 
@@ -169,7 +169,7 @@ void SimdUtils::transpose( const __m128* inRows, __m128* outRows )
 void SimdUtils::floor( const __m128* inVal, __m128* outVal ) 
 { 
 #if SSE_VERSION >= 0x41
-   *outVal = _mm_floor_ss( *inVal, *inVal );
+   *outVal = _mm_floor_ps( *inVal );
 #else
    static ALIGN_16 const uint two23[4]  = { 0x4B000000, 0x4B000000, 0x4B000000, 0x4B000000 }; // 2^23 as float
 
@@ -182,6 +182,20 @@ void SimdUtils::floor( const __m128* inVal, __m128* outVal )
 
    // Select between output result and input value based on v >= 2^23
    *outVal = _mm_or_ps( _mm_and_ps( largeMaskE, *inVal ), _mm_andnot_ps( largeMaskE, t ) );
+#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SimdUtils::round( const __m128* inVal, __m128* outVal )
+{
+#if SSE_VERSION >= 0x41
+   *outVal = _mm_round_ps( *inVal, 0x0 ); // _MM_FROUND_TO_NEAREST_INT
+#else
+
+   // Turns out that when converting from float to int, the value gets rounded up.
+   // So all we need to do is convert it back and forth and voila
+   *outVal = _mm_cvtepi32_ps( _mm_cvtps_epi32( *inVal ) );
 #endif
 }
 
