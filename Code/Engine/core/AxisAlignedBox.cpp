@@ -315,10 +315,19 @@ bool AxisAlignedBox::rayCast( const Ray& ray, RaycastResult& outResult ) const
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool AxisAlignedBox::isInside( const Vector& point, IntersectionResult& outResult ) const
+bool AxisAlignedBox::isInside( const Vector& pointWorldSpace, IntersectionResult& outResult ) const
 {
+   // transform the point to box's local space
+   Vector boxCenter;
+   boxCenter.setAdd( min, max );
+   boxCenter.mul( Float_Inv2 );
+
+   Vector pointLocalPos;
+   pointLocalPos.setSub( pointWorldSpace, boxCenter );
+
+   // carry out an earlu-out test based on the axis separation principle
    Vector absPoint;
-   absPoint.setAbs( point );
+   absPoint.setAbs( pointLocalPos );
 
    Vector halfSize;
    halfSize.setSub( max, min );
@@ -342,19 +351,15 @@ bool AxisAlignedBox::isInside( const Vector& point, IntersectionResult& outResul
 
    // is the point in the rear of the box ( behind the origin ) or in its front - 'cause if it's in the back,
    // then we need to flip the direction of normal
-   Vector boxCenter;
-   boxCenter.setAdd( min, max );
-   boxCenter.mul( Float_Inv2 );
-   
    // flip the direction of the normal if the point lies 'behind' the origin in that particular direction
    VectorComparison isPointBehindBoxCenter;
-   point.less( boxCenter, isPointBehindBoxCenter );
+   pointLocalPos.less( Vector_ZERO, isPointBehindBoxCenter );
 
    isPointBehindBoxCenter.setAnd( minDistIdx, isPointBehindBoxCenter );
    outResult.m_contactNormal.mul( isPointBehindBoxCenter.isAnySet< VectorComparison::MASK_XYZ >() ? Float_Minus1 : Float_1 );
 
    // calculate contact point
-   outResult.m_contactPoint.setMul( outResult.m_contactNormal, halfSize );
+   outResult.m_contactPoint.setMulAdd( outResult.m_contactNormal, outResult.m_penetrationDepth, pointLocalPos );
    outResult.m_contactPoint.add( boxCenter );
 
    return true;
@@ -362,10 +367,19 @@ bool AxisAlignedBox::isInside( const Vector& point, IntersectionResult& outResul
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool AxisAlignedBox::calcContactPoint( const Vector& point, const Vector& contactAxis, IntersectionResult& outResult ) const
+bool AxisAlignedBox::calcContactPoint( const Vector& pointWorldSpace, const Vector& contactAxis, IntersectionResult& outResult ) const
 {
+   // transform the point to box's local space
+   Vector boxCenter;
+   boxCenter.setAdd( min, max );
+   boxCenter.mul( Float_Inv2 );
+
+   Vector pointLocalPos;
+   pointLocalPos.setSub( pointWorldSpace, boxCenter );
+
+   // carry out an earlu-out test based on the axis separation principle
    Vector absPoint;
-   absPoint.setAbs( point );
+   absPoint.setAbs( pointLocalPos );
 
    Vector halfSize;
    halfSize.setSub( max, min );
@@ -381,8 +395,8 @@ bool AxisAlignedBox::calcContactPoint( const Vector& point, const Vector& contac
    }
 
    Vector displToMin, displToMax;
-   displToMin.setSub( point, min );
-   displToMax.setSub( max, point );
+   displToMin.setSub( pointLocalPos, min );
+   displToMax.setSub( max, pointLocalPos );
 
    FastFloat distToMin, distToMax;
    distToMin.setAbs( contactAxis.dot( displToMin ) );
@@ -399,7 +413,7 @@ bool AxisAlignedBox::calcContactPoint( const Vector& point, const Vector& contac
       outResult.m_penetrationDepth = distToMax;
    }
 
-   outResult.m_contactPoint.setMulAdd( outResult.m_contactNormal, outResult.m_penetrationDepth, point );
+   outResult.m_contactPoint.setMulAdd( outResult.m_contactNormal, outResult.m_penetrationDepth, pointLocalPos );
 
    return true;
 }

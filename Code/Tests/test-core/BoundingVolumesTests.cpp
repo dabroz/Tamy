@@ -109,12 +109,27 @@ TEST(AxisAlignedBox, intersects_Point)
    CPPUNIT_ASSERT_EQUAL( true, centralBB.isInside( Vector( 1.0f, 0.0f, 0.5f ), contactPoint ) );
    CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.0f, contactPoint.m_penetrationDepth.getFloat(), 1e-3 );
    COMPARE_VEC( Vector_OX, contactPoint.m_contactNormal );
-   COMPARE_VEC( Vector( 1.0f, 0.0f, 0.0f ), contactPoint.m_contactNormal );
+   COMPARE_VEC( Vector( 1.0f, 0.0f, 0.5f ), contactPoint.m_contactPoint );
 
    CPPUNIT_ASSERT_EQUAL( true, centralBB.isInside( Vector( 0.0f, -0.8f, 0.5f ), contactPoint ) );
    CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.2f, contactPoint.m_penetrationDepth.getFloat(), 1e-3 );
    COMPARE_VEC( Vector_NEG_OY, contactPoint.m_contactNormal );
-   COMPARE_VEC( Vector( 0.0f, -1.0f, 0.0f ), contactPoint.m_contactNormal );
+   COMPARE_VEC( Vector( 0.0f, -1.0f, 0.5f ), contactPoint.m_contactPoint );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+TEST( AxisAlignedBox, offsetBox_intersects_Point )
+{
+   AxisAlignedBox testBox( Vector( 1, 0, 0 ), Vector( 4, 3, 3 ) );
+
+   IntersectionResult intersectionResult;
+   CPPUNIT_ASSERT_EQUAL( false, testBox.isInside( Vector( 6, 2, 1 ), intersectionResult ) );
+
+   CPPUNIT_ASSERT_EQUAL( true, testBox.isInside( Vector( 3.5f, 2, 1 ), intersectionResult ) );
+   CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.5f, intersectionResult.m_penetrationDepth.getFloat(), 1e-3 );
+   COMPARE_VEC( Vector_OX, intersectionResult.m_contactNormal );
+   COMPARE_VEC( Vector( 4, 2, 1 ), intersectionResult.m_contactPoint );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
