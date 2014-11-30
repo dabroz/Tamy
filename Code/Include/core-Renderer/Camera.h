@@ -168,6 +168,25 @@ public:
    void calculateFrustumAABBFromRange( float nearZ, float farZ, AxisAlignedBox& outAABB ) const;
 
    /**
+    * Splits the frustum to the specified clipping ranges.
+    *
+    * NOTE: for performance reasons, the method assumes that the specified output
+    * array is initialized and capable of storing the required amount of vertices.
+    *       numVertices = ( clippingRanges.size() - 1 ) * 8
+    *
+    * @param clippingRanges         a list of ranges to clip the frustum to.
+    *                               The following list:
+    *                                  ( 0.0f, 10.0f, 20.0f, 30.0f )
+    *                               will create 3 clipped versions, for the following rages
+    *                                  ( 0.0f, 10.0f ), ( 10.0f, 20.0f ),  (20.0f, 30.0f )
+    *
+    * @param outFrustumPoints       an array of output frustum vertices. The array will contain
+    *                               8 Vector entries per range, so in case of the example above,
+    *                               it will contain 24 entries on return.
+    */
+   void splitFrustum( const Array< float >& clippingRanges, Array< Vector >& outFrustumPoints ) const;
+
+   /**
     * The method constructs a ray running from the camera global position
     * through the position on the viewport specified by the method params.
     *

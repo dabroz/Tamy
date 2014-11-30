@@ -129,9 +129,10 @@ RCDeactivateRenderTarget::RCDeactivateRenderTarget()
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-RCClearRenderTarget::RCClearRenderTarget( const RenderTarget2D* renderTarget, const Color& bgColor )
+RCClearRenderTarget::RCClearRenderTarget( const RenderTarget2D* renderTarget )
    : m_renderTarget( renderTarget )
-   , m_bgColor( bgColor )
+   , m_bgColor( 0, 0, 0, 0 )
+   , m_depth( 1.0f )
 {
 }
 

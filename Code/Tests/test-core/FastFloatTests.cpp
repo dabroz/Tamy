@@ -203,3 +203,39 @@ TEST( FastFloat, extraMethods )
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+TEST( FastFloat, setFloatRemainder )
+{
+   const FastFloat quantitizer = Float_1;
+
+   FastFloat val, remainder, quantitizedVal;
+   for ( float f = 0.0f; f <= 0.5f; f += 0.1f )
+   {
+      val.setFromFloat( f );
+      remainder.setFloatRemainder( val, quantitizer );
+      
+      quantitizedVal.setSub( val, remainder );
+      CPPUNIT_ASSERT_EQUAL( 0.0f, quantitizedVal.getFloat() );
+   }
+
+   for ( float f = 0.6f; f <= 1.5f; f += 0.1f )
+   {
+      val.setFromFloat( f );
+      remainder.setFloatRemainder( val, quantitizer );
+
+      quantitizedVal.setSub( val, remainder );
+      CPPUNIT_ASSERT_EQUAL( 1.0f, quantitizedVal.getFloat() );
+   }
+
+   for ( float f = 1.6f; f <= 2.5f; f += 0.1f )
+   {
+      val.setFromFloat( f );
+      remainder.setFloatRemainder( val, quantitizer );
+
+      quantitizedVal.setSub( val, remainder );
+      CPPUNIT_ASSERT_EQUAL( 2.0f, quantitizedVal.getFloat() );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+

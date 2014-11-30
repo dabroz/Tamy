@@ -50,6 +50,7 @@ void RCClearRenderTarget::execute( Renderer& renderer )
    }
 
    // clear
+   glClearDepth( m_depth );
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
    // unbind

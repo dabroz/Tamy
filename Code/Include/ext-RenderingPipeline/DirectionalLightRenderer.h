@@ -33,8 +33,11 @@ class Shader;
 struct DirectionalLightProperties
 {
    Vector                           m_camProjParams;
+   Matrix                           m_invViewMtx;
    Matrix                           m_camViewToLightProjMtx[SHADOW_CASCADES_COUNT];
    TVector<2>                       m_cascadeOffset[SHADOW_CASCADES_COUNT];
+   Vector				               m_cascadeMin[SHADOW_CASCADES_COUNT];
+   Vector				               m_cascadeMax[SHADOW_CASCADES_COUNT];
    Vector                           m_cascadeDistance;
    //----------------------------------- (16 byte boundary)
    Vector                           m_direction;
@@ -62,6 +65,11 @@ private:
    TextureSamplerSettings                 m_textureSampler;
    ProceduralTexture*                     m_roughnessLookup;
 
+   TextureSamplerSettings                 m_noiseMapSampler;
+   class ProceduralTexture*               m_noiseMap;
+
+   Array< float >                         m_clippingRanges;
+   Array< Vector >                        m_splitFrustumVertices;
    Array< GeometryComponent* >            m_litGeometry;
 
 public:
@@ -85,7 +93,7 @@ private:
    void renderWithShadow( Renderer& renderer, const DirectionalLight* light, RenderTarget2D* gBuffer, RenderTarget2D* outRenderTarget );
    void renderWithoutShadow( Renderer& renderer, const DirectionalLight* light, RenderTarget2D* gBuffer, RenderTarget2D* outRenderTarget );
 
-   void calculateDirectionalCascadeSegment( int cascadeIdx, const Matrix& invCameraViewMtx, const AxisAlignedBox& cascadeCameraVolume, const DirectionalLight* light, Camera& outLightCamera );
+   void calculateDirectionalCascadeSegment( int cascadeIdx, const DirectionalLight* light, Camera& outLightCamera );
    void renderDirectionalShadowMap( Renderer& renderer, RenderTarget2D* outShadowMap );
    void renderCascade( Renderer& renderer, RenderTarget2D* gBuffer, const DirectionalLight* light, const Camera& lightCamera, RenderTarget2D* outRenderTarget );
 };

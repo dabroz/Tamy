@@ -207,18 +207,18 @@ class RCClearRenderTarget : public RenderCommand
 {
    DECLARE_ALLOCATOR( RCClearRenderTarget, AM_ALIGNED_16 );
 
-private:
+public:
    const RenderTarget2D*            m_renderTarget;
    Color                            m_bgColor;
+   float                            m_depth;
 
 public:
    /**
     * Constructor.
     *
     * @param renderTarget        cleaned render target
-    * @param bgColor
     */
-   RCClearRenderTarget( const RenderTarget2D* renderTarget, const Color& bgColor = Color( 0, 0, 0, 0 ) );
+   RCClearRenderTarget( const RenderTarget2D* renderTarget );
 
    // -------------------------------------------------------------------------
    // RenderCommand implementation

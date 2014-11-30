@@ -162,6 +162,7 @@ void Camera::updateProjectionMtx()
       {
          // we want the viewport to span from -1 to 1 on both axes, so we specify 2 as the size of each of the viewport dimensions
          MatrixUtils::generateOrthogonalProjection( m_nearPlaneWidth, m_nearPlaneHeight, m_nearZPlane, m_farZPlane, m_mtx3DProjection );
+
          break;
       }
    }
@@ -279,6 +280,65 @@ void Camera::calculateFrustumAABBFromRange( float nearZ, float farZ, AxisAligned
    // transform the box to global space
    const Matrix& globalMtx = getGlobalMtx();
    localSpaceAABB.transform( globalMtx, outAABB );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Camera::splitFrustum( const Array< float >& clippingRanges, Array< Vector >& outFrustumPoints ) const
+{
+   if ( clippingRanges.size() < 2 )
+   {
+      // not enough ranges defined
+      return;
+   }
+   ASSERT_MSG( outFrustumPoints.size() >= ( clippingRanges.size() - 1 ) * 8, "Not enough room reserved in outFrustumPoints array to accomodate all results" );
+
+   const Matrix& projMtx = getProjectionMtx();
+   Matrix viewProj, invViewProj;
+   viewProj.setMul( getViewMtx(), projMtx );
+   invViewProj.setInverse( viewProj );
+
+   // initial step
+   float nearZClipSpace, farZClipSpace;
+   Vector tmpVec;
+   projMtx.transform4( Vector( 0.0f, 0.0f, clippingRanges[0], 1.0f ), tmpVec );
+   farZClipSpace = tmpVec[3] != 0.0f ? tmpVec[2] / tmpVec[3] : 0.0f;
+
+   Vector clipSpacePoints[8] = {
+      Vector( -1.0f,  1.0f, 0.0f ),
+      Vector(  1.0f,  1.0f, 0.0f ),
+      Vector(  1.0f, -1.0f, 0.0f ),
+      Vector( -1.0f, -1.0f, 0.0f ),
+      Vector( -1.0f,  1.0f, 0.0f ),
+      Vector(  1.0f,  1.0f, 0.0f ),
+      Vector(  1.0f, -1.0f, 0.0f ),
+      Vector( -1.0f, -1.0f, 0.0f )
+   };
+
+   uint outputPointIdx = 0;
+   const uint rangesCount = clippingRanges.size();
+   for ( uint i = 1; i < rangesCount; ++i )
+   {
+      nearZClipSpace = farZClipSpace; // reuse the range calculated during the previous step
+
+      projMtx.transform4( Vector( 0.0f, 0.0f, clippingRanges[i], 1.0f ), tmpVec );
+      farZClipSpace = tmpVec[3] != 0.0f ? tmpVec[2] / tmpVec[3] : 0.0f;
+
+      for ( byte b = 0; b < 4; ++b )
+      {
+         clipSpacePoints[b][2] = nearZClipSpace;
+         invViewProj.transform( clipSpacePoints[b], tmpVec );
+         outFrustumPoints[outputPointIdx++].setDiv( tmpVec, tmpVec.getComponent( 3 ) );
+      }
+
+      for ( byte b = 4; b < 8; ++b )
+      {
+         clipSpacePoints[b][2] = farZClipSpace;
+         invViewProj.transform( clipSpacePoints[b], tmpVec );
+         outFrustumPoints[outputPointIdx++].setDiv( tmpVec, tmpVec.getComponent( 3 ) );
+      }
+
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
