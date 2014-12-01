@@ -30,6 +30,10 @@ class Shader;
 
 ///////////////////////////////////////////////////////////////////////////////
 
+#define                             MAX_CSD_KERNEL_SIZE 32
+
+///////////////////////////////////////////////////////////////////////////////
+
 struct DirectionalLightProperties
 {
    Vector                           m_camProjParams;
@@ -40,9 +44,14 @@ struct DirectionalLightProperties
    Vector				               m_cascadeMax[SHADOW_CASCADES_COUNT];
    Vector                           m_cascadeDistance;
    //----------------------------------- (16 byte boundary)
+   Vector                           m_kernel[MAX_CSD_KERNEL_SIZE];
+   //----------------------------------- (16 byte boundary)
    Vector                           m_direction;
    //----------------------------------- (16 byte boundary)
    Color                            m_lightColor;
+   //----------------------------------- (16 byte boundary)
+   int                              m_sampleKernelSize;
+   int                              m_padding[3];
    //----------------------------------- (16 byte boundary)
 };
 
@@ -96,6 +105,7 @@ private:
    void calculateDirectionalCascadeSegment( int cascadeIdx, const DirectionalLight* light, Camera& outLightCamera );
    void renderDirectionalShadowMap( Renderer& renderer, RenderTarget2D* outShadowMap );
    void renderCascade( Renderer& renderer, RenderTarget2D* gBuffer, const DirectionalLight* light, const Camera& lightCamera, RenderTarget2D* outRenderTarget );
+   void calculateKernel( uint size );
 };
 
 ///////////////////////////////////////////////////////////////////////////////

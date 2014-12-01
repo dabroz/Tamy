@@ -39,7 +39,7 @@ TResourceHandle< Shader > DirectionalLightRenderer::m_directionalLightWithoutSha
 
 DirectionalLightRenderer::DirectionalLightRenderer( GeometryStorage* geometryStorage )
    : m_geometryStorage( geometryStorage )
-   , m_shadowmapSize( 128 )// TODO: change it back once the shadowmap edges are stable 2048 )
+   , m_shadowmapSize( 2048 )
    , m_splitFrustumVertices( 4 * 8 )
    , m_clippingRanges( 5 )
 {
@@ -92,6 +92,9 @@ DirectionalLightRenderer::DirectionalLightRenderer( GeometryStorage* geometrySto
          pixel.fromVectorAsNormal( tmpPixel );
       }
    }
+
+   // initialize the samping kernel
+   calculateKernel( MAX_CSD_KERNEL_SIZE );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -117,6 +120,30 @@ DirectionalLightRenderer::~DirectionalLightRenderer()
    m_shadowMap = NULL;
 
    m_geometryStorage = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void DirectionalLightRenderer::calculateKernel( uint size )
+{
+   size = min2<uint>( size, MAX_CSD_KERNEL_SIZE );
+
+   DirectionalLightProperties& settings = m_constantBuffer->accessData< DirectionalLightProperties >();
+   settings.m_sampleKernelSize = size;
+
+   for ( uint i = 0; i < size; ++i )
+   {
+      settings.m_kernel[i].set(
+         randRange( -1.0f, 1.0 ),
+         randRange( -1.0f, 1.0 ),
+         randRange( 0.0f, 1.0 ) );
+
+      settings.m_kernel[i].normalize();
+
+      float scale = float( i ) / float( size );
+      scale = lerp( 0.1f, 1.0f, scale * scale );
+      settings.m_kernel[i].mul( FastFloat::fromFloat( scale ) );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
