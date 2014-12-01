@@ -228,8 +228,8 @@ void RenderSystem::render()
          entry->m_mainThreadCommandsQueue->process( *entry->m_renderer );
 
          entry->m_renderer->render();
+         entry->m_renderThreadCommandsQueue->commit();
       }
-      entry->m_renderThreadCommandsQueue->commit();
 
       DEBUG_CODE( 
          uint renderCommandsCount = entry->m_renderThreadCommandsQueue->getMemoryUsed();

@@ -19,9 +19,20 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
    switch ( ul_reason_for_call )
    {
    case DLL_PROCESS_ATTACH:
-   case DLL_THREAD_ATTACH:
-   case DLL_THREAD_DETACH:
+   {
+      // initialize the thread system
+      TSingleton< ThreadSystem >::initialize();
+      break;
+   }
+
    case DLL_PROCESS_DETACH:
+   {
+      SingletonsManager::deinitialize();
+      break;
+   }
+
+   case DLL_THREAD_ATTACH: // fallthrough
+   case DLL_THREAD_DETACH: // fallthrough
       break;
    }
 

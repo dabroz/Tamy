@@ -13,9 +13,6 @@
 
 void begin_export( const char* filesystemRoot, const char* exportDir, int entitiesCount, TamyExportSettings exportSettings )
 {
-   // initialize the thread system
-   TSingleton< ThreadSystem >::initialize();
-
    // reset the export tool's contents, so that we start fresh
    BlenderSceneExporter& exporter = TSingleton< BlenderSceneExporter >::getInstance();
    exporter.initialize( filesystemRoot, exportDir, entitiesCount, exportSettings );
@@ -140,9 +137,6 @@ void assemble_scene( const char* sceneName )
 {
    BlenderSceneExporter& exporter = TSingleton< BlenderSceneExporter >::getInstance();
    exporter.assembleScene( sceneName );
-
-   // deinitialize selected components - the remaining systems need to stay operational for the entire time this DLL resides in memory
-   SingletonsManager::deinitialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
