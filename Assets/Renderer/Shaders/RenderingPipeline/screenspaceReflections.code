@@ -1,0 +1,112 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/screenspaceReflections.code
+// @brief	<put the description here>
+
+layout(location=0) in vec2 vPosition;
+
+smooth out vec2 UV;
+
+void main( )
+{
+	// a simple pass through shader - we're rendering a full screen quad after all
+	gl_Position = vec4(vPosition*2.0-1,0,1);
+	UV = vPosition;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/screenspaceReflections.code
+// @brief	<put the description here>
+
+smooth in vec2 UV;
+layout(location=0) out vec4 vFragColor;
+
+uniform sampler2D g_Albedo;
+uniform sampler2D g_Normals;
+uniform sampler2D g_Depth;
+
+uniform Constants
+{
+   vec4                             m_camProjParams;
+   mat4								m_camProjMtx;
+   //----------------------------------- (16 byte boundary)
+};
+
+#include "/Renderer/Shaders/RenderingPipeline/gbufferUtils.code"
+
+// Consts should help improve performance
+#define rayStep 0.2
+#define maxSteps 100
+#define numBinarySearchSteps 5
+#define fadeThreshold 0.05
+
+vec2 BinarySearch(vec4 projDir, inout vec4 projHitCoord, out float dDepth )
+{
+    float depth;
+	vec2 projectedCoords;
+    for(int i = 0; i < numBinarySearchSteps; i++)
+    {
+		projectedCoords = CalcTexCoords( projHitCoord );	 
+        depth = LinearizeDepth( texture(g_Depth, projectedCoords).r, m_camProjParams );
+ 
+		dDepth = projHitCoord.z - depth;
+        if(dDepth > 0.0)
+            projHitCoord -= projDir;
+ 
+        projDir *= 0.5;
+        projHitCoord += projDir;    
+    }
+ 
+    return projectedCoords;
+}
+
+
+vec4 RayCast(in vec3 dir, in vec3 hitCoord, in vec3 N)
+{ 
+	vec4 projDir = ( m_camProjMtx * vec4( dir, 0.0 ) );
+	vec4 projHitCoord = m_camProjMtx * vec4( hitCoord, 1.0 );
+	
+	projDir *= rayStep;
+
+    float depth;
+    for(int i = 0; i < maxSteps; i++)
+    {
+        projHitCoord += projDir;
+ 
+		vec2 projectedCoords = CalcTexCoords( projHitCoord );
+        depth = LinearizeDepth( texture(g_Depth, projectedCoords).r, m_camProjParams );
+ 
+        if(projHitCoord.z > depth)
+		{
+			// assume that the intersection point is located along the direction vector and can be approximated in a linear way in the projection space
+			float t =  (projHitCoord.z - depth)/length(projDir);
+			projHitCoord -= projDir * t;
+			
+			// approximate the place using a binary search
+			float dDepth;
+			projectedCoords = BinarySearch( projDir, projHitCoord, dDepth );
+			
+			vec3 bounceNormal = DecodeNormal( projectedCoords );
+			float normalsDiffFactor = clamp( 1.0 - dot( bounceNormal, N ), 0.0, 1.0 );
+			float depthDiffFactor = clamp( 1.0 - dDepth, 0.0, 1.0 );
+			return texture( g_Albedo, projectedCoords ) * normalsDiffFactor*depthDiffFactor;
+		}
+    }
+	
+    return vec4(0.0);
+}
+
+void main()
+{	
+	vec3 N = DecodeNormal( UV );
+	float depth = texture( g_Depth, UV ).r;
+    vec4 P = DecodeViewPosition( UV, depth, m_camProjParams );
+	
+	// Reflection vector
+    vec3 reflected = normalize(reflect(normalize(P).xyz, N));
+	
+	// Ray cast
+	float faceViewerFactor = clamp((reflected.z - fadeThreshold) / fadeThreshold, 0.0, 1.0);  
+    vec4 albedo = RayCast(reflected, P.xyz, N) * faceViewerFactor;
+	vFragColor = albedo;
+}
+
+<<SHADER_ROUTINE_END>>

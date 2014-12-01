@@ -1,0 +1,56 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/blur.code
+// @brief	<put the description here>
+
+layout(location=0) in vec2 vPosition;
+
+smooth out vec2 UV;
+
+void main( )
+{
+	// a simple pass through shader - we're rendering a full screen quad after all
+	gl_Position = vec4(vPosition*2.0-1,0,1);
+	UV = vPosition;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/blur.code
+// @brief	<put the description here>
+
+smooth in vec2 UV;
+layout(location=0) out vec4 vFragColor;
+
+#define BLUR_SIZE 4 
+
+uniform sampler2D g_Tex;
+
+void main()
+{	
+	vec2 texelSize = 1.0 / vec2(textureSize(g_Tex, 0));
+	
+	vFragColor = vec4(0.0);
+
+	// unrolled loop			
+	vFragColor += texture(g_Tex, UV + vec2(-1.5,-1.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2(-0.5,-1.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2( 0.5,-1.5) * texelSize);		
+	vFragColor += texture(g_Tex, UV + vec2( 1.5,-1.5) * texelSize);
+	
+	vFragColor += texture(g_Tex, UV + vec2(-1.5,-0.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2(-0.5,-0.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2( 0.5,-0.5) * texelSize);		
+	vFragColor += texture(g_Tex, UV + vec2( 1.5,-0.5) * texelSize);
+
+	vFragColor += texture(g_Tex, UV + vec2(-1.5, 0.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2(-0.5, 0.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2( 0.5, 0.5) * texelSize);		
+	vFragColor += texture(g_Tex, UV + vec2( 1.5, 0.5) * texelSize);
+	
+	vFragColor += texture(g_Tex, UV + vec2(-1.5,-1.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2(-0.5,-1.5) * texelSize);
+	vFragColor += texture(g_Tex, UV + vec2( 0.5,-1.5) * texelSize);		
+	vFragColor += texture(g_Tex, UV + vec2( 1.5,-1.5) * texelSize);	
+	
+	// average the results
+	vFragColor = vFragColor / 16;
+}
+<<SHADER_ROUTINE_END>>

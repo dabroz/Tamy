@@ -1,0 +1,45 @@
+<<SHADER_VERTEX_GLSL>>// @file	/Renderer/Shaders/RenderingPipeline/skybox.tsh
+// @brief	<put the description here>
+#version 330
+
+layout(location = 0) in vec4 vPosition;
+
+uniform Constants
+{
+	mat4			g_modelToProj;
+};
+
+smooth out vec4 				vProjPos;
+smooth out vec3 				vCubeVec;
+
+void main()
+{
+    vec4 WVP_Pos = g_modelToProj * vPosition;
+    gl_Position = WVP_Pos;
+    vProjPos = WVP_Pos;
+	vCubeVec = vPosition.xyz;
+} 
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>// @file	/Renderer/Shaders/RenderingPipeline/skybox.tsh
+// @brief	<put the description here>
+#version 330
+
+smooth in vec4 vProjPos;
+smooth in vec3 vCubeVec;
+
+layout(location=0) out vec4 vFragColor;
+
+uniform sampler2D g_Albedo;
+uniform samplerCube g_Tex1;
+
+void main()
+{
+	vec2 texCoords = ( vProjPos.xy / vProjPos.w ) * 0.5 + 0.5;
+
+	vec4 albedo = texture( g_Albedo, texCoords );
+	if ( albedo.a > 0.0 )
+	{
+		discard;
+	}
+    vFragColor = texture(g_Tex1, vCubeVec);
+} 
+<<SHADER_ROUTINE_END>>

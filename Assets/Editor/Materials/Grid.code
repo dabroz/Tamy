@@ -1,0 +1,112 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VSInput start
+
+layout(location = 0) in vec4 vPosition;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec3 vTangent;
+layout(location = 3) in vec2 vUV0;
+// struct VSInput end
+
+// struct VSOutput start
+
+smooth out vec4 positionVS;
+smooth out vec3 normalVS;
+smooth out vec3 tangentVS;
+smooth out vec2 uv0;
+// struct VSOutput end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform VertexShaderConstants
+{
+	mat4			Transform_004;		//64 bytes
+	mat4			Transform_005;		//64 bytes
+};		//Total: 128 bytes
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 Output_006 = (Transform_004 * vPosition);
+	vec3 Output_007 = ( mat3( Transform_005 ) * vNormal );
+	vec3 Output_008 = ( mat3( Transform_005 ) * vTangent );
+	vec4 Output_009 = (Transform_005 * vPosition);
+	gl_Position = Output_006;
+	positionVS = Output_009;
+	normalVS = Output_007;
+	tangentVS = Output_008;
+	uv0 = vUV0;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct MNInputStruct start
+
+smooth in vec2 uv0;
+smooth in vec4 positionVS;
+smooth in vec3 normalVS;
+// struct MNInputStruct end
+
+// struct MNOutputStruct start
+
+layout(location = 0) out vec4 gBuf_Albedo;
+layout(location = 1) out vec4 gBuf_Specular;
+layout(location = 2) out vec4 gBuf_BRDF;
+layout(location = 3) out vec4 gBuf_Normals;
+// struct MNOutputStruct end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+const float		Value_003 = 0.200000;
+const float		Value_004 = 5.000000;
+const vec4		Color_005 = vec4( 0.690196, 0.533333, 0.066667, 1.000000 );
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+uniform sampler2D		sampler_00;
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 Color_006 = texture( sampler_00, uv0);
+	vec4 GBuf_BRDF_007 = vec4(0);
+	GBuf_BRDF_007.x = 0.1;		 // BLINN_PHONG_SHADING
+	GBuf_BRDF_007.y = Value_003;
+	GBuf_BRDF_007.z = Value_004 / 255.0;
+	vec4 GBuf_Normals_008 = vec4( ( normalVS + 1.0 ) * 0.5, 1.0 );
+	gBuf_Albedo = Color_006;
+	gBuf_Specular = Color_005;
+	gBuf_BRDF = GBuf_BRDF_007;
+	gBuf_Normals = GBuf_Normals_008;
+}
+<<SHADER_ROUTINE_END>>

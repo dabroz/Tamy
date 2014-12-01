@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PatchesDB>
+
+	<!-- RenderingPipelineLayout -->
+	<PatchEntry oldTypeName="" oldVersionNo="-1" newTypeName="RenderingPipelineLayout" newVersionNo="0">
+		<AddParent type="Resource" version="0"/>
+		<AddField type="SFT_Pointer" name="m_pipeline" />
+		<AddField type="SFT_ArrayOfPointers" name="m_blocks" />
+		<AddField type="SFT_ArrayOfPointers" name="m_connections" />
+	</PatchEntry>
+	
+	<PatchEntry oldTypeName="RenderingPipelineLayout" oldVersionNo="0" newTypeName="RenderingPipelineLayout" newVersionNo="1">
+		<RemoveField type="SFT_Pointer" name="m_pipeline" />
+		<AddField type="SFT_Pointer" name="m_pipelineHandle" />
+	</PatchEntry>
+	
+	<!-- MaterialLayout -->
+	<PatchEntry oldTypeName="" oldVersionNo="-1" newTypeName="MaterialLayout" newVersionNo="0">
+		<AddParent type="Resource" version="0"/>
+		<AddField type="SFT_Pointer" name="m_pipeline" />
+		<AddField type="SFT_ArrayOfPointers" name="m_blocks" />
+		<AddField type="SFT_ArrayOfPointers" name="m_connections" />
+	</PatchEntry>
+	
+	<PatchEntry oldTypeName="MaterialLayout" oldVersionNo="0" newTypeName="MaterialLayout" newVersionNo="1">
+		<RemoveField type="SFT_Pointer" name="m_pipeline" />
+		<AddField type="SFT_Pointer" name="m_pipelineHandle" />
+	</PatchEntry>
+	
+	<!-- GeometryShaderLayout -->
+	<PatchEntry oldTypeName="" oldVersionNo="-1" newTypeName="GeometryShaderLayout" newVersionNo="0">
+		<AddParent type="Resource" version="0"/>
+		<AddField type="SFT_Pointer" name="m_pipeline" />
+		<AddField type="SFT_ArrayOfPointers" name="m_blocks" />
+		<AddField type="SFT_ArrayOfPointers" name="m_connections" />
+	</PatchEntry>
+	
+	<PatchEntry oldTypeName="GeometryShaderLayout" oldVersionNo="0" newTypeName="GeometryShaderLayout" newVersionNo="1">
+		<RemoveField type="SFT_Pointer" name="m_pipeline" />
+		<AddField type="SFT_Pointer" name="m_pipelineHandle" />
+	</PatchEntry>
+	
+	
+	<!-- ResourceHandle -->
+	<PatchEntry oldTypeName="" oldVersionNo="-1" newTypeName="ResourceHandle" newVersionNo="0">
+		<AddParent type="ReflectionObject" version="0"/>
+		<AddField type="SFT_Value" name="m_resourcePath" />
+		<AddField type="SFT_Value" name="m_objectId" />
+	</PatchEntry>
+	
+	<PatchEntry oldTypeName="ResourceHandle" oldVersionNo="0" newTypeName="ResourceHandle" newVersionNo="1">
+		<RemoveField type="SFT_Value" name="m_resourcePath" />
+		<AddField type="SFT_Value" name="m_path" />
+		<DataMigrationFunction name="patch_ResourceHandle_0_1" />
+	</PatchEntry>
+
+	<!-- RenderStateMaterial -->
+	<PatchEntry oldTypeName="" oldVersionNo="-1" newTypeName="RenderStateMaterial" newVersionNo="0">
+		<AddParent type="RenderState" version="0"/>
+		<AddField type="SFT_Pointer" name="m_material" />
+	</PatchEntry>
+
+	<PatchEntry oldTypeName="RenderStateMaterial" oldVersionNo="0" newTypeName="RenderState" newVersionNo="1">
+      <RemoveParent type="RenderState" version="0" />
+      <AddParent type="ReflectionObject" version="0" />
+		<AddField type="SFT_Value" name="m_name" />		
+	</PatchEntry>
+	
+</PatchesDB>

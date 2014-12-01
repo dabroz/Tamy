@@ -1,0 +1,131 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/ambientOcclusion.code
+// @brief	<put the description here>
+
+layout(location=0) in vec2 vPosition;
+
+smooth out vec2 UV;
+
+void main( )
+{
+	// a simple pass through shader - we're rendering a full screen quad after all
+	gl_Position = vec4(vPosition*2.0-1,0,1);
+	UV = vPosition;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/ambientOcclusion.code
+// @brief	<put the description here>
+
+#define MAX_AO_KERNEL_SIZE 32
+
+
+smooth in vec2 UV;
+layout(location=0) out vec4 vFragColor;
+
+uniform sampler2D g_DepthBuffer;
+uniform sampler2D g_TexNormals;
+uniform sampler2D g_TexAlbedo;
+uniform sampler2D g_TexRandom;
+
+uniform Constants
+{
+	vec4                m_halfPixel;
+	// -------------------------   16 bytes boundary ---------------------------
+	vec4                m_projParams;
+	// -------------------------   16 bytes boundary ---------------------------
+	vec4                m_kernel[MAX_AO_KERNEL_SIZE];
+	// -------------------------   16 bytes boundary ---------------------------
+	mat4 			    m_projectionMtx;
+	// -------------------------   16 bytes boundary ---------------------------
+	vec4                m_ambientColor;
+	// -------------------------   16 bytes boundary ---------------------------
+	float               m_radius;
+	float               m_power;
+	int                 m_sampleKernelSize;
+	int                 m_padding;
+	// -------------------------   16 bytes boundary ---------------------------
+};
+
+float linearizeDepth(in float depth, in vec4 projParams) 
+{
+	float viewDepth = projParams.w / (depth* 2.0f - 1.0f - projParams.z);
+	return viewDepth;
+}
+
+vec3 decodeNormal(in vec3 normal) 
+{
+	vec3 result = normal * 2.0 - 1.0;
+	return normalize( result );
+}
+
+vec3 reconstructPosition( in vec2 UV, in float depth, in vec4 projParams)
+{ 
+	vec2 nDC = UV * 2.0f - 1.0f;
+    float decodedDepth = depth * 2.0f - 1.0f;
+    float viewDepth = projParams.w / (decodedDepth - projParams.z);
+
+    return vec3((nDC * viewDepth) / projParams.xy, viewDepth);
+}
+
+vec2 viewToClipSpace( in vec3 inPos )
+{
+	vec4 offset = m_projectionMtx * vec4(inPos, 1.0);
+	offset.xy /= offset.w; // only need xy
+	offset.xy = offset.xy * 0.5 + 0.5 + m_halfPixel.xy; // scale/bias to texcoords
+	
+	return offset.xy;
+}
+
+float ssao(in mat3 kernelBasis, in vec3 originPos, in float radius) 
+{
+	float occlusion = 0.0;
+	for (int i = 0; i < m_sampleKernelSize; ++i) 
+	{
+		//	get sample position:
+		vec3 samplePos = kernelBasis * m_kernel[i].xyz;
+		samplePos = samplePos * radius + originPos;
+		
+		//	project sample position:
+		vec2 offset = viewToClipSpace( samplePos );
+		
+		//	get sample depth:
+		float sampleDepth = texture(g_DepthBuffer, offset).r;
+		sampleDepth = linearizeDepth(sampleDepth, m_projParams);
+		
+		float rangeCheck = smoothstep(0.0, 1.0, radius / abs(originPos.z - sampleDepth));
+		occlusion += rangeCheck * step(sampleDepth, samplePos.z);
+	}
+	
+	occlusion = 1.0 - (occlusion / float(m_sampleKernelSize));
+	return pow(occlusion, m_power);
+}
+
+void main()
+{
+	vec2 texCoords = UV + m_halfPixel.xy;
+	
+	//	get noise texture coords:
+	vec2 noiseTexCoords = vec2(textureSize(g_DepthBuffer, 0)) / vec2(textureSize(g_TexRandom, 0));
+	noiseTexCoords = noiseTexCoords * UV + m_halfPixel.xy;
+	
+	//	get view space origin:
+	float originalDepth = texture(g_DepthBuffer, texCoords).r;
+	vec3 originPos = reconstructPosition( texCoords, originalDepth, m_projParams );
+
+	//	get view space normal:
+	vec3 normal = decodeNormal(texture(g_TexNormals, texCoords).rgb);
+	if ( originalDepth > 0.99999)
+	{
+		discard;
+	}
+	
+	//	construct kernel basis matrix:
+	vec3 rvec = texture(g_TexRandom, noiseTexCoords).rgb * 2.0 - 1.0;
+	vec3 tangent = normalize(rvec - normal * dot(rvec, normal));
+	vec3 bitangent = cross(tangent, normal);
+	mat3 kernelBasis = mat3(tangent, bitangent, normal);
+	
+	float ssaoFactor = ssao(kernelBasis, originPos, m_radius);
+	vFragColor = ssaoFactor * m_ambientColor * texture( g_TexAlbedo, texCoords );
+}
+<<SHADER_ROUTINE_END>>

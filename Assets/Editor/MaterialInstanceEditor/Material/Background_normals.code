@@ -1,0 +1,194 @@
+<<SHADER_COMPUTE_HLSL>><<SHADER_ROUTINE_END>><<SHADER_COMPUTE_GLSL>><<SHADER_ROUTINE_END>><<SHADER_VERTEX_HLSL>>// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+struct VSInput
+{
+	float4 vPosition : POSITION;
+	float3 vNormal : NORMAL;
+	float3 vTangent : TANGENT;
+	float2 vUV0 : TEXCOORD0;
+};
+
+struct VSOutput
+{
+	float4 positionCS : POSITION;
+	float4 positionVS : TEXCOORD0;
+	float3 normalVS : TEXCOORD1;
+	float3 tangentVS : TEXCOORD2;
+	float2 uv0 : TEXCOORD3;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+cbuffer VertexShaderConstants : register(b0)
+{
+	float4x4			Transform_004;		//64 bytes
+	float4x4			Transform_005;		//64 bytes
+};		//Total: 128 bytes
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+VSOutput main( VSInput In )
+{
+	VSOutput Out = (VSOutput)0;
+
+	float4 Output_006 = mul( In.vPosition, Transform_004 );
+	float4 Output_007 = mul( In.vPosition, Transform_005 );
+	float3 Output_008 = mul( In.vNormal, (float3x3)Transform_005 ) ;
+	float3 Output_009 = mul( In.vTangent, (float3x3)Transform_005 ) ;
+	Out.positionCS = Output_006;
+	Out.positionVS = Output_007;
+	Out.normalVS = Output_008;
+	Out.tangentVS = Output_009;
+	Out.uv0 = In.vUV0;
+	return Out;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_HLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_HLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_HLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_HLSL>>// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+struct FSInput
+{
+	float4 positionVS : TEXCOORD0;
+	float3 normalVS : TEXCOORD1;
+	float3 tangentVS : TEXCOORD2;
+	float2 uv0 : TEXCOORD3;
+};
+
+struct FSOutput
+{
+	float4 color_0 : COLOR0;
+};
+
+struct ComputeAlbedoInput
+{
+	float4			P;
+	float3			N;
+	float			specularIntensity;
+	float			specularHardness;
+	float4			specularColor;
+	float4			diffuseColor;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+uniform sampler		sampler_00;
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+FSOutput main( FSInput In )
+{
+	FSOutput Out = (FSOutput)0;
+
+	float4 Color_004 = tex2D( sampler_00, In.uv0);
+	float4 Color_005 = (float4)0;
+	{
+		ComputeAlbedoInput inputComputeAlbedo = (ComputeAlbedoInput)0;
+		inputComputeAlbedo.P = In.positionVS;
+		inputComputeAlbedo.N = In.normalVS;
+		inputComputeAlbedo.diffuseColor = Color_004;
+		Color_005 = ComputeAlbedo( inputComputeAlbedo );
+	}
+	Out.color_0 = Color_005;
+	return Out;
+}
+<<SHADER_ROUTINE_END>><<SHADER_VERTEX_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VSInput start
+
+layout(location = 0) in vec4 vPosition;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec3 vTangent;
+layout(location = 3) in vec2 vUV0;
+// struct VSInput end
+
+// struct VSOutput start
+
+smooth out vec4 positionVS;
+smooth out vec3 normalVS;
+smooth out vec3 tangentVS;
+smooth out vec2 uv0;
+// struct VSOutput end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform VertexShaderConstants
+{
+	mat4			Transform_004;		//64 bytes
+	mat4			Transform_005;		//64 bytes
+};		//Total: 128 bytes
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 Output_006 = (Transform_004 * vPosition);
+	vec4 Output_007 = (Transform_005 * vPosition);
+	vec3 Output_008 = ( mat3( Transform_005 ) * vNormal );
+	vec3 Output_009 = ( mat3( Transform_005 ) * vTangent );
+	gl_Position = Output_006;
+	positionVS = Output_007;
+	normalVS = Output_008;
+	tangentVS = Output_009;
+	uv0 = vUV0;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>// @file	/Renderer/Shaders/RenderingPipeline/selectionShader.glsl
+// @brief	<put the description here>
+#version 330 core
+
+smooth in vec3 normalVS;
+
+layout(location=0) out vec4 vFragColor;
+
+void main()
+{
+	vec3 colorCodedNormal = ( normalVS + 1.0 ) * 0.5;
+	vFragColor = vec4(colorCodedNormal,1);
+}
+<<SHADER_ROUTINE_END>>

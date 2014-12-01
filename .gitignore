@@ -19,13 +19,17 @@ $RECYCLE.BIN/
 *.pdb
 *.user
 
+# asset files
+*.blend
+*.png
+*.jpg
+
 # Temp directories
 Libs/
 Build/
 Temp/
 GeneratedFiles/
 Template/
-Assets/
 Ogg/
 tinyxml/
 Vorbis/

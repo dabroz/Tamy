@@ -1,0 +1,313 @@
+<<SHADER_COMPUTE_HLSL>><<SHADER_ROUTINE_END>><<SHADER_COMPUTE_GLSL>><<SHADER_ROUTINE_END>><<SHADER_VERTEX_HLSL>>// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+struct VSInput
+{
+	float4 vPosition : POSITION;
+	float3 vNormal : NORMAL;
+	float3 vTangent : TANGENT;
+	float2 vUV0 : TEXCOORD0;
+};
+
+struct VSOutput
+{
+	float4 positionCS : POSITION;
+	float4 positionVS : TEXCOORD0;
+	float3 normalVS : TEXCOORD1;
+	float3 tangentVS : TEXCOORD2;
+	float2 uv0 : TEXCOORD3;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform float4x4		variable_004;
+uniform float4x4		variable_005;
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+VSOutput main( VSInput In )
+{
+	VSOutput Out = (VSOutput)0;
+
+	float4 variable_006 = mul( In.vPosition, variable_004 );
+	float4 variable_007 = mul( In.vPosition, variable_005 );
+	float3 variable_008 = mul( In.vNormal, (float3x3)variable_005 ) ;
+	float3 variable_009 = mul( In.vTangent, (float3x3)variable_005 ) ;
+	Out.positionCS = variable_006;
+	Out.positionVS = variable_007;
+	Out.normalVS = variable_008;
+	Out.tangentVS = variable_009;
+	Out.uv0 = In.vUV0;
+	return Out;
+}
+<<SHADER_ROUTINE_END>><<SHADER_VERTEX_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VSInput start
+
+layout(location = 0) in vec4 vPosition;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec3 vTangent;
+layout(location = 3) in vec2 vUV0;
+// struct VSInput end
+
+// struct VSOutput start
+
+smooth out vec4 positionVS;
+smooth out vec3 normalVS;
+smooth out vec3 tangentVS;
+smooth out vec2 uv0;
+// struct VSOutput end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform mat4		variable_004;
+uniform mat4		variable_005;
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 variable_006 = (vPosition * variable_004);
+	vec4 variable_007 = (vPosition * variable_005);
+	vec3 variable_008 = ( vNormal * mat3( variable_005 ) );
+	vec3 variable_009 = ( vTangent * mat3( variable_005 ) );
+	gl_Position = variable_006;
+	positionVS = variable_007;
+	normalVS = variable_008;
+	tangentVS = variable_009;
+	uv0 = vUV0;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_HLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_HLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_HLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_HLSL>>// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+struct FSInput
+{
+	float4 positionVS : TEXCOORD0;
+	float3 normalVS : TEXCOORD1;
+	float3 tangentVS : TEXCOORD2;
+	float2 uv0 : TEXCOORD3;
+};
+
+struct FSOutput
+{
+	float4 color_0 : COLOR0;
+};
+
+struct MNDirectionalLightStruct
+{
+	float4			Position;
+	float3			Normal;
+	float			Specular_intensity;
+	float			Specular_hardness;
+	float4			Specular_color;
+	float4			Diffuse_color;
+};
+
+struct MixRGBsStruct
+{
+	float4			In1;
+	float4			In2;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform float4		internalGlobal_000;
+uniform float4		internalGlobal_001;
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+uniform sampler		sampler_00;
+uniform sampler		sampler_01;
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+float4 MNDirectionalLight( MNDirectionalLightStruct input )
+{
+	float3 normalizedNormal = normalize( input.Normal );
+	float3 dirToPixel = normalize( input.Position.xyz );
+	float reflectionFactor = dot( normalizedNormal, internalGlobal_000.xyz );
+	float3 reflectionVec = reflect( internalGlobal_000.xyz, normalizedNormal );
+	float specularValue = saturate( dot( reflectionVec, dirToPixel ) );
+	float specularFactor = pow( specularValue, input.Specular_hardness * 100 );
+	float4 specularColor = input.Specular_intensity * specularFactor * input.Specular_color;
+	float4 diffuseColor = reflectionFactor * input.Diffuse_color;
+	float4 outputColor = saturate( diffuseColor + specularColor ) * internalGlobal_001;
+	outputColor.a = input.Diffuse_color.a;
+	return outputColor;
+}
+
+float4 MixRGBs( MixRGBsStruct input )
+{
+	float4 outColor = lerp( input.In1, input.In2, 0.500000 );
+	return outColor;
+}
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+FSOutput main( FSInput In )
+{
+	FSOutput Out = (FSOutput)0;
+
+	float4 variable_004 = tex2D( sampler_00, In.uv0);
+	float4 variable_005 = tex2D( sampler_01, In.uv0);
+	float4 variable_006 = (float4)0;
+	{
+		MNDirectionalLightStruct inputMNDirectionalLight = (MNDirectionalLightStruct)0;
+		inputMNDirectionalLight.Position = In.positionVS;
+		inputMNDirectionalLight.Normal = In.normalVS;
+		inputMNDirectionalLight.Diffuse_color = variable_004;
+		variable_006 = MNDirectionalLight( inputMNDirectionalLight );
+	}
+	float4 variable_007 = (float4)0;
+	{
+		MixRGBsStruct inputMixRGBs = (MixRGBsStruct)0;
+		inputMixRGBs.In1 = variable_006;
+		inputMixRGBs.In2 = variable_005;
+		variable_007 = MixRGBs( inputMixRGBs );
+	}
+	Out.color_0 = variable_007;
+	return Out;
+}
+<<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct FSInput start
+
+smooth in vec4 positionVS;
+smooth in vec3 normalVS;
+smooth in vec3 tangentVS;
+smooth in vec2 uv0;
+// struct FSInput end
+
+// struct FSOutput start
+
+layout(location=0) out vec4 vFragColor;
+// struct FSOutput end
+
+struct MNDirectionalLightStruct
+{
+	vec4			Position;
+	vec3			Normal;
+	float			Specular_intensity;
+	float			Specular_hardness;
+	vec4			Specular_color;
+	vec4			Diffuse_color;
+};
+
+struct MixRGBsStruct
+{
+	vec4			In1;
+	vec4			In2;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform vec4		internalGlobal_000;
+uniform vec4		internalGlobal_001;
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+uniform sampler2D		sampler_00;
+uniform sampler2D		sampler_01;
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+vec4 MNDirectionalLight( MNDirectionalLightStruct input )
+{
+	vec3 normalizedNormal = normalize( input.Normal );
+	vec3 dirToPixel = normalize( input.Position.xyz );
+	float reflectionFactor = dot( normalizedNormal, internalGlobal_000.xyz );
+	vec3 reflectionVec = reflect( internalGlobal_000.xyz, normalizedNormal );
+	float specularValue = clamp( dot( reflectionVec, dirToPixel ), 0.0, 1.0 );
+	float specularFactor = pow( specularValue, input.Specular_hardness * 100 );
+	vec4 specularColor = input.Specular_intensity * specularFactor * input.Specular_color;
+	vec4 diffuseColor = reflectionFactor * input.Diffuse_color;
+	vec4 outputColor = clamp( diffuseColor + specularColor, 0.0, 1.0 ) * internalGlobal_001;
+	outputColor.a = input.Diffuse_color.a;
+	return outputColor;
+}
+
+vec4 MixRGBs( MixRGBsStruct input )
+{
+	vec4 outColor = mix( input.In1, input.In2, 0.500000 );
+	return outColor;
+}
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 variable_004 = texture( sampler_00, uv0);
+	vec4 variable_005 = texture( sampler_01, uv0);
+	vec4 variable_006 = vec4(0);
+	{
+		MNDirectionalLightStruct inputMNDirectionalLight;
+		inputMNDirectionalLight.Position = positionVS;
+		inputMNDirectionalLight.Normal = normalVS;
+		inputMNDirectionalLight.Specular_intensity = float(0);
+		inputMNDirectionalLight.Specular_hardness = float(0);
+		inputMNDirectionalLight.Specular_color = vec4(0);
+		inputMNDirectionalLight.Diffuse_color = variable_004;
+		variable_006 = MNDirectionalLight( inputMNDirectionalLight );
+	}
+	vec4 variable_007 = vec4(0);
+	{
+		MixRGBsStruct inputMixRGBs;
+		inputMixRGBs.In1 = variable_006;
+		inputMixRGBs.In2 = variable_005;
+		variable_007 = MixRGBs( inputMixRGBs );
+	}
+	vFragColor = variable_007;
+}
+<<SHADER_ROUTINE_END>>

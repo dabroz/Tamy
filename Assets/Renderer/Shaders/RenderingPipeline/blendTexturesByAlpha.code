@@ -1,0 +1,86 @@
+<<SHADER_COMPUTE_HLSL>>// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+<<SHADER_ROUTINE_END>><<SHADER_VERTEX_HLSL>>// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+struct VS_InputOutput
+{
+	float4		m_position : POSITION;
+	float2		m_uv : TEXCOORD0;	
+};
+
+VS_InputOutput main( VS_InputOutput input )
+{
+	// a simple pass through shader - we're rendering a full screen quad after all
+	VS_InputOutput output = input;
+	return output;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_HLSL>>// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+<<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_HLSL>>// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+<<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_HLSL>>// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+<<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_HLSL>>// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+sampler g_Tex1;
+sampler g_Tex2;
+
+cbuffer Constants : register(b0)
+{
+	float4 g_HalfPixel;
+};
+
+float4 main( float2 UV : TEXCOORD0 ) : COLOR0
+{
+	// sample the colors, aligning texture coordinates accordingly
+	float4 col1 = tex2D( g_Tex1, UV - g_HalfPixel.xy );
+	float4 col2 = tex2D( g_Tex2, UV + g_HalfPixel.xy );
+	
+	float4 outColor = float4( col1.rgb * col1.a + col2.rgb * ( 1- col1.a ), max( col1.a, col2.a ) );
+	
+	return outColor;
+}
+<<SHADER_ROUTINE_END>><<SHADER_COMPUTE_GLSL>><<SHADER_ROUTINE_END>><<SHADER_VERTEX_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+layout(location=0) in vec2 vPosition;
+
+smooth out vec2 UV;
+
+void main( )
+{
+	// a simple pass through shader - we're rendering a full screen quad after all
+	gl_Position = vec4(vPosition*2.0-1,0,1);	
+	UV = vPosition;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/blendTexturesByAlpha.code
+// @brief	<put the description here>
+
+smooth in vec2 UV;
+layout(location=0) out vec4 vFragColor;
+
+
+uniform sampler2D g_Tex1;
+uniform sampler2D g_Tex2;
+uniform Constants
+{
+	vec4 g_HalfPixel;
+};
+
+void main()
+{
+		// sample the colors, aligning texture coordinates accordingly
+	vec4 col1 = texture( g_Tex1, UV - g_HalfPixel.xy );
+	vec4 col2 = texture( g_Tex2, UV + g_HalfPixel.xy );
+	
+	vFragColor = vec4( col1.rgb * col1.a + col2.rgb * ( 1- col1.a ), max( col1.a, col2.a ) );
+}
+<<SHADER_ROUTINE_END>>

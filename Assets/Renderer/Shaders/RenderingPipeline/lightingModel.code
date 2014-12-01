@@ -1,0 +1,99 @@
+// @file	/Renderer/Shaders/RenderingPipeline/lightingModel.code
+// @brief	<put the description here>
+
+#define BLINN_PHONG_SHADING 		0.1
+#define COOK_TORRANCE_SHADING 		0.2
+
+float DoDiffuse( vec3 L, vec3 N )
+{
+	float NdotL = max( 0, dot( N, L ) );
+	return NdotL;
+}
+
+float DoSpecularBlinnPhong( vec3 V, vec3 L, vec3 N, float SP )
+{
+	// Phong lighting.
+	vec3 R = normalize( reflect( -L, N ) );
+	float RdotV = max( 0, dot( R, V ) );
+
+	// Blinn-Phong lighting
+	vec3 H = normalize( L + V );
+	float NdotH = max( 0, dot( N, H ) );
+
+	return pow( RdotV, SP);
+}
+
+float DoSpecularCookTorrance( vec3 V, vec3 L, vec3 N, float RN, float RF )
+{  
+    // Compute any aliases and intermediary values
+    vec3 half_vector = normalize( L + V );
+    float NdotL        = max( dot( N, L ), 0.0);
+    float NdotH        = max( dot( N, half_vector ), 0.0);
+    float NdotV        = max( dot( N, V ), 0.0 );
+    float VdotH        = max( dot( V, half_vector ), 0.0 );
+    
+    
+    // Evaluate the geometric term
+    float geoNumerator   = 2.0f * NdotH; 
+    float geo_b = (geoNumerator * NdotV ) / VdotH;
+    float geo_c = (geoNumerator * NdotL ) / VdotH;
+    float geo   = min( 1.0f, min( geo_b, geo_c ) );
+    
+    
+    // Evaluate the roughness term
+    vec2 tc = vec2(NdotH, RN);
+    tc.x += 1.0f; // Remap the NdotH value to be 0.0-1.0 instead of -1.0..+1.0
+    tc.x /= 2.0f;
+    float roughness = texture( g_RoughnessLookup, tc ).r; // look up the coefficient from the texture:
+		
+    // Evaluate the Fresnel value
+    float fresnelFacing = pow( 1.0f - VdotH, 5.0f );
+    float fresnel = max( RF + ( 1.0f - RF ) * fresnelFacing, 0 );
+ 
+ 
+    // Put all the terms together to compute
+    // the specular term in the equation
+    float RsNumerator   = ( fresnel * geo * roughness );
+    float RsDenominator  = NdotV * NdotL * 3.14159;
+    float Rs             = RsNumerator/ RsDenominator;
+    
+    return Rs * NdotL;
+}
+
+struct LightingResult
+{
+	vec4 m_diffuse;
+	vec4 m_specular;
+};
+
+LightingResult ComputeLighting( vec4 P, vec3 N, vec3 L, vec4 brdf )
+{
+	vec3 V = normalize( P.xyz * -1.0 );
+
+	LightingResult result;
+	if ( brdf.x == COOK_TORRANCE_SHADING )
+	{
+		float roughness = brdf.y;	// @see MNCookTorrance.cpp:buildMaterialShader method for reference
+		float reflectivity = brdf.z;	
+		
+		result.m_diffuse = DoDiffuse( L, N ) * m_lightColor;
+		result.m_specular = DoSpecularCookTorrance( V, L, N, roughness, reflectivity ) * m_lightColor;
+	}
+	else
+	{
+		// use the Blinn-Phong shading by default
+		
+		float specularIntensity = brdf.y;	// @see MNBlinnPhong.cpp:buildMaterialShader method for reference
+		float specularHardness = brdf.z * 255.0;	
+		
+		result.m_diffuse = DoDiffuse( L, N ) * m_lightColor;
+		result.m_specular = DoSpecularBlinnPhong( V, L, N, specularHardness ) * m_lightColor * specularIntensity;
+	}
+	
+	result.m_diffuse = clamp(result.m_diffuse, 0.0, 1.0);
+	result.m_specular = clamp(result.m_specular, 0.0, 1.0);
+
+	return result;
+}
+
+#include "/Renderer/Shaders/RenderingPipeline/gbufferUtils.code"

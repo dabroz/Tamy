@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LSystem>
+	<Rule pattern="a" replacement="ab"/>
+	<Rule pattern="b" replacement="a"/>
+	
+	<Binding pattern="a" prefab="PipeBottom.tpf"/>
+	<Binding pattern="b" prefab="PipeTop.tpf"/>
+</LSystem>

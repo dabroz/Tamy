@@ -1,0 +1,246 @@
+<<SHADER_COMPUTE_HLSL>><<SHADER_ROUTINE_END>><<SHADER_COMPUTE_GLSL>><<SHADER_ROUTINE_END>><<SHADER_VERTEX_HLSL>>// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+struct VSInput
+{
+	float4 vPosition : POSITION;
+	float3 vNormal : NORMAL;
+	float3 vTangent : TANGENT;
+	float2 vUV0 : TEXCOORD0;
+};
+
+struct VSOutput
+{
+	float4 positionCS : POSITION;
+	float4 positionVS : TEXCOORD0;
+	float3 normalVS : TEXCOORD1;
+	float3 tangentVS : TEXCOORD2;
+	float2 uv0 : TEXCOORD3;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform float4x4		Transform_004;
+uniform float4x4		Transform_005;
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+VSOutput main( VSInput In )
+{
+	VSOutput Out = (VSOutput)0;
+
+	float4 Output_006 = mul( In.vPosition, Transform_004 );
+	float3 Output_007 = mul( In.vTangent, (float3x3)Transform_005 ) ;
+	float4 Output_008 = mul( In.vPosition, Transform_005 );
+	float3 Output_009 = mul( In.vNormal, (float3x3)Transform_005 ) ;
+	Out.positionCS = Output_006;
+	Out.positionVS = Output_008;
+	Out.normalVS = Output_009;
+	Out.tangentVS = Output_007;
+	Out.uv0 = In.vUV0;
+	return Out;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_HLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_HLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_HLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_HLSL>>// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+struct VS_Output
+{
+	float4 positionVS : TEXCOORD0;
+	float3 normalVS : TEXCOORD1;
+	float3 tangentVS : TEXCOORD2;
+	float2 uv0 : TEXCOORD3;
+};
+
+struct FS_Ouptut
+{
+	float4 color_0 : COLOR0;
+};
+
+struct MNDirectionalLightStruct
+{
+	float4			Position;
+	float3			Normal;
+	float			Specular_intensity;
+	float			Specular_hardness;
+	float4			Specular_color;
+	float4			Diffuse_color;
+};
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+static const float4		Color_004 = { 0.082353, 0.639216, 0.874510, 1.000000 };
+static const float4		Color_005 = { 1.000000, 1.000000, 1.000000, 1.000000 };
+static const float		Value_006 = 1.000000;
+static const float		Value_007 = 2.000000;
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform float4		internalGlobal_000;
+uniform float4		internalGlobal_001;
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+uniform sampler		sampler_00;
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+float4 MNDirectionalLight( MNDirectionalLightStruct input )
+{
+	float3 normalizedNormal = normalize( input.Normal );
+	float3 dirToPixel = normalize( input.Position.xyz );
+	float reflectionFactor = dot( normalizedNormal, internalGlobal_000.xyz );
+	float3 reflectionVec = reflect( internalGlobal_000.xyz, normalizedNormal );
+	float specularValue = saturate( dot( reflectionVec, dirToPixel ) );
+	float specularFactor = pow( specularValue, input.Specular_hardness * 100 );
+	float4 specularColor = input.Specular_intensity * specularFactor * input.Specular_color;
+	float4 diffuseColor = reflectionFactor * input.Diffuse_color;
+	float4 outputColor = saturate( diffuseColor + specularColor ) * internalGlobal_001;
+	outputColor.a = input.Diffuse_color.a;
+	return outputColor;
+}
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+FS_Ouptut main( VS_Output In )
+{
+	FS_Ouptut Out = (FS_Ouptut)0;
+
+	float4 Color_008 = tex2D( sampler_00, In.uv0);
+	float4 Color_009 = (float4)0;
+	{
+		MNDirectionalLightStruct inputMNDirectionalLight = (MNDirectionalLightStruct)0;
+		inputMNDirectionalLight.Position = In.positionVS;
+		inputMNDirectionalLight.Normal = In.normalVS;
+		inputMNDirectionalLight.Specular_intensity = Value_006;
+		inputMNDirectionalLight.Specular_hardness = Value_007;
+		inputMNDirectionalLight.Specular_color = Color_004;
+		inputMNDirectionalLight.Diffuse_color = Color_008;
+		Color_009 = MNDirectionalLight( inputMNDirectionalLight );
+	}
+	Out.color_0 = Color_009;
+	return Out;
+}
+<<SHADER_ROUTINE_END>><<SHADER_VERTEX_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VSInput start
+
+layout(location = 0) in vec4 vPosition;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec3 vTangent;
+layout(location = 3) in vec2 vUV0;
+// struct VSInput end
+
+// struct VSOutput start
+
+smooth out vec4 positionVS;
+smooth out vec3 normalVS;
+smooth out vec3 tangentVS;
+smooth out vec2 uv0;
+// struct VSOutput end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform VertexShaderConstants
+{
+	mat4			Transform_004;		//64 bytes
+	mat4			Transform_005;		//64 bytes
+};		//Total: 128 bytes
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 Output_006 = (Transform_004 * vPosition);
+	vec3 Output_007 = ( mat3( Transform_005 ) * vTangent );
+	vec4 Output_008 = (Transform_005 * vPosition);
+	vec3 Output_009 = ( mat3( Transform_005 ) * vNormal );
+	gl_Position = Output_006;
+	positionVS = Output_008;
+	normalVS = Output_009;
+	tangentVS = Output_007;
+	uv0 = vUV0;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VS_Output start
+
+smooth in vec4 positionVS;
+smooth in vec3 normalVS;
+smooth in vec3 tangentVS;
+smooth in vec2 uv0;
+// struct VS_Output end
+
+// struct FS_Ouptut start
+
+layout(location = 0) out vec4 color_0;
+// struct FS_Ouptut end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+const vec4		Color_004 = vec4( 0.082353, 0.639216, 0.874510, 1.000000 );
+const vec4		Color_005 = vec4( 1.000000, 1.000000, 1.000000, 1.000000 );
+const float		Value_006 = 1.000000;
+const float		Value_007 = 2.000000;
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+uniform sampler2D		sampler_00;
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 Color_008 = texture( sampler_00, uv0);
+}
+<<SHADER_ROUTINE_END>>

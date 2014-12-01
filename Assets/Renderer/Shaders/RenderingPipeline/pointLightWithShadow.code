@@ -1,0 +1,104 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/pointLightWithShadow.code
+// @brief	<put the description here>
+
+layout(location = 0) in vec4 vPosition;
+
+uniform VertexShaderConstants
+{
+	mat4			m_modelToProj;
+};
+
+smooth out vec4 	vProjPos;
+
+void main()
+{
+    vec4 WVP_Pos = m_modelToProj * vPosition;
+    gl_Position = WVP_Pos;
+	vProjPos = WVP_Pos;
+} 
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>#version 330 core
+// @file	/Renderer/Shaders/RenderingPipeline/pointLightWithShadow.code
+// @brief	<put the description here>
+
+smooth in vec4 	vProjPos;
+layout(location=0) out vec4 vFragColor;
+
+uniform sampler2D g_DepthBuffer;
+uniform sampler2D g_Diffuse;
+uniform sampler2D g_Specular;
+uniform sampler2D g_BRDF;
+uniform sampler2D g_Normals;
+uniform sampler2D g_RoughnessLookup;
+uniform samplerCube g_ShadowMap;
+
+uniform LightProperties
+{
+   vec4                             m_camProjParams;
+   mat4								m_invCamViewMtx;
+   //----------------------------------- (16 byte boundary)
+   vec4                             m_position;
+   //----------------------------------- (16 byte boundary)
+   vec4                             m_lightColor;
+   //----------------------------------- (16 byte boundary)
+   float                            m_radius;
+   float                            m_falloff;
+   int								m_padding[2];
+   //----------------------------------- (16 byte boundary)
+};
+
+float DoAttenuation( float d )
+{
+  return pow(max(0.0, 1.0 - (d / m_radius)), m_falloff + 1.0);
+}
+
+#include "/Renderer/Shaders/RenderingPipeline/lightingModel.code"
+
+float CalcShadowFactor( in vec3 L, in float distance )
+{	
+	vec4 L_ws = m_invCamViewMtx* vec4(L, 0.0);	
+	float decodedDepth = texture(g_ShadowMap, L_ws.xyz ).r;
+	if ( decodedDepth <= 0.0 )
+	{
+		return 1.0;
+	}
+	float factor = step( distance - 0.05, decodedDepth );
+	return factor;
+}
+
+void main()
+{
+	vec2 texCoords = ( vProjPos.xy / vProjPos.w ) * 0.5 + 0.5;
+	vec4 brdf = texture( g_BRDF, texCoords );
+	vec3 N = DecodeNormal( texCoords );
+	float originalDepth = texture(g_DepthBuffer, texCoords).r;
+	vec4 P = DecodeViewPosition( texCoords, originalDepth, m_camProjParams );
+	if ( originalDepth > 0.99999)
+	{
+		discard;
+	}
+	
+	// light direction
+	vec3 L = ( m_position - P ).xyz;
+	float distance = length(L);
+	L = L / distance;
+	
+	vec4 albedo = texture( g_Diffuse, texCoords );
+	float shadowFactor = CalcShadowFactor( L, distance );
+	if ( shadowFactor > 0.0 )
+	{
+		LightingResult result = ComputeLighting( P, N, L, brdf );
+		
+		float attenuation = DoAttenuation( distance );
+		vec4 specularColor = result.m_specular * texture( g_Specular, texCoords ) * attenuation;
+		vec4 diffuseColor = result.m_diffuse * albedo * attenuation;
+			
+		vFragColor = clamp((diffuseColor + specularColor)*shadowFactor, 0.0, 1.0 );
+	}
+	else
+	{
+		vFragColor = vec4(0);
+	}
+	vFragColor.a = albedo.a;
+
+}<<SHADER_ROUTINE_END>>

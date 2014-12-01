@@ -1,0 +1,66 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VSInput start
+
+layout(location = 0) in vec4 vPosition;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec3 vTangent;
+layout(location = 3) in vec2 vUV0;
+// struct VSInput end
+
+// struct VSOutput start
+
+smooth out vec3 normalVS;
+smooth out vec4 positionVS;
+// struct VSOutput end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform VertexShaderConstants
+{
+	mat4			Transform_004;		//64 bytes
+	mat4			Transform_005;		//64 bytes
+};		//Total: 128 bytes
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	vec4 Output_006 = (Transform_004 * vPosition);
+	vec3 Output_007 = ( mat3( Transform_005 ) * vNormal );
+	vec4 Output_008 = (Transform_005 * vPosition);
+	gl_Position = Output_006;
+	normalVS = Output_007;
+	positionVS = Output_008;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>// @file	/Renderer/Shaders/RenderingPipeline/selectionShader.glsl
+// @brief	<put the description here>
+#version 330 core
+
+layout(location=0) out vec4 vFragColor;
+uniform FragmentShaderConstants
+{
+	vec4 g_color;
+};
+
+void main()
+{
+	vFragColor = g_color;
+}
+<<SHADER_ROUTINE_END>>

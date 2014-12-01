@@ -1,0 +1,25 @@
+// @file	/Renderer/Shaders/RenderingPipeline/math.code
+// @brief	Math functions library
+
+/**
+ * Returns a value <0 if there's no penetration, or a >0 if the point is located inside the Axis Aligned Box.
+ *
+ * @param pointWorldSpace
+ * @param aabbMin
+ * @param aabbMax
+ */
+float isInsideAAB( vec4 pointWorldSpace, vec4 aabbMin, vec4 aabbMax )
+{
+	vec4 boxCenter = ( aabbMin + aabbMax ) * 0.5;
+	vec4 pointLocalSpace = pointWorldSpace - boxCenter;
+
+	// carry out an early-out test based on the axis separation principle
+	vec4 absPoint = abs( pointLocalSpace );
+
+	vec4 halfSize = ( aabbMax - aabbMin ) * 0.5;
+	vec4 penetration = halfSize - absPoint; // halfSize > absPoint ==> >0; halfSize < absPoint ==> <0
+   
+	// sufficient that only one of the penetrations was <0 to find a separation axis and know that the point is located outside the box
+	float isInside = min( min( penetration.x, penetration.y ), penetration.z );
+	return isInside;	
+}

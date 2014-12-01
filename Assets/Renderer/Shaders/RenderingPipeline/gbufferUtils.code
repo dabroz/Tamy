@@ -1,0 +1,35 @@
+// @file	/Renderer/Shaders/RenderingPipeline/gbufferUtils.code
+// @brief	<put the description here>
+
+
+vec3 DecodeNormal(in vec2 texCoords) 
+{
+	vec3 result = texture( g_Normals, texCoords ).xyz * 2.0 - 1.0;
+	return normalize( result );
+}
+
+vec4 DecodeViewPosition( in vec2 texCoords, in float depth, in vec4 projParams )
+{ 
+	vec2 nDC = texCoords * 2.0f - 1.0f;
+    float decodedDepth = depth * 2.0f - 1.0f;
+    float viewDepth = projParams.w / (decodedDepth - projParams.z);
+
+    return vec4((nDC * viewDepth) / projParams.xy, viewDepth, 1);
+}
+
+float LinearizeDepth( in float sampledDepth, in vec4 projParams )
+{
+	float decodedDepth = sampledDepth * 2.0f - 1.0f;
+    float viewDepth = projParams.w / (decodedDepth - projParams.z);
+	
+	return viewDepth;
+}
+
+vec2 CalcTexCoords( in vec4 projectionPos )
+{
+	vec2 texCoords = projectionPos.xy / projectionPos.w;
+	texCoords.xy *= 0.5;
+	texCoords.xy += 0.5;
+	
+	return texCoords;
+}
