@@ -413,9 +413,6 @@
     <ClInclude Include="STIRoot.h">
       <Filter>ResourceEditors\StoryEditor\StoryNodes</Filter>
     </ClInclude>
-    <ClInclude Include="TamySceneWidgetUtils.h">
-      <Filter>Widgets\SceneRenderWidget</Filter>
-    </ClInclude>
     <ClInclude Include="GizmoOperation.h">
       <Filter>Widgets\SceneRenderWidget\Gizmo</Filter>
     </ClInclude>
@@ -496,9 +493,6 @@
     </ClInclude>
     <ClInclude Include="BehTreeWidgetItem.h">
       <Filter>ResourceEditors\BehaviorTreeEditor\BehaviorTreeViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="TamySceneWidgetInputManager.h">
-      <Filter>Widgets\SceneRenderWidget\InputManagement</Filter>
     </ClInclude>
     <ClInclude Include="SceneNodesTransformsCache.h">
       <Filter>Widgets\SceneRenderWidget</Filter>
@@ -1178,9 +1172,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Template\moc_StoryActorPropertyEditor.cpp">
       <Filter>QtImplementation\Generated Files\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="TamySceneWidgetUtils.cpp">
-      <Filter>Widgets\SceneRenderWidget</Filter>
     </ClCompile>
     <ClCompile Include="DebugMenuActions.cpp">
       <Filter>Widgets\SceneRenderWidget\DebugScene</Filter>
@@ -2070,6 +2061,9 @@
     <ClCompile Include="DRSpotLight.cpp">
       <Filter>DebugGeometry\core-Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TamySceneWidgetInputManager.cpp">
+      <Filter>QtImplementation\Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TypeDescFactory.inl">
@@ -2421,6 +2415,9 @@
     </CustomBuild>
     <CustomBuild Include="CubeTextureEditor.h">
       <Filter>ResourceEditors\TextureEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="TamySceneWidgetInputManager.h">
+      <Filter>Widgets\SceneRenderWidget\InputManagement</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

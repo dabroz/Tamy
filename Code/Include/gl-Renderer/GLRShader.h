@@ -66,9 +66,9 @@ public:
    /**
     * Returns an index the specified shader constant is bound to.
     *
-    * @param constantName
+    * @param constantId
     */
-   int getConstantIdx( const char* constantName ) const;
+   int getConstantIdx( const IDString& constantId ) const;
 
    // -------------------------------------------------------------------------
    // IRenderResourceStorage interface
@@ -80,10 +80,10 @@ public:
    // -------------------------------------------------------------------------
    // param setters
    // -------------------------------------------------------------------------
-   void setTexture( const char* paramName, uint textureID, const TextureSamplerSettings& samplerSettings );
-   void setCubeTexture( const char* paramName, uint textureID, const TextureSamplerSettings& samplerSettings );
-   void setDepthBuffer( const char* paramName, uint depthBufferId );
-   void setDataBuf( const char* paramName, const Array< byte >& dataBuf, uint bufferId );
+   void setTexture( const IDString& paramName, uint textureID, const TextureSamplerSettings& samplerSettings );
+   void setCubeTexture( const IDString& paramName, uint textureID, const TextureSamplerSettings& samplerSettings );
+   void setDepthBuffer( const IDString& paramName, uint depthBufferId );
+   void setDataBuf( const IDString& paramName, const Array< byte >& dataBuf, uint bufferId );
    void beginRendering();
 
 private:

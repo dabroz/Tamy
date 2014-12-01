@@ -54,6 +54,13 @@ public:
     */
    IDString( const IDString& rhs );
 
+   /**
+    * Assigns a different string.
+    *
+    * @param str
+    */
+   void set( const std::string& str );
+
    // -------------------------------------------------------------------------
    // Common operators
    // -------------------------------------------------------------------------

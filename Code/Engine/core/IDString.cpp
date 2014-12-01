@@ -33,6 +33,13 @@ IDString::IDString( const IDString& rhs )
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void IDString::set( const std::string& str )
+{
+   m_stringId = TSingleton< IDStringsPool >::getInstance().registerString( str.c_str() );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 bool IDString::operator==( const IDString& rhs ) const
 {
    return m_stringId == rhs.m_stringId;

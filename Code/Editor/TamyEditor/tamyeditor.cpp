@@ -244,6 +244,7 @@ void TamyEditor::updateMain()
 
    // dispatch events
    TSingleton< EventsDispatcher >::getInstance().dispatchEvents();
+
    // update the tools window
    if ( m_toolsWindow )
    {

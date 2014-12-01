@@ -30,7 +30,6 @@
 #include "Gizmo.h"
 #include "GizmoAxis.h"
 #include "GizmoOperation.h"
-#include "TamySceneWidgetUtils.h"
 #include "DebugMenuActions.h"
 #include "SceneNodesTransformsCache.h"
 
@@ -214,6 +213,9 @@ void TamySceneWidget::initialize()
    initializeSubsystems( m_renderWindow );
    initializeToolbar( m_toolbar );
    initializeRenderingPipeline();
+
+   // forward the events to the input controller
+   installEventFilter( m_userInputController );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -612,92 +614,6 @@ void TamySceneWidget::resizeEvent( QResizeEvent* event )
    uint h = m_renderWindow->height();
 
    m_renderer->resizeViewport( w, h );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void TamySceneWidget::keyPressEvent( QKeyEvent* event )
-{
-   m_userInputController->setKey( TamySceneWidgetUtils::toDXKey( event->key() ), true );
-
-   QFrame::keyPressEvent( event );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void TamySceneWidget::keyReleaseEvent(QKeyEvent* event )
-{
-   m_userInputController->setKey( TamySceneWidgetUtils::toDXKey( event->key() ), false );
-
-   QFrame::keyReleaseEvent( event );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void TamySceneWidget::mousePressEvent( QMouseEvent* event )
-{
-   switch( event->button() )
-   {
-   case Qt::LeftButton:
-      {
-         m_userInputController->setKey( VK_LBUTTON, true );
-         break;
-      }
-
-   case Qt::RightButton:
-      {
-         m_userInputController->setKey( VK_RBUTTON, true );
-         break;
-      }
-
-   case Qt::MidButton:
-      {
-         m_userInputController->setKey( VK_MBUTTON, true );
-         break;
-      }
-
-   case Qt::NoButton:   // fall through
-   default:
-      {
-         break;
-      }
-   }
-
-   QFrame::mousePressEvent( event );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void TamySceneWidget::mouseReleaseEvent( QMouseEvent* event )
-{
-   switch( event->button() )
-   {
-   case Qt::LeftButton:
-      {
-         m_userInputController->setKey( VK_LBUTTON, false );
-         break;
-      }
-
-   case Qt::RightButton:
-      {
-         m_userInputController->setKey( VK_RBUTTON, false );
-         break;
-      }
-
-   case Qt::MidButton:
-      {
-         m_userInputController->setKey( VK_MBUTTON, false );
-         break;
-      }
-
-   case Qt::NoButton:   // fall through
-   default:
-      {
-         break;
-      }
-   }
-
-   QFrame::mouseReleaseEvent( event );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

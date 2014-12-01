@@ -72,6 +72,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gl-Renderer", "Engine\gl-Re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ext-ProceduralAnimation", "Engine\ext-ProceduralAnimation\ext-ProceduralAnimation.vcxproj", "{92B75CF2-4375-4018-8AF0-97B3891BF64C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56A1B1A2-083F-4974-81F0-704FB991B338}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_GL|Win32 = Debug_GL|Win32

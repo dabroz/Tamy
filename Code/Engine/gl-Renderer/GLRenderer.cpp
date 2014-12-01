@@ -102,9 +102,6 @@ void GLRenderer::bindRenderingContext( Renderer& renderer )
    // Set the viewport size to fill the window  
    glViewport( 0, 0, width, height );
 
-   // Clear required buffers 
-   //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -116,9 +113,6 @@ void GLRenderer::unbindRenderingContext( Renderer& renderer )
    // The explanation and an associated TODO is described in GLRenderer.cpp : 135
    SwapBuffers( m_hdc );
 #endif
-
-   // unbind the rendering context
-   wglMakeCurrent( m_hdc, NULL );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -125,14 +125,14 @@ void GLRShader::bindVars()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int GLRShader::getConstantIdx( const char* constantName ) const
+int GLRShader::getConstantIdx( const IDString& constantId ) const
 {
    const Array< ShaderConstantDesc >& constants = m_shader->getConstants();
    const uint count = constants.size();
    for ( uint i = 0; i < count; ++i )
    {
       const ShaderConstantDesc& constant = constants[i];
-      if ( constant.m_name == constantName )
+      if ( constant.m_id == constantId )
       {
          return m_constantsLocations[i];
       }
@@ -149,7 +149,7 @@ static GLint g_filteringModesMap [] = { GL_NEAREST, GL_NEAREST, GL_LINEAR_MIPMAP
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void GLRShader::setTexture( const char* paramName, uint textureID, const TextureSamplerSettings& samplerSettings )
+void GLRShader::setTexture( const IDString& paramName, uint textureID, const TextureSamplerSettings& samplerSettings )
 {
    const int constantIdx = getConstantIdx( paramName );
    if ( constantIdx >= 0 )
@@ -169,7 +169,7 @@ void GLRShader::setTexture( const char* paramName, uint textureID, const Texture
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void GLRShader::setCubeTexture( const char* paramName, uint textureID, const TextureSamplerSettings& samplerSettings )
+void GLRShader::setCubeTexture( const IDString& paramName, uint textureID, const TextureSamplerSettings& samplerSettings )
 {
    const int constantIdx = getConstantIdx( paramName );
    if ( constantIdx >= 0 )
@@ -192,7 +192,7 @@ void GLRShader::setCubeTexture( const char* paramName, uint textureID, const Tex
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void GLRShader::setDepthBuffer( const char* paramName, uint depthBufferId )
+void GLRShader::setDepthBuffer( const IDString& paramName, uint depthBufferId )
 {
    const int constantIdx = getConstantIdx( paramName );
    if ( constantIdx >= 0 )
@@ -215,7 +215,7 @@ void GLRShader::setDepthBuffer( const char* paramName, uint depthBufferId )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void GLRShader::setDataBuf( const char* paramName, const Array< byte >& dataBuf, uint bufferId )
+void GLRShader::setDataBuf( const IDString& paramName, const Array< byte >& dataBuf, uint bufferId )
 {
    const int blockIdx = getConstantIdx( paramName );
    if ( blockIdx >= 0 )
@@ -264,7 +264,7 @@ void ShaderParamRenderTarget2D::setParam( Renderer& renderer, void* shaderPtr )
       uint textureID = renderTarget->getTexture( m_renderTextureIdx );
 
       GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-      glShader->setTexture( m_name.c_str(), textureID, m_samplerSettings );
+      glShader->setTexture( m_name, textureID, m_samplerSettings );
    }
 }
 
@@ -280,7 +280,7 @@ void ShaderParamDepthBuffer2D::setParam( Renderer& renderer, void* shaderPtr )
       uint depthBufferId = renderTarget->getDepthBuffer();
 
       GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-      glShader->setDepthBuffer( m_name.c_str(), depthBufferId );
+      glShader->setDepthBuffer( m_name, depthBufferId );
    }
 }
 
@@ -294,7 +294,7 @@ void ShaderParamRenderTargetCube::setParam( Renderer& renderer, void* shaderPtr 
    uint textureID = renderTarget->getTexture();
 
    GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-   glShader->setCubeTexture( m_name.c_str(), textureID, m_samplerSettings );
+   glShader->setCubeTexture( m_name, textureID, m_samplerSettings );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ void ShaderParamTexture::setParam( Renderer& renderer, void* shaderPtr )
    uint textureID = glRenderer->getTexture( m_val );
 
    GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-   glShader->setTexture( m_name.c_str(), textureID, m_samplerSettings );
+   glShader->setTexture( m_name, textureID, m_samplerSettings );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -316,7 +316,7 @@ void ShaderParamCubeTexture::setParam( Renderer& renderer, void* shaderPtr )
    uint textureID = glRenderer->getCubeTexture( m_val );
 
    GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-   glShader->setCubeTexture( m_name.c_str(), textureID, m_samplerSettings );
+   glShader->setCubeTexture( m_name, textureID, m_samplerSettings );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -327,7 +327,7 @@ void ShaderParamProceduralTexture::setParam( Renderer& renderer, void* shaderPtr
    uint textureID = glRenderer->getProceduralTexture( m_val );
 
    GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-   glShader->setTexture( m_name.c_str(), textureID, m_samplerSettings );
+   glShader->setTexture( m_name, textureID, m_samplerSettings );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -338,7 +338,7 @@ void ShaderParamDataBuf::setParam( Renderer& renderer, void* shaderPtr )
    uint bufferId = glRenderer->getShaderDataBuffer( m_dataBuf );
 
    GLRShader* glShader = reinterpret_cast< GLRShader* >( shaderPtr );
-   glShader->setDataBuf( m_name.c_str(), m_data, bufferId );
+   glShader->setDataBuf( m_name, m_data, bufferId );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -61,14 +61,14 @@ void ResourceUtils::getNonResourceDependencies( Filesystem& fs, const FilePath& 
    Array< byte > pattern;
    pattern.push_back( ( byte )'/' );
 
-   const int minPathLen = 4; // the path can constist at minimum of 4 characters - /a.b
+   const int minPathLen = 4; // the path can consists at minimum of 4 characters - /a.b
    const int maxPathLen = 255; // the path name can't be longer than 255 characters.
-   int startIdx = 0;
+   int startIdx = 4;
    char fileName[maxPathLen + 1];
    while ( true )
    {
       int idx = ArrayUtils::findStr( fileContentsBuf, pattern, startIdx );
-      if ( idx < 4 )
+      if ( idx < 0 )
       {
          break;
       }
@@ -91,7 +91,7 @@ void ResourceUtils::getNonResourceDependencies( Filesystem& fs, const FilePath& 
             }
          }
          
-         startIdx += effectiveStrLen;
+         startIdx = idx + effectiveStrLen;
       }
       else
       {

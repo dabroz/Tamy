@@ -2,6 +2,7 @@
 /// @brief  rendering widget input manager
 #pragma once
 
+#include <QtCore\QObject>
 #include "core\Point.h"
 #include "core-AppFlow\UserInputController.h"
 
@@ -16,9 +17,9 @@ class QWidget;
 /**
  * User input handling mechanism.
  */
-class TamySceneWidgetInputManager : public UserInputController
+class TamySceneWidgetInputManager : public QObject, public UserInputController
 {
-   DECLARE_ALLOCATOR( TamySceneWidgetInputManager, AM_DEFAULT );
+   Q_OBJECT
 
 private:
    QWidget*          m_renderWindow;
@@ -47,6 +48,8 @@ public:
     * Resets buffered input status.
     */
    void resetInput();
+
+   bool eventFilter( QObject *obj, QEvent *event ) override;
 
    /**
     * Using this utility method, an implementation should inform about a key
@@ -78,6 +81,8 @@ public:
 
 private:
    void checkMouseInput( Point& outMousePos );
+   void onMouseButton( Qt::MouseButton button, bool pressed );
+   static unsigned char toDXKey( int qtKeyCode );
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -4,6 +4,7 @@
 
 #include <string>
 #include "core\MemoryRouter.h"
+#include "core\IDString.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,6 +36,8 @@ struct ShaderConstantDesc
    Type              m_type;
    std::string       m_name;
 
+   IDString          m_id; // runtime
+
    /**
     * Default constructor.
     */
@@ -46,14 +49,14 @@ struct ShaderConstantDesc
     * @param type
     * @param name
     */
-   ShaderConstantDesc( Type type, const char* name ) : m_type( type ), m_name( name ) {}
+   ShaderConstantDesc( Type type, const char* name ) : m_type( type ), m_name( name ), m_id( m_name ) {}
 
    /**
     * Copy constructor.
     *
     * @param rhs
     */
-   ShaderConstantDesc( const ShaderConstantDesc& rhs ) : m_type( rhs.m_type ), m_name( rhs.m_name ) {}
+   ShaderConstantDesc( const ShaderConstantDesc& rhs ) : m_type( rhs.m_type ), m_name( rhs.m_name ), m_id( rhs.m_id ) {}
 
    // -------------------------------------------------------------------------
    // Operators

@@ -256,9 +256,15 @@ void RenderSystem::run()
       for ( uint i = 0; i < count; ++i )
       {
          RendererEntry* entry = m_renderers[i];
-         renderSingleFrame( entry );
+         if ( entry->m_renderThreadCommandsQueue->getCommandsCount() > 1 )
+         {
+            renderSingleFrame( entry );
+         }
       }
       m_renderingInProgress = false;
+
+      // yield the execution and let other threads do something for a change
+      Thread::yield();
    }
 }
 
