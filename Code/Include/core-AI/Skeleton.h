@@ -54,6 +54,16 @@ public:
    void addBone( const char* boneName, const Matrix& localMtx, int parentBoneIdx, float boneLength );
 
    /**
+    * Adds a new bone to the skeleton ( accomplishes the same thing as the method above, just with the use of a Transform ).
+    *
+    * @param boneName
+    * @param localTransform
+    * @param parentBoneIdx    >= 0 if the bone has a parent, -1 if its a root bone
+    * @param boneLength       length of the bone
+    */
+   void addBone( const char* boneName, const Transform& localTransform, int parentBoneIdx, float boneLength );
+
+   /**
     * Clears the skeleton of all data.
     */
    void clear();
@@ -75,19 +85,48 @@ public:
     */
    int getBoneIndex( const char* name ) const;
 
+   // -------------------------------------------------------------------------
+   // Pose management utilities
+   // -------------------------------------------------------------------------
    /**
-    * Calculates the model pose for this skeleton ( will resize the matrix to make room for all the transforms ).
+    * Calculates the model pose of this skeleton based on the specified local pose.
     *
-    * @param outPose
+    * @param inPoseLocalSpace
+    * @param outPoseModelSpace
     */
-   void calculateModelPose( Array< Transform >& outPose ) const;
+   void calculateLocalToModel( const Matrix* inPoseLocalSpace, Transform* outPoseModelSpace ) const;
 
    /**
-    * Calculates the model pose for this skeleton ( will resize the matrix to make room for all the transforms ).
+    * Calculates the model pose of this skeleton based on the specified local pose.    
     *
-    * @param outPose
+    * @param inPoseLocalSpace
+    * @param outPoseModelSpace
     */
-   void calculateModelPose( Array< Matrix >& outPose ) const;
+   void calculateLocalToModel( const Transform* inPoseLocalSpace, Transform* outPoseModelSpace ) const;
+
+   /**
+    * Calculates the local pose of this skeleton based on the specified model pose.    
+    *
+    * @param inPoseLocalSpace
+    * @param outPoseModelSpace
+    */
+   void calculateModelToLocal( const Transform* inPoseModelSpace, Transform* outPoseLocalSpace ) const;
+
+   /**
+    * Calculates the transform deviations of bones in the specified model space pose from the bind pose.
+    *
+    * @param inPoseModelSpace
+    * @param outDeviations
+    */
+   void calculateTransformDeviations( const Transform* inPoseModelSpace, Transform* outDeviations ) const;
+
+   /**
+    * Applies the bone transform deviations to the bind pose, producing a new pose in local space.
+    *
+    * @param inDeviations
+    * @param outPoseLocalSpace
+    */
+   void applyTransformDeviations( const Transform* inDeviations, Transform* outPoseLocalSpace ) const;
 
    // -------------------------------------------------------------------------
    // Resource implementation

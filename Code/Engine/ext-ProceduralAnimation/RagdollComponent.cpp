@@ -185,7 +185,7 @@ void RagdollComponent::onSiblingDetached( SceneNode* node )
       SkeletonComponent* skeletonComp = static_cast< SkeletonComponent* >( node );
 
       const SkeletonMapper* existingMapper = getSkeletonMapper( skeletonComp->m_skeleton );
-      if ( !existingMapper )
+      if ( existingMapper )
       {
          const uint idx = m_mappers.find( const_cast< SkeletonMapper* >( existingMapper ) );
          m_mappers.remove( idx );
@@ -245,7 +245,7 @@ void RagdollComponent::buildRagdoll()
    createJoints( m_bodyDescriptions );
 
    // initialize runtime structures
-   m_poseWorldSpace.resize( boneCount + 1, Matrix::IDENTITY );
+   m_poseWorldSpace.resize( boneCount + 1, Transform::IDENTITY );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -392,35 +392,35 @@ void RagdollComponent::createBodies( Array< BodyDesc >& bodyDescriptions, Physic
 
    // calculate the transformation matrices of the bones and the character
    const uint boneCount = m_ragdollSkeleton->getBoneCount();
-   Array< Matrix > modelPose( boneCount );
-   m_ragdollSkeleton->calculateModelPose( modelPose );
+   Array< Transform > modelPose( boneCount ); modelPose.resize( boneCount, Transform::IDENTITY );
+   m_ragdollSkeleton->calculateLocalToModel( m_ragdollSkeleton->m_boneLocalMatrices.getRaw(), modelPose.getRaw() );
 
-   const Matrix& modelToWorld = getGlobalMtx();
+   Transform modelToWorld;
+   modelToWorld.set( getGlobalMtx() );
 
    // create an aggregate
    const bool selfCollisions = true;
    m_aggregate = physicsCore->createAggregate( boneCount, selfCollisions );
 
-   Array< Matrix > bodyTransforms( boneCount + 1 );
-   bodyTransforms.resize( boneCount + 1, Matrix::IDENTITY );
+   Array< Transform > bodyTransforms( boneCount + 1 );
+   bodyTransforms.resize( boneCount + 1, Transform::IDENTITY );
    bodyTransforms[0] = modelToWorld;
 
    // instantiate bones
    const float mass = 1.0f;
    const float density = 1.0f;
-   Matrix bodyMtxModelSpace, bodyMtxWorldSpace, convertedTransform, bindPoseTransform;
+   Transform bodyModelSpace, bodyWorldSpace, bindPoseTransform;
    physx::PxTransform pxTransform;
    m_bodies.resize( boneCount, NULL );
    for ( uint i = 0; i < boneCount; ++i )
    {
       BodyDesc& bodyDescription = bodyDescriptions[i];
 
-      bodyDescription.m_transform.toMatrix( convertedTransform );
-      bodyMtxModelSpace.setMul( convertedTransform, modelPose[i] );
-      bodyMtxWorldSpace.setMul( bodyMtxModelSpace, modelToWorld );
-      PxMathConverter::convert( bodyMtxWorldSpace, pxTransform );
+      bodyModelSpace.setMul( bodyDescription.m_transform, modelPose[i] );
+      bodyWorldSpace.setMul( bodyModelSpace, modelToWorld );
+      PxMathConverter::convert( bodyWorldSpace, pxTransform );
 
-      bodyTransforms[i + 1] = bodyMtxWorldSpace;
+      bodyTransforms[i + 1] = bodyWorldSpace;
 
       physx::PxRigidDynamic* bone = physicsCore->createRigidDynamic( pxTransform );
       bone->setMass( mass );
@@ -442,7 +442,7 @@ void RagdollComponent::createBodies( Array< BodyDesc >& bodyDescriptions, Physic
    }
 
    // calculate the bind pose
-   Matrix invBodyTransform;
+   Transform invBodyTransform;
    for ( uint i = 0; i < boneCount; ++i )
    {
       int parentIdx = m_ragdollSkeleton->m_boneParentIndices[i];
@@ -603,7 +603,7 @@ void RagdollComponent::calcPoseLocalSpace( Array< Transform >& outTransforms ) c
    physx::PxSceneReadLock scopedLock( *m_physicsWorld->m_scene );
 
    // obtain the world space pose of the ragdoll
-   m_poseWorldSpace[0] = getGlobalMtx();
+   m_poseWorldSpace[0].set( getGlobalMtx() );
 
    const uint bodyCount = m_bodies.size();
    for ( uint i = 0; i < bodyCount; ++i )
@@ -614,7 +614,7 @@ void RagdollComponent::calcPoseLocalSpace( Array< Transform >& outTransforms ) c
 
    // calculate the local space pose
    // Transform parentBoneSpace, childBoneSpace;
-   Matrix a, b, c;
+   Transform a, b, c;
    for ( uint i = 0; i < bodyCount; ++i )
    {
       int parentTransformIdx = m_ragdollSkeleton->m_boneParentIndices[i];
@@ -624,7 +624,7 @@ void RagdollComponent::calcPoseLocalSpace( Array< Transform >& outTransforms ) c
 
       c.setMul( b, m_bodyDescriptions[i].m_bindPoseTransform );
 
-      outTransforms[i].set( c );
+      outTransforms[i] = c;
    }
 }
 

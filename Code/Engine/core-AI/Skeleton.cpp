@@ -60,6 +60,15 @@ void Skeleton::addBone( const char* boneName, const Matrix& localMtx, int parent
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void Skeleton::addBone( const char* boneName, const Transform& localTransform, int parentBoneIdx, float boneLength )
+{
+   Matrix boneLocalMtx;
+   localTransform.toMatrix( boneLocalMtx );
+   addBone( boneName, boneLocalMtx, parentBoneIdx, boneLength );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void Skeleton::clear()
 {
    m_bonesUpdateOrder.clear();
@@ -139,52 +148,20 @@ void Skeleton::sortBones()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void Skeleton::calculateModelPose( Array< Transform >& outPose ) const
-{
-   const uint bonesCount = m_boneLocalMatrices.size();
-   outPose.resize( bonesCount, Transform::IDENTITY );
-
-   Array< Matrix > pose( bonesCount );
-   calculateModelPose( pose );
-
-   for ( uint i = 0; i < bonesCount; ++i )
-   {
-      outPose[i].set( pose[i] );
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void Skeleton::calculateModelPose( Array< Matrix >& outPose ) const
-{
-   const uint bonesCount = m_boneLocalMatrices.size();
-   outPose.resize( bonesCount, Matrix::IDENTITY );
-
-   // calculate the model pose
-   for ( uint i = 0; i < bonesCount; ++i )
-   {
-      int orderedBoneIdx = m_bonesUpdateOrder[i];
-
-      int parentBoneIdx = m_boneParentIndices[orderedBoneIdx];
-      const Matrix& parentModelMtx = parentBoneIdx < 0 ? Matrix::IDENTITY : outPose[parentBoneIdx];
-
-      Matrix& modelMtx = outPose[orderedBoneIdx];
-      modelMtx.setMul( m_boneLocalMatrices[orderedBoneIdx], parentModelMtx );
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void Skeleton::calculateBindPose()
 {
    const uint bonesCount = m_boneLocalMatrices.size();
-   Array< Matrix > boneModelMtx( bonesCount );
-   calculateModelPose( boneModelMtx );
+   Array< Transform > boneModelMtx( bonesCount );
+   boneModelMtx.resize( bonesCount, Transform::IDENTITY );
+
+   calculateLocalToModel( m_boneLocalMatrices, boneModelMtx );
 
    // calculate the inverse of the model pose
+   Transform invTransform;
    for ( uint i = 0; i < bonesCount; ++i )
    {
-      m_boneInvBindPoseMtx[i].setInverse( boneModelMtx[i] );
+      invTransform.setInverse( boneModelMtx[i] );
+      invTransform.toMatrix( m_boneInvBindPoseMtx[i] );
    }
 }
 
@@ -201,6 +178,99 @@ int Skeleton::getBoneIndex( const char* name ) const
       }
    }
    return -1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::calculateLocalToModel( const Matrix* inPoseLocalSpace, Transform* outPoseModelSpace ) const
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+
+   Transform boneLocalTransf;
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      const int orderedBoneIdx = m_bonesUpdateOrder[i];
+
+      const int parentBoneIdx = m_boneParentIndices[orderedBoneIdx];
+      const Transform& parentBoneModelSpace = parentBoneIdx < 0 ? Transform::IDENTITY : outPoseModelSpace[parentBoneIdx];
+
+      Transform& boneModelSpace = outPoseModelSpace[orderedBoneIdx];
+      boneLocalTransf.set( inPoseLocalSpace[orderedBoneIdx] );
+      boneModelSpace.setMul( boneLocalTransf, parentBoneModelSpace );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::calculateLocalToModel( const Transform* inPoseLocalSpace, Transform* outPoseModelSpace ) const
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      const int orderedBoneIdx = m_bonesUpdateOrder[i];
+
+      const int parentBoneIdx = m_boneParentIndices[orderedBoneIdx];
+      const Transform& parentBoneModelSpace = parentBoneIdx < 0 ? Transform::IDENTITY : outPoseModelSpace[parentBoneIdx];
+
+      Transform& boneModelSpace = outPoseModelSpace[orderedBoneIdx];
+      boneModelSpace.setMul( inPoseLocalSpace[orderedBoneIdx], parentBoneModelSpace );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::calculateModelToLocal( const Transform* inPoseModelSpace, Transform* outPoseLocalSpace ) const
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      const int parentBoneIdx = m_boneParentIndices[i];
+      const Transform& parentBoneModelSpace = parentBoneIdx < 0 ? Transform::IDENTITY : inPoseModelSpace[parentBoneIdx];
+
+      Transform& boneLocalSpace = outPoseLocalSpace[i];
+      boneLocalSpace.setMulInverse( inPoseModelSpace[i], parentBoneModelSpace );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::calculateTransformDeviations( const Transform* inPoseModelSpace, Transform* outDeviations ) const
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+
+   Transform a, b;
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      const int parentBoneIdx = m_boneParentIndices[i];
+      if ( parentBoneIdx >= 0 )
+      {
+         a.setMulInverse( inPoseModelSpace[i], inPoseModelSpace[parentBoneIdx] );
+      }
+      else
+      {
+         a = inPoseModelSpace[i];
+      }
+
+      b.set( m_boneLocalMatrices[i] );      
+      outDeviations[i].setMulInverse( a, b );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Skeleton::applyTransformDeviations( const Transform* inDeviations, Transform* outPoseLocalSpace ) const
+{
+   const uint bonesCount = m_boneLocalMatrices.size();
+
+   Transform bindPoseTransform;
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      bindPoseTransform.set( m_boneLocalMatrices[i] );
+
+      outPoseLocalSpace[i].setMul( inDeviations[i], bindPoseTransform );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

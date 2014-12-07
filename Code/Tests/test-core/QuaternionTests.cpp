@@ -86,7 +86,7 @@ TEST( Quaternion, angleDecomposition )
          quat.decompose( Vector( Quad_1000 ), remainingQuat, angle );
          angle.mul( Float_Rad2Deg );
 
-         COMPARE_QUAT( remainingQuat, Quaternion::getIdentity() );
+         COMPARE_QUAT( remainingQuat, Quaternion::IDENTITY );
          CPPUNIT_ASSERT_DOUBLES_EQUAL( 90.0f, angle.getFloat(), 1e-3 );
       }
 
@@ -108,7 +108,7 @@ TEST( Quaternion, angleDecomposition )
          quat.decompose( Vector( Quad_Neg_1000 ), remainingQuat, angle );
          angle.mul( Float_Rad2Deg );
 
-         COMPARE_QUAT( remainingQuat, Quaternion::getIdentity() );
+         COMPARE_QUAT( remainingQuat, Quaternion::IDENTITY );
          CPPUNIT_ASSERT_DOUBLES_EQUAL( 45.0f, angle.getFloat(), 1e-3 );
       }
 

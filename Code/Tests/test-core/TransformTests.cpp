@@ -214,7 +214,7 @@ TEST( Transform, inversion )
    concatenatedTransformB.setMul( invTransform , transform );
 
    COMPARE_QUAT( concatenatedTransformA.m_rotation, concatenatedTransformB.m_rotation );
-   COMPARE_QUAT( Quaternion::getIdentity(), concatenatedTransformB.m_rotation );
+   COMPARE_QUAT( Quaternion::IDENTITY, concatenatedTransformB.m_rotation );
 
    COMPARE_VEC( concatenatedTransformA.m_translation, concatenatedTransformB.m_translation );
    COMPARE_VEC( Vector( Quad_0 ), concatenatedTransformB.m_translation );

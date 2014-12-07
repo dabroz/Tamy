@@ -68,6 +68,33 @@ ALIGN_16 struct Transform
     */
    Transform( const Vector& translation, const Quaternion& rotation );
 
+   /**
+    * Defines a transform using a quaternion( axis, angle ) and a translation vector.
+    *
+    * @param rotationAxis
+    * @param rotationAngle
+    * @param translation
+    */
+   void set( const Vector& rotationAxis, const FastFloat& rotationAngle, const Vector& translation );
+
+   /**
+    * Defines a transform using a quaternion( axis, angle ) and a translation vector.
+    *
+    * @param rotationAxis
+    * @param rotationAngle
+    * @param translation
+    */
+   void set( const Vector& rotationAxis, float rotationAngle, const Vector& translation );
+
+   /**
+    * Defines a transform using a quaternion( axis, angle ) and a translation vector.
+    *
+    * @param rotationAxis
+    * @param rotationAngle
+    * @param translation
+    */
+   void set( const Quaternion& rotation, const Vector& translation );
+
    // -------------------------------------------------------------------------
    // Operators
    // -------------------------------------------------------------------------

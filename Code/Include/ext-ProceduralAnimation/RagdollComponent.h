@@ -40,7 +40,7 @@ private:
       DECLARE_ALLOCATOR( BodyDesc, AM_DEFAULT );
 
       Transform      m_transform;
-      Matrix         m_bindPoseTransform;
+      Transform      m_bindPoseTransform;
       float          m_radius;
       float          m_length;
 
@@ -70,7 +70,7 @@ private:
    // they are local to that method ( the data the method puts in them becomes invalid once the method is over ).
    // We store them as class members, because we don't want to reallocate the matrices every time the method is called,
    // which is very often.
-   mutable Array< Matrix >                   m_poseWorldSpace;
+   mutable Array< Transform >                m_poseWorldSpace;
 
 public:
    /**

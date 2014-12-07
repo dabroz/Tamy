@@ -3,12 +3,13 @@
 #pragma once
 
 #include "core\ReflectionObject.h"
+#include "core\Array.h"
+#include "core\Transform.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 class Skeleton;
-struct Transform;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -20,6 +21,26 @@ enum BoneLookupMethod
 
 ///////////////////////////////////////////////////////////////////////////////
 
+struct BoneChain : public ReflectionObject
+{
+   DECLARE_ALLOCATOR( BoneChain, AM_DEFAULT );
+   DECLARE_STRUCT();
+
+   enum Type
+   {
+      OneToOne,
+      OneToMany,
+      ManyToOne,
+      ManyToMany,
+   };
+
+   Type                          m_type;
+   Array< uint >                 m_sourceBones;
+   Array< uint >                 m_targetBones;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
 class SkeletonMapper : public ReflectionObject
 {
    DECLARE_ALLOCATOR( SkeletonMapper, AM_DEFAULT );
@@ -27,12 +48,12 @@ class SkeletonMapper : public ReflectionObject
 
 public:
    // static
-   const Skeleton*      m_sourceSkeleton;
-   const Skeleton*      m_targetSkeleton;
+   const Skeleton*               m_sourceSkeleton;
+   const Skeleton*               m_targetSkeleton;
 
 private:
    // static
-   Array< uint >        m_mapping;
+   Array< BoneChain >             m_boneChains;
 
 public:
    /**
@@ -51,18 +72,24 @@ public:
    void defineMapping( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, BoneLookupMethod lookupMethod );
 
    /**
-    * Applies a pose of the source skeleton to the target skeleton.
+    * Calculates a pose the target skeleton should assume to look the same as the source.
     *
     * @param sourcePose
     * @param outTargetPose
     */
-   void setPoseLocalSpace( const Transform* sourcePose, Transform* outTargetPose ) const;
+   void calcPoseLocalSpace( const Transform* sourcePose, Transform* outTargetPose ) const;
 
 private:
    void defineIdentityMapping();
    void mapByDistance();
    void mapByName();
    void buildMappingTable( const Array< int >& sourceToTargetMapping, uint mappedBonesCount );
+   
+   typedef void( SkeletonMapper::*MappingFunc )( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const;
+   void mapOneToOne( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const;
+   void mapOneToMany( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const;
+   void mapManyToOne( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const;
+   void mapManyToMany( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

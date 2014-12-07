@@ -1,5 +1,7 @@
 #pragma once
 
+#include "core\Quaternion.h"
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -99,5 +101,11 @@
       }                                                                       \
    }                                                                          \
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+#define COMPARE_TRANSFORM(rhs, lhs)                                           \
+   COMPARE_VEC( rhs.m_translation, lhs.m_translation );                       \
+   COMPARE_QUAT( rhs.m_rotation, lhs.m_rotation );
 
 ///////////////////////////////////////////////////////////////////////////////

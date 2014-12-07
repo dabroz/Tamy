@@ -85,7 +85,7 @@ void BlendTreeRagdollAnimation::onSamplePose( BlendTreePlayer* player, float tim
    Array< Transform >& bodyTransforms = ragdollListener->m_bodyTransformsLocalSpace;
    ragdollComp->calcPoseLocalSpace( bodyTransforms );
 
-   mapper->setPoseLocalSpace( bodyTransforms.getRaw(), outGeneratedPose );
+   mapper->calcPoseLocalSpace( bodyTransforms.getRaw(), outGeneratedPose );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

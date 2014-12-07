@@ -25,6 +25,8 @@ ALIGN_16 struct Quaternion
 {
    DECLARE_ALLOCATOR( Quaternion, AM_ALIGNED_16 );
 
+   static Quaternion IDENTITY;
+
    QuadStorage    m_quad;
 
    /**
@@ -45,11 +47,6 @@ ALIGN_16 struct Quaternion
     * @param quad
     */
    inline Quaternion( const QuadStorage& quad );
-
-   /**
-    * Returns an identity quaternion.
-    */
-   static const Quaternion& getIdentity();
 
    /**
     * Sets an identity quaternion.
@@ -151,6 +148,15 @@ ALIGN_16 struct Quaternion
     * @param angle      expressed in RADIANS
     */
    inline void setAxisAngle( const Vector& axis, const FastFloat& angle );
+
+   /**
+   * Creates a quaternion from an axis and an angle.
+   * The axis vector NEEDS TO BE NORMALIZED
+   *
+   * @param axis
+   * @param angle      expressed in RADIANS
+   */
+   void setAxisAngle( const Vector& axis, float angle );
 
    /**
     * Creates a quaternion that describes the shortest rotation that would

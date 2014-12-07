@@ -42,6 +42,30 @@ Transform::Transform( const Vector& translation, const Quaternion& rotation )
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void Transform::set( const Vector& rotationAxis, const FastFloat& rotationAngle, const Vector& translation )
+{
+   m_translation = translation;
+   m_rotation.setAxisAngle( rotationAxis, rotationAngle );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Transform::set( const Vector& rotationAxis, float rotationAngle, const Vector& translation )
+{
+   m_translation = translation;
+   m_rotation.setAxisAngle( rotationAxis, rotationAngle );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void Transform::set( const Quaternion& rotation, const Vector& translation )
+{
+   m_translation = translation;
+   m_rotation = rotation;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 Transform& Transform::operator=( const Transform& rhs )
 {
    m_translation = rhs.m_translation;

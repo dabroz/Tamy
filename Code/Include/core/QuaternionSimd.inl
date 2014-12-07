@@ -12,7 +12,7 @@
 
 Quaternion::Quaternion()
 {
-   m_quad = Quad_0001;
+   SimdUtils::toSimd( 0.0f, 0.0f, 0.0f, 1.0f, &m_quad );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ Quaternion::Quaternion( const QuadStorage& quad )
 
 void Quaternion::setIdentity()
 {
-   m_quad = Quad_0001;
+   SimdUtils::toSimd( 0.0f, 0.0f, 0.0f, 1.0f, &m_quad );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

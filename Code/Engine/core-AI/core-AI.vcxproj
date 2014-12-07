@@ -131,6 +131,7 @@
     <ClInclude Include="..\..\Include\core-AI\SkeletonAnimationPlayer.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonComponent.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonMapper.h" />
+    <ClInclude Include="..\..\Include\core-AI\SkeletonPoseTool.h" />
     <ClInclude Include="..\..\Include\core-AI\SnapshotAnimation.h" />
     <ClInclude Include="..\..\Include\core-AI\EntityAnimationPlayer.h" />
     <ClInclude Include="..\..\Include\core-AI.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="SkeletonAnimationPlayer.cpp" />
     <ClCompile Include="SkeletonComponent.cpp" />
     <ClCompile Include="SkeletonMapper.cpp" />
+    <ClCompile Include="SkeletonPoseTool.cpp" />
     <ClCompile Include="SnapshotAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
