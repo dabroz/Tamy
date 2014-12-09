@@ -344,55 +344,57 @@ TEST( SkeletonMapper, differentBoneOrder )
 {
    // the order of bones: boneA -> boneB
    Skeleton skeletonA;
+   SkeletonPoseTool poseA( skeletonA );
    {
-      Transform boneTransform;
-      boneTransform.set( Quaternion::IDENTITY, Vector_ZERO );
-      skeletonA.addBone( "boneA", boneTransform, -1, 1.0f );
-
-      boneTransform.set( Quaternion::IDENTITY, Vector( 0.0f, 1.0f, 0.0f ) );
-      skeletonA.addBone( "boneB", boneTransform, 0, 1.0f );
-
-      skeletonA.buildSkeleton();
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .buildSkeleton();
    }
 
    // the order of bones: boneB -> boneA
    Skeleton skeletonB;
+   SkeletonPoseTool poseB( skeletonB );
    {
-      Transform boneTransform;
-      boneTransform.set( Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 1.0f, 0.0f ) ); // the bone is rotated, pointing down in model space towards where boneA of skeletonA would be located
-      skeletonB.addBone( "boneB", boneTransform, -1, 1.0f );
-
-      boneTransform.set( Quaternion::IDENTITY, Vector( 0.0f, 1.0f, 0.0f ) );
-      skeletonB.addBone( "boneA", boneTransform, 0, 1.0f );
-
-      skeletonB.buildSkeleton();
+      poseB.startSkeleton( "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .bone( "boneA", "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector_ZERO )
+         .buildSkeleton();
    }
-
 
    SkeletonMapper mapper;
    mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
 
-   SkeletonPoseTool poseA( skeletonA );
-   SkeletonPoseTool poseB( skeletonB );
-
    // case 1
    {
       // skeletonA: rotate boneB bone 90 deg OX, leaving boneA unchanged
-      poseA.start()
-         .rotate( "boneB", Vector_OX, DEG2RAD( 90.0f ) )
-      .end();
-
-
+      poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( -90.0f ) ).end();
       mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // check pose A
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
 
       // skeletonB: in this case the skeleton is connected the other way around, and, in addition, the root
       // bone is oriented in the opposite direction.
       // So what we should see is that:
       //   - skeletonB:boneB should rotate 90 deg OX in model space in response to skeletonA:boneB's rotation
       //   - skeletonB:boneA should rotate -90 deg OX in order to preserve its model space orientation, just because skeletonA:boneA bone hasn't change its
-      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+   }
 
+   // case 2
+   {
+      // skeletonA: rotate boneA bone 90 deg OX, leaving boneA unchanged
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // check pose A
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+
+      // check pose B
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
    }
 }
 

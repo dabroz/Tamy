@@ -53,7 +53,10 @@ public:
 
 private:
    // static
-   Array< BoneChain >             m_boneChains;
+   Array< BoneChain >            m_boneChains;
+
+   mutable Array< Transform >    m_sourcePoseModelSpace;
+   mutable Array< Transform >    m_targetPoseModelSpace;
 
 public:
    /**

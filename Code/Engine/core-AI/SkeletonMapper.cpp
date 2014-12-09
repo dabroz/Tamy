@@ -275,29 +275,58 @@ void SkeletonMapper::buildMappingTable( const Array< int >& sourceToTargetMappin
       }
    }
 
+   // allocate temporary data arrays
+   m_sourcePoseModelSpace.resize( m_sourceSkeleton->getBoneCount(), Transform::IDENTITY );
+   m_targetPoseModelSpace.resize( m_targetSkeleton->getBoneCount(), Transform::IDENTITY );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void SkeletonMapper::calcPoseLocalSpace( const Transform* sourcePoseLocalSpace, Transform* outTargetPoseLocalSpace ) const
 {
-   static SkeletonMapper::MappingFunc mappingFuncs[4] = {
-      &SkeletonMapper::mapOneToOne,
-      &SkeletonMapper::mapOneToMany,
-      &SkeletonMapper::mapManyToOne,
-      &SkeletonMapper::mapManyToMany
-   };
-
-   Transform sourceTransform;
+   m_sourceSkeleton->calculateLocalToModel( sourcePoseLocalSpace, m_sourcePoseModelSpace.getRaw() );
 
    const uint chainsCount = m_boneChains.size();
    for ( uint i = 0; i < chainsCount; ++i )
    {
       const BoneChain& chain = m_boneChains[i];
 
-      SkeletonMapper::MappingFunc mappingFunc = mappingFuncs[chain.m_type];
-      (this->*mappingFunc)( chain, sourcePoseLocalSpace, outTargetPoseLocalSpace );      
+      const uint sourceBoneIdx = chain.m_sourceBones[0];
+      const uint targetBoneIdx = chain.m_targetBones[0];
+      m_targetPoseModelSpace[targetBoneIdx] = m_sourcePoseModelSpace[sourceBoneIdx];
    }
+
+   // calculate the new model transforms for the non-moving bones in the target skeleton
+   Transform u;
+   Transform* t;
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      const BoneChain& chain = m_boneChains[i];
+      if ( chain.m_targetBones.size() == 1 )
+      {
+         continue;
+      }
+
+      const uint firstBoneInChain = chain.m_targetBones.back();
+      const int parentBoneIdx = m_targetSkeleton->m_boneParentIndices[firstBoneInChain];
+      if ( parentBoneIdx < 0 )
+      {
+         continue;
+      }
+
+      uint chainBonesCount = chain.m_targetBones.size();
+      t = &m_targetPoseModelSpace[parentBoneIdx];
+      for ( int j = chainBonesCount - 1; j >= 1; --j )
+      {
+         const uint bIdx = chain.m_targetBones[j];
+         u.set( m_targetSkeleton->m_boneLocalMatrices[bIdx] );
+
+         m_targetPoseModelSpace[bIdx].setMul( u, *t );
+         t = &m_targetPoseModelSpace[bIdx];
+      }
+   }
+
+   m_targetSkeleton->calculateModelToLocal( m_targetPoseModelSpace.getRaw(), outTargetPoseLocalSpace );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
