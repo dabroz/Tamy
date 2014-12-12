@@ -5,17 +5,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-BEGIN_OBJECT( BoneChain );
-   PARENT( ReflectionObject );
-END_OBJECT();
-
-///////////////////////////////////////////////////////////////////////////////
-
 BEGIN_OBJECT( SkeletonMapper );
    PARENT( ReflectionObject );
-   PROPERTY( Skeleton*, m_sourceSkeleton );
-   PROPERTY( Skeleton*, m_targetSkeleton );
-   PROPERTY( Array< BoneChain >, m_boneChains );
+
 END_OBJECT();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,6 +23,8 @@ SkeletonMapper::SkeletonMapper()
    : m_sourceSkeleton( NULL )
    , m_targetSkeleton( NULL )
 {
+   m_sourceChainSkeleton = new Skeleton();
+   m_targetChainSkeleton = new Skeleton();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -39,377 +33,336 @@ SkeletonMapper::~SkeletonMapper()
 {
    m_sourceSkeleton = NULL;
    m_targetSkeleton = NULL;
+
+   delete m_sourceChainSkeleton;
+   m_sourceChainSkeleton = NULL;
+
+   delete m_targetChainSkeleton;
+   m_targetChainSkeleton = NULL;
+
+   uint chainsCount = m_sourceChains.size();
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      delete m_sourceChains[i];
+   }
+
+   chainsCount = m_targetChains.size();
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      delete m_targetChains[i];
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::defineMapping( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, BoneLookupMethod lookupMethod )
+SkeletonMapper& SkeletonMapper::defineMapping( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton )
 {
-   if ( m_sourceSkeleton == sourceSkeleton && m_targetSkeleton == targetSkeleton )
-   {
-      // nothing changes
-      return;
-   }
-   
    // clear the old mapping
    m_sourceSkeleton = sourceSkeleton;
    m_targetSkeleton = targetSkeleton;
-   m_boneChains.clear();
+   m_sourceChainSkeleton->clear();
+   m_targetChainSkeleton->clear();
 
-   if ( !m_sourceSkeleton || !m_targetSkeleton )
-   {
-      // we require two skeletons to define a mapping
-      return;
-   }
-
-   if ( m_sourceSkeleton == m_targetSkeleton )
-   {
-      defineIdentityMapping();
-   }
-   else
-   {
-      switch ( lookupMethod )
-      {
-         case Lookup_ByDistance:
-         {
-            mapByDistance();
-            break;
-         }
-
-         case Lookup_ByName:
-         {
-            mapByName();
-            break;
-         }
-      }
-   }
+   return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::defineIdentityMapping()
+SkeletonMapper& SkeletonMapper::mapBone( const char* sourceBone, const char* targetBone )
 {
-   const uint bonesCount = m_sourceSkeleton->getBoneCount();
-   Array<int> tmpMapping( bonesCount );
-   tmpMapping.resize( bonesCount, -1 );
-   for ( uint i = 0; i < bonesCount; ++i )
-   {
-      tmpMapping[i] = i;
-   }
+   char sourceChainName[128];
+   sprintf_s( sourceChainName, "__bone_%d", m_sourceChains.size() );
+   addSourceChain( sourceChainName, sourceBone, sourceBone );
 
-   buildMappingTable( tmpMapping, bonesCount );
+   char targetChainName[128];
+   sprintf_s( targetChainName, "__bone_%d", m_targetChains.size() );
+   addTargetChain( targetChainName, targetBone, targetBone );
+
+   mapChain( sourceChainName, targetChainName );
+
+   return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::mapByDistance()
+SkeletonMapper& SkeletonMapper::addSourceChain( const char* chainName, const char* firstBoneName, const char* lastBoneName )
 {
-   const uint sourceBonesCount = m_sourceSkeleton->getBoneCount();
-   const uint targetBonesCount = m_targetSkeleton->getBoneCount();
+   const int firstBoneIdx = m_sourceSkeleton->getBoneIndex( firstBoneName );
+   const int lastBoneIdx = m_sourceSkeleton->getBoneIndex( lastBoneName );
 
-   Array<int> tmpMapping( sourceBonesCount );
-   tmpMapping.resize( sourceBonesCount, -1 );
-
-   Array< Transform > sourceModelPose( sourceBonesCount ); sourceModelPose.resize( sourceBonesCount, Transform::IDENTITY );
-   Array< Transform > targetModelPose( targetBonesCount ); targetModelPose.resize( targetBonesCount, Transform::IDENTITY );
-   m_sourceSkeleton->calculateLocalToModel( m_sourceSkeleton->m_boneLocalMatrices.getRaw(), sourceModelPose.getRaw() );
-   m_targetSkeleton->calculateLocalToModel( m_sourceSkeleton->m_boneLocalMatrices.getRaw(), targetModelPose.getRaw() );
-
-   Array< bool > boneMapped( targetBonesCount );
-   boneMapped.resize( targetBonesCount, false );
-
-   int bestMatchIdx;
-   Vector tmpDispl, sDir, tDir;
-   FastFloat distSq, bestWeight;
-
-   uint mappedBonesCount = 0;
-   for ( uint sourceBoneIdx = 0; sourceBoneIdx < sourceBonesCount; ++sourceBoneIdx )
+   if ( firstBoneIdx >= 0 && lastBoneIdx >= 0 )
    {
-      const Transform& sourceTransform = sourceModelPose[sourceBoneIdx];
+      SkeletonBoneChain* chain = new SkeletonBoneChain( m_sourceSkeleton, firstBoneIdx, lastBoneIdx );
+      m_sourceChains.push_back( chain );
 
-      bestWeight = Float_1;
-      bestMatchIdx = -1;
-      for ( uint targetBoneIdx = 0; targetBoneIdx < targetBonesCount; ++targetBoneIdx )
-      {
-         if ( boneMapped[targetBoneIdx] )
-         {
-            continue;
-         }
-
-         const Transform& targetTransform = targetModelPose[targetBoneIdx];
-         tmpDispl.setSub( sourceTransform.m_translation, targetTransform.m_translation );
-         distSq = tmpDispl.lengthSq();
-
-         if ( distSq < bestWeight )
-         {
-            bestMatchIdx = targetBoneIdx;
-            bestWeight = distSq;
-         }
-      }
-
-      if ( bestMatchIdx >= 0 )
-      {
-         boneMapped[bestMatchIdx] = true;
-         tmpMapping[sourceBoneIdx] = bestMatchIdx;
-         ++mappedBonesCount;
-      }
-      else
-      {
-         // couldn't find a match for this bone
-      }
+      m_sourceChainSkeleton->addBone( chainName, Transform::IDENTITY, -1, 1 );
    }
 
-   buildMappingTable( tmpMapping, mappedBonesCount );
+   return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::mapByName()
+SkeletonMapper& SkeletonMapper::addTargetChain( const char* chainName, const char* firstBoneName, const char* lastBoneName )
 {
-   const uint sourceBonesCount = m_sourceSkeleton->getBoneCount();
-   const uint targetBonesCount = m_targetSkeleton->getBoneCount();
+   const int firstBoneIdx = m_targetSkeleton->getBoneIndex( firstBoneName );
+   const int lastBoneIdx = m_targetSkeleton->getBoneIndex( lastBoneName );
 
-   Array<int> tmpMapping( sourceBonesCount );
-   tmpMapping.resize( sourceBonesCount, -1 );
-
-   Array< bool > boneMapped( targetBonesCount );
-   boneMapped.resize( targetBonesCount, false );
-
-   uint mappedBonesCount = 0;
-   for ( uint sourceBoneIdx = 0; sourceBoneIdx < sourceBonesCount; ++sourceBoneIdx )
+   if ( firstBoneIdx >= 0 && lastBoneIdx >= 0 )
    {
-      const std::string& sourceName = m_sourceSkeleton->m_boneNames[sourceBoneIdx];
+      SkeletonBoneChain* chain = new SkeletonBoneChain( m_targetSkeleton, firstBoneIdx, lastBoneIdx );
+      m_targetChains.push_back( chain );
 
-      for ( uint targetBoneIdx = 0; targetBoneIdx < targetBonesCount; ++targetBoneIdx )
-      {
-         if ( boneMapped[targetBoneIdx] )
-         {
-            continue;
-         }
-
-         const std::string& targetName = m_targetSkeleton->m_boneNames[targetBoneIdx];
-         if ( sourceName == targetName )
-         {
-            // found a mapping
-            boneMapped[targetBoneIdx] = true;
-            tmpMapping[sourceBoneIdx] = targetBoneIdx;
-            ++mappedBonesCount;
-            break;
-         }
-      }
+      m_targetChainSkeleton->addBone( chainName, Transform::IDENTITY, -1, 1 );
    }
 
-   buildMappingTable( tmpMapping, mappedBonesCount );
+   return *this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::buildMappingTable( const Array< int >& sourceToTargetMapping, uint mappedBonesCount )
+SkeletonMapper& SkeletonMapper::mapChain( const char* sourceChainName, const char* targetChainName )
 {
-   const uint targetSkeletonBoneCount = m_targetSkeleton->getBoneCount();
-   Array< bool > mappedTargetBones( targetSkeletonBoneCount );
-   mappedTargetBones.resize( targetSkeletonBoneCount, false );
-
-   const uint sourceBonesCount = sourceToTargetMapping.size();
-   for ( uint i = 0; i < sourceBonesCount; ++i )
+   const int sourceChainIdx = getChainIdx( m_sourceChainSkeleton, sourceChainName );
+   const int targetChainIdx = getChainIdx( m_targetChainSkeleton, targetChainName );
+   if ( sourceChainIdx < 0 || targetChainIdx < 0 )
    {
-      const int targetBoneIdx = sourceToTargetMapping[i];
-      if ( targetBoneIdx >= 0 )
+      return *this;
+   }
+
+   if ( targetChainIdx >= (int)m_chainMappings.size() )
+   {
+      m_chainMappings.resize( targetChainIdx + 1, -1 );
+   }
+   
+   m_chainMappings[targetChainIdx] = sourceChainIdx;
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+int SkeletonMapper::getChainIdx( const Skeleton* chainSkeleton, const char* chainName ) const
+{
+   const int count = chainSkeleton->getBoneCount();
+   for ( int i = 0; i < count; ++i )
+   {
+      if ( chainSkeleton->m_boneNames[i] == chainName )
       {
-         mappedTargetBones[targetBoneIdx] = true;
+         return i;
       }
    }
 
-   // copy the mapped values to the actual mapping array, skipping all unmapped bones
-   m_boneChains.resize( mappedBonesCount, BoneChain() );
-   uint mappingIdx = 0;
-   for ( uint i = 0; i < sourceBonesCount; ++i )
+   return -1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+int SkeletonMapper::findChainByBone( const Array< SkeletonBoneChain* >& chainsCollection, uint baseSkeletonBoneIdx ) const
+{
+   const int chainsCount = chainsCollection.size();
+   for ( int chainIdx = 0; chainIdx < chainsCount; ++chainIdx )
    {
-      const int targetBoneIdx = sourceToTargetMapping[i];
-      if ( targetBoneIdx < 0 )
+      SkeletonBoneChain* chain = chainsCollection[chainIdx];
+      if ( chain->m_firstBoneIdx == baseSkeletonBoneIdx )
+      {
+         return chainIdx;
+      }
+
+      for ( int boneIdx = chain->m_lastBoneIdx; boneIdx != chain->m_firstBoneIdx; boneIdx = chain->m_skeleton->m_boneParentIndices[boneIdx] )
+      {
+         if ( boneIdx == baseSkeletonBoneIdx )
+         {
+            return chainIdx;
+         }
+      }
+   }
+
+   return -1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapper::buildChain( const Skeleton* baseSkeleton, const Array< SkeletonBoneChain* >& chainBones, Skeleton* outChainSkeleton ) const
+{
+   Array< Transform > baseModelPose( baseSkeleton->getBoneCount() );
+   baseModelPose.resize( baseSkeleton->getBoneCount(), Transform::IDENTITY );
+   baseSkeleton->calculateLocalToModel( baseSkeleton->m_boneLocalMatrices.getRaw(), baseModelPose.getRaw() );
+  
+   // setup the hierarchy and the model space pose, which we'll later on use to calculate the local space transforms
+   // for the bones
+   const uint chainBonesCount = chainBones.size();
+   Array< Transform > chainModelPose( chainBonesCount );
+   chainModelPose.resize( chainBonesCount, Transform::IDENTITY );
+
+   for ( uint i = 0; i < chainBonesCount; ++i )
+   {
+      const SkeletonBoneChain* chain = chainBones[i];
+      const int parentBoneIdx = m_sourceSkeleton->m_boneParentIndices[chain->m_firstBoneIdx];
+      if ( parentBoneIdx >= 0 )
+      {
+         outChainSkeleton->m_boneParentIndices[i] = findChainByBone( chainBones, parentBoneIdx );
+      }
+
+      chainModelPose[i] = baseModelPose[chain->m_firstBoneIdx];
+   }
+
+   // calculate the local pose of the chain skeleton 
+   Array< Transform > chainLocalPose( chainBonesCount );
+   chainLocalPose.resize( chainBonesCount, Transform::IDENTITY );
+   outChainSkeleton->calculateModelToLocal( chainModelPose.getRaw(), chainLocalPose.getRaw() );
+
+   for ( uint i = 0; i < chainBonesCount; ++i )
+   {
+      chainLocalPose[i].toMatrix( outChainSkeleton->m_boneLocalMatrices[i] );
+   }
+
+   // build the skeleton
+   outChainSkeleton->buildSkeleton();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapper::buildMapper()
+{
+   buildChain( m_sourceSkeleton, m_sourceChains, m_sourceChainSkeleton );
+   buildChain( m_targetSkeleton, m_targetChains, m_targetChainSkeleton );
+
+   const uint sourceChainsCount = m_sourceChainSkeleton->getBoneCount();
+   const uint targetChainsCount = m_targetChainSkeleton->getBoneCount();
+   
+   const uint requiredChainMappingsCount = targetChainsCount;
+   m_chainMappings.resize( requiredChainMappingsCount, -1 );
+
+   m_tmpSourceBasePose.resize( m_sourceSkeleton->getBoneCount(), Transform::IDENTITY );
+   m_tmpSourceChainPose.resize( sourceChainsCount, Transform::IDENTITY );
+   m_tmpTargetChainPose.resize( targetChainsCount, Transform::IDENTITY );
+   m_tmpTargetBasePose.resize( m_targetSkeleton->getBoneCount(), Transform::IDENTITY );
+
+   // allocate and calculate the transition matrices between the two chain skeletons
+   m_targetBindPose.resize( targetChainsCount, Transform::IDENTITY );
+   m_targetToSource.resize( targetChainsCount, Transform::IDENTITY );
+   m_sourceToTarget.resize( targetChainsCount, Transform::IDENTITY );
+
+   m_sourceChainSkeleton->calculateLocalToModel( m_sourceChainSkeleton->m_boneLocalMatrices.getRaw(), m_tmpSourceChainPose.getRaw() );
+   m_targetChainSkeleton->calculateLocalToModel( m_targetChainSkeleton->m_boneLocalMatrices.getRaw(), m_targetBindPose.getRaw() );
+
+   for ( uint targetChainIdx = 0; targetChainIdx< targetChainsCount; ++targetChainIdx )
+   {
+      const int sourceChainIdx = m_chainMappings[targetChainIdx];
+      if ( sourceChainIdx < 0 )
       {
          continue;
       }
 
-      BoneChain& chain = m_boneChains[mappingIdx];
-      ++mappingIdx;
-
-      // build the source chain
-      chain.m_sourceBones.push_back( i );
-      int parentBoneIdx = m_sourceSkeleton->m_boneParentIndices[i];
-      while ( parentBoneIdx >= 0 && sourceToTargetMapping[parentBoneIdx] < 0 ) // keep on mapping until there are parents that are not mapped to any bone
-      {
-         chain.m_sourceBones.push_back( parentBoneIdx );
-         parentBoneIdx = m_sourceSkeleton->m_boneParentIndices[parentBoneIdx];
-      }
-
-      // build the target chain
-      chain.m_targetBones.push_back( targetBoneIdx );
-      parentBoneIdx = m_targetSkeleton->m_boneParentIndices[targetBoneIdx];
-      while ( parentBoneIdx >= 0 && !mappedTargetBones[parentBoneIdx] ) // keep on mapping until there are parents that are not mapped to any bone
-      {     
-         chain.m_targetBones.push_back( parentBoneIdx );
-         parentBoneIdx = m_targetSkeleton->m_boneParentIndices[parentBoneIdx];
-      }
-
-      // define the chain type
-      if ( chain.m_sourceBones.size() > 1 && chain.m_targetBones.size() > 1 )
-      {
-         chain.m_type = BoneChain::ManyToMany;
-      }
-      else if ( chain.m_sourceBones.size() > 1 && chain.m_targetBones.size() == 1 )
-      {
-         chain.m_type = BoneChain::ManyToOne;
-      }
-      else if ( chain.m_sourceBones.size() == 1 && chain.m_targetBones.size() > 1 )
-      {
-         chain.m_type = BoneChain::OneToMany;
-      }
-      else if ( chain.m_sourceBones.size() == 1 && chain.m_targetBones.size() == 1 )
-      {
-         chain.m_type = BoneChain::OneToOne;
-      }
-      else
-      {
-         ASSERT_MSG( false, "Invalid bone chain" );
-      }
+      m_targetToSource[targetChainIdx].setMulInverse( m_targetBindPose[targetChainIdx], m_tmpSourceChainPose[sourceChainIdx] );
+      m_sourceToTarget[targetChainIdx].setMulInverse( m_tmpSourceChainPose[sourceChainIdx], m_targetBindPose[targetChainIdx] );
    }
-
-   // allocate temporary data arrays
-   m_sourcePoseModelSpace.resize( m_sourceSkeleton->getBoneCount(), Transform::IDENTITY );
-   m_targetPoseModelSpace.resize( m_targetSkeleton->getBoneCount(), Transform::IDENTITY );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void SkeletonMapper::calcPoseLocalSpace( const Transform* sourcePoseLocalSpace, Transform* outTargetPoseLocalSpace ) const
 {
-   m_sourceSkeleton->calculateLocalToModel( sourcePoseLocalSpace, m_sourcePoseModelSpace.getRaw() );
-
-   const uint chainsCount = m_boneChains.size();
-   for ( uint i = 0; i < chainsCount; ++i )
+   ASSERT_MSG( m_sourceSkeleton->getBoneCount() > 0, "It's likely you forgot to call 'buildMapper'" );
+   ASSERT_MSG( m_targetSkeleton->getBoneCount() > 0, "It's likely you forgot to call 'buildMapper'" );
+   
+   // calculate the model pose of the base skeleton and apply it to the source chain skeleton
+   m_sourceSkeleton->calculateLocalToModel( sourcePoseLocalSpace, m_tmpSourceBasePose.getRaw() );
+   const uint sourceChainsCount = m_sourceChains.size();
+   for ( uint i = 0; i < sourceChainsCount; ++i )
    {
-      const BoneChain& chain = m_boneChains[i];
-
-      const uint sourceBoneIdx = chain.m_sourceBones[0];
-      const uint targetBoneIdx = chain.m_targetBones[0];
-      m_targetPoseModelSpace[targetBoneIdx] = m_sourcePoseModelSpace[sourceBoneIdx];
+      SkeletonBoneChain* chain = m_sourceChains[i];
+      m_tmpSourceChainPose[i] = m_tmpSourceBasePose[chain->m_firstBoneIdx];
    }
 
-   // calculate the new model transforms for the non-moving bones in the target skeleton
-   Transform u;
-   Transform* t;
-   for ( uint i = 0; i < chainsCount; ++i )
+   // map the transforms of chains
+   const uint mappingsCount = m_chainMappings.size();
+   for ( uint targetChainIdx = 0; targetChainIdx < mappingsCount; ++targetChainIdx )
    {
-      const BoneChain& chain = m_boneChains[i];
-      if ( chain.m_targetBones.size() == 1 )
+      const int sourceChainIdx = m_chainMappings[targetChainIdx];
+      if ( sourceChainIdx < 0 )
       {
          continue;
       }
 
-      const uint firstBoneInChain = chain.m_targetBones.back();
-      const int parentBoneIdx = m_targetSkeleton->m_boneParentIndices[firstBoneInChain];
-      if ( parentBoneIdx < 0 )
+      // here's the juice: 
+      // TODO:, still doesn't work
+      
+      Transform dtSourceSpace;
       {
-         continue;
+         Transform invBindPose, bindPose;
+         invBindPose.set( m_sourceChainSkeleton->m_boneInvBindPoseMtx[sourceChainIdx] );
+         dtSourceSpace.setMul( invBindPose, m_tmpSourceChainPose[sourceChainIdx] );
       }
 
-      uint chainBonesCount = chain.m_targetBones.size();
-      t = &m_targetPoseModelSpace[parentBoneIdx];
-      for ( int j = chainBonesCount - 1; j >= 1; --j )
-      {
-         const uint bIdx = chain.m_targetBones[j];
-         u.set( m_targetSkeleton->m_boneLocalMatrices[bIdx] );
-
-         m_targetPoseModelSpace[bIdx].setMul( u, *t );
-         t = &m_targetPoseModelSpace[bIdx];
-      }
+      m_tmpTargetChainPose[targetChainIdx].setMul( m_targetBindPose[targetChainIdx], dtSourceSpace );
+   }
+   
+   // map the target chain to the base target skeleton
+   const uint targetChainsCount = m_targetChains.size();
+   for ( uint i = 0; i < targetChainsCount; ++i )
+   {
+      SkeletonBoneChain* chain = m_targetChains[i];
+      chain->updatePose( m_tmpTargetChainPose[i], m_tmpTargetBasePose.getRaw() );
    }
 
-   m_targetSkeleton->calculateModelToLocal( m_targetPoseModelSpace.getRaw(), outTargetPoseLocalSpace );
+   // back to the local pose
+   m_targetSkeleton->calculateModelToLocal( m_tmpTargetBasePose.getRaw(), outTargetPoseLocalSpace );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+BEGIN_OBJECT( SkeletonBoneChain );
+   PARENT( ReflectionObject );
+   PROPERTY( Skeleton*, m_skeleton );
+   PROPERTY( uint, m_firstBoneIdx );
+   PROPERTY( uint, m_lastBoneIdx );
+END_OBJECT();
+
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonBoneChain::SkeletonBoneChain()
+   : m_skeleton( NULL )
+   , m_firstBoneIdx( 0 )
+   , m_lastBoneIdx( 0 )
+{
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::mapOneToOne( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const
+SkeletonBoneChain::SkeletonBoneChain( const Skeleton* skeleton, uint firstBoneIdx, uint lastBoneIdx )
+   : m_skeleton( skeleton )
+   , m_firstBoneIdx( firstBoneIdx )
+   , m_lastBoneIdx( lastBoneIdx )
 {
-   const uint sourceBoneIdx = chain.m_sourceBones[0];
-   const uint targetBoneIdx = chain.m_targetBones[0];
-   outTargetPose[targetBoneIdx] = sourcePose[sourceBoneIdx];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapper::mapOneToMany( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const
+void SkeletonBoneChain::updatePose( const Transform& t, Transform* outPose ) const
 {
-   // subtract all unmapped bones from the chain from the source bone transform
-   const uint targetBonesCount = chain.m_targetBones.size();
-   Transform t, a;
-   for ( uint i = 1; i < targetBonesCount; ++i )
+   // TODO: optimize
+   Array< uint > boneIndices;
+   for ( uint boneIdx = m_lastBoneIdx; boneIdx != m_firstBoneIdx; boneIdx = m_skeleton->m_boneParentIndices[boneIdx] )
    {
-      const uint targetBoneIdx = chain.m_targetBones[i];
-      a.set( m_targetSkeleton->m_boneLocalMatrices[targetBoneIdx] );
-      a.invert();
-      t.mul( a );
+      boneIndices.push_back( boneIdx );
    }
 
-   const uint sourceBoneIdx = chain.m_sourceBones[0];
-   t.preMul( sourcePose[sourceBoneIdx] );
+   outPose[m_firstBoneIdx] = t;
 
-   // and set this transform as the target bone's local space transform
-   const uint mappedTargetBoneIdx = chain.m_targetBones[0];
-   outTargetPose[mappedTargetBoneIdx] = t;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void SkeletonMapper::mapManyToOne( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const
-{
-   // calculate the entire offset of the source chain
-   const uint sourceBonesCount = chain.m_sourceBones.size();
-   Transform t;
-   for ( uint i = 0; i < sourceBonesCount; ++i )
+   const uint chainBonesCount = boneIndices.size();
+   Transform bindPoseT;
+   for ( uint i = 0; i < chainBonesCount; ++i )
    {
-      const uint sourceBoneIdx = chain.m_sourceBones[i];
-      t.mul( sourcePose[sourceBoneIdx] );
+      const uint boneIdx = boneIndices[i];
+      const uint parentBoneIdx = m_skeleton->m_boneParentIndices[boneIdx];
+
+      bindPoseT.set( m_skeleton->m_boneLocalMatrices[boneIdx] );
+      outPose[boneIdx].setMul( bindPoseT, outPose[parentBoneIdx] );
    }
-
-   // and set it as the target bone's local space transform
-   const uint targetBoneIdx = chain.m_targetBones[0];
-   outTargetPose[targetBoneIdx] = t;
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void SkeletonMapper::mapManyToMany( const BoneChain& chain, const Transform* sourcePose, Transform* outTargetPose ) const
-{
-   // calculate the entire offset of the source chain
-   const uint sourceBonesCount = chain.m_sourceBones.size();
-   Transform tSource;
-   for ( uint i = 0; i < sourceBonesCount; ++i )
-   {
-      const uint sourceBoneIdx = chain.m_sourceBones[i];
-      tSource.mul( sourcePose[sourceBoneIdx] );
-   }
-
-   // subtract all unmapped bones from the chain from the source bone transform
-   const uint targetBonesCount = chain.m_targetBones.size();
-   Transform tTarget, a;
-   for ( uint i = 1; i < targetBonesCount; ++i )
-   {
-      const uint targetBoneIdx = chain.m_targetBones[i];
-      a.set( m_targetSkeleton->m_boneLocalMatrices[targetBoneIdx] );
-      a.invert();
-      tTarget.mul( a );
-   }
-
-   tTarget.preMul( tSource );
-
-   // and set this transform as the target bone's local space transform
-   const uint mappedTargetBoneIdx = chain.m_targetBones[0];
-   outTargetPose[mappedTargetBoneIdx] = tTarget;
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////

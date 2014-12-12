@@ -13,107 +13,64 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-TEST( SkeletonMapper, sameBindPose )
+TEST( SkeletonMapper, sameBoneRotations )
+{
+   Skeleton skeletonA, skeletonB;
+   SkeletonPoseTool poseA( skeletonA );
+   SkeletonPoseTool poseB( skeletonB );
+   {
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector_ZERO ).buildSkeleton();
+      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector_ZERO ).buildSkeleton();
+   }
+
+   SkeletonMapper mapper;
+   mapper.defineMapping( &skeletonA, &skeletonB )
+      .mapBone( "boneA", "boneA" )
+      .buildMapper();
+
+   poseA.start().rotateAndTranslate( "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector( 1.0f, 2.0f, -3.0f ) ).end();
+   mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+   TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 1.0f, 2.0f, -3.0f ) );
+   TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 1.0f, 2.0f, -3.0f ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+TEST( SkeletonMapper, oppositeBoneRotations )
 {
    Skeleton skeletonA, skeletonB;
    SkeletonPoseTool poseA( skeletonA );
    SkeletonPoseTool poseB( skeletonB );
    {
       poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO ).buildSkeleton();
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO ).buildSkeleton();
+      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) ).buildSkeleton();
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-   
-   poseA.start().rotateAndTranslate( "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector( 1.0f, 2.0f, -3.0f ) ).end();
-   mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-   TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector( 1.0f, 2.0f, -3.0f ) );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, differentBindRotation )
-{
-   Skeleton skeletonA, skeletonB;
-   SkeletonPoseTool poseA( skeletonA );
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO ).buildSkeleton();
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO ).buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
+   mapper.defineMapping( &skeletonA, &skeletonB )
+      .mapBone( "boneA", "boneA" )
+   .buildMapper();
 
    // Let's make the bone in skeleton A turn 45 degrees about OX axis.
-   poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( 45.0f ) ).end();
+   poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
    mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
-   TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -45.0f ), Vector_ZERO );
-   TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -45.0f ), Vector_ZERO );
+   TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+   TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-TEST( SkeletonMapper, differentBindOffset )
-{
-   Skeleton skeletonA, skeletonB;
-   SkeletonPoseTool poseA( skeletonA );
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 5.0f, 0.0f, 0.0f ) ).buildSkeleton();
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO ).buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-
-   // Let's make the bone in skeleton A move by (-5,0,0)
-   // The mapped bone should move by the same amount and and up at pos (-5,0,0)
-   poseA.start().translate( "boneA", Vector( -5.0f, 0.0f, 0.0f ) ).end();
-   mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-   TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-   TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, differentBindRotation_poseTranslation )
-{
-   Skeleton skeletonA, skeletonB;
-   SkeletonPoseTool poseA( skeletonA );
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO ).buildSkeleton();
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO ).buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-
-   // Let's make the bone in skeleton A move by (-5,0,0), and rotate the bone 90 deg OX.
-   // This should yield similar rotation in the mapped bone
-   poseA.start().rotateAndTranslate( "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( -5.0f, 0.0f, 0.0f ) ).end();
-   mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-   TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( -5.0f, 0.0f, 0.0f ) );
-   TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( -5.0f, 0.0f, 0.0f ) );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, boneChain )
+TEST( SkeletonMapper, twoChainsWithSameRotation )
 {
    // all bones in skeleton A 
    Skeleton skeletonA;
    SkeletonPoseTool poseA( skeletonA );
    {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO )
-         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) )
-      .buildSkeleton();
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .buildSkeleton();
    }
 
    Skeleton skeletonB;
@@ -121,280 +78,270 @@ TEST( SkeletonMapper, boneChain )
    {
       poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
          .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-      .buildSkeleton();
+         .buildSkeleton();
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
+   mapper.defineMapping( &skeletonA, &skeletonB )
+      .mapBone( "boneA", "boneA" )
+      .mapBone( "boneB", "boneB" )
+      .buildMapper();
 
-   // case 1
+   // rotating bone A
    {
-      // rotate the child bone 90 deg OX
-      poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( 90.0f ) ).end();
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
       mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
-      // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 1.0f, 0.0f ) ); // the position of the bone doesn't change, since it's relative to the parent bone, which hasn't changed its orientation
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
 
-
-      // pose B check
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
-   }
-
-   // case 2
-   {
-      // rotate the parent bone 90 deg OX
-      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
-
-
-      // pose B check
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, oneToManyMapping )
-{
-   // all bones in skeleton A 
-   Skeleton skeletonA;
-   SkeletonPoseTool poseA( skeletonA );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO )
-         .bone( "boneC", "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) )
-      .buildSkeleton();
-   }
-
-   Skeleton skeletonB;
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
-         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-         .bone( "boneC", "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
-      .buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-
-   // case 1
-   {
-      // rotate the child bone 90 deg OX
-      poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 2.0f, 0.0f ) ); // the child bone rotates, but doesn't change its position
-
-      // pose B check - boneA and bone B hasn't moved, and mapping should reflect that
       TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
-      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 2.0f, 0.0f ) ); // boneC has rotated 90 deg OX
    }
 
-   // case 2
+   // rotating bone B
    {
-      // rotate the parent bone 90 deg OX
-      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
-
-      // pose B check:
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
-      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, manyToOneMapping )
-{
-   // all bones in skeleton A 
-   Skeleton skeletonA;
-   SkeletonPoseTool poseA( skeletonA );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
-         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-         .bone( "boneC", "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
-         .buildSkeleton();
-   }
-
-   Skeleton skeletonB;
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
-         .bone( "boneC", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
-         .buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-
-   // case 1
-   {
-      // rotate the child bone 90 deg OX
-      poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
-      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 0.0f, 2.0f ) ); // the child bone rotates, but doesn't change its position
-
-      // pose B check - boneA and bone B hasn't moved, and mapping should reflect that
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 0.0f, 2.0f ) ); // boneC has rotated 90 deg OX
-   }
-
-   // case 2
-   {
-      // rotate the parent bone 90 deg OX
-      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
-      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
-
-      // pose B check:
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, manyToManyMapping )
-{
-   // all bones in skeleton A 
-   Skeleton skeletonA;
-   SkeletonPoseTool poseA( skeletonA );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
-         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-         .bone( "boneC", "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
-         .buildSkeleton();
-   }
-
-   Skeleton skeletonB;
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
-         .bone( "boneD", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-         .bone( "boneC", "boneD", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
-         .buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-
-   // case 1
-   {
-      // rotate the child bone 90 deg OX
-      poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
-      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 0.0f, 2.0f ) ); // the child bone rotates, but doesn't change its position
-
-      // pose B check - boneA and bone B hasn't moved, and mapping should reflect that
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneD", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
-      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 0.0f, 2.0f ) ); // boneC has rotated 90 deg OX
-   }
-
-   // case 2
-   {
-      // rotate the parent bone 90 deg OX
-      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
-
-      // pose A check
-      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
-      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
-
-      // pose B check:
-      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
-      TEST_BONE( poseB, "boneD", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
-      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
-   }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-TEST( SkeletonMapper, differentBoneOrder )
-{
-   // the order of bones: boneA -> boneB
-   Skeleton skeletonA;
-   SkeletonPoseTool poseA( skeletonA );
-   {
-      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
-         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-         .buildSkeleton();
-   }
-
-   // the order of bones: boneB -> boneA
-   Skeleton skeletonB;
-   SkeletonPoseTool poseB( skeletonB );
-   {
-      poseB.startSkeleton( "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
-         .bone( "boneA", "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector_ZERO )
-         .buildSkeleton();
-   }
-
-   SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB, Lookup_ByName );
-
-   // case 1
-   {
-      // skeletonA: rotate boneB bone 90 deg OX, leaving boneA unchanged
       poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( -90.0f ) ).end();
       mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
-      // check pose A
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
 
-      // skeletonB: in this case the skeleton is connected the other way around, and, in addition, the root
-      // bone is oriented in the opposite direction.
-      // So what we should see is that:
-      //   - skeletonB:boneB should rotate 90 deg OX in model space in response to skeletonA:boneB's rotation
-      //   - skeletonB:boneA should rotate -90 deg OX in order to preserve its model space orientation, just because skeletonA:boneA bone hasn't change its
       TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
       TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
    }
 
-   // case 2
+   // rotating bone A & B
    {
-      // skeletonA: rotate boneA bone 90 deg OX, leaving boneA unchanged
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneB", Vector_OX, DEG2RAD( 90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+TEST( SkeletonMapper, twoChainsWithOppositeRotations )
+{
+   // all bones in skeleton A 
+   Skeleton skeletonA;
+   SkeletonPoseTool poseA( skeletonA );
+   {
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .buildSkeleton();
+   }
+
+   Skeleton skeletonB;
+   SkeletonPoseTool poseB( skeletonB );
+   {
+      poseB.startSkeleton( "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .bone( "boneA", "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .buildSkeleton();
+   }
+
+   SkeletonMapper mapper;
+   mapper.defineMapping( &skeletonA, &skeletonB )
+      .mapBone( "boneA", "boneA" )
+      .mapBone( "boneB", "boneB" )
+      .buildMapper();
+
+   // rotating bone A
+   {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
       mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
-      // check pose A
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
 
-      // check pose B
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+   }
+
+   // rotating bone B
+   {
+      poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD(  0.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 1.0f, 1.0f ) );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+   }
+
+   // rotating bone A & B
+   {
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneB", Vector_OX, DEG2RAD( 90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD(  0.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 1.0f, 1.0f ) );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+   }
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
+{
+   // all bones in skeleton A 
+   Skeleton skeletonA;
+   SkeletonPoseTool poseA( skeletonA );
+   {
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneC", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+      .buildSkeleton();
+   }
+
+   Skeleton skeletonB;
+   SkeletonPoseTool poseB( skeletonB );
+   {
+      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .bone( "boneC", "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+      .buildSkeleton();
+   }
+
+   SkeletonMapper mapper;
+   mapper.defineMapping( &skeletonA, &skeletonB )
+      .addSourceChain( "chain1", "boneA", "boneA" )
+      .addSourceChain( "chain2", "boneC", "boneC" )
+      .addTargetChain( "chain1", "boneA", "boneB" )
+      .addTargetChain( "chain2", "boneC", "boneC" )
+      .mapChain( "chain1", "chain1" )
+      .mapChain( "chain2", "chain2" )
+   .buildMapper();
+
+   // rotating bone A
+   {
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+
+      // pose B check:
       TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+   }
+
+   // rotating bone C
+   {
+      poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
+
+      // pose B check - boneA and bone B hasn't moved, and mapping should reflect that
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
+   }
+
+   // rotating bones A & C
+   {
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD(   0.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+
+      // pose B check - boneA and bone B hasn't moved, and mapping should reflect that
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD(   0.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
+{
+   // all bones in skeleton A 
+   Skeleton skeletonA;
+   SkeletonPoseTool poseA( skeletonA );
+   {
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneC", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .buildSkeleton();
+   }
+
+   Skeleton skeletonB;
+   SkeletonPoseTool poseB( skeletonB );
+   {
+      poseB.startSkeleton( "boneC", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 3.0f ) )
+         .bone( "boneB", "boneC", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .bone( "boneA", "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .buildSkeleton();
+   }
+
+   SkeletonMapper mapper;
+   mapper.defineMapping( &skeletonA, &skeletonB )
+      .addSourceChain( "chain1", "boneA", "boneA" )
+      .addSourceChain( "chain2", "boneC", "boneC" )
+      .addTargetChain( "chain1", "boneC", "boneC" )
+      .addTargetChain( "chain2", "boneB", "boneA" )
+      .mapChain( "chain1", "chain2" )
+      .mapChain( "chain2", "chain1" )
+      .buildMapper();
+
+   // rotating bone A
+   {
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+
+      // pose B check
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 3.0f, 0.0f ) );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+   }
+
+   // rotating bone C
+   {
+      poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD(   0.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
+
+      // pose B check
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 1.0f, 2.0f ) );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+   }
+
+   // rotating bones A & C
+   {
+      poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
+      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+
+      // pose B check - boneA and bone B hasn't moved, and mapping should reflect that
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 2.0f, 1.0f ) );
+      TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
    }
 }
 

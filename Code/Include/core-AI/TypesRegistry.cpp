@@ -44,7 +44,7 @@ REGISTER_TYPE( Skeleton );
 REGISTER_TYPE( EntityAnimationPlayer );
 REGISTER_ENUM_TYPE( BoneLookupMethod );
 REGISTER_TYPE( SkeletonMapper );
-REGISTER_TYPE( BoneChain );
+REGISTER_TYPE( SkeletonBoneChain );
 
 ///////////////////////////////////////////////////////////////////////////////
 

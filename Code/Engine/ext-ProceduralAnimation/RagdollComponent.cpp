@@ -168,7 +168,10 @@ void RagdollComponent::onSiblingAttached( SceneNode* node )
       if ( !existingMapper && skeletonComp->m_skeleton )
       {
          SkeletonMapper* newMapper = new SkeletonMapper();
-         newMapper->defineMapping( m_ragdollSkeleton, skeletonComp->m_skeleton, m_boneLookupMethod );
+         newMapper->defineMapping( m_ragdollSkeleton, skeletonComp->m_skeleton );
+
+         // TODO: build the mapping table here
+
          m_mappers.push_back( newMapper );
       }
    }
@@ -666,7 +669,9 @@ void RagdollComponent::buildSkeletonMappers()
       if ( skeletonComp->m_skeleton != NULL )
       {
          SkeletonMapper* mapper = new SkeletonMapper();
-         mapper->defineMapping( m_ragdollSkeleton, skeletonComp->m_skeleton, m_boneLookupMethod );
+         mapper->defineMapping( m_ragdollSkeleton, skeletonComp->m_skeleton );
+
+         // TODO: build the mapping table here
 
          m_mappers.push_back( mapper );
       }

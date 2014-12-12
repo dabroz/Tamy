@@ -131,7 +131,7 @@ SkeletonPoseTool& SkeletonPoseTool::rotateAndTranslate( const char* boneName, co
 
    Transform t;
    t.set( rotationAxis, angle, translation );
-   m_poseLocal[boneIdx].preMul( t );
+   m_poseLocal[boneIdx].mul( t );
 
    return *this;
 }
