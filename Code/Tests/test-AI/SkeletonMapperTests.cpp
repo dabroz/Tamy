@@ -64,7 +64,6 @@ TEST( SkeletonMapper, oppositeBoneRotations )
 
 TEST( SkeletonMapper, twoChainsWithSameRotation )
 {
-   // all bones in skeleton A 
    Skeleton skeletonA;
    SkeletonPoseTool poseA( skeletonA );
    {
@@ -128,7 +127,6 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
 
 TEST( SkeletonMapper, twoChainsWithOppositeRotations )
 {
-   // all bones in skeleton A 
    Skeleton skeletonA;
    SkeletonPoseTool poseA( skeletonA );
    {
@@ -193,7 +191,6 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
 
 TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
 {
-   // all bones in skeleton A 
    Skeleton skeletonA;
    SkeletonPoseTool poseA( skeletonA );
    {
@@ -271,7 +268,6 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
 
 TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
 {
-   // all bones in skeleton A 
    Skeleton skeletonA;
    SkeletonPoseTool poseA( skeletonA );
    {
@@ -342,6 +338,65 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
       TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 2.0f, 1.0f ) );
       TEST_BONE( poseB, "boneB", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 2.0f, 0.0f ) );
       TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD(  90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+TEST( SkeletonMapper, buildMapperUsingBoneNames )
+{
+   Skeleton skeletonA;
+   SkeletonPoseTool poseA( skeletonA );
+   {
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneC", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .buildSkeleton();
+   }
+
+   Skeleton skeletonB;
+   SkeletonPoseTool poseB( skeletonB );
+   {
+      poseB.startSkeleton( "boneC", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 3.0f ) )
+         .bone( "boneB", "boneC", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .bone( "boneA", "boneB", Vector_OX, DEG2RAD( 180.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .buildSkeleton();
+   }
+
+   SkeletonMapper mapper;
+   std::string errorMsg;
+   CPPUNIT_ASSERT( mapper.buildMapperUsingBoneNames( &skeletonA, &skeletonB, errorMsg ) );
+
+   CPPUNIT_ASSERT_EQUAL( ( uint ) 2, mapper.getSourceChainsCount() );
+   CPPUNIT_ASSERT_EQUAL( ( uint ) 2, mapper.getTargetChainsCount() );
+
+   // source chains
+   {
+      const SkeletonBoneChain* chain0 = mapper.getSourceChain( 0 );
+      CPPUNIT_ASSERT_EQUAL( chain0->m_lastBoneIdx, chain0->m_firstBoneIdx );
+      CPPUNIT_ASSERT_EQUAL( std::string( "boneA" ), chain0->m_skeleton->m_boneNames[chain0->m_firstBoneIdx] );
+
+      const SkeletonBoneChain* chain1 = mapper.getSourceChain( 1 );
+      CPPUNIT_ASSERT_EQUAL( chain1->m_lastBoneIdx, chain1->m_firstBoneIdx );
+      CPPUNIT_ASSERT_EQUAL( std::string( "boneC" ), chain1->m_skeleton->m_boneNames[chain1->m_firstBoneIdx] );
+   }
+
+   // target chains
+   {
+      const SkeletonBoneChain* chain0 = mapper.getTargetChain( 0 );
+      CPPUNIT_ASSERT_EQUAL( chain0->m_lastBoneIdx, chain0->m_firstBoneIdx );
+      CPPUNIT_ASSERT_EQUAL( std::string( "boneC" ), chain0->m_skeleton->m_boneNames[chain0->m_firstBoneIdx] );
+
+      const SkeletonBoneChain* chain1 = mapper.getTargetChain( 1 );
+      CPPUNIT_ASSERT( chain1->m_lastBoneIdx != chain1->m_firstBoneIdx );
+      CPPUNIT_ASSERT_EQUAL( std::string( "boneB" ), chain1->m_skeleton->m_boneNames[chain1->m_firstBoneIdx] );
+      CPPUNIT_ASSERT_EQUAL( std::string( "boneA" ), chain1->m_skeleton->m_boneNames[chain1->m_lastBoneIdx] );
+   }
+
+   // verify the mappings
+   {
+      CPPUNIT_ASSERT_EQUAL( (uint)2, mapper.getMappingsCount() );
+      CPPUNIT_ASSERT_EQUAL( 1, mapper.getMappingForChain( 0 ) );
+      CPPUNIT_ASSERT_EQUAL( 0, mapper.getMappingForChain( 1 ) );
    }
 }
 

@@ -1,6 +1,8 @@
 #include "core-AI\SkeletonMapper.h"
 #include "core-AI\Skeleton.h"
 #include "core\Transform.h"
+#include "core\ListUtils.h"
+#include "core\List.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -118,6 +120,106 @@ SkeletonMapper& SkeletonMapper::addTargetChain( const char* chainName, const cha
 
    return *this;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool SkeletonMapper::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedSourceBones, Array< SkeletonBoneChain* >& inOutChainsCollection, Skeleton* outChainSkeleton, std::string& outErrMsg ) const
+{
+   int idx = findChainByBone( inOutChainsCollection, baseSkeletonBoneIdx );
+   if ( idx < 0 )
+   {
+      // the bone's already in a chain
+      return true;
+   }
+
+
+   // look for the first parent we can append the bone to
+   for ( int boneIdx = baseSkeletonBoneIdx; boneIdx >= 0; boneIdx = baseSkeleton->m_boneParentIndices[boneIdx] )
+   {
+      if ( !mappedSourceBones[boneIdx] )
+      {
+         // the bone isn't mapped - so keep on going
+         continue;
+      }
+
+      // the bone is mapped - so it's either has a chain already, or we need to create one for it
+      int chainIdx = findChainByBone( inOutChainsCollection, boneIdx );
+      if ( chainIdx < 0 )
+      {
+         char tmpName[128];
+         sprintf_s( tmpName, "__chain_%d", inOutChainsCollection.size() );
+
+         // we need to create a new chain
+         SkeletonBoneChain* newChain = new SkeletonBoneChain( baseSkeleton, boneIdx, baseSkeletonBoneIdx );
+         inOutChainsCollection.push_back( newChain );
+
+         outChainSkeleton->addBone( tmpName, Transform::IDENTITY, -1, 1 );
+         return true;
+      }
+      else
+      {
+         // extend the existing chain to include the new bone
+         SkeletonBoneChain* existingChain = inOutChainsCollection[chainIdx];
+
+         // but before we do, we need to make sure that the chain doesn't branch, and we're trying to map
+         // one of the branches, when another one is already mapped.
+         // That of course is an error on the user part, not having defined a mapping for the branch bone,
+         // and we need to flag it
+         bool branchFound = detectBranching( baseSkeleton, existingChain->m_firstBoneIdx, existingChain->m_lastBoneIdx, baseSkeletonBoneIdx );
+         if ( branchFound )
+         {
+            // we detected a branch - notify the user
+            char tmpErrMsg[512];
+            sprintf_s( tmpErrMsg, "Branch detected between existing chain %s ( %d, %d ), and a potential chain (%d, %d)",
+                       outChainSkeleton->m_boneNames[chainIdx].c_str(),
+                       existingChain->m_firstBoneIdx,
+                       existingChain->m_lastBoneIdx,
+                       existingChain->m_firstBoneIdx,
+                       baseSkeletonBoneIdx);
+
+            outErrMsg = tmpErrMsg;
+            return false;
+         }
+         else
+         {
+            // good to go - no branching detected
+            existingChain->m_lastBoneIdx = baseSkeletonBoneIdx;
+            return true;
+         }
+      }
+   }
+
+   // we should never end up here - if we did, then there's an error somewhere in the code or in the data set that
+   // we haven't fixed yet
+   return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool SkeletonMapper::detectBranching( const Skeleton* baseSkeleton, uint firstBoneIdx, uint lastBoneIdx, uint newChainLastBoneIdx ) const
+{
+   // The method is simple - start moving backwards from the 'newChainLastBoneIdx' - if we get to the 'lastBoneIdx' before
+   // we get to 'firstBoneIdx', then this new bone is a continuation of the original chain.
+   // However if we get to 'firstBoneIdx' first, we have a branch
+
+   for ( int boneIdx = baseSkeleton->m_boneParentIndices[newChainLastBoneIdx]; boneIdx >= 0; boneIdx = baseSkeleton->m_boneParentIndices[boneIdx] )
+   {
+      if ( boneIdx == lastBoneIdx )
+      {
+         // the new bone is a continuation of the original chain
+         return false;
+      }
+
+      if ( boneIdx == firstBoneIdx )
+      {
+         // there was a branch somewhere along the way
+         return true;
+      }
+   }
+
+   return false;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -258,6 +360,74 @@ void SkeletonMapper::buildMapper()
       m_targetToSource[targetChainIdx].setMulInverse( m_targetBindPose[targetChainIdx], m_tmpSourceChainPose[sourceChainIdx] );
       m_sourceToTarget[targetChainIdx].setMulInverse( m_tmpSourceChainPose[sourceChainIdx], m_targetBindPose[targetChainIdx] );
    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool SkeletonMapper::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, std::string& outErrorMsg )
+{
+   defineMapping( sourceSkeleton, targetSkeleton );
+
+   // find common bones in both skeletons
+   List< std::string > commonBones;
+   const uint sourceBonesCount = sourceSkeleton->getBoneCount();
+   for ( uint i = 0; i < sourceBonesCount; ++i )
+   {
+      const std::string& boneName = sourceSkeleton->m_boneNames[i];
+      ListUtils::pushBackUnique( commonBones, boneName );
+   }
+
+   const uint targetBonesCount = targetSkeleton->getBoneCount();
+   for ( uint i = 0; i < targetBonesCount; ++i )
+   {
+      const std::string& boneName = targetSkeleton->m_boneNames[i];
+      ListUtils::pushBackUnique( commonBones, boneName );
+   }
+
+
+   Array< bool > mappedSourceBones( sourceBonesCount ); mappedSourceBones.resize( sourceBonesCount, false );
+   Array< bool > mappedTargetBones( targetBonesCount ); mappedTargetBones.resize( targetBonesCount, false );
+   for ( List< std::string >::iterator it = commonBones.begin(); !it.isEnd(); ++it )
+   {
+      const std::string& boneName = *it;
+
+      int idx = sourceSkeleton->getBoneIndex( boneName.c_str() );
+      if ( idx >= 0 )
+      {
+         mappedSourceBones[idx] = true;
+      }
+
+      idx = targetSkeleton->getBoneIndex( boneName.c_str() );
+      if ( idx >= 0 )
+      {
+         mappedTargetBones[idx] = true;
+      }
+   }
+
+   // Define chains - we're gonna step through all bones in each skeleton.
+   // Whenever we find a bone that's not mapped, we're gonna try finding a chain that already contains its parent
+   // If we don't find such a chain, we're gonna create a new one, and at the end, we're gonna try merging 
+   // all chains.
+   for ( uint boneIdx = 0; boneIdx < sourceBonesCount; ++boneIdx )
+   {
+      bool result = addBoneToChain( m_sourceSkeleton, boneIdx, mappedSourceBones, m_sourceChains, m_sourceChainSkeleton, outErrorMsg );
+      if ( !result )
+      {
+         return false;
+      }
+   }
+
+   for ( uint boneIdx = 0; boneIdx < targetBonesCount; ++boneIdx )
+   {
+      bool result = addBoneToChain( m_targetSkeleton, boneIdx, mappedTargetBones, m_targetChains, m_targetChainSkeleton, outErrorMsg );
+      if ( !result )
+      {
+         return false;
+      }
+   }
+
+
+   return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

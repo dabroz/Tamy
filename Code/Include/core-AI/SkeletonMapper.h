@@ -102,6 +102,85 @@ public:
    ~SkeletonMapper();
 
    /**
+    * Calculates a pose the target skeleton should assume to look the same as the source.
+    *
+    * @param sourcePose
+    * @param outTargetPose
+    */
+   void calcPoseLocalSpace( const Transform* sourcePose, Transform* outTargetPose ) const;
+
+
+   // -------------------------------------------------------------------------
+   // Getters/setters
+   // -------------------------------------------------------------------------
+
+   /**
+    * Returns the number of chains in the source skeleton.
+    */
+   inline uint getSourceChainsCount() const {
+      return m_sourceChains.size();
+   }
+
+   /**
+    * Returns the number of chains in the target skeleton.
+    */
+   inline uint getTargetChainsCount() const {
+      return m_targetChains.size();
+   }
+
+   /**
+    * Returns a chain from the source skeleton.
+    *
+    * @param idx
+    */
+   inline const SkeletonBoneChain* getSourceChain( uint idx ) const {
+      return m_sourceChains[idx];
+   }
+
+   /**
+    * Returns a chain from the target skeleton.
+    *
+    * @param idx
+    */
+   inline const SkeletonBoneChain* getTargetChain( uint idx ) const {
+      return m_targetChains[idx];
+   }
+
+   /**
+    * Returns the number of chain mappings.
+    */
+   inline uint getMappingsCount() const {
+      return m_chainMappings.size();
+   }
+
+   /**
+    * Returns the index of a source chain that maps onto the specified
+    * target chain.
+    *
+    * @param targetChainIdx
+    * @return -1 if such mapping is not defined, >=0 if it exists
+    */
+   inline int getMappingForChain( uint targetChainIdx ) const {
+      return m_chainMappings[targetChainIdx];
+   }
+
+   // -------------------------------------------------------------------------
+   // Mapper construction methods
+   // -------------------------------------------------------------------------
+
+   /**
+    * Builds a mapper using bone names.
+    *
+    * @param sourceSkeleton
+    * @param targetSkeleton
+    */
+   bool buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, std::string& outErrorMsg );
+
+   // -------------------------------------------------------------------------
+   // Mapping definitions
+   // -------------------------------------------------------------------------
+
+   /**
     * Defines mapping for the specified skeletons.
     *
     * @param sourceSkeleton
@@ -110,24 +189,12 @@ public:
    SkeletonMapper& defineMapping( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton );
 
    /**
-    * Maps a bone from the source skeleton onto a bone from the target skeleton.
-    *
-    * @param sourceBone
-    * @param targetBone
-    */
+   * Maps a bone from the source skeleton onto a bone from the target skeleton.
+   *
+   * @param sourceBone
+   * @param targetBone
+   */
    SkeletonMapper& mapBone( const char* sourceBone, const char* targetBone );
-
-   /**
-    * Calculates a pose the target skeleton should assume to look the same as the source.
-    *
-    * @param sourcePose
-    * @param outTargetPose
-    */
-   void calcPoseLocalSpace( const Transform* sourcePose, Transform* outTargetPose ) const;
-
-   // -------------------------------------------------------------------------
-   // Mapping definitions
-   // -------------------------------------------------------------------------
 
    /**
     * Defines a chain for the source skeleton.
@@ -173,6 +240,32 @@ private:
     * @param baseSkeletonBoneIdx
     */
    int findChainByBone( const Array< SkeletonBoneChain* >& chainsCollection, uint baseSkeletonBoneIdx ) const;
+
+   /**
+    * Add a bone to an existing chain, or creates a new chain if the bone doesn't fit into any of the existing ones.
+    *
+    * @param baseSkeleton
+    * @param baseSkeletonBoneIdx
+    * @param mappedSourceBones
+    * @param inOutChainsCollection
+    * @param outChainSkeleton
+    * @param outErrMsg
+    *
+    * @return 'true' if the bone was added, 'false' if there were errors
+    */
+   bool addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedSourceBones, Array< SkeletonBoneChain* >& inOutChainsCollection, Skeleton* outChainSkeleton, std::string& outErrMsg ) const;
+
+   /**
+    * Detects if two chains starting at 'firstBoneIdx' are branched.
+    *
+    * @param baseSkeleton
+    * @param firstBoneIdx
+    * @param lastBoneIdx
+    * @param newChainLastBoneIdx
+    *
+    * @return 'true' if a branch was detected, 'false' otherwise
+    */
+   bool detectBranching( const Skeleton* baseSkeleton, uint firstBoneIdx, uint lastBoneIdx, uint newChainLastBoneIdx ) const;
 
    /**
     * Builds a chain.
