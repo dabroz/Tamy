@@ -14,13 +14,6 @@ END_OBJECT();
 
 ///////////////////////////////////////////////////////////////////////////////
 
-BEGIN_ENUM( BoneLookupMethod );
-   ENUM_VAL( Lookup_ByName );
-   ENUM_VAL( Lookup_ByDistance );
-END_ENUM();
-
-///////////////////////////////////////////////////////////////////////////////
-
 SkeletonMapper::SkeletonMapper()
    : m_sourceSkeleton( NULL )
    , m_targetSkeleton( NULL )
@@ -123,10 +116,10 @@ SkeletonMapper& SkeletonMapper::addTargetChain( const char* chainName, const cha
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool SkeletonMapper::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedSourceBones, Array< SkeletonBoneChain* >& inOutChainsCollection, Skeleton* outChainSkeleton, std::string& outErrMsg ) const
+bool SkeletonMapper::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedBones, Array< SkeletonBoneChain* >& inOutChainsCollection, Skeleton* outChainSkeleton, std::string& outErrMsg ) const
 {
    int idx = findChainByBone( inOutChainsCollection, baseSkeletonBoneIdx );
-   if ( idx < 0 )
+   if ( idx >= 0 )
    {
       // the bone's already in a chain
       return true;
@@ -136,7 +129,7 @@ bool SkeletonMapper::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkel
    // look for the first parent we can append the bone to
    for ( int boneIdx = baseSkeletonBoneIdx; boneIdx >= 0; boneIdx = baseSkeleton->m_boneParentIndices[boneIdx] )
    {
-      if ( !mappedSourceBones[boneIdx] )
+      if ( !mappedBones[boneIdx] )
       {
          // the bone isn't mapped - so keep on going
          continue;
@@ -146,14 +139,15 @@ bool SkeletonMapper::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkel
       int chainIdx = findChainByBone( inOutChainsCollection, boneIdx );
       if ( chainIdx < 0 )
       {
-         char tmpName[128];
-         sprintf_s( tmpName, "__chain_%d", inOutChainsCollection.size() );
 
          // we need to create a new chain
          SkeletonBoneChain* newChain = new SkeletonBoneChain( baseSkeleton, boneIdx, baseSkeletonBoneIdx );
          inOutChainsCollection.push_back( newChain );
 
-         outChainSkeleton->addBone( tmpName, Transform::IDENTITY, -1, 1 );
+         // we want to use the name of the original bone for the chain name, because later on in the building process
+         // we'll need to look the corresponding source and target chains somehow,
+         // and we'll do it by the bone name
+         outChainSkeleton->addBone( baseSkeleton->m_boneNames[boneIdx].c_str(), Transform::IDENTITY, -1, 1 );
          return true;
       }
       else
@@ -368,39 +362,38 @@ bool SkeletonMapper::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, 
 {
    defineMapping( sourceSkeleton, targetSkeleton );
 
-   // find common bones in both skeletons
-   List< std::string > commonBones;
    const uint sourceBonesCount = sourceSkeleton->getBoneCount();
-   for ( uint i = 0; i < sourceBonesCount; ++i )
-   {
-      const std::string& boneName = sourceSkeleton->m_boneNames[i];
-      ListUtils::pushBackUnique( commonBones, boneName );
-   }
-
    const uint targetBonesCount = targetSkeleton->getBoneCount();
-   for ( uint i = 0; i < targetBonesCount; ++i )
-   {
-      const std::string& boneName = targetSkeleton->m_boneNames[i];
-      ListUtils::pushBackUnique( commonBones, boneName );
-   }
 
-
+   // find common bones in both skeletons
    Array< bool > mappedSourceBones( sourceBonesCount ); mappedSourceBones.resize( sourceBonesCount, false );
    Array< bool > mappedTargetBones( targetBonesCount ); mappedTargetBones.resize( targetBonesCount, false );
-   for ( List< std::string >::iterator it = commonBones.begin(); !it.isEnd(); ++it )
    {
-      const std::string& boneName = *it;
-
-      int idx = sourceSkeleton->getBoneIndex( boneName.c_str() );
-      if ( idx >= 0 )
+      List< std::string > commonBones;
+      for ( uint i = 0; i < sourceBonesCount; ++i )
       {
-         mappedSourceBones[idx] = true;
+         const std::string& boneName = sourceSkeleton->m_boneNames[i];
+         if ( targetSkeleton->getBoneIndex( boneName.c_str() ) >= 0 )
+         {
+            commonBones.pushBack( boneName );
+         }
       }
 
-      idx = targetSkeleton->getBoneIndex( boneName.c_str() );
-      if ( idx >= 0 )
+      for ( List< std::string >::iterator it = commonBones.begin(); !it.isEnd(); ++it )
       {
-         mappedTargetBones[idx] = true;
+         const std::string& boneName = *it;
+
+         const int sourceBoneIdx = sourceSkeleton->getBoneIndex( boneName.c_str() );
+         if ( sourceBoneIdx >= 0 )
+         {
+            mappedSourceBones[sourceBoneIdx] = true;
+         }
+
+         const int targetBoneIdx = targetSkeleton->getBoneIndex( boneName.c_str() );
+         if ( targetBoneIdx >= 0 )
+         {
+            mappedTargetBones[targetBoneIdx] = true;
+         }
       }
    }
 
@@ -426,6 +419,19 @@ bool SkeletonMapper::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, 
       }
    }
 
+   // define mappings
+   const uint targetMappingsCount = m_targetChainSkeleton->getBoneCount();
+   ASSERT( targetMappingsCount == m_targetChains.size() );
+
+   m_chainMappings.resize( targetMappingsCount, -1 );
+   for ( uint targetChainIdx = 0; targetChainIdx < targetMappingsCount; ++targetChainIdx )
+   {
+      int sourceChainIdx = m_sourceChainSkeleton->getBoneIndex( m_targetChainSkeleton->m_boneNames[targetChainIdx].c_str() );
+      m_chainMappings[targetChainIdx] = sourceChainIdx;
+   }
+
+   // build the chain skeletons
+   buildMapper();
 
    return true;
 }
@@ -434,8 +440,11 @@ bool SkeletonMapper::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, 
 
 void SkeletonMapper::calcPoseLocalSpace( const Transform* sourcePoseLocalSpace, Transform* outTargetPoseLocalSpace ) const
 {
-   ASSERT_MSG( m_sourceSkeleton->getBoneCount() > 0, "It's likely you forgot to call 'buildMapper'" );
-   ASSERT_MSG( m_targetSkeleton->getBoneCount() > 0, "It's likely you forgot to call 'buildMapper'" );
+   if ( m_tmpSourceBasePose.size() <= 0 )
+   {
+      // the mapper hasn't been initialized
+      return;
+   }
    
    // calculate the model pose of the base skeleton and apply it to the source chain skeleton
    m_sourceSkeleton->calculateLocalToModel( sourcePoseLocalSpace, m_tmpSourceBasePose.getRaw() );
@@ -456,9 +465,7 @@ void SkeletonMapper::calcPoseLocalSpace( const Transform* sourcePoseLocalSpace, 
          continue;
       }
 
-      // here's the juice: 
-      // TODO:, still doesn't work
-      
+      // here's the juice:     
       Transform dtSourceSpace;
       {
          Transform invBindPose, bindPose;

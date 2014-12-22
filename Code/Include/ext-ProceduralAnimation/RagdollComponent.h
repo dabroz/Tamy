@@ -25,7 +25,6 @@ class SkeletonMapper;
 class PhysicsWorld;
 class PhysicsMaterial;
 class TriangleMesh;
-enum BoneLookupMethod;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -54,7 +53,6 @@ private:
    // static data
    Skeleton*                                 m_ragdollSkeleton;
    TriangleMesh*                             m_ragdollMesh;
-   BoneLookupMethod                          m_boneLookupMethod;
 
    // runtime
    TResourceHandle< PhysicsMaterial >        m_defaultMaterial;

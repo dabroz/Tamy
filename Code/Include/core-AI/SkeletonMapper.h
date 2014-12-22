@@ -16,14 +16,6 @@ class SkeletonMapper;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-enum BoneLookupMethod
-{
-   Lookup_ByName,
-   Lookup_ByDistance,
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
 class SkeletonBoneChain : public ReflectionObject
 {
    DECLARE_ALLOCATOR( SkeletonBoneChain, AM_DEFAULT );

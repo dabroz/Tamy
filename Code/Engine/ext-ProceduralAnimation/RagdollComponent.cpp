@@ -41,7 +41,6 @@ BEGIN_OBJECT( RagdollComponent );
    PARENT( PhysicsObject );
    PROPERTY_EDIT( "Ragdoll skeleton", Skeleton*, m_ragdollSkeleton );
    PROPERTY_EDIT( "Ragdoll mesh", TriangleMesh*, m_ragdollMesh );
-   PROPERTY_EDIT( "Bone lookup method", BoneLookupMethod, m_boneLookupMethod );
 END_OBJECT();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -51,7 +50,6 @@ RagdollComponent::RagdollComponent( const char* name )
    , m_defaultMaterial( FilePath( "/Physics/Materials/defaultPhysMat.tpm" ) )
    , m_ragdollSkeleton( NULL )
    , m_ragdollMesh( NULL )
-   , m_boneLookupMethod( Lookup_ByName )
    , m_physicsWorld( NULL )
    , m_aggregate( NULL )
 {
@@ -64,7 +62,6 @@ RagdollComponent::RagdollComponent( const RagdollComponent& rhs )
    , m_defaultMaterial( rhs.m_defaultMaterial )
    , m_ragdollSkeleton( rhs.m_ragdollSkeleton )
    , m_ragdollMesh( rhs.m_ragdollMesh )
-   , m_boneLookupMethod( rhs.m_boneLookupMethod )
    , m_physicsWorld( NULL )
    , m_aggregate( NULL )
 {
