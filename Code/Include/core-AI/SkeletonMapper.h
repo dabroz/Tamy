@@ -3,6 +3,7 @@
 #pragma once
 
 #include "core\ReflectionObject.h"
+#include "core\Resource.h"
 #include "core\Array.h"
 #include "core\List.h"
 #include "core\Transform.h"
@@ -58,10 +59,10 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class SkeletonMapper : public ReflectionObject
+class SkeletonMapper : public Resource
 {
    DECLARE_ALLOCATOR( SkeletonMapper, AM_DEFAULT );
-   DECLARE_CLASS();
+   DECLARE_RESOURCE();
 
 public:
    // static
@@ -74,6 +75,7 @@ private:
    Array< SkeletonBoneChain* >   m_targetChains;
    Array< int >                  m_chainMappings;
 
+   // runtime
    Skeleton*                     m_sourceChainSkeleton;
    Skeleton*                     m_targetChainSkeleton;
 
@@ -156,6 +158,20 @@ public:
       return m_chainMappings[targetChainIdx];
    }
 
+   /**
+    * Returns the skeleton that shows the hierarchy of source chains.
+    */
+   inline const Skeleton* getSourceChainSkeleton() const {
+      return m_sourceChainSkeleton;
+   }
+
+   /**
+   * Returns the skeleton that shows the hierarchy of target chains.
+   */
+   inline const Skeleton* getTargetChainSkeleton() const {
+      return m_targetChainSkeleton;
+   }
+
    // -------------------------------------------------------------------------
    // Mapper construction methods
    // -------------------------------------------------------------------------
@@ -215,6 +231,11 @@ public:
     * Builds the mapper.
     */
    void buildMapper();
+
+   // -------------------------------------------------------------------------
+   // Resource implementation
+   // -------------------------------------------------------------------------
+   void onResourceLoaded( ResourcesManager& mgr ) override;
 
 private:
    /**

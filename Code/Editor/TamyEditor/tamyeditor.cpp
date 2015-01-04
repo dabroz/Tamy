@@ -35,6 +35,7 @@
 #include "StoryEditor.h"
 #include "BehaviorTreeEditor.h"
 #include "BlendTreeEditor.h"
+#include "SkeletonMapperEditor.h"
 #include "PhysicsMaterialEditor.h"
 
 // resources
@@ -119,6 +120,7 @@ void TamyEditor::initialize()
    associate< Prefab, PrefabEditor >();
    associate< Shader, ShaderEditor >();
    associate< Material, MaterialEditor >();
+   associate< SkeletonMapper, SkeletonMapperEditor >();
    associate< Texture, TextureEditor >();
    associate< CubeTexture, CubeTextureEditor >();
    associate< Project, ProjectEditor >();

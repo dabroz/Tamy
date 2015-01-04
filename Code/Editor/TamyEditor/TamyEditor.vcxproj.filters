@@ -273,6 +273,9 @@
     <Filter Include="QtImplementation\Generated Files\Debug_GL">
       <UniqueIdentifier>{14465792-3daf-41b2-98df-a1432a35780f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEditors\SkeletonMapperEditor">
+      <UniqueIdentifier>{1c8b6f2f-d108-4e0b-906f-8165960c0638}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_progressdialog.h">
@@ -2064,6 +2067,12 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_TamySceneWidgetInputManager.cpp">
       <Filter>QtImplementation\Generated Files\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="SkeletonMapperEditor.cpp">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SkeletonMapperEditor.cpp">
+      <Filter>QtImplementation\Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TypeDescFactory.inl">
@@ -2418,6 +2427,9 @@
     </CustomBuild>
     <CustomBuild Include="TamySceneWidgetInputManager.h">
       <Filter>Widgets\SceneRenderWidget\InputManagement</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SkeletonMapperEditor.h">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

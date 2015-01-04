@@ -7,9 +7,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-BEGIN_OBJECT( SkeletonMapper );
-   PARENT( ReflectionObject );
-
+BEGIN_RESOURCE( SkeletonMapper, tsm, AM_BINARY );
+   PROPERTY( Skeleton*, m_sourceSkeleton );
+   PROPERTY( Skeleton*, m_targetSkeleton );
+   PROPERTY( Array< SkeletonBoneChain* >, m_sourceChains );
+   PROPERTY( Array< SkeletonBoneChain* >, m_targetChains );
+   PROPERTY( Array< int >, m_chainMappings );
 END_OBJECT();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -321,6 +324,11 @@ void SkeletonMapper::buildChain( const Skeleton* baseSkeleton, const Array< Skel
 
 void SkeletonMapper::buildMapper()
 {
+   if ( !m_sourceSkeleton || !m_targetSkeleton )
+   {
+      return;
+   }
+
    buildChain( m_sourceSkeleton, m_sourceChains, m_sourceChainSkeleton );
    buildChain( m_targetSkeleton, m_targetChains, m_targetChainSkeleton );
 
@@ -434,6 +442,16 @@ bool SkeletonMapper::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, 
    buildMapper();
 
    return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapper::onResourceLoaded( ResourcesManager& mgr )
+{
+   Resource::onResourceLoaded( mgr );
+
+   // build the runtime data of the mapper
+   buildMapper();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
