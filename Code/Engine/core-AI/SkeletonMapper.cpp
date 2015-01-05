@@ -53,15 +53,39 @@ SkeletonMapper::~SkeletonMapper()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-SkeletonMapper& SkeletonMapper::defineMapping( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton )
+SkeletonMapper& SkeletonMapper::setSkeletons( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton )
 {
    // clear the old mapping
    m_sourceSkeleton = sourceSkeleton;
    m_targetSkeleton = targetSkeleton;
+
+   reset();
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapper::reset()
+{
    m_sourceChainSkeleton->clear();
    m_targetChainSkeleton->clear();
 
-   return *this;
+   uint chainsCount = m_sourceChains.size();
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      delete m_sourceChains[i];
+   }
+   m_sourceChains.clear();
+
+   chainsCount = m_targetChains.size();
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      delete m_targetChains[i];
+   }
+   m_targetChains.clear();
+
+   m_chainMappings.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -138,7 +162,7 @@ bool SkeletonMapper::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkel
          continue;
       }
 
-      // the bone is mapped - so it's either has a chain already, or we need to create one for it
+      // the bone is mapped - so it either has a chain already, or we need to create one for it
       int chainIdx = findChainByBone( inOutChainsCollection, boneIdx );
       if ( chainIdx < 0 )
       {
@@ -368,7 +392,13 @@ void SkeletonMapper::buildMapper()
 
 bool SkeletonMapper::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, std::string& outErrorMsg )
 {
-   defineMapping( sourceSkeleton, targetSkeleton );
+   if ( !m_sourceSkeleton || !m_targetSkeleton )
+   {
+      outErrorMsg = "Skeletons we're supposed to define a mapping for are not specified.";
+      return false;
+   }
+
+   reset();
 
    const uint sourceBonesCount = sourceSkeleton->getBoneCount();
    const uint targetBonesCount = targetSkeleton->getBoneCount();

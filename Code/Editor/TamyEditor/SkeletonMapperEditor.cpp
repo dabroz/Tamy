@@ -3,16 +3,18 @@
 #include "core-AI\SkeletonMapper.h"
 
 // custom widgets
-#include "ResourceDropArea.h"
+#include "MappedSkeletonFrame.h"
+#include "MappingTable.h"
 
 // qt widgets
-#include <QtWidgets\QTreeWidget>
 #include <QtWidgets\QVBoxLayout>
 #include <QtWidgets\QHBoxLayout>
 #include <QtWidgets\QToolBar>
 #include <QtWidgets\QListWidget>
 #include <QtWidgets\QAction>
 #include <QtWidgets\QSplitter>
+#include <QtCore\QMimeData>
+#include <QtGui\qevent.h>
 
 // resource mime data
 #include "FSNodeMimeData.h"
@@ -25,11 +27,12 @@
 
 SkeletonMapperEditor::SkeletonMapperEditor( SkeletonMapper& mapper )
    : m_skeletonMapper( mapper )
-   , m_sourceSkeletonPath( NULL )
-   , m_targetSkeletonPath( NULL )
    , m_sourceTree( NULL )
    , m_targetTree( NULL )
    , m_actionSave( NULL )
+   , m_buildMapping( NULL )
+   , m_addMapping( NULL )
+   , m_removeMapping( NULL )
 {
 }
 
@@ -52,7 +55,8 @@ void SkeletonMapperEditor::onInitialize()
    }
 
    {
-      createToolbar( mainLayout );
+      QToolBar* toolbar = new QToolBar( this );
+      mainLayout->addWidget( toolbar );
 
       QSplitter* horizSplitter = new QSplitter( Qt::Horizontal, this );
       mainLayout->addWidget( horizSplitter );
@@ -66,25 +70,37 @@ void SkeletonMapperEditor::onInitialize()
             createSkeletonChainsFrame( vertSplitter );
          }
       }
+
+      defineToolbarActions( toolbar );
    }
 
-   updateSkeletonViews();
-   updateMappingTable();
-   updateChainsView();
+   mappingSelectionChanged();
+   syncEditorToResource();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapperEditor::createToolbar( QLayout* layout )
+void SkeletonMapperEditor::defineToolbarActions( QToolBar* toolbar )
 {
-   QToolBar* toolbar = new QToolBar( this );
-   layout->addWidget( toolbar );
-
    // save resource action
    {
       m_actionSave = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/saveFile.png" ) ), tr( "Save" ), toolbar );
       toolbar->addAction( m_actionSave );
       connect( m_actionSave, SIGNAL( triggered() ), this, SLOT( saveResource() ) );
+   }
+
+   // add mapping action
+   {
+      m_addMapping = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/plus.png" ) ), tr( "Add mapping" ), toolbar );
+      toolbar->addAction( m_addMapping );
+      connect( m_addMapping, SIGNAL( triggered() ), m_mappingTable, SLOT( addMapping() ) );
+   }
+
+   // remove mapping action
+   {
+      m_removeMapping = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/minus.png" ) ), tr( "Remove mapping" ), toolbar );
+      toolbar->addAction( m_removeMapping );
+      connect( m_removeMapping, SIGNAL( triggered() ), m_mappingTable, SLOT( removeMapping() ) );
    }
 
    // build mapping action
@@ -104,45 +120,24 @@ void SkeletonMapperEditor::createMappedSkeletonsFrame( QSplitter* splitter )
    frame->setLayout( layout );
    splitter->addWidget( frame );
 
-   createSkeletonResourceFrame( layout, m_sourceTree, m_sourceSkeletonPath );
-   createSkeletonResourceFrame( layout, m_targetTree, m_targetSkeletonPath );
+   // source skeleton tree
+   m_sourceTree = new MappedSkeletonFrame( frame, true );
+   m_targetTree = new MappedSkeletonFrame( frame, false );
+   layout->addWidget( m_sourceTree );
+   layout->addWidget( m_targetTree );
 
-   connect( m_sourceSkeletonPath, SIGNAL( pathChanged( const FilePath& ) ), this, SLOT( sourceSkeletonChanged( const FilePath& ) ) );
-   connect( m_targetSkeletonPath, SIGNAL( pathChanged( const FilePath& ) ), this, SLOT( targetSkeletonChanged( const FilePath& ) ) );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void SkeletonMapperEditor::createSkeletonResourceFrame( QLayout* parentLayout, QTreeWidget*& outTreeWidget, ResourceDropArea*& outSkelketonPathWidget )
-{
-   QFrame* frame = new QFrame( parentLayout->widget() );
-   QVBoxLayout* layout = new QVBoxLayout( frame );
-   frame->setLayout( layout );
-   parentLayout->addWidget( frame );
-
-   outSkelketonPathWidget = new ResourceDropArea( frame );
-   layout->addWidget( outSkelketonPathWidget );
-
-   outTreeWidget = new QTreeWidget( frame );
-   outTreeWidget->setHeaderLabel( tr("") );
-   layout->addWidget( outTreeWidget, 1 );
+   connect( m_sourceTree, SIGNAL( skeletonChanged() ), this, SLOT( onSkeletonChanged() ) );
+   connect( m_targetTree, SIGNAL( skeletonChanged() ), this, SLOT( onSkeletonChanged() ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void SkeletonMapperEditor::createMappingTable( QSplitter* splitter )
 {
-   m_mappingTable = new QTreeWidget( splitter );
+   m_mappingTable = new MappingTable( splitter );
    splitter->addWidget( m_mappingTable );
 
-   QStringList headerLabels;
-   headerLabels.push_back( tr( "Source chain name" ) );
-   headerLabels.push_back( tr( "Source chain start" ) );
-   headerLabels.push_back( tr( "Source chain end" ) );
-   headerLabels.push_back( tr( "Target chain name" ) );
-   headerLabels.push_back( tr( "Target chain start" ) );
-   headerLabels.push_back( tr( "Target chain end" ) );
-   m_mappingTable->setHeaderLabels( headerLabels );
+   connect( m_mappingTable, SIGNAL( itemSelectionChanged() ), this, SLOT( mappingSelectionChanged() ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,82 +170,9 @@ void SkeletonMapperEditor::onDeinitialize( bool saveProgress )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapperEditor::initSkeletonTree( QTreeWidget* treeWidget, const Skeleton* skeleton ) const
-{
-   if ( !skeleton )
-   {
-      return;
-   }
-
-   const uint boneCount = skeleton->getBoneCount();
-   for ( uint i = 0; i < boneCount; ++i )
-   {
-      const int boneIdx = skeleton->m_bonesUpdateOrder[i];
-      QTreeWidgetItem* newBoneItem = new QTreeWidgetItem();
-      newBoneItem->setText( 0, skeleton->m_boneNames[boneIdx].c_str() );
-
-      const int parentBoneIdx = skeleton->m_boneParentIndices[boneIdx];
-      if ( parentBoneIdx >= 0 )
-      {
-         const char* parentBoneName = skeleton->m_boneNames[parentBoneIdx].c_str();
-
-         QTreeWidgetItem* parentItem = findBoneItem( treeWidget, parentBoneName );
-         ASSERT_MSG( parentItem != NULL, "The parent bone item hasn't been created yet - that means this algorithm is flawed" );
-
-         if ( parentItem )
-         {
-            parentItem->addChild( newBoneItem );
-         }
-      }
-      else
-      {
-         // this is the root item
-         treeWidget->addTopLevelItem( newBoneItem );
-      }
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-QTreeWidgetItem* SkeletonMapperEditor::findBoneItem( QTreeWidget* treeWidget, const QString& boneName ) const
-{
-   List< QTreeWidgetItem* > items;
-
-   {
-      const uint count = treeWidget->topLevelItemCount();
-      for ( uint i = 0; i < count; ++i )
-      {
-         items.pushBack( treeWidget->topLevelItem( i ) );
-      }
-   }
-
-   while ( !items.empty() )
-   {
-      QTreeWidgetItem* analyzedItem = items.front();
-      items.popFront();
-
-      const QString& nodeName = analyzedItem->text( 0 );
-      std::string x = nodeName.toStdString();
-      if ( nodeName == boneName )
-      {
-         return analyzedItem;
-      }
-
-      // add the children to the queue
-      const int childrenCount = analyzedItem->childCount();
-      for ( uint i = 0; i < childrenCount; ++i )
-      {
-         items.pushBack( analyzedItem->child( i ) );
-      }
-   }
-
-   return NULL;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void SkeletonMapperEditor::saveResource()
 {
+   syncResourceToEditor();
    m_skeletonMapper.saveResource();
 }
 
@@ -258,55 +180,45 @@ void SkeletonMapperEditor::saveResource()
 
 void SkeletonMapperEditor::buildMapping()
 {
-   std::string errorMessages;
-   m_skeletonMapper.buildMapperUsingBoneNames( m_skeletonMapper.m_sourceSkeleton, m_skeletonMapper.m_targetSkeleton, errorMessages );
-   
-   updateSkeletonViews();
-   updateMappingTable();
-   updateChainsView();
+   if ( !m_sourceTree->getSkeleton() || !m_targetTree->getSkeleton() )
+   {
+      // nothing to check
+      return;
+   }
+
+   bool verificationSuccessful = m_mappingTable->verifyChain( SourceBoneChain, m_sourceTree->getSkeleton() );
+   verificationSuccessful &= m_mappingTable->verifyChain( TargetBoneChain, m_targetTree->getSkeleton() );
+   if ( !verificationSuccessful )
+   {
+      return;
+   }
+
+   // build the chain mapping skeletons
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapperEditor::sourceSkeletonChanged( const FilePath& path )
+void SkeletonMapperEditor::onSkeletonChanged()
 {
-   ResourcesManager& resMgr = TSingleton< ResourcesManager >::getInstance();
-   Skeleton* newSourceSkeleton = resMgr.create< Skeleton >( path, true );
+   // the skeleton has changed - reset previous mapping settings
+   m_mappingTable->clear();
+   m_sourceChainsTree->clear();
+   m_targetChainsTree->clear();
 
-   m_skeletonMapper.defineMapping( newSourceSkeleton, m_skeletonMapper.m_targetSkeleton );
-
-   updateSkeletonViews();
-   updateMappingTable();
-   updateChainsView();
+   // enable the add mapping button if both skeletons are defined, and disable it when
+   // either one or both are missing
+   const bool enableActions = ( m_sourceTree->getSkeleton() != NULL && m_targetTree->getSkeleton() != NULL );
+   m_addMapping->setEnabled( enableActions );
+   m_buildMapping->setEnabled( enableActions );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapperEditor::targetSkeletonChanged( const FilePath& path )
+void SkeletonMapperEditor::mappingSelectionChanged()
 {
-   ResourcesManager& resMgr = TSingleton< ResourcesManager >::getInstance();
-   Skeleton* newTargetSkeleton = resMgr.create< Skeleton >( path, true );
-
-   m_skeletonMapper.defineMapping( m_skeletonMapper.m_sourceSkeleton, newTargetSkeleton );
-
-   updateSkeletonViews();
-   updateMappingTable();
-   updateChainsView();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void SkeletonMapperEditor::updateSkeletonViews()
-{
-   // fill the widgets with data
-   m_sourceSkeletonPath->setFilePath( m_skeletonMapper.m_sourceSkeleton ? m_skeletonMapper.m_sourceSkeleton->getFilePath() : FilePath() );
-   m_targetSkeletonPath->setFilePath( m_skeletonMapper.m_targetSkeleton ? m_skeletonMapper.m_targetSkeleton->getFilePath() : FilePath() );
-
-   m_sourceTree->clear();
-   initSkeletonTree( m_sourceTree, m_skeletonMapper.m_sourceSkeleton );
-
-   m_targetTree->clear();
-   initSkeletonTree( m_targetTree, m_skeletonMapper.m_targetSkeleton );
+   // we want to enable the 'remove mapping' button only when a mapping is selected
+   bool enableButton = !m_mappingTable->selectedItems().isEmpty();
+   m_removeMapping->setEnabled( enableButton );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -353,11 +265,40 @@ void SkeletonMapperEditor::updateMappingTable()
 void SkeletonMapperEditor::updateChainsView()
 {
    m_sourceChainsTree->clear();
-   initSkeletonTree( m_sourceChainsTree, m_skeletonMapper.getSourceChainSkeleton() );
-
    m_targetChainsTree->clear();
-   initSkeletonTree( m_targetChainsTree, m_skeletonMapper.getTargetChainSkeleton() );
+}
 
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapperEditor::syncEditorToResource()
+{
+   m_sourceTree->setSkeleton( m_skeletonMapper.m_sourceSkeleton );
+   m_targetTree->setSkeleton( m_skeletonMapper.m_targetSkeleton );
+
+   updateMappingTable();
+   updateChainsView();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapperEditor::syncResourceToEditor()
+{
+   m_skeletonMapper.setSkeletons( m_sourceTree->getSkeleton(), m_targetTree->getSkeleton() );
+
+   const uint mappingsCount = m_mappingTable->topLevelItemCount();
+   for ( uint i = 0; i < mappingsCount; ++i )
+   {
+      QTreeWidgetItem* item = m_mappingTable->topLevelItem( i );
+      std::string sourceChainName = item->text( BoneMappingCol_SourceChainName ).toStdString();
+      std::string sourceChainStart = item->text( BoneMappingCol_SourceChainStart ).toStdString();
+      std::string sourceChainEnd = item->text( BoneMappingCol_SourceChainEnd ).toStdString();
+      std::string targetChainName = item->text( BoneMappingCol_TargetChainName ).toStdString();
+      std::string targetChainStart = item->text( BoneMappingCol_TargetChainStart ).toStdString();
+      std::string targetChainEnd = item->text( BoneMappingCol_TargetChainEnd ).toStdString();
+      m_skeletonMapper.addSourceChain( sourceChainName.c_str(), sourceChainStart.c_str(), sourceChainEnd.c_str() );
+      m_skeletonMapper.addTargetChain( targetChainName.c_str(), targetChainStart.c_str(), targetChainEnd.c_str() );
+      m_skeletonMapper.mapChain( sourceChainName.c_str(), targetChainName.c_str() );
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

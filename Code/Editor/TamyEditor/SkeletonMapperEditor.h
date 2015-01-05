@@ -11,13 +11,15 @@
 
 class SkeletonMapper;
 class Skeleton;
-class QTreeWidget;
 class QTreeWidgetItem;
 class QLayout;
 class QBoxLayout;
 class QSplitter;
 class QAction;
-class ResourceDropArea;
+class QTreeWidget;
+class QToolBar;
+class MappingTable;
+class MappedSkeletonFrame;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -28,19 +30,18 @@ class SkeletonMapperEditor : public ResourceEditor
 private:
    SkeletonMapper&         m_skeletonMapper;
 
-   ResourceDropArea*       m_sourceSkeletonPath;
-   ResourceDropArea*       m_targetSkeletonPath;
+   MappedSkeletonFrame*    m_sourceTree;
+   MappedSkeletonFrame*    m_targetTree;
 
-   QTreeWidget*            m_sourceTree;
-   QTreeWidget*            m_targetTree;
-
-   QTreeWidget*            m_mappingTable;
+   MappingTable*           m_mappingTable;
 
    QTreeWidget*            m_sourceChainsTree;
    QTreeWidget*            m_targetChainsTree;
 
    QAction*                m_actionSave;
    QAction*                m_buildMapping;
+   QAction*                m_addMapping;
+   QAction*                m_removeMapping;
 
 public:
    /**
@@ -60,20 +61,17 @@ public:
 public slots:
    void saveResource();
    void buildMapping();
-   void sourceSkeletonChanged( const FilePath& path );
-   void targetSkeletonChanged( const FilePath& path );
+   void mappingSelectionChanged();
+   void onSkeletonChanged();
 
 private:
-   void createToolbar( QLayout* layout );
+   void defineToolbarActions( QToolBar* toolbar );
    void createMappedSkeletonsFrame( QSplitter* splitter );
    void createMappingTable( QSplitter* splitter );
    void createSkeletonChainsFrame( QSplitter* splitter );
-   void createSkeletonResourceFrame( QLayout* parentLayout, QTreeWidget*& outTreeWidget, ResourceDropArea*& outSkelketonPathWidget );
 
-   void initSkeletonTree( QTreeWidget* treeWidget, const Skeleton* skeleton ) const;
-   QTreeWidgetItem* findBoneItem( QTreeWidget* treeWidget, const QString& boneName ) const;
-
-   void updateSkeletonViews();
+   void syncResourceToEditor();
+   void syncEditorToResource();
    void updateMappingTable();
    void updateChainsView();
 };

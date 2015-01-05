@@ -96,6 +96,11 @@ public:
    ~SkeletonMapper();
 
    /**
+    * Resets the mapping.
+    */
+   void reset();
+
+   /**
     * Calculates a pose the target skeleton should assume to look the same as the source.
     *
     * @param sourcePose
@@ -194,7 +199,7 @@ public:
     * @param sourceSkeleton
     * @param targetSkeleton
     */
-   SkeletonMapper& defineMapping( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton );
+   SkeletonMapper& setSkeletons( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton );
 
    /**
    * Maps a bone from the source skeleton onto a bone from the target skeleton.

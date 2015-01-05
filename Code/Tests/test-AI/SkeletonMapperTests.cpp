@@ -24,7 +24,7 @@ TEST( SkeletonMapper, sameBoneRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
       .buildMapper();
 
@@ -48,7 +48,7 @@ TEST( SkeletonMapper, oppositeBoneRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
    .buildMapper();
 
@@ -81,7 +81,7 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
       .mapBone( "boneB", "boneB" )
       .buildMapper();
@@ -144,7 +144,7 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
       .mapBone( "boneB", "boneB" )
       .buildMapper();
@@ -213,7 +213,7 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
    CPPUNIT_ASSERT( mapper.buildMapperUsingBoneNames( &skeletonA, &skeletonB, errorMsg ) );
    /*
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .addSourceChain( "chain1", "boneA", "boneA" )
       .addSourceChain( "chain2", "boneC", "boneC" )
       .addTargetChain( "chain1", "boneA", "boneB" )
@@ -290,7 +290,7 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.defineMapping( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .addSourceChain( "chain1", "boneA", "boneA" )
       .addSourceChain( "chain2", "boneC", "boneC" )
       .addTargetChain( "chain1", "boneC", "boneC" )

@@ -85,6 +85,14 @@ public:
     */
    int getBoneIndex( const char* name ) const;
 
+   /**
+    * Checks if the specified child bone is in fact a child of the specified parent bone.
+    *
+    * @param parentBoneName
+    * @param childBoneName
+    */
+   bool verifyParentChildRelation( const std::string& parentBoneName, const std::string& childBoneName ) const;
+
    // -------------------------------------------------------------------------
    // Pose management utilities
    // -------------------------------------------------------------------------

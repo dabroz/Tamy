@@ -169,7 +169,7 @@ void Skeleton::calculateBindPose()
 
 int Skeleton::getBoneIndex( const char* name ) const
 {
-   uint count = m_boneNames.size();
+   const uint count = m_boneNames.size();
    for ( uint idx = 0; idx < count; ++idx )
    {
       if ( m_boneNames[idx] == name )
@@ -178,6 +178,30 @@ int Skeleton::getBoneIndex( const char* name ) const
       }
    }
    return -1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool Skeleton::verifyParentChildRelation( const std::string& parentBoneName, const std::string& childBoneName ) const
+{
+   int parentBoneIdx = getBoneIndex( parentBoneName.c_str() );
+   int childBoneIdx = getBoneIndex( childBoneName.c_str() );
+
+   if ( parentBoneIdx < 0 || childBoneIdx < 0 )
+   {
+      // one of the bones doesn't exist
+      return false;
+   }
+
+   for ( int boneIdx = m_boneParentIndices[childBoneIdx]; boneIdx >= 0; boneIdx = m_boneParentIndices[boneIdx] )
+   {
+      if ( boneIdx == parentBoneIdx )
+      {
+         return true;
+      }
+   }
+
+   return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

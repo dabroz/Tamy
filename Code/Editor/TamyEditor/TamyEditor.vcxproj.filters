@@ -2073,6 +2073,18 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_SkeletonMapperEditor.cpp">
       <Filter>QtImplementation\Generated Files\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="MappingTable.cpp">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MappingTable.cpp">
+      <Filter>QtImplementation\Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="MappedSkeletonFrame.cpp">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MappedSkeletonFrame.cpp">
+      <Filter>QtImplementation\Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TypeDescFactory.inl">
@@ -2429,6 +2441,12 @@
       <Filter>Widgets\SceneRenderWidget\InputManagement</Filter>
     </CustomBuild>
     <CustomBuild Include="SkeletonMapperEditor.h">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MappingTable.h">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MappedSkeletonFrame.h">
       <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
     </CustomBuild>
   </ItemGroup>
