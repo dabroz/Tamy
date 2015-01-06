@@ -142,8 +142,8 @@ SkeletonMapper& SkeletonMapper::addTargetChain( const char* chainName, const cha
 
 SkeletonMapper& SkeletonMapper::mapChain( const char* sourceChainName, const char* targetChainName )
 {
-   const int sourceChainIdx = SkeletonMapperUtils::getChainIdx( m_sourceChainSkeleton, sourceChainName );
-   const int targetChainIdx = SkeletonMapperUtils::getChainIdx( m_targetChainSkeleton, targetChainName );
+   const int sourceChainIdx = SkeletonMapperUtils::getChainIdx( m_sourceChains, sourceChainName );
+   const int targetChainIdx = SkeletonMapperUtils::getChainIdx( m_targetChains, targetChainName );
    if ( sourceChainIdx < 0 || targetChainIdx < 0 )
    {
       return *this;

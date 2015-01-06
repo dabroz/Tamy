@@ -111,7 +111,6 @@ public:
     */
    void calcPoseLocalSpace( const Transform* sourcePose, Transform* outTargetPose ) const;
 
-
    // -------------------------------------------------------------------------
    // Getters/setters
    // -------------------------------------------------------------------------

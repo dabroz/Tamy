@@ -5,6 +5,7 @@
 // custom widgets
 #include "MappedSkeletonFrame.h"
 #include "MappingTable.h"
+#include "ChainSkeletonTree.h"
 
 // qt widgets
 #include <QtWidgets\QVBoxLayout>
@@ -149,11 +150,11 @@ void SkeletonMapperEditor::createSkeletonChainsFrame( QSplitter* splitter )
    frame->setLayout( layout );
    splitter->addWidget( frame );
 
-   m_sourceChainsTree = new QTreeWidget( frame );
+   m_sourceChainsTree = new ChainSkeletonTree( frame );
    m_sourceChainsTree->setHeaderLabel( tr( "Source chains" ) );
    layout->addWidget( m_sourceChainsTree );
 
-   m_targetChainsTree = new QTreeWidget( frame );
+   m_targetChainsTree = new ChainSkeletonTree( frame );
    m_targetChainsTree->setHeaderLabel( tr( "Target chains" ) );
    layout->addWidget( m_targetChainsTree );
 }
@@ -202,7 +203,12 @@ void SkeletonMapperEditor::buildMapping()
    {
       // there were some errors during the build stage - reset the build results
       m_mappingTable->clearBuildResults();
+      return;
    }
+
+   // all went well - show the compiled chain skeletons
+   m_sourceChainsTree->setSkeleton( m_mappingTable->m_sourceChainSkeleton );
+   m_targetChainsTree->setSkeleton( m_mappingTable->m_targetChainSkeleton );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

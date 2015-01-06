@@ -79,12 +79,12 @@ int SkeletonMapperUtils::findChainByBone( const Array< SkeletonBoneChain* >& cha
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int SkeletonMapperUtils::getChainIdx( const Skeleton* chainSkeleton, const char* chainName )
+int SkeletonMapperUtils::getChainIdx( const Array< SkeletonBoneChain* >& chainsCollection, const char* chainName )
 {
-   const int count = chainSkeleton->getBoneCount();
+   const int count = chainsCollection.size();
    for ( int i = 0; i < count; ++i )
    {
-      if ( chainSkeleton->m_boneNames[i] == chainName )
+      if ( chainsCollection[i]->m_name == chainName )
       {
          return i;
       }

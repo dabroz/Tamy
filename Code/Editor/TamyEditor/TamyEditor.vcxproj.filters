@@ -2085,6 +2085,12 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_MappedSkeletonFrame.cpp">
       <Filter>QtImplementation\Generated Files\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="ChainSkeletonTree.cpp">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ChainSkeletonTree.cpp">
+      <Filter>QtImplementation\Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TypeDescFactory.inl">
@@ -2447,6 +2453,9 @@
       <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
     </CustomBuild>
     <CustomBuild Include="MappedSkeletonFrame.h">
+      <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ChainSkeletonTree.h">
       <Filter>ResourceEditors\SkeletonMapperEditor</Filter>
     </CustomBuild>
   </ItemGroup>

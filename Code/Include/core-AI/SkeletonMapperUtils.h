@@ -35,10 +35,10 @@ public:
    /**
     * Locates a chain with the specified name in the specified collection and returns its index.
     *
-    * @param chainSkeleton
+    * @param chainsCollection
     * @param chainName
     */
-   static int getChainIdx( const Skeleton* chainSkeleton, const char* chainName );
+   static int getChainIdx( const Array< SkeletonBoneChain* >& chainsCollection, const char* chainName );
 
    /**
     * Add a bone to an existing chain, or creates a new chain if the bone doesn't fit into any of the existing ones.

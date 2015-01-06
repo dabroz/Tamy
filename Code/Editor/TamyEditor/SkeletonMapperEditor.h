@@ -16,7 +16,7 @@ class QLayout;
 class QBoxLayout;
 class QSplitter;
 class QAction;
-class QTreeWidget;
+class ChainSkeletonTree;
 class QToolBar;
 class MappingTable;
 class MappedSkeletonFrame;
@@ -35,8 +35,8 @@ private:
 
    MappingTable*                    m_mappingTable;
 
-   QTreeWidget*                     m_sourceChainsTree;
-   QTreeWidget*                     m_targetChainsTree;
+   ChainSkeletonTree*               m_sourceChainsTree;
+   ChainSkeletonTree*               m_targetChainsTree;
 
    QAction*                         m_actionSave;
    QAction*                         m_buildMapping;

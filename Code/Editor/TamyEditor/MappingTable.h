@@ -38,7 +38,7 @@ class MappingTable : public QTreeWidget
 {
    Q_OBJECT
 
-private:
+public:
    // mapper build results
    Array< SkeletonBoneChain* >      m_sourceChains;
    Array< SkeletonBoneChain* >      m_targetChains;
@@ -46,6 +46,7 @@ private:
    Skeleton*                        m_sourceChainSkeleton;
    Skeleton*                        m_targetChainSkeleton;
 
+private:
    // error status
    bool                             m_errorFlag;
 
