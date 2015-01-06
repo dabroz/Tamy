@@ -186,14 +186,23 @@ void SkeletonMapperEditor::buildMapping()
       return;
    }
 
-   bool verificationSuccessful = m_mappingTable->verifyChain( SourceBoneChain, m_sourceTree->getSkeleton() );
-   verificationSuccessful &= m_mappingTable->verifyChain( TargetBoneChain, m_targetTree->getSkeleton() );
-   if ( !verificationSuccessful )
+   m_mappingTable->resetErrorFlag();
+   m_mappingTable->verifyChain( SourceBoneChain, m_sourceTree->getSkeleton() );
+   m_mappingTable->verifyChain( TargetBoneChain, m_targetTree->getSkeleton() );
+   if ( m_mappingTable->getErrorFlag() )
    {
+      // there were errors - don't proceed with the build
       return;
    }
 
    // build the chain mapping skeletons
+   m_mappingTable->buildMapping( m_sourceTree->getSkeleton(), m_targetTree->getSkeleton() );
+
+   if ( m_mappingTable->getErrorFlag() )
+   {
+      // there were some errors during the build stage - reset the build results
+      m_mappingTable->clearBuildResults();
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -223,60 +232,11 @@ void SkeletonMapperEditor::mappingSelectionChanged()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonMapperEditor::updateMappingTable()
-{
-   m_mappingTable->clear();
-
-   const Skeleton* sourceChainSkeleton = m_skeletonMapper.getSourceChainSkeleton();
-   const Skeleton* targetChainSkeleton = m_skeletonMapper.getTargetChainSkeleton();
-
-   const uint targetChainsCount = m_skeletonMapper.getTargetChainsCount();
-   for ( uint targetChainIdx = 0; targetChainIdx < targetChainsCount; ++targetChainIdx )
-   {
-      const int sourceChainIdx = m_skeletonMapper.getMappingForChain( targetChainIdx );
-      if ( sourceChainIdx < 0 )
-      {
-         continue;
-      }
-
-      const SkeletonBoneChain* targetChain = m_skeletonMapper.getTargetChain( targetChainIdx );
-      const SkeletonBoneChain* sourceChain = m_skeletonMapper.getSourceChain( sourceChainIdx );
-
-      ASSERT( targetChain && sourceChain && sourceChain != targetChain );
-
-      const char* sourceChainStart = m_skeletonMapper.m_sourceSkeleton->m_boneNames[sourceChain->m_firstBoneIdx].c_str();
-      const char* sourceChainEnd = m_skeletonMapper.m_sourceSkeleton->m_boneNames[sourceChain->m_lastBoneIdx].c_str();
-      const char* targetChainStart = m_skeletonMapper.m_targetSkeleton->m_boneNames[targetChain->m_firstBoneIdx].c_str();
-      const char* targetChainEnd = m_skeletonMapper.m_targetSkeleton->m_boneNames[targetChain->m_lastBoneIdx].c_str();
-
-      QStringList boneLabels;
-      boneLabels.push_back( sourceChainSkeleton->m_boneNames[sourceChainIdx].c_str() );
-      boneLabels.push_back( sourceChainStart );
-      boneLabels.push_back( sourceChainEnd );
-      boneLabels.push_back( targetChainSkeleton->m_boneNames[targetChainIdx].c_str() );
-      boneLabels.push_back( targetChainStart );
-      boneLabels.push_back( targetChainEnd );
-      m_mappingTable->addTopLevelItem( new QTreeWidgetItem() );
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void SkeletonMapperEditor::updateChainsView()
-{
-   m_sourceChainsTree->clear();
-   m_targetChainsTree->clear();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 void SkeletonMapperEditor::syncEditorToResource()
 {
    m_sourceTree->setSkeleton( m_skeletonMapper.m_sourceSkeleton );
    m_targetTree->setSkeleton( m_skeletonMapper.m_targetSkeleton );
-
-   updateMappingTable();
-   updateChainsView();
+   m_mappingTable->setMapping( m_skeletonMapper );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,8 @@ public:
    // static data
    const Skeleton*      m_skeleton;
 
+   std::string          m_name;
+
    // the bones in the chain can be traced from the last bone to the first using parental relations
    // defined in the skeleton.
    // So it's:
@@ -43,10 +45,11 @@ public:
     * Constructor.
     *
     * @param skeleton
+    * @param chainName
     * @param firstBoneIdx
     * @param lastBoneIdx
     */
-   SkeletonBoneChain( const Skeleton* skeleton, uint firstBoneIdx, uint lastBoneIdx );
+   SkeletonBoneChain( const Skeleton* skeleton, const std::string& chainName, uint firstBoneIdx, uint lastBoneIdx );
 
    /**
     * Updates the specified pose, transforming the bones this chain consists of.
@@ -241,58 +244,6 @@ public:
    // Resource implementation
    // -------------------------------------------------------------------------
    void onResourceLoaded( ResourcesManager& mgr ) override;
-
-private:
-   /**
-    * Locates a chain with the specified name in the specified collection and returns its index.
-    *
-    * @param chainSkeleton
-    * @param chainName
-    */
-   int getChainIdx( const Skeleton* chainSkeleton, const char* chainName ) const;
-
-   /**
-    * Returns the index of a chain that contains the specified bone from its based skeleton.
-    *
-    * @param chainsCollection
-    * @param baseSkeletonBoneIdx
-    */
-   int findChainByBone( const Array< SkeletonBoneChain* >& chainsCollection, uint baseSkeletonBoneIdx ) const;
-
-   /**
-    * Add a bone to an existing chain, or creates a new chain if the bone doesn't fit into any of the existing ones.
-    *
-    * @param baseSkeleton
-    * @param baseSkeletonBoneIdx
-    * @param mappedSourceBones
-    * @param inOutChainsCollection
-    * @param outChainSkeleton
-    * @param outErrMsg
-    *
-    * @return 'true' if the bone was added, 'false' if there were errors
-    */
-   bool addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedSourceBones, Array< SkeletonBoneChain* >& inOutChainsCollection, Skeleton* outChainSkeleton, std::string& outErrMsg ) const;
-
-   /**
-    * Detects if two chains starting at 'firstBoneIdx' are branched.
-    *
-    * @param baseSkeleton
-    * @param firstBoneIdx
-    * @param lastBoneIdx
-    * @param newChainLastBoneIdx
-    *
-    * @return 'true' if a branch was detected, 'false' otherwise
-    */
-   bool detectBranching( const Skeleton* baseSkeleton, uint firstBoneIdx, uint lastBoneIdx, uint newChainLastBoneIdx ) const;
-
-   /**
-    * Builds a chain.
-    *
-    * @param baseSkeleton
-    * @param chainBones
-    * @param outChainSkeleton
-    */
-   void buildChain( const Skeleton* baseSkeleton, const Array< SkeletonBoneChain* >& chainBones, Skeleton* outChainSkeleton ) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

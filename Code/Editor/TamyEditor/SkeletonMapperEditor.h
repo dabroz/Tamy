@@ -28,20 +28,20 @@ class SkeletonMapperEditor : public ResourceEditor
    Q_OBJECT
 
 private:
-   SkeletonMapper&         m_skeletonMapper;
+   SkeletonMapper&                  m_skeletonMapper;
 
-   MappedSkeletonFrame*    m_sourceTree;
-   MappedSkeletonFrame*    m_targetTree;
+   MappedSkeletonFrame*             m_sourceTree;
+   MappedSkeletonFrame*             m_targetTree;
 
-   MappingTable*           m_mappingTable;
+   MappingTable*                    m_mappingTable;
 
-   QTreeWidget*            m_sourceChainsTree;
-   QTreeWidget*            m_targetChainsTree;
+   QTreeWidget*                     m_sourceChainsTree;
+   QTreeWidget*                     m_targetChainsTree;
 
-   QAction*                m_actionSave;
-   QAction*                m_buildMapping;
-   QAction*                m_addMapping;
-   QAction*                m_removeMapping;
+   QAction*                         m_actionSave;
+   QAction*                         m_buildMapping;
+   QAction*                         m_addMapping;
+   QAction*                         m_removeMapping;
 
 public:
    /**
@@ -72,8 +72,6 @@ private:
 
    void syncResourceToEditor();
    void syncEditorToResource();
-   void updateMappingTable();
-   void updateChainsView();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

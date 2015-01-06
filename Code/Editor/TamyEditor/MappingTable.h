@@ -3,6 +3,7 @@
 #pragma once
 
 #include <QtWidgets\QTreeWidget>
+#include "core\Array.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,6 +29,8 @@ enum BoneChainIdx
 ///////////////////////////////////////////////////////////////////////////////
 
 class Skeleton;
+class SkeletonMapper;
+class SkeletonBoneChain;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -35,8 +38,27 @@ class MappingTable : public QTreeWidget
 {
    Q_OBJECT
 
+private:
+   // mapper build results
+   Array< SkeletonBoneChain* >      m_sourceChains;
+   Array< SkeletonBoneChain* >      m_targetChains;
+   Array< int >                     m_chainMappings;
+   Skeleton*                        m_sourceChainSkeleton;
+   Skeleton*                        m_targetChainSkeleton;
+
+   // error status
+   bool                             m_errorFlag;
+
 public:
    MappingTable( QWidget* parent );
+   ~MappingTable();
+
+   /**
+    * Clears the table and sets the mapping from the specified mapper.
+    *
+    * @param mapper
+    */
+   void setMapping( const SkeletonMapper& mapper );
 
    /**
     * Verifies the specified chain.
@@ -44,7 +66,35 @@ public:
     * @param chainIdx
     * @param skeleton
     */
-   bool verifyChain( BoneChainIdx chainIdx, const Skeleton* skeleton );
+   void verifyChain( BoneChainIdx chainIdx, const Skeleton* baseSkeleton );
+
+   /**
+    * Builds the mapping.
+    *
+    * @param baseSourceSkeleton
+    * @param baseTargetSkeleton
+    */
+   void buildMapping( const Skeleton* baseSourceSkeleton, const Skeleton* baseTargetSkeleton );
+
+   /**
+    * Clears the build results.
+    */
+   void clearBuildResults();
+
+   /**
+    * Resets the error flag.
+    */
+   inline void resetErrorFlag() {
+      m_errorFlag = false;
+   }
+
+   /**
+    * Returns the value of the error flag.
+    * If an error was encountered, the flag will be set to 'true'.
+    */
+   inline bool getErrorFlag() const {
+      return m_errorFlag;
+   }
 
    // -------------------------------------------------------------------------
    // QAbstractItemView implementation
@@ -60,6 +110,10 @@ private:
    void resetChainStatus( uint chainIdx, int columnIdx );
    void setChainStatus( uint chainIdx, int columnIdx, bool newStatus, const char* errorMsg );
 
+   void updateChainNames();
+
+   void buildChains( BoneChainIdx chainIdx, const Skeleton* baseSkeleton, Array< SkeletonBoneChain* >& outChainsArr );
+   void buildMappingTable();
 };
 
 ///////////////////////////////////////////////////////////////////////////////
