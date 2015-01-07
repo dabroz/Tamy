@@ -1,6 +1,7 @@
 #include "SkeletonMapperEditor.h"
 #include "core-AI\Skeleton.h"
 #include "core-AI\SkeletonMapper.h"
+#include "core-AI\SkeletonMapperBuilder.h"
 
 // custom widgets
 #include "MappedSkeletonFrame.h"
@@ -249,7 +250,8 @@ void SkeletonMapperEditor::syncEditorToResource()
 
 void SkeletonMapperEditor::syncResourceToEditor()
 {
-   m_skeletonMapper.setSkeletons( m_sourceTree->getSkeleton(), m_targetTree->getSkeleton() );
+   SkeletonMapperBuilder builder( m_skeletonMapper );
+   builder.setSkeletons( m_sourceTree->getSkeleton(), m_targetTree->getSkeleton() );
 
    const uint mappingsCount = m_mappingTable->topLevelItemCount();
    for ( uint i = 0; i < mappingsCount; ++i )
@@ -261,9 +263,9 @@ void SkeletonMapperEditor::syncResourceToEditor()
       std::string targetChainName = item->text( BoneMappingCol_TargetChainName ).toStdString();
       std::string targetChainStart = item->text( BoneMappingCol_TargetChainStart ).toStdString();
       std::string targetChainEnd = item->text( BoneMappingCol_TargetChainEnd ).toStdString();
-      m_skeletonMapper.addSourceChain( sourceChainName.c_str(), sourceChainStart.c_str(), sourceChainEnd.c_str() );
-      m_skeletonMapper.addTargetChain( targetChainName.c_str(), targetChainStart.c_str(), targetChainEnd.c_str() );
-      m_skeletonMapper.mapChain( sourceChainName.c_str(), targetChainName.c_str() );
+      builder.addSourceChain( sourceChainName.c_str(), sourceChainStart.c_str(), sourceChainEnd.c_str() );
+      builder.addTargetChain( targetChainName.c_str(), targetChainStart.c_str(), targetChainEnd.c_str() );
+      builder.mapChain( sourceChainName.c_str(), targetChainName.c_str() );
    }
 }
 

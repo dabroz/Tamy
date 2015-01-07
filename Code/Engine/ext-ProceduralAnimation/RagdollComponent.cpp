@@ -165,7 +165,6 @@ void RagdollComponent::onSiblingAttached( SceneNode* node )
       if ( !existingMapper && skeletonComp->m_skeleton )
       {
          SkeletonMapper* newMapper = new SkeletonMapper();
-         newMapper->setSkeletons( m_ragdollSkeleton, skeletonComp->m_skeleton );
 
          // TODO: build the mapping table here
 
@@ -666,7 +665,6 @@ void RagdollComponent::buildSkeletonMappers()
       if ( skeletonComp->m_skeleton != NULL )
       {
          SkeletonMapper* mapper = new SkeletonMapper();
-         mapper->setSkeletons( m_ragdollSkeleton, skeletonComp->m_skeleton );
 
          // TODO: build the mapping table here
 

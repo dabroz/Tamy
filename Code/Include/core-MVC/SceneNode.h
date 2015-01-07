@@ -171,7 +171,7 @@ public:
    /**
     * Called when a model this node belongs to was loaded.
     * It's used to rebuild connections between entities and, as a part
-    * of an internal mechanism, SHOULD NOT BE INHERITED FROM.
+    * of an internal mechanism, SHOULD NOT BE OVERRIDEN.
     */
    virtual void onModelLoaded() {}
 

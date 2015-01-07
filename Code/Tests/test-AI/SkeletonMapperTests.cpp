@@ -1,5 +1,7 @@
 #include "core-TestFramework\TestFramework.h"
 #include "core-AI\SkeletonMapper.h"
+#include "core-AI\SkeletonMapperComponent.h"
+#include "core-AI\SkeletonMapperBuilder.h"
 #include "core-AI\Skeleton.h"
 #include "core-AI\SkeletonPoseTool.h"
 
@@ -24,12 +26,16 @@ TEST( SkeletonMapper, sameBoneRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.setSkeletons( &skeletonA, &skeletonB )
-      .mapBone( "boneA", "boneA" )
-      .buildMapper();
+   SkeletonMapperBuilder builder( mapper );
+   builder.setSkeletons( &skeletonA, &skeletonB )
+      .mapBone( "boneA", "boneA" );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    poseA.start().rotateAndTranslate( "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector( 1.0f, 2.0f, -3.0f ) ).end();
-   mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+   runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
    TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 1.0f, 2.0f, -3.0f ) );
    TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 1.0f, 2.0f, -3.0f ) );
@@ -48,13 +54,17 @@ TEST( SkeletonMapper, oppositeBoneRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.setSkeletons( &skeletonA, &skeletonB )
-      .mapBone( "boneA", "boneA" )
-   .buildMapper();
+   SkeletonMapperBuilder builder( mapper );
+   builder.setSkeletons( &skeletonA, &skeletonB )
+      .mapBone( "boneA", "boneA" );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    // Let's make the bone in skeleton A turn 45 degrees about OX axis.
    poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-   mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+   runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
    TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
    TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
@@ -81,15 +91,19 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
    }
 
    SkeletonMapper mapper;
-   mapper.setSkeletons( &skeletonA, &skeletonB )
+   SkeletonMapperBuilder builder( mapper );
+   builder.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
-      .mapBone( "boneB", "boneB" )
-      .buildMapper();
+      .mapBone( "boneB", "boneB" );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    // rotating bone A
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
@@ -101,7 +115,7 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
    // rotating bone B
    {
       poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
@@ -113,7 +127,7 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
    // rotating bone A & B
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneB", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
@@ -144,15 +158,19 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.setSkeletons( &skeletonA, &skeletonB )
+   SkeletonMapperBuilder builder( mapper );
+   builder.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
-      .mapBone( "boneB", "boneB" )
-      .buildMapper();
+      .mapBone( "boneB", "boneB" );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    // rotating bone A
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
@@ -164,7 +182,7 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
    // rotating bone B
    {
       poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD(  0.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
@@ -176,7 +194,7 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
    // rotating bone A & B
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneB", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
       TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD(  0.0f ), Vector( 0.0f, 1.0f, 0.0f ) );
@@ -209,23 +227,23 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
    }
 
    SkeletonMapper mapper;
-   std::string errorMsg;
-   CPPUNIT_ASSERT( mapper.buildMapperUsingBoneNames( &skeletonA, &skeletonB, errorMsg ) );
-   /*
-   SkeletonMapper mapper;
-   mapper.setSkeletons( &skeletonA, &skeletonB )
+   SkeletonMapperBuilder builder( mapper );
+   builder.setSkeletons( &skeletonA, &skeletonB )
       .addSourceChain( "chain1", "boneA", "boneA" )
       .addSourceChain( "chain2", "boneC", "boneC" )
       .addTargetChain( "chain1", "boneA", "boneB" )
       .addTargetChain( "chain2", "boneC", "boneC" )
       .mapChain( "chain1", "chain1" )
-      .mapChain( "chain2", "chain2" )
-   .buildMapper();*/
+      .mapChain( "chain2", "chain2" );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    // rotating bone A
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
@@ -240,7 +258,7 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
    // rotating bone C
    {
       poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
@@ -255,7 +273,7 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
    // rotating bones A & C
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
@@ -290,19 +308,23 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
    }
 
    SkeletonMapper mapper;
-   mapper.setSkeletons( &skeletonA, &skeletonB )
+   SkeletonMapperBuilder builder( mapper );
+   builder.setSkeletons( &skeletonA, &skeletonB )
       .addSourceChain( "chain1", "boneA", "boneA" )
       .addSourceChain( "chain2", "boneC", "boneC" )
       .addTargetChain( "chain1", "boneC", "boneC" )
       .addTargetChain( "chain2", "boneB", "boneA" )
       .mapChain( "chain1", "chain2" )
-      .mapChain( "chain2", "chain1" )
-      .buildMapper();
+      .mapChain( "chain2", "chain1" );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    // rotating bone A
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
@@ -317,7 +339,7 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
    // rotating bone C
    {
       poseA.start().rotate( "boneC", Vector_OX, DEG2RAD( -90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD(   0.0f ), Vector_ZERO );
@@ -332,7 +354,7 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
    // rotating bones A & C
    {
       poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).rotate( "boneC", Vector_OX, DEG2RAD( 90.0f ) ).end();
-      mapper.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
 
       // pose A check
       TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( -90.0f ), Vector_ZERO );
@@ -367,11 +389,16 @@ TEST( SkeletonMapper, buildMapperUsingBoneNames_similarBoneRotation )
    }
 
    SkeletonMapper mapper;
+   SkeletonMapperBuilder builder( mapper );
    std::string errorMsg;
-   CPPUNIT_ASSERT( mapper.buildMapperUsingBoneNames( &skeletonA, &skeletonB, errorMsg ) );
+   CPPUNIT_ASSERT( builder.buildMapperUsingBoneNames( &skeletonA, &skeletonB, errorMsg ) );
 
    CPPUNIT_ASSERT_EQUAL( ( uint ) 2, mapper.getSourceChainsCount() );
    CPPUNIT_ASSERT_EQUAL( ( uint ) 2, mapper.getTargetChainsCount() );
+
+   SkeletonMapperComponent runtime;
+   runtime.setMapper( &mapper );
+   runtime.compileRuntime();
 
    // source chains
    {
