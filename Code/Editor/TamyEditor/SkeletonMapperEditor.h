@@ -42,6 +42,7 @@ private:
    QAction*                         m_buildMapping;
    QAction*                         m_addMapping;
    QAction*                         m_removeMapping;
+   QAction*                         m_constructNameBasedMapping;
 
 public:
    /**
@@ -63,6 +64,7 @@ public slots:
    void buildMapping();
    void mappingSelectionChanged();
    void onSkeletonChanged();
+   void constructNameBasedMapping();
 
 private:
    void defineToolbarActions( QToolBar* toolbar );
@@ -72,6 +74,8 @@ private:
 
    void syncResourceToEditor();
    void syncEditorToResource();
+
+   bool identifyBonesWithMatchingNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, Array< int >& outMappings ) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

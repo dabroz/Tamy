@@ -23,7 +23,10 @@ MappedSkeletonTree::MappedSkeletonTree( QWidget* parent, bool isSource )
    , m_isSource( isSource )
    , m_skeleton( NULL )
 {
-   setHeaderLabel( tr( "" ) );
+   QStringList headerLabels;
+   headerLabels.push_back( "Bone name" );
+   headerLabels.push_back( "Bone index" );
+   setHeaderLabels( headerLabels );
 
    setDragEnabled( true );
    setAcceptDrops( false );
@@ -81,13 +84,19 @@ void MappedSkeletonTree::setSkeleton( const Skeleton* skeleton )
       return;
    }
 
+   QString boneIdxStr;
    const uint boneCount = m_skeleton->getBoneCount();
    for ( uint i = 0; i < boneCount; ++i )
    {
       const int boneIdx = m_skeleton->m_bonesUpdateOrder[i];
-      QTreeWidgetItem* newBoneItem = new QTreeWidgetItem();
-      newBoneItem->setText( 0, skeleton->m_boneNames[boneIdx].c_str() );
 
+      boneIdxStr.sprintf( "%d", boneIdx );
+
+      QStringList desc;
+      desc.push_back( skeleton->m_boneNames[boneIdx].c_str() );
+      desc.push_back( boneIdxStr );
+      QTreeWidgetItem* newBoneItem = new QTreeWidgetItem( desc );
+     
       const int parentBoneIdx = skeleton->m_boneParentIndices[boneIdx];
       if ( parentBoneIdx >= 0 )
       {

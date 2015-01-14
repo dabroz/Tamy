@@ -2,13 +2,17 @@
 /// @brief  a set of utility methods that operate on a skeleton mapper
 #pragma once
 
+#include "core\MemoryRouter.h"
 #include "core\Array.h"
+#include "core\List.h"
 #include <string>
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
 class SkeletonBoneChain;
 class Skeleton;
+class SkeletonTree;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -39,31 +43,59 @@ public:
     * @param chainName
     */
    static int getChainIdx( const Array< SkeletonBoneChain* >& chainsCollection, const char* chainName );
+    
+   /**
+    * Creates a tree that corresponds to the configuration of the specified skeleton.
+    */
+   static SkeletonTree* buildSkeletonTree( const Skeleton* baseSkeleton );
 
    /**
-    * Add a bone to an existing chain, or creates a new chain if the bone doesn't fit into any of the existing ones.
+    * Expands the specified chain until it hits a joint bone or another of the defined chains
     *
-    * @param baseSkeleton
-    * @param baseSkeletonBoneIdx
-    * @param mappedSourceBones
-    * @param inOutChainsCollection
-    * @param outErrMsg
-    *
-    * @return 'true' if the bone was added, 'false' if there were errors
+    * @param chainIdx
+    * @param chainsCollection
+    * @param skeletonTreeRoot
     */
-   static bool addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedSourceBones, Array< SkeletonBoneChain* >& inOutChainsCollection, std::string& outErrMsg );
+   static void expandChain( uint chainIdx, const Array< SkeletonBoneChain* >& chainsCollection, const SkeletonTree* skeletonTree );
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct SkeletonTreeNode
+{
+   DECLARE_ALLOCATOR( SkeletonTreeNode, AM_DEFAULT );
+
+   int                                    m_boneIdx;
+   List< SkeletonTreeNode* >              m_children;
+
+   SkeletonTreeNode( int boneIdx )
+      : m_boneIdx( boneIdx )
+   {}
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+class SkeletonTree
+{
+   DECLARE_ALLOCATOR( SkeletonTree, AM_DEFAULT );
+
+private:
+   SkeletonTreeNode*          m_root;
+
+public:
+   /**
+    * Constructor.
+    *
+    * @param root
+    */
+   SkeletonTree( SkeletonTreeNode* root );
+   ~SkeletonTree();
 
    /**
-    * Detects if two chains starting at 'firstBoneIdx' are branched.
-    *
-    * @param baseSkeleton
-    * @param firstBoneIdx
-    * @param lastBoneIdx
-    * @param newChainLastBoneIdx
-    *
-    * @return 'true' if a branch was detected, 'false' otherwise
-    */
-   static bool detectBranching( const Skeleton* baseSkeleton, uint firstBoneIdx, uint lastBoneIdx, uint newChainLastBoneIdx );
+   * Returns a node that corresponds to the specified bone
+   */
+   const SkeletonTreeNode* getNodeForBone( uint boneIdx ) const;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

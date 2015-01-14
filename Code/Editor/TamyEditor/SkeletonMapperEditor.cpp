@@ -1,12 +1,15 @@
 #include "SkeletonMapperEditor.h"
 #include "core-AI\Skeleton.h"
 #include "core-AI\SkeletonMapper.h"
+#include "core-AI\SkeletonMapperUtils.h"
 #include "core-AI\SkeletonMapperBuilder.h"
 
 // custom widgets
 #include "MappedSkeletonFrame.h"
 #include "MappingTable.h"
 #include "ChainSkeletonTree.h"
+#include "ToolsWindow.h"
+#include "tamyeditor.h"
 
 // qt widgets
 #include <QtWidgets\QVBoxLayout>
@@ -35,6 +38,7 @@ SkeletonMapperEditor::SkeletonMapperEditor( SkeletonMapper& mapper )
    , m_buildMapping( NULL )
    , m_addMapping( NULL )
    , m_removeMapping( NULL )
+   , m_constructNameBasedMapping( NULL )
 {
 }
 
@@ -91,6 +95,8 @@ void SkeletonMapperEditor::defineToolbarActions( QToolBar* toolbar )
       connect( m_actionSave, SIGNAL( triggered() ), this, SLOT( saveResource() ) );
    }
 
+   toolbar->addSeparator();
+
    // add mapping action
    {
       m_addMapping = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/plus.png" ) ), tr( "Add mapping" ), toolbar );
@@ -110,6 +116,15 @@ void SkeletonMapperEditor::defineToolbarActions( QToolBar* toolbar )
       m_buildMapping = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/play.png" ) ), tr( "Build mapping" ), toolbar );
       toolbar->addAction( m_buildMapping );
       connect( m_buildMapping, SIGNAL( triggered() ), this, SLOT( buildMapping() ) );
+   }
+
+   toolbar->addSeparator();
+
+   // construct name based mapping action
+   {
+      m_constructNameBasedMapping = new QAction( QIcon( tr( ":/TamyEditor/Resources/Icons/Editor/debugMenu.png" ) ), tr( "Construct name based mapping" ), toolbar );
+      toolbar->addAction( m_constructNameBasedMapping );
+      connect( m_constructNameBasedMapping, SIGNAL( triggered() ), this, SLOT( constructNameBasedMapping() ) );
    }
 }
 
@@ -226,6 +241,123 @@ void SkeletonMapperEditor::onSkeletonChanged()
    const bool enableActions = ( m_sourceTree->getSkeleton() != NULL && m_targetTree->getSkeleton() != NULL );
    m_addMapping->setEnabled( enableActions );
    m_buildMapping->setEnabled( enableActions );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonMapperEditor::constructNameBasedMapping()
+{
+   const Skeleton* sourceSkeleton = m_sourceTree->getSkeleton();
+   const Skeleton* targetSkeleton = m_targetTree->getSkeleton();
+   if ( !sourceSkeleton || !targetSkeleton )
+   {
+      return;
+   }
+
+   // identify bones with exact same names we should map between
+   Array< int > boneMapping;
+   bool result = identifyBonesWithMatchingNames( sourceSkeleton, targetSkeleton, boneMapping );
+   if ( !result )
+   {
+      return;
+   }
+
+   // create chains
+   Array< SkeletonBoneChain* > sourceChains;
+   Array< SkeletonBoneChain* > targetChains;
+   const uint boneMappingsCount = boneMapping.size();
+   for ( uint targetBoneIdx = 0; targetBoneIdx < boneMappingsCount; ++targetBoneIdx )
+   {
+      int sourceBoneIdx = boneMapping[targetBoneIdx];
+      if ( sourceBoneIdx < 0 )
+      {
+         continue;
+      }
+
+      sourceChains.push_back( new SkeletonBoneChain( sourceSkeleton, sourceSkeleton->m_boneNames[sourceBoneIdx], sourceBoneIdx, sourceBoneIdx ) );
+      targetChains.push_back( new SkeletonBoneChain( targetSkeleton, targetSkeleton->m_boneNames[targetBoneIdx], targetBoneIdx, targetBoneIdx ) );
+   }
+
+   // try expanding the created chains to cover unmapped bones as well
+   const uint chainsCount = sourceChains.size();
+   SkeletonTree* sourceSkeletonTree = SkeletonMapperUtils::buildSkeletonTree( sourceSkeleton );
+   SkeletonTree* targetSkeletonTree = SkeletonMapperUtils::buildSkeletonTree( targetSkeleton );
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      SkeletonMapperUtils::expandChain( i, sourceChains, sourceSkeletonTree );
+   }
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      SkeletonMapperUtils::expandChain( i, targetChains, targetSkeletonTree );
+   }
+   
+   // persist the results in the widget
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      SkeletonBoneChain* sourceChain = sourceChains[i];
+      SkeletonBoneChain* targetChain = targetChains[i];
+
+      const std::string& firstSourceBone = sourceSkeleton->m_boneNames[sourceChain->m_firstBoneIdx];
+      const std::string& lastSourceBone = sourceSkeleton->m_boneNames[sourceChain->m_lastBoneIdx]; 
+      const std::string& firstTargetBone = targetSkeleton->m_boneNames[targetChain->m_firstBoneIdx]; 
+      const std::string& lastTargetBone = targetSkeleton->m_boneNames[targetChain->m_lastBoneIdx];
+
+      m_mappingTable->addEntry( firstSourceBone, lastSourceBone, firstTargetBone, lastTargetBone );
+   }
+
+   // cleanup
+   delete sourceSkeletonTree;
+   delete targetSkeletonTree;
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      delete sourceChains[i];
+   }
+   for ( uint i = 0; i < chainsCount; ++i )
+   {
+      delete targetChains[i];
+   }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool SkeletonMapperEditor::identifyBonesWithMatchingNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, Array< int >& outMappings ) const
+{
+   const uint sourceBonesCount = sourceSkeleton->getBoneCount();
+   const uint targetBonesCount = targetSkeleton->getBoneCount();
+   outMappings.resize( targetBonesCount, -1 );
+
+   Array< bool > mappedSourceBones( sourceBonesCount );
+   mappedSourceBones.resize( sourceBonesCount, false );
+
+   for ( uint targetBoneIdx = 0; targetBoneIdx < targetBonesCount; ++targetBoneIdx )
+   {
+      const std::string& targetBoneName = targetSkeleton->m_boneNames[targetBoneIdx];
+      for ( uint sourceBoneIdx = 0; sourceBoneIdx < sourceBonesCount; ++sourceBoneIdx )
+      {
+         const std::string& sourceBoneName = sourceSkeleton->m_boneNames[sourceBoneIdx];
+         if ( sourceBoneName == targetBoneName )
+         {
+            if ( mappedSourceBones[sourceBoneIdx] )
+            {
+               // this source chain has already been mapped onto - throw an error
+               ToolsWindow* toolsWindow = TamyEditor::getInstance().getToolsWindow();
+
+               char errMsg[512];
+               sprintf_s( errMsg, "Source chain %s ( chain idx %d ) was found to be mapped onto by 2 target chains", sourceBoneName.c_str(), sourceBoneIdx );
+               toolsWindow->displayMessage( "Name-based skeleton mapper construction error", errMsg );
+
+               return false;
+            }
+
+            outMappings[targetBoneIdx] = sourceBoneIdx;
+            mappedSourceBones[sourceBoneIdx] = true;
+            break;
+         }
+      }
+   }
+
+   return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

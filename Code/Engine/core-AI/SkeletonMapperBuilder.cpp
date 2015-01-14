@@ -98,6 +98,7 @@ SkeletonMapperBuilder& SkeletonMapperBuilder::mapChain( const char* sourceChainN
 
 bool SkeletonMapperBuilder::buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, std::string& outErrorMsg )
 {
+   /*
    if ( !sourceSkeleton || !targetSkeleton )
    {
       outErrorMsg = "Skeletons we're supposed to define a mapping for are not specified.";
@@ -145,28 +146,56 @@ bool SkeletonMapperBuilder::buildMapperUsingBoneNames( const Skeleton* sourceSke
    m_mapper.m_sourceSkeleton = sourceSkeleton;
    m_mapper.m_targetSkeleton = targetSkeleton;
 
+   // identify chains
+   Array< uint > sourceJoints( sourceSkeleton.getBoneCount() );
+   Array< uint > targetJoints( targetSkeleton.getBoneCount() );
+   SkeletonMapperUtils::detectJoints( sourceSkeleton, sourceJoints );
+   SkeletonMapperUtils::detectJoints( targetSkeleton, targetJoints );
 
-   // Define chains - we're gonna step through all bones in each skeleton.
-   // Whenever we find a bone that's not mapped, we're gonna try finding a chain that already contains its parent
-   // If we don't find such a chain, we're gonna create a new one, and at the end, we're gonna try merging 
-   // all chains.
+   SkeletonMapperUtils::partitionSkeleton( sourceSkeleton, sourceJoints, m_mapper.m_sourceChains );
+   SkeletonMapperUtils::partitionSkeleton( targetSkeleton, targetJoints, m_mapper.m_targetChains );
+
+   // Some chains created using the method above may be too long for our needs and will need to be split
+   int splitChainOrdinalNo = 0;
    for ( uint boneIdx = 0; boneIdx < sourceBonesCount; ++boneIdx )
    {
-      bool result = SkeletonMapperUtils::addBoneToChain( sourceSkeleton, boneIdx, mappedSourceBones, m_mapper.m_sourceChains, outErrorMsg );
-      if ( !result )
+      if ( !mappedSourceBones[boneIdx] )
       {
-         m_mapper.reset();
-         return false;
+         continue;
+      }
+
+      const int chainIdx = SkeletonMapperUtils::findChainByBone( m_mapper.m_sourceChains, boneIdx );
+      if ( chainIdx >= 0 )
+      {
+         char tmpChainName[128];
+         sprintf_s( tmpChainName, "__splitChain_%d", splitChainOrdinalNo++ );
+
+         SkeletonBoneChain* chainA = m_mapper.m_sourceChains[chainIdx];
+         SkeletonBoneChain* chainB = new SkeletonBoneChain( sourceSkeleton, tmpChainName, boneIdx, chainA->m_lastBoneIdx );
+         chainA->m_lastBoneIdx = sourceSkeleton->m_boneParentIndices[boneIdx];
+
+         m_mapper.m_sourceChains.push_back( chainB );
       }
    }
 
    for ( uint boneIdx = 0; boneIdx < targetBonesCount; ++boneIdx )
    {
-      bool result = SkeletonMapperUtils::addBoneToChain( targetSkeleton, boneIdx, mappedTargetBones, m_mapper.m_targetChains, outErrorMsg );
-      if ( !result )
+      if ( !mappedTargetBones[boneIdx] )
       {
-         m_mapper.reset();
-         return false;
+         continue;
+      }
+
+      const int chainIdx = SkeletonMapperUtils::findChainByBone( m_mapper.m_targetChains, boneIdx );
+      if ( chainIdx >= 0 )
+      {
+         char tmpChainName[128];
+         sprintf_s( tmpChainName, "__splitChain_%d", splitChainOrdinalNo++ );
+
+         SkeletonBoneChain* chainA = m_mapper.m_targetChains[chainIdx];
+         SkeletonBoneChain* chainB = new SkeletonBoneChain( targetSkeleton, tmpChainName, boneIdx, chainA->m_lastBoneIdx );
+         chainA->m_lastBoneIdx = targetSkeleton->m_boneParentIndices[boneIdx];
+
+         m_mapper.m_targetChains.push_back( chainB );
       }
    }
 
@@ -178,7 +207,7 @@ bool SkeletonMapperBuilder::buildMapperUsingBoneNames( const Skeleton* sourceSke
       int sourceChainIdx = SkeletonMapperUtils::getChainIdx( m_mapper.m_sourceChains, m_mapper.m_targetChains[targetChainIdx]->m_name.c_str() );
       m_mapper.m_chainMappings[targetChainIdx] = sourceChainIdx;
    }
-
+   */
    return true;
 }
 

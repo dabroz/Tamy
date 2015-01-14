@@ -225,6 +225,19 @@ void MappingTable::removeMapping()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void MappingTable::addEntry( const std::string& firstSourceBone, const std::string& lastSourceBone, const std::string& firstTargetBone, const std::string& lastTargetBone )
+{
+   addMapping();
+
+   QTreeWidgetItem* newItem = topLevelItem( topLevelItemCount() - 1 );
+   newItem->setText( BoneMappingCol_SourceChainStart, firstSourceBone.c_str() );
+   newItem->setText( BoneMappingCol_SourceChainEnd, lastSourceBone.c_str() );
+   newItem->setText( BoneMappingCol_TargetChainStart, firstTargetBone.c_str() );
+   newItem->setText( BoneMappingCol_TargetChainEnd, lastTargetBone.c_str() );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void MappingTable::setMapping( const SkeletonMapper& mapper )
 {
    clear();

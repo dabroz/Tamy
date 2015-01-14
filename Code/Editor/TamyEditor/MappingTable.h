@@ -55,6 +55,16 @@ public:
    ~MappingTable();
 
    /**
+    * Adds a mapping entry to the table.
+    *
+    * @param firstSourceBone
+    * @param lastSourceBone
+    * @param firstTargetBone
+    * @param lastTargetBone
+    */
+   void addEntry( const std::string& firstSourceBone, const std::string& lastSourceBone, const std::string& firstTargetBone, const std::string& lastTargetBone );
+
+   /**
     * Clears the table and sets the mapping from the specified mapper.
     *
     * @param mapper

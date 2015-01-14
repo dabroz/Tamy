@@ -95,98 +95,122 @@ int SkeletonMapperUtils::getChainIdx( const Array< SkeletonBoneChain* >& chainsC
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool SkeletonMapperUtils::addBoneToChain( const Skeleton* baseSkeleton, uint baseSkeletonBoneIdx, const Array< bool >& mappedBones, Array< SkeletonBoneChain* >& inOutChainsCollection, std::string& outErrMsg )
+SkeletonTree* SkeletonMapperUtils::buildSkeletonTree( const Skeleton* baseSkeleton )
 {
-   int idx = findChainByBone( inOutChainsCollection, baseSkeletonBoneIdx );
-   if ( idx >= 0 )
+   // build a tree based on the skeleton that we can later on use to define skeletons.
+   // We need to take this step, because we need information which bone has what children,
+   // as opposed to which node is parented by what bone - the information that the Skeleton class gives us
+
+   SkeletonTreeNode* root = new SkeletonTreeNode( -1 );
+   List< SkeletonTreeNode* > nodesToAnalyze;
+
+   nodesToAnalyze.pushBack( root );
+   const uint boneCount = baseSkeleton->getBoneCount();
+   while ( !nodesToAnalyze.empty() )
    {
-      // the bone's already in a chain
-      return true;
-   }
+      SkeletonTreeNode* node = nodesToAnalyze.front();
+      nodesToAnalyze.popFront();
 
-
-   // look for the first parent we can append the bone to
-   for ( int boneIdx = baseSkeletonBoneIdx; boneIdx >= 0; boneIdx = baseSkeleton->m_boneParentIndices[boneIdx] )
-   {
-      if ( !mappedBones[boneIdx] )
+      for ( uint i = 0; i < boneCount; ++i )
       {
-         // the bone isn't mapped - so keep on going
-         continue;
-      }
-
-      // the bone is mapped - so it either has a chain already, or we need to create one for it
-      int chainIdx = findChainByBone( inOutChainsCollection, boneIdx );
-      if ( chainIdx < 0 )
-      {
-
-         // we need to create a new chain
-         SkeletonBoneChain* newChain = new SkeletonBoneChain( baseSkeleton, baseSkeleton->m_boneNames[boneIdx].c_str(), boneIdx, baseSkeletonBoneIdx );
-         inOutChainsCollection.push_back( newChain );
-
-         return true;
-      }
-      else
-      {
-         // extend the existing chain to include the new bone
-         SkeletonBoneChain* existingChain = inOutChainsCollection[chainIdx];
-
-         // but before we do, we need to make sure that the chain doesn't branch, and we're trying to map
-         // one of the branches, when another one is already mapped.
-         // That of course is an error on the user part, not having defined a mapping for the branch bone,
-         // and we need to flag it
-         bool branchFound = detectBranching( baseSkeleton, existingChain->m_firstBoneIdx, existingChain->m_lastBoneIdx, baseSkeletonBoneIdx );
-         if ( branchFound )
+         if ( baseSkeleton->m_boneParentIndices[i] == node->m_boneIdx )
          {
-            // we detected a branch - notify the user
-            char tmpErrMsg[512];
-            sprintf_s( tmpErrMsg, "Branch detected between existing chain %s ( %d, %d ), and a potential chain (%d, %d)",
-                       existingChain->m_name.c_str(),
-                       existingChain->m_firstBoneIdx,
-                       existingChain->m_lastBoneIdx,
-                       existingChain->m_firstBoneIdx,
-                       baseSkeletonBoneIdx );
-
-            outErrMsg = tmpErrMsg;
-            return false;
-         }
-         else
-         {
-            // good to go - no branching detected
-            existingChain->m_lastBoneIdx = baseSkeletonBoneIdx;
-            return true;
+            SkeletonTreeNode* childNode = new SkeletonTreeNode( i );
+            node->m_children.pushBack( childNode );
+            nodesToAnalyze.pushBack( childNode );
          }
       }
    }
 
-   // we should never end up here - if we did, then there's an error somewhere in the code or in the data set that
-   // we haven't fixed yet
-   return false;
+   return new SkeletonTree( root );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool SkeletonMapperUtils::detectBranching( const Skeleton* baseSkeleton, uint firstBoneIdx, uint lastBoneIdx, uint newChainLastBoneIdx )
+void SkeletonMapperUtils::expandChain( uint chainIdx, const Array< SkeletonBoneChain* >& chainsCollection, const SkeletonTree* skeletonTree )
 {
-   // The method is simple - start moving backwards from the 'newChainLastBoneIdx' - if we get to the 'lastBoneIdx' before
-   // we get to 'firstBoneIdx', then this new bone is a continuation of the original chain.
-   // However if we get to 'firstBoneIdx' first, we have a branch
+   SkeletonBoneChain* chainBeingExpanded = chainsCollection[chainIdx];
 
-   for ( int boneIdx = baseSkeleton->m_boneParentIndices[newChainLastBoneIdx]; boneIdx >= 0; boneIdx = baseSkeleton->m_boneParentIndices[boneIdx] )
+   const SkeletonTreeNode* boneNode = skeletonTree->getNodeForBone( chainBeingExpanded->m_lastBoneIdx );
+   while ( boneNode->m_children.size() == 1 )
    {
-      if ( boneIdx == lastBoneIdx )
+      boneNode = boneNode->m_children.front();
+
+      // verify that that bone doesn't belong to any of the chains
+      const int existingChainIdx = findChainByBone( chainsCollection, boneNode->m_boneIdx );
+      if ( existingChainIdx >= 0 )
       {
-         // the new bone is a continuation of the original chain
-         return false;
+         // that bone already belongs to another chain - we reached the end of our chain
+         break;
       }
 
-      if ( boneIdx == firstBoneIdx )
-      {
-         // there was a branch somewhere along the way
-         return true;
-      }
+      // expand the chain and move to the next bone
+      chainBeingExpanded->m_lastBoneIdx = boneNode->m_boneIdx;
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonTree::SkeletonTree( SkeletonTreeNode* root )
+   : m_root( root )
+{
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonTree::~SkeletonTree()
+{
+   if ( !m_root )
+   {
+      return;
    }
 
-   return false;
+   List< SkeletonTreeNode* > nodesQueue;
+   nodesQueue.pushBack( m_root );
+
+   while ( !nodesQueue.empty() )
+   {
+      SkeletonTreeNode* node = nodesQueue.front();
+      nodesQueue.popFront();
+
+      for ( List< SkeletonTreeNode* >::iterator it = node->m_children.begin(); !it.isEnd(); ++it )
+      {
+         nodesQueue.pushBack( *it );
+      }
+
+      delete node;
+   }
+
+   m_root = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+const SkeletonTreeNode* SkeletonTree::getNodeForBone( uint boneIdx ) const
+{
+   List< SkeletonTreeNode* > nodesQueue;
+   nodesQueue.pushBack( m_root );
+
+   while ( !nodesQueue.empty() )
+   {
+      SkeletonTreeNode* node = nodesQueue.front();
+      nodesQueue.popFront();
+
+      if ( node->m_boneIdx == boneIdx )
+      {
+         return node;
+      }
+
+      for ( List< SkeletonTreeNode* >::iterator it = node->m_children.begin(); !it.isEnd(); ++it )
+      {
+         nodesQueue.pushBack( *it );
+      }
+
+   }
+
+   return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
