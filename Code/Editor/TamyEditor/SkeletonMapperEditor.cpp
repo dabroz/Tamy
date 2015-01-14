@@ -318,7 +318,6 @@ void SkeletonMapperEditor::constructNameBasedMapping()
    }
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 
 bool SkeletonMapperEditor::identifyBonesWithMatchingNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, Array< int >& outMappings ) const

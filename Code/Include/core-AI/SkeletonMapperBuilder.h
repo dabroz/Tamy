@@ -29,18 +29,6 @@ public:
    SkeletonMapperBuilder( SkeletonMapper& mapper );
 
    // -------------------------------------------------------------------------
-   // Mapper construction methods
-   // -------------------------------------------------------------------------
-
-   /**
-    * Builds a mapper using bone names.
-    *
-    * @param sourceSkeleton
-    * @param targetSkeleton
-    */
-   bool buildMapperUsingBoneNames( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton, std::string& outErrorMsg );
-
-   // -------------------------------------------------------------------------
    // Basic mapper building API
    // -------------------------------------------------------------------------
 
