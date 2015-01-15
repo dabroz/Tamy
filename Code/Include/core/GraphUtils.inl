@@ -264,7 +264,6 @@ bool GraphUtils< NODE >::aStar( const typename Graph< NODE >& inGraph, typename 
       for ( int currNodeIdx = inOutSettings.m_end; currNodeIdx != inOutSettings.m_start && currNodeIdx != typename GRAPH::InvalidIndex; currNodeIdx = nodesParents[currNodeIdx] )
       {
          outPath.pushBack( inGraph.getNode( currNodeIdx ) );
-         currNodeIdx = nodesParents[currNodeIdx];
       }
       outPath.pushBack( inGraph.getNode( inOutSettings.m_start ) );
    }

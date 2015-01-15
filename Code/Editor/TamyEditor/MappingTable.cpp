@@ -241,23 +241,14 @@ void MappingTable::addEntry( const std::string& firstSourceBone, const std::stri
 void MappingTable::setMapping( const SkeletonMapper& mapper )
 {
    clear();
-   /*
-   const Skeleton* sourceChainSkeleton = mapper.getSourceChainSkeleton();
-   const Skeleton* targetChainSkeleton = mapper.getTargetChainSkeleton();
 
-   const uint targetChainsCount = mapper.getTargetChainsCount();
-   for ( uint targetChainIdx = 0; targetChainIdx < targetChainsCount; ++targetChainIdx )
+   const uint mappingsCount = mapper.getMappingsCount();
+   for ( uint targetChainIdx = 0; targetChainIdx < mappingsCount; ++targetChainIdx )
    {
       const int sourceChainIdx = mapper.getMappingForChain( targetChainIdx );
-      if ( sourceChainIdx < 0 )
-      {
-         continue;
-      }
 
-      const SkeletonBoneChain* targetChain = mapper.getTargetChain( targetChainIdx );
       const SkeletonBoneChain* sourceChain = mapper.getSourceChain( sourceChainIdx );
-
-      ASSERT( targetChain && sourceChain && sourceChain != targetChain );
+      const SkeletonBoneChain* targetChain = mapper.getTargetChain( targetChainIdx );
 
       const char* sourceChainStart = mapper.m_sourceSkeleton->m_boneNames[sourceChain->m_firstBoneIdx].c_str();
       const char* sourceChainEnd = mapper.m_sourceSkeleton->m_boneNames[sourceChain->m_lastBoneIdx].c_str();
@@ -265,14 +256,14 @@ void MappingTable::setMapping( const SkeletonMapper& mapper )
       const char* targetChainEnd = mapper.m_targetSkeleton->m_boneNames[targetChain->m_lastBoneIdx].c_str();
 
       QStringList boneLabels;
-      boneLabels.push_back( sourceChainSkeleton->m_boneNames[sourceChainIdx].c_str() );
+      boneLabels.push_back( sourceChain->m_name.c_str() );
       boneLabels.push_back( sourceChainStart );
       boneLabels.push_back( sourceChainEnd );
-      boneLabels.push_back( targetChainSkeleton->m_boneNames[targetChainIdx].c_str() );
+      boneLabels.push_back( targetChain->m_name.c_str() );
       boneLabels.push_back( targetChainStart );
       boneLabels.push_back( targetChainEnd );
-      addTopLevelItem( new QTreeWidgetItem() );
-   }*/
+      addTopLevelItem( new QTreeWidgetItem( boneLabels ) );
+   }
 
    updateChainNames();
 }

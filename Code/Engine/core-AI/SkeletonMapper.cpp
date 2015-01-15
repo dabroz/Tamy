@@ -66,6 +66,99 @@ void SkeletonMapper::reset()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+SkeletonMapper& SkeletonMapper::setSkeletons( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton )
+{
+   // clear the old mapping
+   m_sourceSkeleton = sourceSkeleton;
+   m_targetSkeleton = targetSkeleton;
+
+   reset();
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonMapper& SkeletonMapper::mapBone( const char* sourceBone, const char* targetBone )
+{
+   char sourceChainName[128];
+   sprintf_s( sourceChainName, "__bone_%d", m_sourceChains.size() );
+   addSourceChain( sourceChainName, sourceBone, sourceBone );
+
+   char targetChainName[128];
+   sprintf_s( targetChainName, "__bone_%d", m_targetChains.size() );
+   addTargetChain( targetChainName, targetBone, targetBone );
+
+   mapChain( sourceChainName, targetChainName );
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonMapper& SkeletonMapper::addSourceChain( const char* chainName, const char* firstBoneName, const char* lastBoneName )
+{
+   if ( !m_sourceSkeleton )
+   {
+      return *this;
+   }
+
+   const int firstBoneIdx = m_sourceSkeleton->getBoneIndex( firstBoneName );
+   const int lastBoneIdx = m_sourceSkeleton->getBoneIndex( lastBoneName );
+
+   if ( firstBoneIdx >= 0 && lastBoneIdx >= 0 )
+   {
+      SkeletonBoneChain* chain = new SkeletonBoneChain( m_sourceSkeleton, chainName, firstBoneIdx, lastBoneIdx );
+      m_sourceChains.push_back( chain );
+   }
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonMapper& SkeletonMapper::addTargetChain( const char* chainName, const char* firstBoneName, const char* lastBoneName )
+{
+   if ( !m_targetSkeleton )
+   {
+      return *this;
+   }
+
+   const int firstBoneIdx = m_targetSkeleton->getBoneIndex( firstBoneName );
+   const int lastBoneIdx = m_targetSkeleton->getBoneIndex( lastBoneName );
+
+   if ( firstBoneIdx >= 0 && lastBoneIdx >= 0 )
+   {
+      SkeletonBoneChain* chain = new SkeletonBoneChain( m_targetSkeleton, chainName, firstBoneIdx, lastBoneIdx );
+      m_targetChains.push_back( chain );
+   }
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+SkeletonMapper& SkeletonMapper::mapChain( const char* sourceChainName, const char* targetChainName )
+{
+   const int sourceChainIdx = SkeletonMapperUtils::getChainIdx( m_sourceChains, sourceChainName );
+   const int targetChainIdx = SkeletonMapperUtils::getChainIdx( m_targetChains, targetChainName );
+   if ( sourceChainIdx < 0 || targetChainIdx < 0 )
+   {
+      return *this;
+   }
+
+   if ( targetChainIdx >= ( int ) m_chainMappings.size() )
+   {
+      m_chainMappings.resize( targetChainIdx + 1, -1 );
+   }
+
+   m_chainMappings[targetChainIdx] = sourceChainIdx;
+
+   return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 

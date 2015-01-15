@@ -265,9 +265,6 @@
     <ClInclude Include="..\..\Include\core-AI\SkeletonMapperComponent.h">
       <Filter>AnimationSystem\SkeletalAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\core-AI\SkeletonMapperBuilder.h">
-      <Filter>AnimationSystem\Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\core-AI\TypesRegistry.cpp" />
@@ -420,9 +417,6 @@
     </ClCompile>
     <ClCompile Include="SkeletonMapperComponent.cpp">
       <Filter>AnimationSystem\SkeletalAnimation</Filter>
-    </ClCompile>
-    <ClCompile Include="SkeletonMapperBuilder.cpp">
-      <Filter>AnimationSystem\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

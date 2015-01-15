@@ -1,7 +1,6 @@
 #include "core-TestFramework\TestFramework.h"
 #include "core-AI\SkeletonMapper.h"
 #include "core-AI\SkeletonMapperComponent.h"
-#include "core-AI\SkeletonMapperBuilder.h"
 #include "core-AI\Skeleton.h"
 #include "core-AI\SkeletonPoseTool.h"
 
@@ -26,8 +25,7 @@ TEST( SkeletonMapper, sameBoneRotations )
    }
 
    SkeletonMapper mapper;
-   SkeletonMapperBuilder builder( mapper );
-   builder.setSkeletons( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" );
 
    SkeletonMapperComponent runtime;
@@ -54,8 +52,7 @@ TEST( SkeletonMapper, oppositeBoneRotations )
    }
 
    SkeletonMapper mapper;
-   SkeletonMapperBuilder builder( mapper );
-   builder.setSkeletons( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" );
 
    SkeletonMapperComponent runtime;
@@ -91,8 +88,7 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
    }
 
    SkeletonMapper mapper;
-   SkeletonMapperBuilder builder( mapper );
-   builder.setSkeletons( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
       .mapBone( "boneB", "boneB" );
 
@@ -158,8 +154,7 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
    }
 
    SkeletonMapper mapper;
-   SkeletonMapperBuilder builder( mapper );
-   builder.setSkeletons( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" )
       .mapBone( "boneB", "boneB" );
 
@@ -227,8 +222,7 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
    }
 
    SkeletonMapper mapper;
-   SkeletonMapperBuilder builder( mapper );
-   builder.setSkeletons( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .addSourceChain( "chain1", "boneA", "boneA" )
       .addSourceChain( "chain2", "boneC", "boneC" )
       .addTargetChain( "chain1", "boneA", "boneB" )
@@ -308,8 +302,7 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
    }
 
    SkeletonMapper mapper;
-   SkeletonMapperBuilder builder( mapper );
-   builder.setSkeletons( &skeletonA, &skeletonB )
+   mapper.setSkeletons( &skeletonA, &skeletonB )
       .addSourceChain( "chain1", "boneA", "boneA" )
       .addSourceChain( "chain2", "boneC", "boneC" )
       .addTargetChain( "chain1", "boneC", "boneC" )

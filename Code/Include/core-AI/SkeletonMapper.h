@@ -141,6 +141,52 @@ public:
    inline int getMappingForChain( uint targetChainIdx ) const {
       return m_chainMappings[targetChainIdx];
    }
+
+   // -------------------------------------------------------------------------
+   // Basic mapper building API
+   // -------------------------------------------------------------------------
+
+   /**
+    * Defines mapping for the specified skeletons.
+    *
+    * @param sourceSkeleton
+    * @param targetSkeleton
+    */
+   SkeletonMapper& setSkeletons( const Skeleton* sourceSkeleton, const Skeleton* targetSkeleton );
+
+   /**
+    * Maps a bone from the source skeleton onto a bone from the target skeleton.
+    *
+    * @param sourceBone
+    * @param targetBone
+    */
+   SkeletonMapper& mapBone( const char* sourceBone, const char* targetBone );
+
+   /**
+    * Defines a chain for the source skeleton.
+    *
+    * @param chainName
+    * @param firstBoneName
+    * @param lastBoneName
+    */
+   SkeletonMapper& addSourceChain( const char* chainName, const char* firstBoneName, const char* lastBoneName );
+
+   /**
+    * Defines a chain for the target skeleton.
+    *
+    * @param chainName
+    * @param firstBoneName
+    * @param lastBoneName
+    */
+   SkeletonMapper& addTargetChain( const char* chainName, const char* firstBoneName, const char* lastBoneName );
+
+   /**
+    * Maps one chain onto another.
+    *
+    * @param sourceChain
+    * @param targetChain
+    */
+   SkeletonMapper& mapChain( const char* sourceChain, const char* targetChain );
 };
 
 ///////////////////////////////////////////////////////////////////////////////
