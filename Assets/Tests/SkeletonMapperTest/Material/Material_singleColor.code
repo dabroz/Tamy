@@ -1,0 +1,147 @@
+<<SHADER_VERTEX_GLSL>>#version 330 core// ----------------------------------------------------------------------------
+// Input/Output structures
+// ----------------------------------------------------------------------------
+// struct VSInput start
+
+layout(location = 0) in vec4 vPosition;
+layout(location = 1) in vec3 vNormal;
+layout(location = 2) in vec3 vTangent;
+layout(location = 3) in vec2 vUV0;
+layout(location = 4) in vec4 vBlendWeights;
+layout(location = 5) in vec4 vBlendIndices;
+// struct VSInput end
+
+// struct VSOutput start
+
+smooth out vec4 positionVS;
+smooth out vec3 normalVS;
+smooth out vec3 tangentVS;
+smooth out vec2 uv0;
+// struct VSOutput end
+
+// ----------------------------------------------------------------------------
+// Constants
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Globals
+// ----------------------------------------------------------------------------
+
+uniform VertexShaderConstants
+{
+	mat4			Transform_006;		//64 bytes
+	mat4			Transform_007;		//64 bytes
+	mat4			Bones_008[54];		//3456 bytes
+};		//Total: 3584 bytes
+// ----------------------------------------------------------------------------
+// Samplers
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+void main()
+{
+	mat4 worldViewMtx;
+	// pos CS implementation
+	vec4 Output_009;
+	worldViewMtx = (Transform_006 * Bones_008[int(vBlendIndices.x)]);
+	Output_009 = vBlendWeights.x * (worldViewMtx * vPosition);
+	if ( vBlendWeights.y >= 0 ) {
+		worldViewMtx = (Transform_006 * Bones_008[int(vBlendIndices.y)]);
+		Output_009 += vBlendWeights.y * (worldViewMtx * vPosition);
+	}
+
+	if ( vBlendWeights.z >= 0 ) {
+		worldViewMtx = (Transform_006 * Bones_008[int(vBlendIndices.z)]);
+		Output_009 += vBlendWeights.z * (worldViewMtx * vPosition);
+	}
+
+	if ( vBlendWeights.w >= 0 ) {
+		worldViewMtx = (Transform_006 * Bones_008[int(vBlendIndices.w)]);
+		Output_009 += vBlendWeights.w * (worldViewMtx * vPosition);
+	}
+
+	// pos VS implementation
+	vec4 Output_010;
+	worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.x)]);
+	Output_010 = vBlendWeights.x * (worldViewMtx * vPosition);
+	if ( vBlendWeights.y >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.y)]);
+		Output_010 += vBlendWeights.y * (worldViewMtx * vPosition);
+	}
+
+	if ( vBlendWeights.z >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.z)]);
+		Output_010 += vBlendWeights.z * (worldViewMtx * vPosition);
+	}
+
+	if ( vBlendWeights.w >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.w)]);
+		Output_010 += vBlendWeights.w * (worldViewMtx * vPosition);
+	}
+
+	// normal VS implementation
+	vec3 Output_011;
+	worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.x)]);
+	Output_011 = vBlendWeights.x * (mat3( worldViewMtx ) * vNormal);
+	if ( vBlendWeights.y >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.y)]);
+		Output_011 += vBlendWeights.y * (mat3( worldViewMtx ) * vNormal);
+	}
+
+	if ( vBlendWeights.z >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.z)]);
+		Output_011 += vBlendWeights.z * (mat3( worldViewMtx ) * vNormal);
+	}
+
+	if ( vBlendWeights.w >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.w)]);
+		Output_011 += vBlendWeights.w * (mat3( worldViewMtx ) * vNormal);
+	}
+
+	// tan VS implementation
+	vec3 Output_012;
+	worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.x)]);
+	Output_012 = vBlendWeights.x * (mat3( worldViewMtx ) * vTangent);
+	if ( vBlendWeights.y >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.y)]);
+		Output_012 += vBlendWeights.y * (mat3( worldViewMtx ) * vTangent);
+	}
+
+	if ( vBlendWeights.z >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.z)]);
+		Output_012 += vBlendWeights.z * (mat3( worldViewMtx ) * vTangent);
+	}
+
+	if ( vBlendWeights.w >= 0 ) {
+		worldViewMtx = (Transform_007 * Bones_008[int(vBlendIndices.w)]);
+		Output_012 += vBlendWeights.w * (mat3( worldViewMtx ) * vTangent);
+	}
+
+	gl_Position = Output_009;
+	positionVS = Output_010;
+	normalVS = Output_011;
+	tangentVS = Output_012;
+	uv0 = vUV0;
+}
+<<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>// @file	/Renderer/Shaders/RenderingPipeline/selectionShader.glsl
+// @brief	<put the description here>
+#version 330 core
+
+layout(location=0) out vec4 vFragColor;
+uniform FragmentShaderConstants
+{
+	vec4 g_color;
+};
+
+void main()
+{
+	vFragColor = g_color;
+}
+<<SHADER_ROUTINE_END>>

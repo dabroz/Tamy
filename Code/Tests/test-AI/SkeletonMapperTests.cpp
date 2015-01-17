@@ -1,6 +1,6 @@
 #include "core-TestFramework\TestFramework.h"
 #include "core-AI\SkeletonMapper.h"
-#include "core-AI\SkeletonMapperComponent.h"
+#include "core-AI\SkeletonMapperRuntime.h"
 #include "core-AI\Skeleton.h"
 #include "core-AI\SkeletonPoseTool.h"
 
@@ -28,9 +28,7 @@ TEST( SkeletonMapper, sameBoneRotations )
    mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" );
 
-   SkeletonMapperComponent runtime;
-   runtime.setMapper( &mapper );
-   runtime.compileRuntime();
+   SkeletonMapperRuntime runtime( mapper );
 
    poseA.start().rotateAndTranslate( "boneA", Vector_OX, DEG2RAD( 45.0f ), Vector( 1.0f, 2.0f, -3.0f ) ).end();
    runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
@@ -55,9 +53,7 @@ TEST( SkeletonMapper, oppositeBoneRotations )
    mapper.setSkeletons( &skeletonA, &skeletonB )
       .mapBone( "boneA", "boneA" );
 
-   SkeletonMapperComponent runtime;
-   runtime.setMapper( &mapper );
-   runtime.compileRuntime();
+   SkeletonMapperRuntime runtime( mapper );
 
    // Let's make the bone in skeleton A turn 45 degrees about OX axis.
    poseA.start().rotate( "boneA", Vector_OX, DEG2RAD( -90.0f ) ).end();
@@ -92,9 +88,7 @@ TEST( SkeletonMapper, twoChainsWithSameRotation )
       .mapBone( "boneA", "boneA" )
       .mapBone( "boneB", "boneB" );
 
-   SkeletonMapperComponent runtime;
-   runtime.setMapper( &mapper );
-   runtime.compileRuntime();
+   SkeletonMapperRuntime runtime( mapper );
 
    // rotating bone A
    {
@@ -158,9 +152,7 @@ TEST( SkeletonMapper, twoChainsWithOppositeRotations )
       .mapBone( "boneA", "boneA" )
       .mapBone( "boneB", "boneB" );
 
-   SkeletonMapperComponent runtime;
-   runtime.setMapper( &mapper );
-   runtime.compileRuntime();
+   SkeletonMapperRuntime runtime( mapper );
 
    // rotating bone A
    {
@@ -230,9 +222,7 @@ TEST( SkeletonMapper, oneToManyMappingWithSameRotation )
       .mapChain( "chain1", "chain1" )
       .mapChain( "chain2", "chain2" );
 
-   SkeletonMapperComponent runtime;
-   runtime.setMapper( &mapper );
-   runtime.compileRuntime();
+   SkeletonMapperRuntime runtime( mapper );
 
    // rotating bone A
    {
@@ -310,9 +300,7 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
       .mapChain( "chain1", "chain2" )
       .mapChain( "chain2", "chain1" );
 
-   SkeletonMapperComponent runtime;
-   runtime.setMapper( &mapper );
-   runtime.compileRuntime();
+   SkeletonMapperRuntime runtime( mapper );
 
    // rotating bone A
    {

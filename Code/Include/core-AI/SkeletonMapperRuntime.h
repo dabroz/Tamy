@@ -1,4 +1,4 @@
-/// @file   core-AI\SkeletonMapperComponent.h
+/// @file   core-AI\SkeletonMapperRuntime.h
 /// @brief  a skeleton mapper runtime
 #pragma once
 
@@ -14,18 +14,15 @@ class Skeleton;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-class SkeletonMapperComponent : public Component
+class SkeletonMapperRuntime
 {
-   DECLARE_ALLOCATOR( SkeletonMapperComponent, AM_DEFAULT );
-   DECLARE_CLASS();
+   DECLARE_ALLOCATOR( SkeletonMapperRuntime, AM_DEFAULT );
 
 private:
    // static data
-   SkeletonMapper*                  m_mapper;
+   const SkeletonMapper&            m_mapper;
 
    // runtime data
-   bool                             m_isInitialized;
-
    Skeleton*                        m_sourceChainSkeleton;
    Skeleton*                        m_targetChainSkeleton;
 
@@ -38,26 +35,16 @@ private:
    Array< Transform >               m_targetToSource;
    Array< Transform >               m_sourceToTarget;
 
+   Array< Transform >               m_outTargetPose;
+
 public:
    /**
     * Constructor.
     *
-    * @param name
+    * @param mapper
     */
-   SkeletonMapperComponent( const char* name = "SkeletonMapperComponent" );
-
-   /**
-    * Copy constructor.
-    *
-    * @param rhs
-    */
-   SkeletonMapperComponent( const SkeletonMapperComponent& rhs );
-   ~SkeletonMapperComponent();
-
-   /**
-    * Sets a mapper instance.
-    */
-   void setMapper( SkeletonMapper* mapper );
+   SkeletonMapperRuntime( const SkeletonMapper& mapper );
+   ~SkeletonMapperRuntime();
 
    /**
     * Calculates a pose the target skeleton should assume to look the same as the source.
@@ -68,17 +55,13 @@ public:
    void calcPoseLocalSpace( const Transform* sourcePose, Transform* outTargetPose ) const;
 
    /**
-    * Tells if the runtime is initialized.
+    * Translates a pose the target skeleton should assume to look the same as the source.
+    * Returns a pointer to the pose ( which is maintained internally by this class ).
+    *
+    * @param sourcePose
+    * @return a pointer to the array that contains the target pose
     */
-   inline bool isInitialized() const {
-      return m_isInitialized;
-   }
-
-   // -------------------------------------------------------------------------
-   // Component implementation
-   // -------------------------------------------------------------------------
-   void onAttachToModel( Model* model ) override;
-   void onDetachFromModel( Model* model ) override;
+   Transform* translatePose( const Transform* sourcePose );
 
    // -------------------------------------------------------------------------
    // Runtime management.

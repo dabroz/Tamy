@@ -262,7 +262,7 @@
     <ClInclude Include="..\..\Include\core-AI\SkeletonMapperUtils.h">
       <Filter>AnimationSystem\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\core-AI\SkeletonMapperComponent.h">
+    <ClInclude Include="..\..\Include\core-AI\SkeletonMapperRuntime.h">
       <Filter>AnimationSystem\SkeletalAnimation</Filter>
     </ClInclude>
   </ItemGroup>
@@ -415,7 +415,7 @@
     <ClCompile Include="SkeletonMapperUtils.cpp">
       <Filter>AnimationSystem\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="SkeletonMapperComponent.cpp">
+    <ClCompile Include="SkeletonMapperRuntime.cpp">
       <Filter>AnimationSystem\SkeletalAnimation</Filter>
     </ClCompile>
   </ItemGroup>

@@ -131,7 +131,7 @@
     <ClInclude Include="..\..\Include\core-AI\SkeletonAnimationPlayer.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonComponent.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonMapper.h" />
-    <ClInclude Include="..\..\Include\core-AI\SkeletonMapperComponent.h" />
+    <ClInclude Include="..\..\Include\core-AI\SkeletonMapperRuntime.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonMapperUtils.h" />
     <ClInclude Include="..\..\Include\core-AI\SkeletonPoseTool.h" />
     <ClInclude Include="..\..\Include\core-AI\SnapshotAnimation.h" />
@@ -186,7 +186,7 @@
     <ClCompile Include="SkeletonAnimationPlayer.cpp" />
     <ClCompile Include="SkeletonComponent.cpp" />
     <ClCompile Include="SkeletonMapper.cpp" />
-    <ClCompile Include="SkeletonMapperComponent.cpp" />
+    <ClCompile Include="SkeletonMapperRuntime.cpp" />
     <ClCompile Include="SkeletonMapperUtils.cpp" />
     <ClCompile Include="SkeletonPoseTool.cpp" />
     <ClCompile Include="SnapshotAnimation.cpp" />

@@ -21,6 +21,8 @@ class RuntimeDataBuffer;
 struct Transform;
 class BlendTreeSyncProfile;
 class BlendTreePlayerListener;
+class SkeletonMapper;
+class SkeletonMapperRuntime;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -35,6 +37,7 @@ class BlendTreePlayer : public AnimationPlayer, public ReflectionObjectChangeLis
 public:
    // static data
    BlendTree*                                m_blendTree;
+   const SkeletonMapper*                     m_skeletonMapper;
 
    // runtime data
    List< BlendTreePlayerListener* >          m_listeners;
@@ -47,6 +50,7 @@ public:
 
 private:
    RuntimeDataBuffer*                        m_runtimeData;
+   SkeletonMapperRuntime*                    m_skeletonMapperRuntime;
 
    // ------------------------------------------
    // Events
@@ -81,6 +85,14 @@ public:
     * @param blendTree
     */
    void setBlendTree( BlendTree& blendTree );
+
+   /**
+    * Assigns a skeleton mapper to be used translating the poses the blend produces to those
+    * used by the model this component is attached to.
+    *
+    * @param skeletonMapper
+    */
+   void setSkeletonMapper( const SkeletonMapper* skeletonMapper );
 
    /**
     * Returns a blend tree instance this component is using.
@@ -205,6 +217,8 @@ protected:
 private:
    void initializeBlendTreeRuntimeContext();
    void deinitializeBlendTreeRuntimeContext();
+   void initializeSkeletonMapper();
+   void deinitializeSkeletonMapper();
    void initializePosesSinkRuntimeContext();
    void deinitializePosesSinkRuntimeContext();
    void initializeEventsArray();

@@ -7,6 +7,8 @@
 #include "core-AI\BlendTreeSyncProfile.h"
 #include "core-AI\SkeletonComponent.h"
 #include "core-AI\Skeleton.h"
+#include "core-AI\SkeletonMapper.h"
+#include "core-AI\SkeletonMapperRuntime.h"
 #include "core-AI\BlendTreePlayerListener.h"
 #include "core-MVC\EntityUtils.h"
 #include "core-MVC\Entity.h"
@@ -22,6 +24,7 @@
 BEGIN_OBJECT( BlendTreePlayer );
    PARENT( AnimationPlayer );
    PROPERTY_EDIT( "Blend tree", BlendTree*, m_blendTree );
+   PROPERTY_EDIT( "Skeleton mapper", SkeletonMapper*, m_skeletonMapper );
 END_OBJECT();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,9 +32,11 @@ END_OBJECT();
 BlendTreePlayer::BlendTreePlayer( const char* name )
    : AnimationPlayer( name )
    , m_blendTree( NULL )
+   , m_skeletonMapper( NULL )
    , m_posesSink( NULL )
    , m_runtimeData( NULL )
    , m_skeleton( NULL )
+   , m_skeletonMapperRuntime( NULL )
    , m_bonesCount( 0 )
    , m_eventsCount( 0 )
    , m_eventsReadFrameOffset( 0 )
@@ -45,9 +50,11 @@ BlendTreePlayer::BlendTreePlayer( const char* name )
 BlendTreePlayer::BlendTreePlayer( const BlendTreePlayer& rhs )
    : AnimationPlayer( rhs )
    , m_blendTree( rhs.m_blendTree )
+   , m_skeletonMapper( rhs.m_skeletonMapper )
    , m_posesSink( NULL )
    , m_runtimeData( NULL )
    , m_skeleton( NULL )
+   , m_skeletonMapperRuntime( NULL )
    , m_bonesCount( 0 )
    , m_eventsCount( 0 )
    , m_eventsReadFrameOffset( 0 )
@@ -70,8 +77,12 @@ BlendTreePlayer::~BlendTreePlayer()
    delete m_syncData;
    m_syncData = NULL;
 
+   delete m_skeletonMapperRuntime;
+   m_skeletonMapperRuntime = NULL;
+
    m_bonesCount = 0;
    m_skeleton = NULL;
+   m_skeletonMapper = NULL;
    m_blendTree = NULL;
    m_posesSink = NULL;
 
@@ -82,15 +93,19 @@ BlendTreePlayer::~BlendTreePlayer()
 
 void BlendTreePlayer::setBlendTree( BlendTree& blendTree )
 {
-   ReflectionProperty* property = getProperty( "m_blendTree" );
-   notifyPrePropertyChange( *property );
-
+   NOTIFY_PROPERTY_CHANGE( m_blendTree );
+   
    // set the new animation source
    m_blendTree = &blendTree;
+}
 
-   // notify listeners about it
-   notifyPropertyChange( *property );
-   delete property;
+///////////////////////////////////////////////////////////////////////////////
+
+void BlendTreePlayer::setSkeletonMapper( const SkeletonMapper* skeletonMapper )
+{
+   NOTIFY_PROPERTY_CHANGE( m_skeletonMapper );
+
+   m_skeletonMapper = skeletonMapper;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -110,6 +125,15 @@ void BlendTreePlayer::onPrePropertyChanged( ReflectionProperty& property )
          {
             m_blendTree->deinitializeLayout( this );
          }
+      }
+   }
+   else if ( property.getName() == "m_skeletonMapper" )
+   {
+      if ( m_skeletonMapper )
+      {
+         m_skeletonMapper->detachListener( *this );
+
+         deinitializeSkeletonMapper();
       }
    }
 }
@@ -135,6 +159,18 @@ void BlendTreePlayer::onPropertyChanged( ReflectionProperty& property )
       }
 
       initializeEventsArray();
+   }
+   else if ( property.getName() == "m_skeletonMapper" )
+   {
+      if ( m_skeletonMapper )
+      {
+         m_skeletonMapper->attachListener( *this );
+
+         if ( m_runtimeData )
+         {
+            initializeSkeletonMapper();
+         }
+      }
    }
 }
 
@@ -210,6 +246,39 @@ void BlendTreePlayer::deinitializeBlendTreeRuntimeContext()
 
    delete m_syncData;
    m_syncData = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void BlendTreePlayer::initializeSkeletonMapper()
+{
+   ASSERT_MSG( m_skeletonMapperRuntime == NULL, "At this point the skeleton mapper runtime should not be initialized" );
+   if ( !m_skeletonMapper )
+   {
+      return;
+   }
+
+   // make sure the mapper was designed with those skeletons in mind - otherwise don't initialize it
+   if ( m_skeletonMapper->m_sourceSkeleton != m_blendTree->m_skeleton )
+   {
+      WARNING( "%s::BlendTreePlayer : Skeleton mapper's source skeleton doesn't match the blend tree's skeleton", getParent()->getSceneNodeName().c_str() );
+      return;
+   }
+   if ( m_skeletonMapper->m_targetSkeleton != m_posesSink->m_skeleton )
+   {
+      WARNING( "%s::BlendTreePlayer : Skeleton mapper's target skeleton doesn't match the poses sink's skeleton", getParent()->getSceneNodeName().c_str() );
+      return;
+   }
+
+   m_skeletonMapperRuntime = new SkeletonMapperRuntime( *m_skeletonMapper );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void BlendTreePlayer::deinitializeSkeletonMapper()
+{
+   delete m_skeletonMapperRuntime;
+   m_skeletonMapperRuntime = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -304,6 +373,11 @@ void BlendTreePlayer::onAttachToModel( Model* model )
       m_blendTree->attachListener( *this );
    }
 
+   if ( m_skeletonMapper )
+   {
+      m_skeletonMapper->attachListener( *this );
+   }
+
    initializeEventsArray();
 }
 
@@ -317,6 +391,11 @@ void BlendTreePlayer::onDetachFromModel( Model* model )
    {
       m_blendTree->detachBlendTreeListener( this );
       m_blendTree->detachListener( *this );
+   }
+
+   if ( m_skeletonMapper )
+   {
+      m_skeletonMapper->detachListener( *this );
    }
 }
 
@@ -415,6 +494,7 @@ void BlendTreePlayer::onStarted()
 
    // rebuild the layout
    initializeBlendTreeRuntimeContext();
+   initializeSkeletonMapper();
 
    // notify listeners - do it before we activate the tree
    for ( List< BlendTreePlayerListener* >::iterator it = m_listeners.begin(); !it.isEnd(); ++it )
@@ -441,6 +521,7 @@ void BlendTreePlayer::onFinished()
 
    // delete the runtime layout
    deinitializeBlendTreeRuntimeContext();
+   deinitializeSkeletonMapper();
 
    restoreTransforms();
 
@@ -484,6 +565,12 @@ void BlendTreePlayer::samplePoses( float timeElapsed )
    // sample the pose
    root.samplePose( this, timeElapsed );
    Transform* finalPose = root.getGeneratedPose( this );
+
+   // translate the pose using a skeleton mapper ( if applicable )
+   if ( m_skeletonMapperRuntime )
+   {
+      finalPose = m_skeletonMapperRuntime->translatePose( finalPose );
+   }
 
    // set the pose on the skeleton component
    Matrix tmpMtx;
