@@ -45,8 +45,12 @@ public:
    Transform                                 m_accumulatedMotion;
    SkeletonComponent*                        m_posesSink;
    Skeleton*                                 m_skeleton;
-   uint                                      m_bonesCount;
+   uint                                      m_sourceBonesCount;
+   uint                                      m_targetBonesCount;
    BlendTreeSyncProfile*                     m_syncData;
+
+   Array< Transform >                        m_finalSourcePose;
+   Array< Transform >                        m_sourceBoneLocalMatrices;
 
 private:
    RuntimeDataBuffer*                        m_runtimeData;
@@ -110,9 +114,16 @@ public:
    inline Skeleton* getSkeleton() const { return m_skeleton; }
 
    /**
-    * Returns the number of bones in the skeleton.
+    * Returns the number of bones in the sampled animation skeleton.
     */
-   inline uint getBoneCount() const { return m_bonesCount; }
+   inline uint getSourceBoneCount() const { return m_sourceBonesCount; }
+
+   /**
+    * Returns the number of bones in the output skeleton.
+    */
+   inline uint getTargetBoneCount() const {
+      return m_targetBonesCount;
+   }
 
    /**
     * Returns the latest synchronization information the tree should use to synchronize itself.

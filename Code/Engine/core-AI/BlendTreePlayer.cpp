@@ -37,7 +37,8 @@ BlendTreePlayer::BlendTreePlayer( const char* name )
    , m_runtimeData( NULL )
    , m_skeleton( NULL )
    , m_skeletonMapperRuntime( NULL )
-   , m_bonesCount( 0 )
+   , m_sourceBonesCount( 0 )
+   , m_targetBonesCount( 0 )
    , m_eventsCount( 0 )
    , m_eventsReadFrameOffset( 0 )
    , m_eventsWriteFrameOffset( 0 )
@@ -55,7 +56,8 @@ BlendTreePlayer::BlendTreePlayer( const BlendTreePlayer& rhs )
    , m_runtimeData( NULL )
    , m_skeleton( NULL )
    , m_skeletonMapperRuntime( NULL )
-   , m_bonesCount( 0 )
+   , m_sourceBonesCount( 0 )
+   , m_targetBonesCount( 0 )
    , m_eventsCount( 0 )
    , m_eventsReadFrameOffset( 0 )
    , m_eventsWriteFrameOffset( 0 )
@@ -80,7 +82,8 @@ BlendTreePlayer::~BlendTreePlayer()
    delete m_skeletonMapperRuntime;
    m_skeletonMapperRuntime = NULL;
 
-   m_bonesCount = 0;
+   m_sourceBonesCount = 0;
+   m_targetBonesCount = 0;
    m_skeleton = NULL;
    m_skeletonMapper = NULL;
    m_blendTree = NULL;
@@ -215,17 +218,44 @@ void BlendTreePlayer::initializeBlendTreeRuntimeContext()
    ASSERT( getHostModel() != NULL );
    ASSERT( m_runtimeData == NULL );
 
-   if ( m_blendTree )
+   if ( !m_blendTree || !m_blendTree->m_skeleton )
    {
-      // initialize the sync data
-      m_syncData = new BlendTreeSyncProfile();
-
-      // create a memory pool the blend tree will place its runtime data in
-      m_runtimeData = new RuntimeDataBuffer();
-
-      // initialize tree's runtime data layout
-      m_blendTree->initializeLayout( this );
+      return;
    }
+
+   if ( m_blendTree->m_skeleton == m_skeleton )
+   {
+      // this is to prevent double initialization when components are being attached to an entity.
+      // OnSiblingAttached will be called twice then - first, when the SkeletonComponent is attached,
+      // and it informs all other components ( including the player ) about its presence,
+      // and the second time - when the BlendTreePlayer component is attached, it will try recognizing
+      // what other components are already attached, calling onSiblingAdded for each one.
+      return;
+   }
+
+   // set the basic reference values
+   m_skeleton = m_blendTree->m_skeleton;
+   m_sourceBonesCount = m_skeleton->getBoneCount();
+   m_finalSourcePose.resize( m_sourceBonesCount, Transform::IDENTITY );
+
+   if ( m_sourceBonesCount > 0 )
+   {
+      m_sourceBoneLocalMatrices.resize( m_sourceBonesCount, Transform::IDENTITY );
+      for ( uint i = 0; i < m_sourceBonesCount; ++i )
+      {
+         m_sourceBoneLocalMatrices[i].set( m_skeleton->m_boneLocalMatrices[i] );
+      }
+   }
+
+
+   // initialize the sync data
+   m_syncData = new BlendTreeSyncProfile();
+
+   // create a memory pool the blend tree will place its runtime data in
+   m_runtimeData = new RuntimeDataBuffer();
+
+   // initialize tree's runtime data layout
+   m_blendTree->initializeLayout( this );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -246,6 +276,11 @@ void BlendTreePlayer::deinitializeBlendTreeRuntimeContext()
 
    delete m_syncData;
    m_syncData = NULL;
+
+   m_skeleton = NULL;
+   m_sourceBonesCount = 0;
+   m_finalSourcePose.clear();
+   m_sourceBoneLocalMatrices.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -271,6 +306,7 @@ void BlendTreePlayer::initializeSkeletonMapper()
    }
 
    m_skeletonMapperRuntime = new SkeletonMapperRuntime( *m_skeletonMapper );
+   m_targetBonesCount = m_posesSink->m_skeleton->getBoneCount();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -285,31 +321,13 @@ void BlendTreePlayer::deinitializeSkeletonMapper()
 
 void BlendTreePlayer::initializePosesSinkRuntimeContext()
 {
-   if ( !m_posesSink || !m_posesSink->m_skeleton )
-   {
-      return;
-   }
 
-   if ( m_posesSink->m_skeleton == m_skeleton )
-   {
-      // this is to prevent double initialization when components are being attached to an entity.
-      // OnSiblingAttached will be called twice then - first, when the SkeletonComponent is attached,
-      // and it informs all other components ( including the player ) about its presence,
-      // and the second time - when the BlendTreePlayer component is attached, it will try recognizing
-      // what other components are already attached, calling onSiblingAdded for each one.
-      return;
-   }
-
-   m_skeleton = m_posesSink->m_skeleton;
-   m_bonesCount = m_skeleton->getBoneCount();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void BlendTreePlayer::deinitializePosesSinkRuntimeContext()
 {
-   m_skeleton = NULL;
-   m_bonesCount = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -564,21 +582,35 @@ void BlendTreePlayer::samplePoses( float timeElapsed )
 
    // sample the pose
    root.samplePose( this, timeElapsed );
-   Transform* finalPose = root.getGeneratedPose( this );
+   Transform* sourcePoseChange = root.getGeneratedPose( this );
+
+   // calculate the final pose
+   for ( uint i = 0; i < m_sourceBonesCount; ++i )
+   {
+      m_finalSourcePose[i].setMul( sourcePoseChange[i], m_sourceBoneLocalMatrices[i] );
+   }
 
    // translate the pose using a skeleton mapper ( if applicable )
    if ( m_skeletonMapperRuntime )
    {
-      finalPose = m_skeletonMapperRuntime->translatePose( finalPose );
+      const Transform* finalSourcePose = m_finalSourcePose.getRaw();
+      const Transform* finalTargetPose = m_skeletonMapperRuntime->translatePose( finalSourcePose );
+
+      // set the pose on the skeleton component
+      Matrix tmpMtx;
+      for ( uint i = 0; i < m_targetBonesCount; ++i )
+      {
+         finalTargetPose[i].toMatrix( m_posesSink->m_boneLocalMtx[i] );
+      }
    }
-
-   // set the pose on the skeleton component
-   Matrix tmpMtx;
-   for ( uint i = 0; i < m_bonesCount; ++i )
+   else
    {
-      finalPose[i].toMatrix( tmpMtx );
-
-      m_posesSink->m_boneLocalMtx[i].setMul( tmpMtx, m_skeleton->m_boneLocalMatrices[i] );
+      // set the pose on the skeleton component
+      Matrix tmpMtx;
+      for ( uint i = 0; i < m_sourceBonesCount; ++i )
+      {
+         m_finalSourcePose[i].toMatrix( m_posesSink->m_boneLocalMtx[i] );
+      }
    }
 
    // get the accumulated motion

@@ -90,7 +90,7 @@ void BlendTreeStateTransition::setTransitionTrigger( BlendTreeTransitionTrigger*
 void BlendTreeStateTransition::initializeLayout( BlendTreePlayer* player ) const
 {
    // initialize the pose storage
-   uint bonesCount = player->getBoneCount();
+   uint bonesCount = player->getSourceBoneCount();
    RuntimeDataBuffer& data = player->data();
    data.registerVar( m_generatedPose );
    data.registerVar( m_accumulatedMotion );
@@ -191,7 +191,7 @@ void BlendTreeStateTransition::interrupt( BlendTreePlayer* player, const BlendTr
 
 bool BlendTreeStateTransition::update( BlendTreePlayer* player, float timeDelta ) const
 {
-   uint bonesCount = player->getBoneCount();
+   uint bonesCount = player->getSourceBoneCount();
 
    RuntimeDataBuffer& data = player->data();
    Transform* outGeneratedPose = data[m_generatedPose];

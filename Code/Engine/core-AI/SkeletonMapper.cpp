@@ -194,8 +194,8 @@ SkeletonBoneChain::SkeletonBoneChain( const Skeleton* skeleton, const std::strin
 void SkeletonBoneChain::updatePose( const Transform& t, Transform* outPose ) const
 {
    // TODO: optimize
-   Array< uint > boneIndices;
-   for ( uint boneIdx = m_lastBoneIdx; boneIdx != m_firstBoneIdx; boneIdx = m_skeleton->m_boneParentIndices[boneIdx] )
+   Array< int > boneIndices;
+   for ( int boneIdx = m_lastBoneIdx; boneIdx != m_firstBoneIdx && boneIdx >= 0; boneIdx = m_skeleton->m_boneParentIndices[boneIdx] )
    {
       boneIndices.push_back( boneIdx );
    }
@@ -206,8 +206,8 @@ void SkeletonBoneChain::updatePose( const Transform& t, Transform* outPose ) con
    Transform bindPoseT;
    for ( uint i = 0; i < chainBonesCount; ++i )
    {
-      const uint boneIdx = boneIndices[i];
-      const uint parentBoneIdx = m_skeleton->m_boneParentIndices[boneIdx];
+      const int boneIdx = boneIndices[i];
+      const int parentBoneIdx = m_skeleton->m_boneParentIndices[boneIdx];
 
       bindPoseT.set( m_skeleton->m_boneLocalMatrices[boneIdx] );
       outPose[boneIdx].setMul( bindPoseT, outPose[parentBoneIdx] );

@@ -93,7 +93,7 @@ void BlendTreeNode::initializeLayout( BlendTreePlayer* player ) const
    data.registerVar( m_playbackSpeed );
    data.registerVar( m_state );
 
-   uint bonesCount = player->getBoneCount();
+   uint bonesCount = player->getSourceBoneCount();
    data[m_generatedPose] = new Transform[bonesCount];
 
    data[m_nodeSyncData] = new BlendTreeNodeSyncProfile( this );
@@ -234,7 +234,7 @@ void BlendTreeNode::samplePose( BlendTreePlayer* player, float timeDelta ) const
    RuntimeDataBuffer& data = player->data();
    ASSERT_MSG( data[m_state] == Active, "The node hasn't been activated yet" );
 
-   uint bonesCount = player->getBoneCount();
+   uint bonesCount = player->getSourceBoneCount();
 
    Transform* generatedPose = data[m_generatedPose];
    const float playbackSpeed = data[m_playbackSpeed];
