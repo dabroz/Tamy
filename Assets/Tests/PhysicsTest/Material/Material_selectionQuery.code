@@ -1,0 +1,15 @@
+<<SHADER_VERTEX_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_CONTROL_GLSL>><<SHADER_ROUTINE_END>><<SHADER_TESS_EVALUATION_GLSL>><<SHADER_ROUTINE_END>><<SHADER_GEOMETRY_GLSL>><<SHADER_ROUTINE_END>><<SHADER_FRAGMENT_GLSL>>// @file	/Renderer/Shaders/RenderingPipeline/selectionShader.glsl
+// @brief	<put the description here>
+#version 330 core
+
+layout(location=0) out vec4 vFragColor;
+uniform FragmentShaderConstants
+{
+	vec4 g_color;
+};
+
+void main()
+{
+	vFragColor = g_color;
+}
+<<SHADER_ROUTINE_END>>

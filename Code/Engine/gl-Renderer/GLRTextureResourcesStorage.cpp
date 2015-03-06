@@ -27,7 +27,7 @@ uint RenderResourceStorage< GLRenderer, Texture, uint >::createResource( const T
    GLubyte* pData = SOIL_load_image( absImagePath.c_str(), &textureWidth, &textureHeight, &channels, SOIL_LOAD_AUTO );
    if ( pData == NULL ) 
    {
-      LOG( false, "TextureRenderResourceStorage: Cannot load an image file '%s'", absImagePath.c_str() );
+      LOG( "TextureRenderResourceStorage: Cannot load an image file '%s'", absImagePath.c_str() );
       return textureID;
    }
 

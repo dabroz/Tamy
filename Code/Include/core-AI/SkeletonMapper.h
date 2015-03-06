@@ -35,6 +35,10 @@ public:
    uint                 m_firstBoneIdx;
    uint                 m_lastBoneIdx;
 
+private:
+   Array< int >         m_boneIndices;
+   Vector               m_boneDirVec;
+
 public:
    /**
     * Default constructor.
@@ -52,12 +56,28 @@ public:
    SkeletonBoneChain( const Skeleton* skeleton, const std::string& chainName, uint firstBoneIdx, uint lastBoneIdx );
 
    /**
-    * Updates the specified pose, transforming the bones this chain consists of.
+    * Translates the pose the skeleton bones form into a transform of the respective chain bone.
     *
-    * @param t
-    * @param outPose
+    * @param poseModelSpace
+    * @param outChainBoneTransformModelSpace
     */
-   void updatePose( const Transform& t, Transform* outPose ) const;
+   void translatePoseToChainBoneTransform( Transform* poseModelSpace, Transform& outChainBoneTransformModelSpace ) const;
+
+   /**
+    * Translates the chain bone transform to a pose of the underlying skeleton bones
+    *
+    * @param chainBoneTransformModelSpace
+    * @param outPoseModelSpace
+    */
+   void translateChainBoneTransformToPose( const Transform& chainBoneTransformModelSpace, Transform* outPoseModelSpace ) const;
+
+   // -------------------------------------------------------------------------
+   // ReflectionObject implementation
+   // -------------------------------------------------------------------------
+   void onObjectLoaded() override;
+
+private:
+   void cacheRuntimeData();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

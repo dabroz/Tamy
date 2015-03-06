@@ -39,7 +39,7 @@ void SkeletonMapperRuntime::calcPoseLocalSpace( const Transform* sourcePoseLocal
    for ( uint i = 0; i < sourceChainsCount; ++i )
    {
       SkeletonBoneChain* chain = m_mapper.m_sourceChains[i];
-      m_tmpSourceChainPose[i] = m_tmpSourceBasePose[chain->m_firstBoneIdx];
+      chain->translatePoseToChainBoneTransform( m_tmpSourceBasePose.getRaw(), m_tmpSourceChainPose[i] );
    }
       
    // map the transforms of chains
@@ -52,7 +52,7 @@ void SkeletonMapperRuntime::calcPoseLocalSpace( const Transform* sourcePoseLocal
          continue;
       }
 
-      // here's the juice:     
+      // here's the juice - we're calculating how much did the source 'chain bone' move    
       Transform dtSourceSpace;
       {
          Transform invBindPose, bindPose;
@@ -60,15 +60,16 @@ void SkeletonMapperRuntime::calcPoseLocalSpace( const Transform* sourcePoseLocal
          dtSourceSpace.setMul( invBindPose, m_tmpSourceChainPose[sourceChainIdx] );
       }
 
+      // and we're applying the same movement to the corresponding target 'chain bone'
       m_tmpTargetChainPose[targetChainIdx].setMul( m_targetBindPose[targetChainIdx], dtSourceSpace );
    }
 
-   // map the target chain to the base target skeleton
+   // translate the movement of the target chains onto the movement of the target skeleton's bones
    const uint targetChainsCount = m_mapper.m_targetChains.size();
    for ( uint i = 0; i < targetChainsCount; ++i )
    {
       SkeletonBoneChain* chain = m_mapper.m_targetChains[i];
-      chain->updatePose( m_tmpTargetChainPose[i], m_tmpTargetBasePose.getRaw() );
+      chain->translateChainBoneTransformToPose( m_tmpTargetChainPose[i], m_tmpTargetBasePose.getRaw() );
    }
 
    // back to the local pose

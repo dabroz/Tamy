@@ -349,3 +349,71 @@ TEST( SkeletonMapper, oneToManyMappingWithOppositeRotations )
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+TEST( BoneChain, twoSourceBonesToSingleTargetBone )
+{
+   Skeleton skeletonA;
+   SkeletonPoseTool poseA( skeletonA );
+   {
+      poseA.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO )
+         .bone( "boneB", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) )
+         .bone( "boneC", "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .bone( "boneD", "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 3.0f ) )
+         .buildSkeleton();
+   }
+
+   Skeleton skeletonB;
+   SkeletonPoseTool poseB( skeletonB );
+   {
+      poseB.startSkeleton( "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 0.0f ) )
+         .bone( "boneC", "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) )
+         .buildSkeleton();
+   }
+
+   SkeletonMapper mapper;
+   mapper.setSkeletons( &skeletonA, &skeletonB )
+      .addSourceChain( "chain1", "boneA", "boneB" )
+      .addSourceChain( "chain2", "boneC", "boneD" )
+      .addTargetChain( "chain1", "boneA", "boneA" )
+      .addTargetChain( "chain2", "boneC", "boneC" )
+      .mapChain( "chain1", "chain1" )
+      .mapChain( "chain2", "chain2" );
+
+   SkeletonMapperRuntime runtime( mapper );
+
+   // bend boneB only, which will result in bone C changing its model space position and rotation
+   {
+      poseA.start().rotate( "boneB", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD(   0.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 1.0f ) );
+      TEST_BONE( poseA, "boneD", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 2.0f, 1.0f ) );
+
+      // pose B check
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( -45.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 1.0f, 1.0f ) );
+
+   }
+
+   // bend boneD only, which will result in bone C changing its model space position and rotation
+   {
+      poseA.start().rotate( "boneD", Vector_OX, DEG2RAD( -90.0f ) ).end();
+      runtime.calcPoseLocalSpace( poseA.getLocal(), poseB.accessLocal() );
+
+      // pose A check
+      TEST_BONE( poseA, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
+      TEST_BONE( poseA, "boneB", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 1.0f ) );
+      TEST_BONE( poseA, "boneC", Vector_OX, DEG2RAD( 0.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
+      TEST_BONE( poseA, "boneD", Vector_OX, DEG2RAD( -90.0f ), Vector( 0.0f, 0.0f, 3.0f ) );
+
+      // pose B check
+      TEST_BONE( poseB, "boneA", Vector_OX, DEG2RAD( 0.0f ), Vector_ZERO );
+      TEST_BONE( poseB, "boneC", Vector_OX, DEG2RAD( -45.0f ), Vector( 0.0f, 0.0f, 2.0f ) );
+
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////

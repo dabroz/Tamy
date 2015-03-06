@@ -174,8 +174,8 @@ END_OBJECT();
 
 SkeletonBoneChain::SkeletonBoneChain()
    : m_skeleton( NULL )
-   , m_firstBoneIdx( 0 )
-   , m_lastBoneIdx( 0 )
+   , m_firstBoneIdx( -1 )
+   , m_lastBoneIdx( -1 )
 {
 }
 
@@ -187,30 +187,93 @@ SkeletonBoneChain::SkeletonBoneChain( const Skeleton* skeleton, const std::strin
    , m_firstBoneIdx( firstBoneIdx )
    , m_lastBoneIdx( lastBoneIdx )
 {
+   cacheRuntimeData();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void SkeletonBoneChain::updatePose( const Transform& t, Transform* outPose ) const
+void SkeletonBoneChain::onObjectLoaded()
 {
-   // TODO: optimize
-   Array< int > boneIndices;
-   for ( int boneIdx = m_lastBoneIdx; boneIdx != m_firstBoneIdx && boneIdx >= 0; boneIdx = m_skeleton->m_boneParentIndices[boneIdx] )
+   ReflectionObject::onObjectLoaded();
+
+   cacheRuntimeData();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonBoneChain::cacheRuntimeData()
+{
+   ASSERT( m_skeleton != NULL );
+   ASSERT( m_firstBoneIdx >= 0 );
+   ASSERT( m_lastBoneIdx >= 0 );
+   if ( !m_skeleton || m_firstBoneIdx < 0 || m_lastBoneIdx < 0 )
    {
-      boneIndices.push_back( boneIdx );
+      return;
    }
 
-   outPose[m_firstBoneIdx] = t;
+   // cache the indices of bones the chain comprises
+   m_boneIndices.clear();
+   for ( int boneIdx = m_lastBoneIdx; boneIdx != m_firstBoneIdx && boneIdx >= 0; boneIdx = m_skeleton->m_boneParentIndices[boneIdx] )
+   {
+      m_boneIndices.push_back( boneIdx );
+   }
 
-   const uint chainBonesCount = boneIndices.size();
+   // cache the direction of the first bone
+   Transform firstBoneBindPoseT;
+   firstBoneBindPoseT.set( m_skeleton->m_boneLocalMatrices[m_firstBoneIdx] );
+   firstBoneBindPoseT.invert();
+   firstBoneBindPoseT.transformNorm( Vector_OZ, m_boneDirVec );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+void SkeletonBoneChain::translatePoseToChainBoneTransform( Transform* poseModelSpace, Transform& outChainBoneTransformModelSpace ) const
+{
+   if ( m_lastBoneIdx == m_firstBoneIdx )
+   {
+      outChainBoneTransformModelSpace = poseModelSpace[m_firstBoneIdx];
+   }
+   else
+   {
+      // calculate the position of the end of the bone chain
+      Transform dt;
+      dt.setMulInverse( poseModelSpace[m_lastBoneIdx], poseModelSpace[m_firstBoneIdx] );
+
+      Vector endPosLS, endPosMS;
+      endPosLS.setMul( m_boneDirVec, m_skeleton->m_boneLengths[m_lastBoneIdx] );
+      dt.transform( endPosLS, endPosMS );
+
+      endPosMS.normalize();
+
+      // the final transform will copy its translation from the first bone's transform,
+      // and its rotation will be the shortest angle between the OX vector and the direction to the end
+      // of the last bone we've just calculated
+      outChainBoneTransformModelSpace.m_translation = poseModelSpace[m_firstBoneIdx].m_translation;
+
+      Quaternion rotLS;
+      rotLS.setFromShortestRotation( m_boneDirVec, endPosMS );
+      outChainBoneTransformModelSpace.m_rotation.setMul( rotLS, poseModelSpace[m_firstBoneIdx].m_rotation );
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void SkeletonBoneChain::translateChainBoneTransformToPose( const Transform& chainBoneTransformModelSpace, Transform* outPoseModelSpace ) const
+{
+   // calculate the transform of the bone chain based on the transforms of bones the chain comprises
+   outPoseModelSpace[m_firstBoneIdx] = chainBoneTransformModelSpace;
+
+   // apply the transform 
+   const uint chainBonesCount = m_boneIndices.size();
    Transform bindPoseT;
    for ( uint i = 0; i < chainBonesCount; ++i )
    {
-      const int boneIdx = boneIndices[i];
+      const int boneIdx = m_boneIndices[i];
       const int parentBoneIdx = m_skeleton->m_boneParentIndices[boneIdx];
 
       bindPoseT.set( m_skeleton->m_boneLocalMatrices[boneIdx] );
-      outPose[boneIdx].setMul( bindPoseT, outPose[parentBoneIdx] );
+      outPoseModelSpace[boneIdx].setMul( bindPoseT, outPoseModelSpace[parentBoneIdx] );
    }
 }
 
