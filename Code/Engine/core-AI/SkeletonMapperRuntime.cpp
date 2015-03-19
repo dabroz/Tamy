@@ -125,6 +125,10 @@ void SkeletonMapperRuntime::compileRuntime()
       m_targetToSource[targetChainIdx].setMulInverse( m_targetBindPose[targetChainIdx], m_tmpSourceChainPose[sourceChainIdx] );
       m_sourceToTarget[targetChainIdx].setMulInverse( m_tmpSourceChainPose[sourceChainIdx], m_targetBindPose[targetChainIdx] );
    }
+
+   // initialize the final pose to thee target skeleton's bind pose, so that if some bones haven't been mapped, 
+   // they remain in the bind pose
+   m_mapper.m_targetSkeleton->calculateLocalToModel( m_mapper.m_targetSkeleton->m_boneLocalMatrices.getRaw(), m_tmpTargetBasePose.getRaw() );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

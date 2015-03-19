@@ -303,9 +303,12 @@ void MappingTable::verifyChain( BoneChainIdx chainIdx, const Skeleton* skeleton 
    // Make sure the chains don't overlap.
    // In order to test that, take note which bones are mapped to chains.
    // If you find a bone already mapped to another chain, then we know that there's
-   // an overlap
+   // an overlap.
+   // The only exception are the first bones in chains - such a bone may give origin to multiple chains,
+   // but itself cannot be mapped as a middle or end bone in another chain.
    Array< int > indexOfOwnerChain( skeleton->getBoneCount() );
    indexOfOwnerChain.resize( skeleton->getBoneCount(), -1 );
+
    for ( uint chainIdx = 0; chainIdx < mappingsCount; ++chainIdx )
    {
       QTreeWidgetItem* item = topLevelItem( chainIdx );
@@ -322,23 +325,43 @@ void MappingTable::verifyChain( BoneChainIdx chainIdx, const Skeleton* skeleton 
 
       for ( int boneIdx = childBoneIdx; boneIdx >= 0; boneIdx = skeleton->m_boneParentIndices[boneIdx] )
       {
-         if ( indexOfOwnerChain[boneIdx] >= 0 )
+         if ( indexOfOwnerChain[boneIdx] < 0 )
          {
-            char tmpStr[128];
-            sprintf_s( tmpStr, "Bone '%s' is already assigned to chain %d", skeleton->m_boneNames[boneIdx].c_str(), indexOfOwnerChain[boneIdx] );
-            setChainStatus( chainIdx, startColIdx, false, tmpStr );
-            setChainStatus( chainIdx, endColIdx, false, tmpStr );
-         }
-         else
-         {
+            // the bone's not yet mapped
             indexOfOwnerChain[boneIdx] = chainIdx;
+
+            if ( boneIdx == parentBoneIdx )
+            {
+               // that was the last bone to check
+               break;
+            }
+            else
+            {
+               // there are more bones in the chain to check
+               continue;
+            }
          }
 
-         if ( boneIdx == parentBoneIdx )
+         // the bone's already mapped to another chain, but we can let it pass if the bone
+         // is the start bone in this and the other chain as well
+         const int otherChainIdx = indexOfOwnerChain[boneIdx];
+         QTreeWidgetItem* otherChainItem = topLevelItem( otherChainIdx );
+         std::string otherChainStart = otherChainItem->text( startColIdx ).toStdString();
+         const int otherChainParentBoneIdx = skeleton->getBoneIndex( chainStart.c_str() );
+
+         if ( boneIdx == parentBoneIdx && boneIdx == otherChainParentBoneIdx )
          {
-            // we reached the end of the chain
+            // and because this is the end of the chain, we want to break
             break;
          }
+
+         char tmpStr[128];
+         sprintf_s( tmpStr, "Bone '%s' is already assigned to chain %d", skeleton->m_boneNames[boneIdx].c_str(), indexOfOwnerChain[boneIdx] );
+         setChainStatus( chainIdx, startColIdx, false, tmpStr );
+         setChainStatus( chainIdx, endColIdx, false, tmpStr );
+
+         // no point in checking this chain any further
+         break;
       }
    }
 }

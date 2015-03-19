@@ -14,6 +14,7 @@
 class RagdollComponent;
 class Skeleton;
 class SkeletonMapper;
+class SkeletonMapperRuntime;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -34,6 +35,8 @@ private:
       Skeleton*                                 m_animationSkeleton;
       RagdollComponent*                         m_ragdollComponent;
       const SkeletonMapper*                     m_mapper;
+      SkeletonMapperRuntime*                    m_mapperRuntime;
+
       Array< Transform >                        m_bodyTransformsLocalSpace;
 
    public:

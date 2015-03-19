@@ -49,6 +49,10 @@ private:
       {}
    };
 
+public:
+   // static data
+   SkeletonMapper*                           m_mapper;
+
 private:
    // static data
    Skeleton*                                 m_ragdollSkeleton;
@@ -62,7 +66,6 @@ private:
    Array< physx::PxRigidDynamic* >           m_bodies;
    Array< physx::PxJoint* >                  m_joints;
    Array< BodyDesc >                         m_bodyDescriptions;
-   Array< SkeletonMapper* >                  m_mappers;
 
    // The following are mutable - they are used in a single constant method, calcPoseLocalSpace, and as a matter of fact,
    // they are local to that method ( the data the method puts in them becomes invalid once the method is over ).
@@ -101,14 +104,6 @@ public:
    }
 
    /**
-    * Returns a skeleton mapper capable of translating the ragdoll pose onto the specified
-    * skeleton pose.
-    *
-    * @param skeleton
-    */
-   const SkeletonMapper* getSkeletonMapper( const Skeleton* skeleton ) const;
-
-   /**
     * Calculates the pose of the ragdoll, expressed as a list of transforms,
     * each of which corresponding to a local space transform of a single ragdoll body.
     *
@@ -129,8 +124,6 @@ protected:
    // -------------------------------------------------------------------------
    void onAttachToModel( Model* model ) override;
    void onDetachFromModel( Model* model ) override;
-   void onSiblingAttached( SceneNode* node ) override;
-   void onSiblingDetached( SceneNode* node ) override;
 
    // -------------------------------------------------------------------------
    // ReflectionObject implementation
@@ -151,8 +144,6 @@ private:
    void calculateBodyDescriptions( const Array< AxisAlignedBox >& bodiesBounds, Array< BodyDesc >& outBodiesDescriptions ) const;
    void createBodies( Array< BodyDesc >& bodyDescriptions, PhysicsMaterial* material );
    void createJoints( const Array< BodyDesc >& bodyDescriptions );
-   void buildSkeletonMappers();
-   void releaseSkeletonMappers();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

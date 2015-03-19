@@ -2,6 +2,7 @@
 #include "ext-ProceduralAnimation\RagdollComponent.h"
 #include "core-AI\BlendTreePlayer.h"
 #include "core-AI\SkeletonMapper.h"
+#include "core-AI\SkeletonMapperRuntime.h"
 #include "core-AI\Skeleton.h"
 #include "core-AI\SkeletonComponent.h"
 #include "core-MVC\Entity.h"
@@ -75,9 +76,9 @@ void BlendTreeRagdollAnimation::onSamplePose( BlendTreePlayer* player, float tim
    RuntimeDataBuffer& data = player->data();
    RagdollComponentListener* ragdollListener = data[m_ragdollComponentListener];
    RagdollComponent* ragdollComp = ragdollListener->m_ragdollComponent;
-   const SkeletonMapper* mapper = ragdollListener->m_mapper;
+   const SkeletonMapperRuntime* mapperRuntime = ragdollListener->m_mapperRuntime;
 
-   if ( !ragdollComp || !mapper )
+   if ( !ragdollComp || !mapperRuntime )
    {
       return;
    }
@@ -85,7 +86,7 @@ void BlendTreeRagdollAnimation::onSamplePose( BlendTreePlayer* player, float tim
    Array< Transform >& bodyTransforms = ragdollListener->m_bodyTransformsLocalSpace;
    ragdollComp->calcPoseLocalSpace( bodyTransforms );
 
-   // TODO: mapper->calcPoseLocalSpace( bodyTransforms.getRaw(), outGeneratedPose );
+   mapperRuntime->calcPoseLocalSpace( bodyTransforms.getRaw(), outGeneratedPose );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -96,6 +97,7 @@ BlendTreeRagdollAnimation::RagdollComponentListener::RagdollComponentListener( S
    : m_animationSkeleton( animationSkeleton )
    , m_ragdollComponent( NULL )
    , m_mapper( NULL )
+   , m_mapperRuntime( NULL )
 {
 }
 
@@ -115,7 +117,11 @@ void BlendTreeRagdollAnimation::RagdollComponentListener::onChildAttached( Entit
          m_bodyTransformsLocalSpace.resize( bodiesCount, Transform::IDENTITY );
       }
 
-      m_mapper = m_ragdollComponent->getSkeletonMapper( m_animationSkeleton );
+      m_mapper = m_ragdollComponent->m_mapper;
+      if ( m_mapper )
+      {
+         m_mapperRuntime = new SkeletonMapperRuntime( *m_mapper );
+      }
    }
 }
 
@@ -127,6 +133,9 @@ void BlendTreeRagdollAnimation::RagdollComponentListener::onChildDetached( Entit
    {
       m_ragdollComponent = NULL;
       m_mapper = NULL;
+
+      delete m_mapperRuntime;
+      m_mapperRuntime = NULL;
    }
 }
 

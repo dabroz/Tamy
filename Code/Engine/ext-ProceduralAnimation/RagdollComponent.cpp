@@ -41,6 +41,7 @@ BEGIN_OBJECT( RagdollComponent );
    PARENT( PhysicsObject );
    PROPERTY_EDIT( "Ragdoll skeleton", Skeleton*, m_ragdollSkeleton );
    PROPERTY_EDIT( "Ragdoll mesh", TriangleMesh*, m_ragdollMesh );
+   PROPERTY_EDIT( "Skeleton mapper", SkeletonMapper*, m_mapper );
 END_OBJECT();
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,6 +51,7 @@ RagdollComponent::RagdollComponent( const char* name )
    , m_defaultMaterial( FilePath( "/Physics/Materials/defaultPhysMat.tpm" ) )
    , m_ragdollSkeleton( NULL )
    , m_ragdollMesh( NULL )
+   , m_mapper( NULL )
    , m_physicsWorld( NULL )
    , m_aggregate( NULL )
 {
@@ -62,6 +64,7 @@ RagdollComponent::RagdollComponent( const RagdollComponent& rhs )
    , m_defaultMaterial( rhs.m_defaultMaterial )
    , m_ragdollSkeleton( rhs.m_ragdollSkeleton )
    , m_ragdollMesh( rhs.m_ragdollMesh )
+   , m_mapper( rhs.m_mapper )
    , m_physicsWorld( NULL )
    , m_aggregate( NULL )
 {
@@ -71,7 +74,6 @@ RagdollComponent::RagdollComponent( const RagdollComponent& rhs )
 
 RagdollComponent::~RagdollComponent()
 {
-   ASSERT( m_mappers.empty() );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -121,8 +123,6 @@ void RagdollComponent::onDetachFromModel( Model* model )
    {
       m_ragdollSkeleton->detachListener( *this );
    }
-
-   releaseSkeletonMappers();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -134,7 +134,6 @@ void RagdollComponent::onPrePropertyChanged( ReflectionProperty& property )
    if ( property.getName() == "m_ragdollSkeleton" )
    {
       destroyRagdoll();
-      releaseSkeletonMappers();
    }
 }
 
@@ -147,52 +146,7 @@ void RagdollComponent::onPropertyChanged( ReflectionProperty& property )
    if ( property.getName() == "m_ragdollSkeleton" )
    {
       buildRagdoll();
-      buildSkeletonMappers();
    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void RagdollComponent::onSiblingAttached( SceneNode* node )
-{
-   PhysicsObject::onSiblingAttached( node );
-
-   if ( node->isExactlyA< SkeletonComponent >() )
-   {
-      SkeletonComponent* skeletonComp = static_cast< SkeletonComponent* >( node );
-
-      const SkeletonMapper* existingMapper = getSkeletonMapper( skeletonComp->m_skeleton );
-      if ( !existingMapper && skeletonComp->m_skeleton )
-      {
-         SkeletonMapper* newMapper = new SkeletonMapper();
-
-         // TODO: build the mapping table here
-
-         m_mappers.push_back( newMapper );
-      }
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void RagdollComponent::onSiblingDetached( SceneNode* node )
-{
-   PhysicsObject::onSiblingDetached( node );
-
-   if ( node->isExactlyA< SkeletonComponent >() )
-   {
-      SkeletonComponent* skeletonComp = static_cast< SkeletonComponent* >( node );
-
-      const SkeletonMapper* existingMapper = getSkeletonMapper( skeletonComp->m_skeleton );
-      if ( existingMapper )
-      {
-         const uint idx = m_mappers.find( const_cast< SkeletonMapper* >( existingMapper ) );
-         m_mappers.remove( idx );
-
-         delete existingMapper;
-      }
-   }
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -625,65 +579,6 @@ void RagdollComponent::calcPoseLocalSpace( Array< Transform >& outTransforms ) c
 
       outTransforms[i] = c;
    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-const SkeletonMapper* RagdollComponent::getSkeletonMapper( const Skeleton* skeleton ) const
-{
-   if ( !skeleton )
-   {
-      return NULL;
-   }
-
-   bool mapperExists = false;
-   const uint mappersCount = m_mappers.size();
-   for ( uint i = 0; i < mappersCount; ++i )
-   {
-      SkeletonMapper* mapper = m_mappers[i];
-      if ( mapper->m_targetSkeleton == skeleton )
-      {
-         return mapper;
-      }
-   }
-
-   return NULL;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void RagdollComponent::buildSkeletonMappers()
-{
-   ASSERT( m_mappers.empty() );
-
-   LocalList< const SkeletonComponent* > skeletonComponents;
-   EntityUtils::collectNodesByType< SkeletonComponent >( getParent(), skeletonComponents );
-
-   for ( LocalList< const SkeletonComponent* >::iterator it = skeletonComponents.begin(); !it.isEnd(); ++it )
-   {
-      const SkeletonComponent* skeletonComp = *it;
-      if ( skeletonComp->m_skeleton != NULL )
-      {
-         SkeletonMapper* mapper = new SkeletonMapper();
-
-         // TODO: build the mapping table here
-
-         m_mappers.push_back( mapper );
-      }
-   }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-void RagdollComponent::releaseSkeletonMappers()
-{
-   // delete skeleton mappers
-   const uint mappersCount = m_mappers.size();
-   for ( uint i = 0; i < mappersCount; ++i )
-   {
-      delete m_mappers[i];
-   }
-   m_mappers.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
