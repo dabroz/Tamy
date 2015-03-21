@@ -1,5 +1,10 @@
 #include "core-Renderer\ShaderParam.h"
 #include "core-Renderer\ShaderDataBuffer.h"
+#include "core-Renderer\ProceduralTexture.h"
+#include "core-Renderer\CubeTexture.h"
+#include "core-Renderer\RenderTarget2D.h"
+#include "core-Renderer\Texture.h"
+#include "core-Renderer\RenderTargetCube.h"
 #include "core\Assert.h"
 
 
@@ -9,7 +14,17 @@ ShaderParamTexture::ShaderParamTexture( const IDString& nameId, Texture* val, co
    : m_name( nameId )
    , m_val( val )
    , m_samplerSettings( samplerSettings )
-{}
+{
+   m_val->addReference();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamTexture::~ShaderParamTexture()
+{
+   m_val->removeReference();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +34,16 @@ ShaderParamCubeTexture::ShaderParamCubeTexture( const IDString& nameId, CubeText
    : m_name( nameId )
    , m_val( val )
    , m_samplerSettings( samplerSettings )
-{}
+{
+   m_val->addReference();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamCubeTexture::~ShaderParamCubeTexture()
+{
+   m_val->removeReference();
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,6 +55,14 @@ ShaderParamRenderTarget2D::ShaderParamRenderTarget2D( const IDString& nameId, Re
    , m_samplerSettings( samplerSettings )
    , m_renderTextureIdx( renderTextureIdx )
 {
+   m_val->addReference();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamRenderTarget2D::~ShaderParamRenderTarget2D()
+{
+   m_val->removeReference();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -41,6 +73,14 @@ ShaderParamDepthBuffer2D::ShaderParamDepthBuffer2D( const IDString& nameId, Rend
    : m_name( nameId )
    , m_val( renderTarget )
 {
+   m_val->addReference();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamDepthBuffer2D::~ShaderParamDepthBuffer2D()
+{
+   m_val->removeReference();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,6 +92,14 @@ ShaderParamRenderTargetCube::ShaderParamRenderTargetCube( const IDString& nameId
    , m_val( val )
    , m_samplerSettings( samplerSettings )
 {
+   m_val->addReference();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamRenderTargetCube::~ShaderParamRenderTargetCube()
+{
+   m_val->removeReference();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,6 +111,14 @@ ShaderParamProceduralTexture::ShaderParamProceduralTexture( const IDString& name
    , m_val( val )
    , m_samplerSettings( samplerSettings )
 {
+   m_val->addReference();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamProceduralTexture::~ShaderParamProceduralTexture()
+{
+   m_val->removeReference();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,8 +130,18 @@ ShaderParamDataBuf::ShaderParamDataBuf( const IDString& nameId, ShaderDataBuffer
    , m_dataBuf( dataBuf )
    , m_data( dataBuf->getSize() )
 {
+   m_dataBuf->addReference();
+
    m_data.resize( dataBuf->getSize(), 0 );
    dataBuf->copy( (byte*)m_data );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+ShaderParamDataBuf::~ShaderParamDataBuf()
+{
+   m_dataBuf->removeReference();
+   m_dataBuf = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

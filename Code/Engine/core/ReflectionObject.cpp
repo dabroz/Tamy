@@ -228,12 +228,8 @@ void ReflectionObject::registerReferences()
 ///////////////////////////////////////////////////////////////////////////////
 
 int ReflectionObject::getReferencesCount() const 
-{ 
-   m_referencesCounterLock->enter();
-   int refCounter = m_referencesCounter;
-   m_referencesCounterLock->leave();
-
-   return refCounter; 
+{
+   return m_referencesCounter;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -250,16 +246,11 @@ void ReflectionObject::addReference() const
 void ReflectionObject::removeReference() const
 {
    m_referencesCounterLock->enter();
-   if ( m_referencesCounter >= 1 )
-   {
-      --m_referencesCounter;
-   }
-
-   int refCounter = m_referencesCounter;
+   --m_referencesCounter;
+   const int newRefCounterVal = m_referencesCounter;
    m_referencesCounterLock->leave();
 
-
-   if ( refCounter < 1 )
+   if ( newRefCounterVal == 0 )
    {
       delete this;
    }

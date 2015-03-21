@@ -59,7 +59,7 @@ AmbientOcclusionPass::~AmbientOcclusionPass()
    m_randomTexture->removeReference();
    m_randomTexture = NULL;
 
-   delete m_constantsBuf;
+   m_constantsBuf->removeReference();
    m_constantsBuf = NULL;
 
    delete m_blurEffect;

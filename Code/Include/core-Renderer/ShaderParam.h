@@ -68,6 +68,7 @@ private:
 
 public:
    ShaderParamTexture( const IDString& nameId, Texture* val, const TextureSamplerSettings& samplerSettings );
+   ~ShaderParamTexture();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
@@ -91,6 +92,7 @@ private:
 
 public:
    ShaderParamCubeTexture( const IDString& nameId, CubeTexture* val, const TextureSamplerSettings& samplerSettings );
+   ~ShaderParamCubeTexture();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
@@ -115,6 +117,7 @@ private:
 
 public:
    ShaderParamRenderTarget2D( const IDString& nameId, RenderTarget2D* val, const TextureSamplerSettings& samplerSettings, byte renderTextureIdx = 0 );
+   ~ShaderParamRenderTarget2D();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
@@ -134,6 +137,7 @@ private:
 
 public:
    ShaderParamDepthBuffer2D( const IDString& nameId, RenderTarget2D* renderTarget );
+   ~ShaderParamDepthBuffer2D();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
@@ -157,6 +161,7 @@ private:
 
 public:
    ShaderParamRenderTargetCube( const IDString& nameId, RenderTargetCube* val, const TextureSamplerSettings& samplerSettings );
+   ~ShaderParamRenderTargetCube();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
@@ -180,6 +185,7 @@ private:
 
 public:
    ShaderParamProceduralTexture( const IDString& nameId, ProceduralTexture* val, const TextureSamplerSettings& samplerSettings );
+   ~ShaderParamProceduralTexture();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
@@ -200,6 +206,7 @@ private:
 
 public:
    ShaderParamDataBuf( const IDString& nameId, ShaderDataBuffer* dataBuf );
+   ~ShaderParamDataBuf();
 
    // -------------------------------------------------------------------------
    // ShaderParam implementation
