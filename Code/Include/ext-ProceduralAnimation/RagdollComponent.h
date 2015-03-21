@@ -39,7 +39,6 @@ private:
       DECLARE_ALLOCATOR( BodyDesc, AM_DEFAULT );
 
       Transform      m_transform;
-      Transform      m_bindPoseTransform;
       float          m_radius;
       float          m_length;
 

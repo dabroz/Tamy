@@ -324,7 +324,7 @@ void BlendTreeAnimation::onSynchronizeNodeToTree( BlendTreePlayer* player, const
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTreeAnimation::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const
+void BlendTreeAnimation::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const
 {
    if ( !m_animation )
    {
@@ -341,7 +341,7 @@ void BlendTreeAnimation::onSamplePose( BlendTreePlayer* player, float timeDelta,
    const float newTrackTime = runtimeSyncPointsList->m_trackTime;
 
    // sample the pose
-   m_animation->samplePose( newTrackTime, outGeneratedPose, bonesCount );
+   m_animation->samplePose( newTrackTime, outGeneratedPoseDiffLS, bonesCount );
 
    // get the accumulated motion
    {

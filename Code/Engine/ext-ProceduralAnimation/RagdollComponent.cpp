@@ -388,22 +388,9 @@ void RagdollComponent::createBodies( Array< BodyDesc >& bodyDescriptions, Physic
       // DEBUG code
       //bone->setActorFlag( physx::PxActorFlag::eDISABLE_GRAVITY, true );
 
-
       // keep local reference to it
       m_bodies[i] = bone;
       m_aggregate->addActor( *bone );
-   }
-
-   // calculate the bind pose
-   Transform invBodyTransform;
-   for ( uint i = 0; i < boneCount; ++i )
-   {
-      int parentIdx = m_ragdollSkeleton->m_boneParentIndices[i];
-      invBodyTransform.setInverse( bodyTransforms[parentIdx + 1] );
-
-      BodyDesc& bodyDescription = bodyDescriptions[i];
-      bodyDescription.m_bindPoseTransform.setMul( bodyTransforms[i + 1], invBodyTransform );
-      bodyDescription.m_bindPoseTransform.invert();
    }
 
    // add bones to the world
@@ -489,7 +476,7 @@ void RagdollComponent::createJoints( const Array< BodyDesc >& bodyDescriptions )
       {
          // when the body is touching its parent with its base, use a spherical joint
          physx::PxSphericalJoint* sphericalJoint = PxSphericalJointCreate( *physicsCore, parentBone, localFrame0, childBone, localFrame1 );
-         sphericalJoint->setLimitCone( physx::PxJointLimitCone( ( float ) M_PI * 0.8f, ( float ) M_PI * 0.8f, 0.1f ) );
+         sphericalJoint->setLimitCone( physx::PxJointLimitCone( ( float ) M_PI * 0.8f, ( float ) M_PI * 0.8f, 0.01f ) );
          sphericalJoint->setSphericalJointFlag( physx::PxSphericalJointFlag::eLIMIT_ENABLED, true );
 
          joint = sphericalJoint;
@@ -567,17 +554,25 @@ void RagdollComponent::calcPoseLocalSpace( Array< Transform >& outTransforms ) c
 
    // calculate the local space pose
    // Transform parentBoneSpace, childBoneSpace;
-   Transform a, b, c;
+   Transform modelPosePhysxBodyT, invPhysxBodyT, a, b;
    for ( uint i = 0; i < bodyCount; ++i )
    {
       int parentTransformIdx = m_ragdollSkeleton->m_boneParentIndices[i];
 
-      a.setInverse( m_poseWorldSpace[parentTransformIdx + 1] );
-      b.setMul( m_poseWorldSpace[i + 1], a );
+      modelPosePhysxBodyT.setMulInverse( m_poseWorldSpace[i + 1], m_poseWorldSpace[parentTransformIdx + 1] );
+      invPhysxBodyT.setInverse( m_bodyDescriptions[i].m_transform );
 
-      c.setMul( b, m_bodyDescriptions[i].m_bindPoseTransform );
+      a.setMul( invPhysxBodyT, modelPosePhysxBodyT );
+      if ( parentTransformIdx >= 0 )
+      {
+         b.setMul( a, m_bodyDescriptions[parentTransformIdx].m_transform );
+      }
+      else
+      {
+         b = a;
+      }
 
-      outTransforms[i] = c;
+      outTransforms[i] = b;
    }
 }
 

@@ -33,11 +33,11 @@ namespace // anonymous
          m_bonesCount = 0;
       }
 
-      void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const override
+      void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const override
       {
          for ( uint i = 0; i < m_bonesCount; ++i )
          {
-            outGeneratedPose[i].set( m_targetPose[i] );
+            outGeneratedPoseDiffLS[i].set( m_targetPose[i] );
          }
       }
    };

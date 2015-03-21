@@ -66,7 +66,7 @@ public:
    // -------------------------------------------------------------------------
    void initializeLayout( BlendTreePlayer* player ) const override;
    void deinitializeLayout( BlendTreePlayer* player ) const override;
-   void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const override;
+   void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const override;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

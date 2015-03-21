@@ -61,7 +61,7 @@ public:
    void onDeactivateNode( BlendTreePlayer* player ) const override;
    void onUpdateLogic( BlendTreePlayer* player ) const override;
    void onSynchronizeNodeToTree( BlendTreePlayer* player, const BlendTreeSyncProfile& syncData, BlendTreeNodeSyncProfile& outNodeSyncProfile ) const override;
-   void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const override;
+   void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const override;
 
    // -------------------------------------------------------------------------
    // BlendTreeComposite implementation

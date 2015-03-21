@@ -279,7 +279,7 @@ void BlendTreeBlender1D::onSynchronizeNodeToTree( BlendTreePlayer* player, const
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTreeBlender1D::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const
+void BlendTreeBlender1D::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const
 {
    RuntimeDataBuffer& data = player->data();
    const int activeSegmentIdx = data[m_activeSegmentIdx];
@@ -308,7 +308,7 @@ void BlendTreeBlender1D::onSamplePose( BlendTreePlayer* player, float timeDelta,
 
       Transform* sourcePose = sourceNode->getGeneratedPose( player );
       Transform* targetPose = targetNode->getGeneratedPose( player );
-      PoseBlendingUtils::blend( FastFloat::fromFloat( blendWeight ), sourcePose, targetPose, bonesCount, outGeneratedPose );
+      PoseBlendingUtils::blend( FastFloat::fromFloat( blendWeight ), sourcePose, targetPose, bonesCount, outGeneratedPoseDiffLS );
 
       // blend the accumulated motion
       const Transform& accSourceMotion = sourceNode->getAccumulatedMotion( player );
@@ -320,7 +320,7 @@ void BlendTreeBlender1D::onSamplePose( BlendTreePlayer* player, float timeDelta,
       // output the data from the only active node
       const BlendTreeNode* sourceNode = m_nodes[startNodeIdx];
       Transform* sourcePose = sourceNode->getGeneratedPose( player );
-      memcpy( outGeneratedPose, sourcePose, sizeof( Transform ) * bonesCount );
+      memcpy( outGeneratedPoseDiffLS, sourcePose, sizeof( Transform ) * bonesCount );
 
       outAccMotion = sourceNode->getAccumulatedMotion( player );
    }

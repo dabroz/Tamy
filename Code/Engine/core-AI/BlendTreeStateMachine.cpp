@@ -285,7 +285,7 @@ void BlendTreeStateMachine::onSynchronizeNodeToTree( BlendTreePlayer* player, co
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTreeStateMachine::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const
+void BlendTreeStateMachine::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const
 {
    // a priority is to finish an active transition
    RuntimeDataBuffer& data = player->data();
@@ -297,7 +297,7 @@ void BlendTreeStateMachine::onSamplePose( BlendTreePlayer* player, float timeDel
 
       // copy the generated pose
       Transform* generatedPose = activeTransition->getGeneratedPose( player );
-      memcpy( outGeneratedPose, generatedPose, sizeof( Transform ) * bonesCount );
+      memcpy( outGeneratedPoseDiffLS, generatedPose, sizeof( Transform ) * bonesCount );
 
       outAccMotion = activeTransition->getAccumulatedMotion( player );
 
@@ -320,7 +320,7 @@ void BlendTreeStateMachine::onSamplePose( BlendTreePlayer* player, float timeDel
       {
          // copy the generated pose
          Transform* generatedPose = activeState->getGeneratedPose( player );
-         memcpy( outGeneratedPose, generatedPose, sizeof( Transform ) * bonesCount );
+         memcpy( outGeneratedPoseDiffLS, generatedPose, sizeof( Transform ) * bonesCount );
 
          outAccMotion = activeState->getAccumulatedMotion( player );
       }

@@ -605,6 +605,10 @@ void GraphBuilder< NodeType >::copyRegion( const std::vector< NodeType* >& nodes
    for ( uint i = 0; i < nodesCount; ++i )
    {
       NodeType* node = nodesInRegion[i];
+      if ( !node )
+      {
+         continue;
+      }
 
       const SerializableReflectionType& type = node->getVirtualRTTI();
       NodeType* nodeCopy = type.instantiate( *node );

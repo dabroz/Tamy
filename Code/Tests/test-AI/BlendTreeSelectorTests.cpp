@@ -59,7 +59,7 @@ namespace // anonymous
          outNodeSyncProfile.setSyncPoint( 0, 20.0f - m_currTime );
       }
 
-      void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const override
+      void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const override
       {
          m_currTime += timeDelta;
          m_wasSampled = true;

@@ -75,13 +75,13 @@ public:
     *
     * @param player
     * @param timeDelta     upon return this value will be reduced by the amount the transition required this frame
-    * @param outGeneratedPose
+    * @param outGeneratedPoseDiffLS
     * @param outAccMotion
     * @param bonesCount
     *
     * @return              'true' if the transition has ended, 'false' if it's still in progress
     */
-   bool update( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const;
+   bool update( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const;
 
    /**
     * Returns the progress value as a percent.
@@ -96,13 +96,13 @@ protected:
     *
     * @param player
     * @param timeDelta 
-    * @param outGeneratedPose
+    * @param outGeneratedPoseDiffLS
     * @param outAccMotion
     * @param bonesCount
     *
     * @return              'true' if the transition has ended, 'false' if it's still in progress
     */
-   virtual void combinePoses( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const {}
+   virtual void combinePoses( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const {}
 
    /**
     * Sets the new duration of the effect ( at runtime ).

@@ -84,7 +84,7 @@ void BlendTreeTransitionEffect::deactivateEffect( BlendTreePlayer* player ) cons
 
 ///////////////////////////////////////////////////////////////////////////////
 
-bool BlendTreeTransitionEffect::update( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const
+bool BlendTreeTransitionEffect::update( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const
 {
    RuntimeDataBuffer& data = player->data();
    const float duration = data[m_duration];
@@ -92,7 +92,7 @@ bool BlendTreeTransitionEffect::update( BlendTreePlayer* player, float timeDelta
    progress += timeDelta;
    data[m_progress] = progress;
 
-   combinePoses( player, timeDelta, outGeneratedPose, outAccMotion, bonesCount );
+   combinePoses( player, timeDelta, outGeneratedPoseDiffLS, outAccMotion, bonesCount );
 
    return progress >= duration; 
 }

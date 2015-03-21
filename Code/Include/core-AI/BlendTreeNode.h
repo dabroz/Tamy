@@ -232,10 +232,10 @@ protected:
     *
     * @param player
     * @param timeDelta
-    * @param outGeneratedPose
+    * @param outGeneratedPoseDiffLS
     * @param bonesCount
     */
-   virtual void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const {}
+   virtual void onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const {}
 
    /**
     * Called when a new host tree instance is set on the node.

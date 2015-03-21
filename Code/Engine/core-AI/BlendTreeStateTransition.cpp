@@ -194,20 +194,20 @@ bool BlendTreeStateTransition::update( BlendTreePlayer* player, float timeDelta 
    uint bonesCount = player->getSourceBoneCount();
 
    RuntimeDataBuffer& data = player->data();
-   Transform* outGeneratedPose = data[m_generatedPose];
+   Transform* outGeneratedPoseDiffLS = data[m_generatedPose];
    Transform& accumulatedMotion = data[m_accumulatedMotion];
 
    if ( m_effect )
    {
       // sample the transition
-      bool isTransitionOver = m_effect->update( player, timeDelta, outGeneratedPose, accumulatedMotion, bonesCount );
+      bool isTransitionOver = m_effect->update( player, timeDelta, outGeneratedPoseDiffLS, accumulatedMotion, bonesCount );
       return isTransitionOver;
    }
    else
    {
       // there's no effect, so immediately transition to the next state and sample its pose
       Transform* generatedPose = m_endState->getGeneratedPose( player );
-      memcpy( outGeneratedPose, generatedPose, sizeof( Transform ) * bonesCount );
+      memcpy( outGeneratedPoseDiffLS, generatedPose, sizeof( Transform ) * bonesCount );
 
       accumulatedMotion = m_endState->getAccumulatedMotion( player );
 

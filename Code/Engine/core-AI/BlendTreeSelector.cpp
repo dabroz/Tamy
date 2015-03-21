@@ -225,7 +225,7 @@ void BlendTreeSelector::onSynchronizeNodeToTree( BlendTreePlayer* player, const 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTreeSelector::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const
+void BlendTreeSelector::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const
 {
    if ( !m_btSwitch )
    {
@@ -241,7 +241,7 @@ void BlendTreeSelector::onSamplePose( BlendTreePlayer* player, float timeDelta, 
    if ( transitionTargetNode )
    {
       // run a transition
-      bool hasFinished = m_effect->update( player, timeDelta, outGeneratedPose, outAccMotion, bonesCount );
+      bool hasFinished = m_effect->update( player, timeDelta, outGeneratedPoseDiffLS, outAccMotion, bonesCount );
       if ( hasFinished )
       {
          deactivateChildNode( player, activeNode );
@@ -254,7 +254,7 @@ void BlendTreeSelector::onSamplePose( BlendTreePlayer* player, float timeDelta, 
    {
       // copy the pose
       Transform* poseGeneratedByChild = activeNode->getGeneratedPose( player );
-      memcpy( outGeneratedPose, poseGeneratedByChild, sizeof( Transform ) * bonesCount );
+      memcpy( outGeneratedPoseDiffLS, poseGeneratedByChild, sizeof( Transform ) * bonesCount );
 
       outAccMotion = activeNode->getAccumulatedMotion( player );
    }

@@ -71,7 +71,7 @@ void BlendTreeRagdollAnimation::deinitializeLayout( BlendTreePlayer* player ) co
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BlendTreeRagdollAnimation::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPose, Transform& outAccMotion, uint bonesCount ) const
+void BlendTreeRagdollAnimation::onSamplePose( BlendTreePlayer* player, float timeDelta, Transform* outGeneratedPoseDiffLS, Transform& outAccMotion, uint bonesCount ) const
 {
    RuntimeDataBuffer& data = player->data();
    RagdollComponentListener* ragdollListener = data[m_ragdollComponentListener];
@@ -86,7 +86,17 @@ void BlendTreeRagdollAnimation::onSamplePose( BlendTreePlayer* player, float tim
    Array< Transform >& bodyTransforms = ragdollListener->m_bodyTransformsLocalSpace;
    ragdollComp->calcPoseLocalSpace( bodyTransforms );
 
-   mapperRuntime->calcPoseLocalSpace( bodyTransforms.getRaw(), outGeneratedPose );
+   mapperRuntime->calcPoseLocalSpace( bodyTransforms.getRaw(), outGeneratedPoseDiffLS );
+
+   // we need to calculate the differences between this local pose and the bind pose
+   Transform diff, boneLS;
+   for ( uint i = 0; i < bonesCount; ++i )
+   {
+      boneLS.set( player->m_skeleton->m_boneLocalMatrices[i] );
+      diff.setMulInverse( outGeneratedPoseDiffLS[i], boneLS );
+
+      outGeneratedPoseDiffLS[i] = diff;
+   }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
